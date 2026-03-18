@@ -1,0 +1,467 @@
+/**
+ * ============================================
+ * SANA AL NATURAL - Brand Styles
+ * ============================================
+ * Estilos de marca que se aplican a todo el tema.
+ * Los colores y tipografías siguen el Brand Book oficial.
+ *
+ * Colores:
+ * - Primary: #55823d (verde principal)
+ * - Primary Dark: #31591d (verde oscuro)
+ * - Primary Light: #afea90 (verde claro)
+ *
+ * Tipografía:
+ * - Headings: Noto Serif
+ * - Body: Poppins
+ * ============================================
+ */
+
+/* ==========================================================================
+   CSS CUSTOM PROPERTIES
+   ========================================================================== */
+
+:root {
+  /* Colores de marca */
+  --color-primary: #55823d;
+  --color-primary-dark: #31591d;
+  --color-primary-light: #afea90;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Colores de UI derivados */
+  --color-background-brand: #f8faf6;
+  --color-background-soft: #f0f4ed;
+  --color-text-primary: #000000;
+  --color-text-muted: rgba(0, 0, 0, 0.65);
+  --color-border-brand: rgba(85, 130, 61, 0.2);
+  --color-border-light: rgba(85, 130, 61, 0.1);
+
+  /* Estados */
+  --color-success: #55823d;
+  --color-error: #c44d4d;
+  --color-warning: #e6a23c;
+
+  /* Tipografía de marca */
+  --font-heading: 'Noto Serif', Georgia, serif;
+  --font-heading-alt: 'Zain', 'Noto Serif', Georgia, serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Tamaños de fuente */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  /* Pesos de fuente */
+  --weight-light: 300;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Espaciado */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Transiciones */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-brand: 0 4px 20px rgba(85, 130, 61, 0.15);
+}
+
+
+/* ==========================================================================
+   OVERRIDE SHOPIFY THEME COLORS
+   Sobrescribe los colores del tema Dawn con los colores de marca
+   ========================================================================== */
+
+/* Botón primario - Verde de marca */
+.button,
+.shopify-payment-button__button--unbranded,
+button.button--primary,
+.button--primary {
+  --color-button: 85, 130, 61 !important;
+  --color-button-text: 255, 255, 255 !important;
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+}
+
+.button:hover,
+.shopify-payment-button__button--unbranded:hover,
+button.button--primary:hover,
+.button--primary:hover {
+  background-color: var(--color-primary-dark) !important;
+}
+
+/* Botón secundario */
+.button--secondary {
+  --color-secondary-button-text: 85, 130, 61 !important;
+  border-color: var(--color-primary) !important;
+  color: var(--color-primary) !important;
+}
+
+.button--secondary:hover {
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+}
+
+/* Links */
+a:not(.button) {
+  color: var(--color-primary);
+  transition: color var(--transition-fast);
+}
+
+a:not(.button):hover {
+  color: var(--color-primary-dark);
+}
+
+/* Focus states */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+
+/* ==========================================================================
+   TYPOGRAPHY - Brand Fonts
+   ========================================================================== */
+
+/* Headings con Noto Serif */
+.brand-heading,
+.section-header h2,
+.product__title h1,
+.collection-hero__title {
+  font-family: var(--font-heading) !important;
+  font-weight: var(--weight-bold);
+}
+
+/* Texto con Poppins */
+.brand-text {
+  font-family: var(--font-body);
+  font-weight: var(--weight-normal);
+}
+
+
+/* ==========================================================================
+   BRAND BUTTONS
+   Clases adicionales para botones con estilo de marca
+   ========================================================================== */
+
+.btn-brand,
+.button-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-brand:hover,
+.button-brand:hover {
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
+.btn-brand-outline,
+.button-brand-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--color-primary);
+  border-radius: 0;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.btn-brand-outline:hover,
+.button-brand-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-brand-light,
+.button-brand-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-8);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.btn-brand-light:hover,
+.button-brand-light:hover {
+  background-color: var(--color-white);
+}
+
+
+/* ==========================================================================
+   FORM ELEMENTS
+   ========================================================================== */
+
+.input-brand,
+input.brand-input,
+textarea.brand-input,
+select.brand-input {
+  width: 100%;
+  padding: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-brand);
+  border-radius: 0;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.input-brand:focus,
+input.brand-input:focus,
+textarea.brand-input:focus,
+select.brand-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(85, 130, 61, 0.1);
+}
+
+.input-brand::placeholder {
+  color: var(--color-text-muted);
+}
+
+
+/* ==========================================================================
+   UTILITY CLASSES
+   ========================================================================== */
+
+/* Colores de fondo */
+.bg-brand { background-color: var(--color-primary) !important; }
+.bg-brand-dark { background-color: var(--color-primary-dark) !important; }
+.bg-brand-light { background-color: var(--color-primary-light) !important; }
+.bg-brand-soft { background-color: var(--color-background-brand) !important; }
+
+/* Colores de texto */
+.text-brand { color: var(--color-primary) !important; }
+.text-brand-dark { color: var(--color-primary-dark) !important; }
+.text-brand-light { color: var(--color-primary-light) !important; }
+
+/* Bordes */
+.border-brand { border-color: var(--color-primary) !important; }
+.border-brand-light { border-color: var(--color-border-brand) !important; }
+
+/* Tipografía */
+.font-heading { font-family: var(--font-heading) !important; }
+.font-body { font-family: var(--font-body) !important; }
+
+
+/* ==========================================================================
+   BADGES & LABELS
+   ========================================================================== */
+
+.badge-brand {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.badge-brand-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.badge-brand-light {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+
+/* ==========================================================================
+   ANNOUNCEMENT BAR OVERRIDE
+   ========================================================================== */
+
+.announcement-bar {
+  background-color: var(--color-primary) !important;
+}
+
+.announcement-bar__message {
+  color: var(--color-white) !important;
+}
+
+.announcement-bar__link:hover {
+  color: var(--color-primary-light) !important;
+}
+
+
+/* ==========================================================================
+   PRODUCT CARD ENHANCEMENTS
+   ========================================================================== */
+
+.card__badge .badge {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.card__badge .badge--sale {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.price--on-sale .price-item--sale {
+  color: var(--color-primary);
+}
+
+
+/* ==========================================================================
+   CART & CHECKOUT ENHANCEMENTS
+   ========================================================================== */
+
+.cart__checkout-button,
+.cart__dynamic-checkout-buttons button {
+  background-color: var(--color-primary) !important;
+}
+
+.cart__checkout-button:hover {
+  background-color: var(--color-primary-dark) !important;
+}
+
+
+/* ==========================================================================
+   HEADER ENHANCEMENTS
+   ========================================================================== */
+
+.header__icon:hover .icon,
+.header__icon:focus .icon {
+  color: var(--color-primary);
+}
+
+.header__menu-item:hover,
+.header__menu-item:focus {
+  color: var(--color-primary);
+}
+
+/* Active nav item */
+.header__menu-item[aria-current="page"] {
+  color: var(--color-primary);
+}
+
+
+/* ==========================================================================
+   FOOTER ENHANCEMENTS
+   ========================================================================== */
+
+.footer__list-social .list-social__link:hover {
+  color: var(--color-primary);
+}
+
+.newsletter-form__button {
+  background-color: var(--color-primary);
+}
+
+.newsletter-form__button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+
+/* ==========================================================================
+   SELECTION & SCROLLBAR
+   ========================================================================== */
+
+::selection {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+/* Custom scrollbar (webkit browsers) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-brand);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary-dark);
+}
