@@ -1,0 +1,1557 @@
+/* ================================================================
+   SECTION HEADER — Sana Al Natural  v3
+   Full editorial redesign. Organic luxury. Modern interactions.
+   Dawn base rem = 10px (62.5% html font-size)
+   ================================================================ */
+
+/* ================================================================
+   1. WRAPPER — gradient accent + base
+   ================================================================ */
+
+.header-wrapper {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border-bottom: none !important;
+  position: relative !important;
+  transition: box-shadow 0.4s ease, background-color 0.4s ease !important;
+}
+
+/* 3px shimmer gradient at very top */
+.header-wrapper::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #31591d 0%,
+    #55823d 25%,
+    #afea90 50%,
+    #55823d 75%,
+    #31591d 100%
+  );
+  flex-shrink: 0;
+}
+
+/* Sticky: glassmorphism */
+.shopify-section-header-sticky .header-wrapper {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 2px 40px rgba(49, 89, 29, 0.1) !important;
+}
+
+/* ================================================================
+   2. TOP UTILITY BAR
+   ================================================================ */
+
+.san-topbar {
+  background-color: #31591d;
+}
+
+/* Gradient divider below topbar */
+.san-topbar::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(175, 234, 144, 0.35) 30%,
+    rgba(175, 234, 144, 0.6) 50%,
+    rgba(175, 234, 144, 0.35) 70%,
+    transparent
+  );
+}
+
+.san-topbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--page-width, 120rem);
+  margin: 0 auto;
+  padding: 0 4.8rem;
+  height: 3.8rem;
+  gap: 2rem;
+}
+
+.san-topbar__left,
+.san-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  flex-shrink: 0;
+}
+
+.san-topbar__link {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  text-decoration: none !important;
+  letter-spacing: 0.05em !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  transition: color 0.2s ease !important;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.san-topbar__link:hover {
+  color: #afea90 !important;
+}
+
+.san-topbar__link svg {
+  flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.san-topbar__link:hover svg {
+  opacity: 1;
+}
+
+.san-topbar__separator {
+  width: 1px;
+  height: 1.2rem;
+  background: rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.san-topbar__message {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.08em;
+}
+
+/* Localization disclosure inside topbar */
+.san-topbar .localization-form,
+.san-topbar localization-form {
+  display: flex;
+  align-items: center;
+}
+
+.san-topbar .disclosure,
+.san-topbar localization-form .disclosure {
+  display: flex;
+  align-items: center;
+}
+
+.san-topbar .disclosure__button {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  transition: color 0.2s ease !important;
+  letter-spacing: 0.05em !important;
+  line-height: 1 !important;
+}
+
+.san-topbar .disclosure__button:hover {
+  color: #afea90 !important;
+}
+
+.san-topbar .disclosure__button .icon-caret {
+  fill: currentColor !important;
+  width: 0.9rem !important;
+  height: 0.9rem !important;
+  opacity: 0.55;
+}
+
+/* Topbar dropdown panel */
+.san-topbar .disclosure-has-popup[open] > ul,
+.san-topbar .localization-selector.disclosure-has-popup[open] > ul {
+  background: #ffffff !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12) !important;
+  border: none !important;
+  border-top: 2px solid #55823d !important;
+  border-radius: 0 !important;
+  min-width: 15rem !important;
+  padding: 0.6rem 0 !important;
+  animation: topbarDropdown 0.18s ease !important;
+}
+
+@keyframes topbarDropdown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.san-topbar .disclosure-has-popup > ul a,
+.san-topbar .disclosure-has-popup > ul button {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.68) !important;
+  padding: 0.9rem 1.6rem !important;
+  transition: color 0.15s ease, background-color 0.15s ease !important;
+  letter-spacing: 0.03em !important;
+}
+
+.san-topbar .disclosure-has-popup > ul a:hover,
+.san-topbar .disclosure-has-popup > ul button:hover {
+  color: #55823d !important;
+  background-color: rgba(85, 130, 61, 0.05) !important;
+}
+
+/* Hide account + localization from main header when topbar is active */
+.san-has-topbar .desktop-localization-wrapper {
+  display: none !important;
+}
+
+.san-has-topbar .header__icon--account.small-hide {
+  display: none !important;
+}
+
+/* ================================================================
+   3. MAIN HEADER INNER
+   ================================================================ */
+
+.header {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+  padding-left: 3.2rem !important;
+  padding-right: 3.2rem !important;
+  align-items: center !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.1) !important;
+}
+
+@media screen and (min-width: 990px) {
+  .header {
+    padding-top: 2.2rem !important;
+    padding-bottom: 2.2rem !important;
+    padding-left: 4.8rem !important;
+    padding-right: 4.8rem !important;
+  }
+}
+
+/* ================================================================
+   4. LOGO — Placeholder
+   ================================================================ */
+
+.san-logo-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  text-decoration: none !important;
+  color: inherit;
+  transition: opacity 0.25s ease;
+}
+
+.san-logo-placeholder:hover {
+  opacity: 0.85;
+}
+
+.san-logo-placeholder__emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #55823d;
+  flex-shrink: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.header__heading-link:hover .san-logo-placeholder__emblem {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+.san-logo-placeholder__leaf {
+  display: block;
+  width: 28px;
+  height: 36px;
+}
+
+.san-logo-placeholder__wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.san-logo-placeholder__name {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  font-size: 2.2rem !important;
+  color: #31591d !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+  display: block !important;
+}
+
+.san-logo-placeholder__tagline {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  color: rgba(85, 130, 61, 0.5) !important;
+  display: block !important;
+  line-height: 1 !important;
+}
+
+.header__heading-logo-wrapper {
+  max-height: 5.6rem !important;
+}
+
+.header__heading-logo {
+  max-height: 5.6rem !important;
+  height: auto !important;
+  transition: opacity 0.25s ease !important;
+  object-fit: cover;
+}
+
+.header__heading-link:hover .header__heading-logo {
+  opacity: 0.82 !important;
+}
+
+/* ================================================================
+   5. DESKTOP NAVIGATION
+   ================================================================ */
+
+.header__menu-item,
+.header__menu-item.link,
+a.header__menu-item {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: rgba(0, 0, 0, 0.58) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+  position: relative !important;
+  padding: 0.5rem 0 !important;
+}
+
+/* Animated underline — grows from center */
+.header__menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1.5px;
+  background-color: #55823d;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.header__menu-item:hover,
+.header__menu-item.link:hover,
+a.header__menu-item:hover {
+  color: #55823d !important;
+}
+
+.header__menu-item:hover::after,
+.header__menu-item[aria-current="page"]::after,
+.header__menu-item[aria-current="true"]::after {
+  width: 100%;
+}
+
+.header__menu-item[aria-current="page"],
+.header__menu-item[aria-current="true"],
+.header__active-menu-item {
+  color: #55823d !important;
+}
+
+/* Nav gap */
+.header .list-menu--inline {
+  gap: 3.4rem !important;
+}
+
+/* Caret icon next to dropdown trigger */
+.header__menu-item .icon-caret {
+  width: 1rem !important;
+  height: 1rem !important;
+  fill: currentColor !important;
+  margin-left: 0.3rem !important;
+  transition: transform 0.25s ease !important;
+  vertical-align: middle;
+}
+
+details[open] > summary .icon-caret {
+  transform: rotate(180deg);
+}
+
+/* ================================================================
+   6. DROPDOWN SUBMENU
+   ================================================================ */
+
+.header__submenu {
+  background-color: #ffffff !important;
+  border: none !important;
+  border-top: 2px solid #55823d !important;
+  box-shadow: 0 20px 60px rgba(49, 89, 29, 0.1), 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 0 !important;
+  padding: 0.8rem 0 !important;
+  min-width: 20rem !important;
+  animation: submenuReveal 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@keyframes submenuReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header__submenu .list-menu__item--link,
+.header__submenu a.header__menu-item {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.03em !important;
+  color: rgba(0, 0, 0, 0.65) !important;
+  text-transform: none !important;
+  padding: 1rem 2rem !important;
+  transition: color 0.15s ease, background-color 0.15s ease, padding-left 0.2s ease !important;
+  display: block !important;
+  position: relative !important;
+}
+
+.header__submenu .list-menu__item--link::before {
+  content: '';
+  position: absolute;
+  left: 2rem;
+  bottom: 0;
+  width: calc(100% - 4rem);
+  height: 1px;
+  background: rgba(85, 130, 61, 0.06);
+}
+
+.header__submenu .list-menu__item--link:last-child::before {
+  display: none;
+}
+
+.header__submenu .list-menu__item--link:hover,
+.header__submenu a.header__menu-item:hover {
+  color: #55823d !important;
+  background-color: rgba(85, 130, 61, 0.04) !important;
+  padding-left: 2.6rem !important;
+}
+
+/* ================================================================
+   7. HEADER ICONS — general
+   ================================================================ */
+
+.header__icon {
+  width: 4.2rem !important;
+  height: 4.2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  transition: color 0.2s ease !important;
+  position: relative !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.header__icon:hover {
+  color: #55823d !important;
+}
+
+.header__icon svg,
+.header__icon .icon,
+.header__icon .svg-wrapper svg {
+  width: 2rem !important;
+  height: 2rem !important;
+  color: inherit !important;
+  transition: color 0.2s ease !important;
+  display: block !important;
+}
+
+.header__icons {
+  gap: 0.4rem !important;
+  align-items: center !important;
+}
+
+/* ================================================================
+   8. SEARCH ICON — Filled botanical-green circle
+   ================================================================ */
+
+.header__icon--search {
+  background-color: #55823d !important;
+  border-radius: 50% !important;
+  width: 3.8rem !important;
+  height: 3.8rem !important;
+  color: #ffffff !important;
+  transition: background-color 0.25s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.header__icon--search:hover {
+  background-color: #31591d !important;
+  color: #ffffff !important;
+  transform: scale(1.08) !important;
+}
+
+/* When search is open, show X instead */
+details[open] .header__icon--search {
+  background-color: rgba(85, 130, 61, 0.1) !important;
+  color: #55823d !important;
+}
+
+details[open] .header__icon--search .header__icon-close {
+  display: flex;
+}
+
+.header__icon--search svg,
+.header__icon--search .svg-wrapper svg {
+  width: 1.7rem !important;
+  height: 1.7rem !important;
+  color: inherit !important;
+}
+
+/* Icon-close toggle — Dawn's default */
+.header__icon-close {
+  display: none !important;
+}
+
+details[open] > summary .header__icon-close {
+  display: flex !important;
+}
+
+details[open] > summary > span > .svg-wrapper:not(.header__icon-close) {
+  display: none !important;
+}
+
+/* ================================================================
+   9. HAMBURGER → X ANIMATION (mobile)
+   ================================================================ */
+
+.header__icon--menu {
+  color: #31591d !important;
+}
+
+.header__icon--menu .svg-wrapper {
+  position: absolute !important;
+  transition: opacity 0.2s ease, transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* hamburger shown by default */
+.header__icon--menu .svg-wrapper:first-child {
+  opacity: 1 !important;
+  transform: rotate(0deg) !important;
+}
+
+/* close hidden by default */
+.header__icon--menu .svg-wrapper:last-child {
+  opacity: 0 !important;
+  transform: rotate(-45deg) scale(0.7) !important;
+}
+
+/* When drawer is open */
+.menu-drawer-container[open] .header__icon--menu .svg-wrapper:first-child {
+  opacity: 0 !important;
+  transform: rotate(45deg) scale(0.7) !important;
+}
+
+.menu-drawer-container[open] .header__icon--menu .svg-wrapper:last-child {
+  opacity: 1 !important;
+  transform: rotate(0deg) scale(1) !important;
+}
+
+.header__icon--menu svg,
+.header__icon--menu .svg-wrapper svg {
+  width: 2.2rem !important;
+  height: 2.2rem !important;
+}
+
+/* ================================================================
+   10. CART BADGE
+   ================================================================ */
+
+.cart-count-bubble {
+  position: absolute !important;
+  top: 0.2rem !important;
+  right: 0.2rem !important;
+  min-width: 1.8rem !important;
+  min-height: 1.8rem !important;
+  padding: 0 0.3rem !important;
+  border-radius: 10rem !important;
+  background-color: #55823d !important;
+  color: #ffffff !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1 !important;
+  border: 2px solid #ffffff !important;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.header__icon--cart:hover .cart-count-bubble {
+  transform: scale(1.15) !important;
+}
+
+/* ================================================================
+   11. SEARCH MODAL
+   ================================================================ */
+
+.search-modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 100 !important;
+}
+
+.search-modal__content {
+  background: #ffffff !important;
+  box-shadow: 0 24px 64px rgba(49, 89, 29, 0.12) !important;
+  border-bottom: 2px solid #55823d !important;
+  padding: 0 !important;
+  animation: searchReveal 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@keyframes searchReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-modal__content-bottom,
+.search-modal__content-top {
+  padding: 3rem 4.8rem !important;
+  max-width: 80rem !important;
+  margin: 0 auto !important;
+  position: relative !important;
+}
+
+/* Search form */
+.search-modal__form .field,
+.search-modal .field {
+  border: none !important;
+  box-shadow: none !important;
+  position: relative !important;
+}
+
+.search-modal__form .field__input,
+.search-modal .search__input {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 2rem !important;
+  color: #31591d !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(85, 130, 61, 0.2) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 1rem 8rem 1rem 0 !important;
+  width: 100% !important;
+  transition: border-color 0.3s ease !important;
+  box-shadow: none !important;
+}
+
+.search-modal__form .field__input:focus,
+.search-modal .search__input:focus {
+  border-bottom-color: #55823d !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.search-modal__form .field__label,
+.search-modal .field__label {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 2rem !important;
+  color: rgba(49, 89, 29, 0.4) !important;
+  top: 1rem !important;
+  left: 0 !important;
+}
+
+/* Search button inside field */
+.search-modal__form .search__button,
+.search-modal .search__button {
+  color: #55823d !important;
+  position: absolute !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.search-modal__form .search__button svg,
+.search-modal .search__button svg {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+/* Reset button */
+.search-modal__form .reset__button,
+.search-modal .reset__button {
+  color: rgba(49, 89, 29, 0.4) !important;
+  position: absolute !important;
+  right: 3.6rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+/* Close button (X) in modal */
+.search-modal__close-button {
+  position: absolute !important;
+  top: 50% !important;
+  right: 2rem !important;
+  transform: translateY(-50%) !important;
+  width: 3.6rem !important;
+  height: 3.6rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: rgba(49, 89, 29, 0.45) !important;
+  transition: color 0.2s ease, background-color 0.2s ease !important;
+  border-radius: 50% !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.search-modal__close-button:hover {
+  color: #31591d !important;
+  background-color: rgba(85, 130, 61, 0.08) !important;
+}
+
+.search-modal__close-button svg {
+  width: 1.8rem !important;
+  height: 1.8rem !important;
+}
+
+/* Predictive search panel */
+.predictive-search {
+  border: none !important;
+  border-top: 1px solid rgba(85, 130, 61, 0.1) !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.predictive-search__item {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.4rem !important;
+  padding: 1rem 0 !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.06) !important;
+  transition: color 0.15s ease !important;
+}
+
+.predictive-search__item:hover {
+  color: #55823d !important;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.25) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* ================================================================
+   12. MOBILE MENU DRAWER — Full editorial redesign
+   ================================================================ */
+
+/* Overlay that appears behind drawer */
+.menu-drawer-container > details-modal,
+details.menu-drawer-container[open]::before {
+  content: '';
+}
+
+/* The drawer panel */
+.menu-drawer {
+  width: min(400px, 88vw) !important;
+  background: #ffffff !important;
+  border-right: none !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  border-radius: 0 !important;
+  filter: drop-shadow(8px 0 48px rgba(49, 89, 29, 0.14)) !important;
+}
+
+/* Green accent bar at top of drawer */
+.menu-drawer::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, #31591d, #55823d, #afea90);
+  flex-shrink: 0;
+}
+
+/* Inner container holds nav + utility */
+.menu-drawer__inner-container {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+/* Nav container */
+.menu-drawer__navigation-container {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.menu-drawer__navigation {
+  flex: 1 !important;
+  padding: 0 !important;
+}
+
+/* Nav list */
+.menu-drawer__menu.has-submenu,
+.menu-drawer__menu {
+  padding: 1.2rem 0 !important;
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+/* Nav items — large, generous touch targets */
+.menu-drawer__menu-item,
+a.menu-drawer__menu-item {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.45rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.13em !important;
+  text-transform: uppercase !important;
+  color: rgba(49, 89, 29, 0.85) !important;
+  padding: 0 2.8rem !important;
+  min-height: 5.4rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease, background-color 0.2s ease, padding-left 0.2s ease !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.07) !important;
+  position: relative !important;
+}
+
+.menu-drawer__menu-item:hover,
+a.menu-drawer__menu-item:hover {
+  color: #55823d !important;
+  background-color: rgba(85, 130, 61, 0.03) !important;
+  padding-left: 3.4rem !important;
+}
+
+.menu-drawer__menu-item--active,
+a.menu-drawer__menu-item--active {
+  color: #55823d !important;
+}
+
+/* Arrow icon in drawer items */
+.menu-drawer__menu-item .svg-wrapper svg,
+a.menu-drawer__menu-item .svg-wrapper svg {
+  width: 1.6rem !important;
+  height: 1.6rem !important;
+  color: rgba(85, 130, 61, 0.45) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Submenu panel (slides in as child view) */
+.menu-drawer__submenu {
+  background: #ffffff !important;
+  border-top: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* Submenu close button (← Back) */
+.menu-drawer__close-button {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: rgba(85, 130, 61, 0.6) !important;
+  padding: 1.6rem 2.8rem !important;
+  min-height: 5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.8rem !important;
+  background: rgba(85, 130, 61, 0.04) !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.1) !important;
+  transition: color 0.2s ease !important;
+  cursor: pointer !important;
+  border: none !important;
+  width: 100% !important;
+  text-align: left !important;
+}
+
+.menu-drawer__close-button:hover {
+  color: #55823d !important;
+}
+
+.menu-drawer__close-button .svg-wrapper svg {
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+  transform: rotate(180deg) !important;
+  color: currentColor !important;
+}
+
+/* Submenu items */
+.menu-drawer__submenu .menu-drawer__menu-item,
+.menu-drawer__submenu a.menu-drawer__menu-item {
+  font-size: 1.35rem !important;
+  letter-spacing: 0.08em !important;
+  color: rgba(0, 0, 0, 0.65) !important;
+  min-height: 4.8rem !important;
+}
+
+/* ================================================================
+   13. DRAWER UTILITY LINKS (account + social)
+   ================================================================ */
+
+.menu-drawer__utility-links {
+  padding: 2.4rem 2.8rem !important;
+  border-top: 1px solid rgba(85, 130, 61, 0.1) !important;
+  background: rgba(247, 250, 245, 0.8) !important;
+  flex-shrink: 0 !important;
+}
+
+/* Account link in drawer */
+.menu-drawer__account {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #31591d !important;
+  text-decoration: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin-bottom: 2rem !important;
+  padding-bottom: 2rem !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.1) !important;
+  transition: color 0.2s ease !important;
+}
+
+.menu-drawer__account:hover {
+  color: #55823d !important;
+}
+
+.menu-drawer__account .svg-wrapper svg {
+  width: 1.8rem !important;
+  height: 1.8rem !important;
+}
+
+/* Localization in drawer */
+.menu-drawer__localization {
+  display: flex !important;
+  gap: 1.6rem !important;
+  align-items: center !important;
+  margin-bottom: 2rem !important;
+  flex-wrap: wrap !important;
+}
+
+.menu-drawer__localization .disclosure__button {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  color: rgba(49, 89, 29, 0.65) !important;
+  background: none !important;
+  border: 1px solid rgba(85, 130, 61, 0.2) !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  transition: color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.menu-drawer__localization .disclosure__button:hover {
+  color: #55823d !important;
+  border-color: #55823d !important;
+}
+
+/* Social links */
+.list-social {
+  display: flex !important;
+  gap: 1.2rem !important;
+  flex-wrap: wrap !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.list-social__link {
+  width: 3.8rem !important;
+  height: 3.8rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  border: 1.5px solid rgba(85, 130, 61, 0.25) !important;
+  color: rgba(85, 130, 61, 0.6) !important;
+  text-decoration: none !important;
+  transition: all 0.22s ease !important;
+  background: transparent !important;
+}
+
+.list-social__link:hover {
+  background: #55823d !important;
+  color: #ffffff !important;
+  border-color: #55823d !important;
+  transform: translateY(-2px) !important;
+}
+
+.list-social__link svg,
+.list-social__link .svg-wrapper svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  color: inherit !important;
+}
+
+/* ================================================================
+   13b. DRAWER — staggered entrance animation
+   ================================================================ */
+
+@keyframes drawerItemIn {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.menu-drawer-container[open] .menu-drawer__menu > li {
+  animation: drawerItemIn 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(1)  { animation-delay: 0.06s; }
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(2)  { animation-delay: 0.10s; }
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(3)  { animation-delay: 0.14s; }
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(4)  { animation-delay: 0.18s; }
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(5)  { animation-delay: 0.22s; }
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(6)  { animation-delay: 0.26s; }
+.menu-drawer-container[open] .menu-drawer__menu > li:nth-child(n+7) { animation-delay: 0.30s; }
+
+@keyframes drawerUtilityIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.menu-drawer-container[open] .menu-drawer__utility-links {
+  animation: drawerUtilityIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) 0.28s both;
+}
+
+/* ================================================================
+   14. MEGA MENU
+   ================================================================ */
+
+.mega-menu__content {
+  border-top: 2px solid #55823d !important;
+  box-shadow: 0 24px 64px rgba(49, 89, 29, 0.1) !important;
+  background-color: #ffffff !important;
+  animation: submenuReveal 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.mega-menu__link {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.65) !important;
+  transition: color 0.2s ease !important;
+  letter-spacing: 0.02em !important;
+}
+
+.mega-menu__link:hover {
+  color: #55823d !important;
+}
+
+/* ================================================================
+   15. CART NOTIFICATION POPUP
+   ================================================================ */
+
+.cart-notification {
+  border: none !important;
+  border-top: 3px solid #55823d !important;
+  box-shadow: 0 16px 48px rgba(49, 89, 29, 0.12) !important;
+  border-radius: 0 !important;
+}
+
+.cart-notification__heading {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  color: #31591d !important;
+}
+
+/* ================================================================
+   16. MOBILE RESPONSIVE
+   ================================================================ */
+
+@media screen and (max-width: 989px) {
+  .header {
+    padding-left: 2.4rem !important;
+    padding-right: 2.4rem !important;
+    padding-top: 1.6rem !important;
+    padding-bottom: 1.6rem !important;
+  }
+
+  .san-logo-placeholder__name {
+    font-size: 2rem !important;
+  }
+
+  .san-logo-placeholder__tagline {
+    display: none !important;
+  }
+
+  .san-logo-placeholder__leaf {
+    width: 24px !important;
+    height: 30px !important;
+  }
+
+  .san-logo-placeholder {
+    gap: 1rem !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .header {
+    padding-left: 1.8rem !important;
+    padding-right: 1.8rem !important;
+    padding-top: 1.4rem !important;
+    padding-bottom: 1.4rem !important;
+  }
+
+  .san-logo-placeholder__name {
+    font-size: 1.9rem !important;
+  }
+
+  .san-topbar__inner {
+    padding: 0 2rem !important;
+  }
+
+  .search-modal__content-bottom,
+  .search-modal__content-top {
+    padding: 2.4rem 2rem !important;
+  }
+}
+
+/* ================================================================
+   17. FOCUS STATES — accessibility
+   ================================================================ */
+
+.header__icon:focus-visible,
+.header__menu-item:focus-visible,
+.san-topbar__link:focus-visible {
+  outline: 2px solid #55823d !important;
+  outline-offset: 3px !important;
+  border-radius: 2px !important;
+}
+
+.menu-drawer__menu-item:focus-visible {
+  outline: 2px solid #55823d !important;
+  outline-offset: -2px !important;
+}
+
+/* ================================================================
+   18. SAN-NAV — Editorial desktop dropdown navigation
+       (header-dropdown-menu.liquid)
+   ================================================================ */
+
+/* --- Nav list wrapper --- */
+.san-nav__list {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0 !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+.san-nav__item {
+  position: relative !important;
+}
+
+/* --- Trigger (top-level with children) --- */
+.san-nav__trigger {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.55rem !important;
+  padding: 0.4rem 1.8rem !important;
+  cursor: pointer !important;
+  background: none !important;
+  border: none !important;
+  list-style: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+/* Remove the native arrow from <summary> */
+.san-nav__trigger::-webkit-details-marker,
+.san-nav__trigger::marker {
+  display: none !important;
+}
+
+/* Caret chevron */
+.san-nav__caret {
+  color: currentColor;
+  opacity: 0.45;
+  flex-shrink: 0;
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.2s ease;
+}
+
+.san-nav__details[open] > .san-nav__trigger .san-nav__caret {
+  transform: rotate(180deg) !important;
+  opacity: 0.75;
+}
+
+/* Active trigger text */
+.san-nav__trigger-text--active {
+  color: #55823d !important;
+}
+
+/* --- Plain link (top-level, no children) --- */
+.san-nav__link {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.4rem 1.8rem !important;
+}
+
+.san-nav__link-text--active {
+  color: #55823d !important;
+}
+
+/* ================================================================
+   DROPDOWN PANEL
+   ================================================================ */
+
+.san-nav__panel {
+  position: absolute !important;
+  top: calc(100% + 1.4rem) !important;
+  left: 0 !important;
+  z-index: 100 !important;
+  min-width: 34rem !important;
+  background: #ffffff !important;
+  border-top: 2.5px solid #55823d !important;
+  box-shadow:
+    0 2px 4px rgba(49, 89, 29, 0.04),
+    0 8px 24px rgba(49, 89, 29, 0.09),
+    0 32px 64px rgba(0, 0, 0, 0.06) !important;
+  animation: sanNavIn 0.24s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+}
+
+@keyframes sanNavIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Light-green accent segment on the top border — brand signature */
+.san-nav__panel::before {
+  content: '';
+  position: absolute;
+  top: -2.5px;
+  left: 2.8rem;
+  width: 2.4rem;
+  height: 2.5px;
+  background: #afea90;
+  z-index: 1;
+}
+
+/* Flip panel for last items — prevents overflow right */
+.san-nav__item:last-child .san-nav__panel,
+.san-nav__item:nth-last-child(2) .san-nav__panel {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.san-nav__item:last-child .san-nav__panel::before,
+.san-nav__item:nth-last-child(2) .san-nav__panel::before {
+  left: auto;
+  right: 2.8rem;
+}
+
+/* Panel layout: links left | botanical deco right */
+.san-nav__panel-inner {
+  display: flex !important;
+  align-items: stretch !important;
+  min-height: 18rem;
+}
+
+/* Links column */
+.san-nav__panel-links {
+  flex: 1 !important;
+  padding: 2.4rem 2.4rem 2rem !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+/* ================================================================
+   CHILD LINKS (inside panel)
+   ================================================================ */
+
+.san-nav__child {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 1rem 0 !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.07) !important;
+  text-decoration: none !important;
+  color: rgba(30, 30, 30, 0.68) !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.35rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.02em !important;
+  line-height: 1.3 !important;
+  transition: color 0.18s ease, padding-left 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  width: 100% !important;
+  text-align: left !important;
+  background: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  cursor: pointer !important;
+  list-style: none !important;
+}
+
+/* last child: no bottom border */
+.san-nav__panel-links > .san-nav__child:last-child,
+.san-nav__panel-links > .san-nav__subdetails:last-child > .san-nav__child {
+  border-bottom: none !important;
+}
+
+.san-nav__child:hover {
+  color: #31591d !important;
+  padding-left: 0.6rem !important;
+}
+
+/* <summary> elements: strip the native marker */
+.san-nav__child::-webkit-details-marker,
+.san-nav__child::marker {
+  display: none !important;
+}
+
+.san-nav__child--active {
+  color: #55823d !important;
+  font-weight: 500 !important;
+}
+
+/* Botanical dot */
+.san-nav__child-dot {
+  width: 5px !important;
+  height: 5px !important;
+  border-radius: 50% !important;
+  background: rgba(85, 130, 61, 0.28) !important;
+  flex-shrink: 0 !important;
+  transition: background 0.18s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.san-nav__child:hover .san-nav__child-dot,
+.san-nav__child--active .san-nav__child-dot {
+  background: #55823d !important;
+  transform: scale(1.5) !important;
+}
+
+/* Link label */
+.san-nav__child-text {
+  flex: 1 !important;
+}
+
+/* Arrow — appears on hover */
+.san-nav__child-arrow {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  color: #55823d !important;
+  opacity: 0 !important;
+  transform: translateX(-8px) !important;
+  transition: opacity 0.18s ease, transform 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  flex-shrink: 0 !important;
+}
+
+.san-nav__child:hover .san-nav__child-arrow {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* Child that has further children — sub-caret */
+.san-nav__child--has-sub {
+  border-bottom: 1px solid rgba(85, 130, 61, 0.07) !important;
+}
+
+.san-nav__sub-caret {
+  color: rgba(85, 130, 61, 0.5);
+  flex-shrink: 0;
+  transition: transform 0.24s ease;
+}
+
+.san-nav__subdetails[open] > .san-nav__child .san-nav__sub-caret {
+  transform: rotate(180deg) !important;
+}
+
+/* ================================================================
+   GRANDCHILDREN (3rd level — expand inside panel)
+   ================================================================ */
+
+.san-nav__grandchildren {
+  list-style: none !important;
+  padding: 0.4rem 0 0.8rem 2.4rem !important;
+  margin: 0 !important;
+  animation: sanGrandchildIn 0.2s ease !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.07) !important;
+}
+
+@keyframes sanGrandchildIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.san-nav__grandchild {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.7rem !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.5) !important;
+  text-decoration: none !important;
+  padding: 0.55rem 0 !important;
+  letter-spacing: 0.02em !important;
+  transition: color 0.15s ease !important;
+}
+
+.san-nav__grandchild-dot {
+  width: 3px !important;
+  height: 3px !important;
+  border-radius: 50% !important;
+  background: rgba(85, 130, 61, 0.3) !important;
+  flex-shrink: 0 !important;
+  transition: background 0.15s ease !important;
+}
+
+.san-nav__grandchild:hover,
+.san-nav__grandchild--active {
+  color: #55823d !important;
+}
+
+.san-nav__grandchild:hover .san-nav__grandchild-dot,
+.san-nav__grandchild--active .san-nav__grandchild-dot {
+  background: #55823d !important;
+}
+
+/* ================================================================
+   BOTANICAL DECO PANEL (right side)
+   ================================================================ */
+
+.san-nav__panel-deco {
+  width: 12rem !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding: 2rem 1.6rem 1.6rem !important;
+  background: linear-gradient(
+    160deg,
+    rgba(175, 234, 144, 0.08) 0%,
+    rgba(85, 130, 61, 0.04) 100%
+  ) !important;
+  border-left: 1px solid rgba(85, 130, 61, 0.08) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* "natural" written vertically in Noto Serif italic */
+.san-nav__deco-label {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) rotate(-90deg) !important;
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.35em !important;
+  color: rgba(85, 130, 61, 0.22) !important;
+  text-transform: lowercase !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.san-nav__botanical {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 20rem !important;
+  display: block !important;
+}
+
+/* ================================================================
+   STAGGERED CHILD LINK ENTRANCE
+   ================================================================ */
+
+.san-nav__panel-links > *:nth-child(1)  { animation: sanChildIn 0.28s ease 0.04s both; }
+.san-nav__panel-links > *:nth-child(2)  { animation: sanChildIn 0.28s ease 0.08s both; }
+.san-nav__panel-links > *:nth-child(3)  { animation: sanChildIn 0.28s ease 0.12s both; }
+.san-nav__panel-links > *:nth-child(4)  { animation: sanChildIn 0.28s ease 0.16s both; }
+.san-nav__panel-links > *:nth-child(5)  { animation: sanChildIn 0.28s ease 0.20s both; }
+.san-nav__panel-links > *:nth-child(6)  { animation: sanChildIn 0.28s ease 0.24s both; }
+.san-nav__panel-links > *:nth-child(n+7){ animation: sanChildIn 0.28s ease 0.28s both; }
+
+@keyframes sanChildIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.san-nav__panel-deco {
+  animation: sanDecoIn 0.36s ease 0.1s both !important;
+}
+
+@keyframes sanDecoIn {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ================================================================
+   FOCUS STYLES for san-nav
+   ================================================================ */
+
+.san-nav__trigger:focus-visible,
+.san-nav__link:focus-visible {
+  outline: 2px solid #55823d !important;
+  outline-offset: 2px !important;
+}
+
+.san-nav__child:focus-visible {
+  outline: 2px solid #55823d !important;
+  outline-offset: -2px !important;
+  border-radius: 2px !important;
+}
+
+.san-nav__grandchild:focus-visible {
+  outline: 2px solid rgba(85, 130, 61, 0.5) !important;
+  outline-offset: 2px !important;
+}

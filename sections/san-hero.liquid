@@ -1,0 +1,598 @@
+{{ 'section-san-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #san-hero-{{ section.id }} {
+    --hero-min-height: {{ section.settings.min_height }}vh;
+    --carousel-interval: {{ section.settings.carousel_interval | times: 1000 }}ms;
+  }
+{%- endstyle -%}
+
+{%- assign slide_blocks = section.blocks | where: 'type', 'slide' -%}
+
+<section class="san-hero" id="san-hero-{{ section.id }}" aria-label="{{ section.settings.heading | escape }}">
+
+  {%- comment -%} Decorative botanical SVG {%- endcomment -%}
+  <div class="san-hero__decor" aria-hidden="true">
+    <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg" class="san-hero__decor-svg">
+      <path d="M200 580 C200 580 80 480 60 360 C40 240 100 160 200 140 C300 120 380 200 360 320 C340 440 240 520 200 580Z" stroke="#55823d" stroke-width="1" fill="none" opacity="0.12"/>
+      <path d="M200 500 C200 500 120 430 110 340 C100 250 150 200 200 190 C250 180 310 230 300 320 C290 410 230 470 200 500Z" stroke="#55823d" stroke-width="0.8" fill="none" opacity="0.08"/>
+      <line x1="200" y1="580" x2="200" y2="140" stroke="#55823d" stroke-width="0.6" opacity="0.1"/>
+    </svg>
+  </div>
+
+  <div class="san-hero__inner">
+
+    {%- comment -%} ─── TEXT COLUMN ─── {%- endcomment -%}
+    <div class="san-hero__content">
+
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="san-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="san-hero__heading">
+          {%- assign heading_parts = section.settings.heading | split: '|' -%}
+          {%- for part in heading_parts -%}
+            {%- if forloop.index == 2 -%}
+              <em class="san-hero__heading-accent">{{ part }}</em>
+            {%- else -%}
+              {{ part }}
+            {%- endif -%}
+          {%- endfor -%}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <p class="san-hero__description">{{ section.settings.description }}</p>
+      {%- endif -%}
+
+      <div class="san-hero__cta-group">
+        {%- if section.settings.button_label_1 != blank -%}
+          <a
+            href="{{ section.settings.button_url_1 | default: routes.all_products_collection_url }}"
+            class="san-hero__btn san-hero__btn--primary"
+          >
+            <span>{{ section.settings.button_label_1 }}</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.button_label_2 != blank -%}
+          <a
+            href="{{ section.settings.button_url_2 | default: routes.collections_url }}"
+            class="san-hero__btn san-hero__btn--outline"
+          >
+            {{ section.settings.button_label_2 }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_features -%}
+        <ul class="san-hero__features" role="list">
+          {%- if section.settings.feature_1 != blank -%}
+            <li class="san-hero__feature">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M2.5 6.5l2.5 2.5L10.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ section.settings.feature_1 }}
+            </li>
+          {%- endif -%}
+          {%- if section.settings.feature_2 != blank -%}
+            <li class="san-hero__feature">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M2.5 6.5l2.5 2.5L10.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ section.settings.feature_2 }}
+            </li>
+          {%- endif -%}
+          {%- if section.settings.feature_3 != blank -%}
+            <li class="san-hero__feature">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                <path d="M2.5 6.5l2.5 2.5L10.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ section.settings.feature_3 }}
+            </li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+
+    </div>
+
+    {%- comment -%} ─── MEDIA / CAROUSEL COLUMN ─── {%- endcomment -%}
+    <div class="san-hero__media">
+
+      {%- if slide_blocks.size > 0 -%}
+
+        {%- comment -%} ── Carousel ── {%- endcomment -%}
+        <div
+          class="san-carousel"
+          data-carousel
+          data-interval="{{ section.settings.carousel_interval | times: 1000 }}"
+          id="carousel-{{ section.id }}"
+          role="region"
+          aria-label="Galería de imágenes"
+          aria-roledescription="carousel"
+        >
+
+          {%- comment -%} Track — all slides stacked via CSS grid {%- endcomment -%}
+          <div class="san-carousel__track">
+            {%- for block in slide_blocks -%}
+              <div
+                class="san-carousel__slide{% if forloop.first %} is-active{% endif %}"
+                role="group"
+                aria-roledescription="slide"
+                aria-label="{{ forloop.index }} de {{ slide_blocks.size }}"
+                {%- unless forloop.first -%} aria-hidden="true"{%- endunless -%}
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.image != blank -%}
+                  {%- if forloop.first -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1400
+                      | image_tag:
+                        class: 'san-carousel__img',
+                        loading: 'eager',
+                        fetchpriority: 'high',
+                        sizes: '(min-width: 990px) 55vw, 100vw',
+                        alt: block.settings.image.alt | default: shop.name | escape
+                    }}
+                  {%- else -%}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1400
+                      | image_tag:
+                        class: 'san-carousel__img',
+                        loading: 'lazy',
+                        sizes: '(min-width: 990px) 55vw, 100vw',
+                        alt: block.settings.image.alt | default: shop.name | escape
+                    }}
+                  {%- endif -%}
+                {%- else -%}
+                  <div class="san-carousel__placeholder">
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'san-carousel__placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.caption != blank or block.settings.label != blank -%}
+                  <div class="san-carousel__slide-info">
+                    {%- if block.settings.label != blank -%}
+                      <span class="san-carousel__slide-label">{{ block.settings.label }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.caption != blank -%}
+                      <span class="san-carousel__slide-caption">{{ block.settings.caption }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if slide_blocks.size > 1 -%}
+
+            {%- comment -%} Arrows {%- endcomment -%}
+            <button
+              class="san-carousel__arrow san-carousel__arrow--prev"
+              type="button"
+              aria-label="Slide anterior"
+              aria-controls="carousel-{{ section.id }}"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <button
+              class="san-carousel__arrow san-carousel__arrow--next"
+              type="button"
+              aria-label="Slide siguiente"
+              aria-controls="carousel-{{ section.id }}"
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            {%- comment -%} Dot indicators {%- endcomment -%}
+            <div class="san-carousel__dots" role="tablist" aria-label="Slides">
+              {%- for block in slide_blocks -%}
+                <button
+                  class="san-carousel__dot{% if forloop.first %} is-active{% endif %}"
+                  type="button"
+                  role="tab"
+                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                  data-index="{{ forloop.index0 }}"
+                  aria-label="Ir al slide {{ forloop.index }}"
+                  aria-controls="carousel-{{ section.id }}"
+                >
+                </button>
+              {%- endfor -%}
+            </div>
+
+            {%- comment -%} Progress bar {%- endcomment -%}
+            <div class="san-carousel__progress" aria-hidden="true">
+              <div class="san-carousel__progress-bar"></div>
+            </div>
+
+          {%- endif -%}
+
+        </div>
+
+      {%- else -%}
+
+        {%- comment -%} Fallback: single image setting {%- endcomment -%}
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 1400
+            | image_tag:
+              class: 'san-hero__image',
+              loading: 'eager',
+              fetchpriority: 'high',
+              sizes: '(min-width: 990px) 55vw, 100vw',
+              alt: section.settings.image.alt | default: shop.name | escape
+          }}
+        {%- else -%}
+          <div class="san-hero__placeholder">
+            <div class="san-hero__placeholder-inner">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'san-hero__placeholder-svg' }}
+            </div>
+          </div>
+        {%- endif -%}
+
+      {%- endif -%}
+
+      {%- comment -%} Spinning badge {%- endcomment -%}
+      {%- if section.settings.show_badge -%}
+        <div class="san-hero__badge" aria-hidden="true">
+          <svg class="san-hero__badge-ring" viewBox="0 0 120 120">
+            <defs>
+              <path id="badge-path-{{ section.id }}" d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0"/>
+            </defs>
+            <text>
+              <textPath href="#badge-path-{{ section.id }}" startOffset="0%">
+                NATURAL · ORGÁNICO · SALUDABLE · BIENESTAR ·&nbsp;
+              </textPath>
+            </text>
+          </svg>
+          <div class="san-hero__badge-center">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3C8 3 4 7 4 11c0 5 5 9 8 10 3-1 8-5 8-10 0-4-4-8-8-8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M12 3v18M8 7c2 1 4 4 4 6M16 7c-2 1-4 4-4 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="san-hero__media-overlay" aria-hidden="true"></div>
+
+    </div>
+
+  </div>
+
+  {%- if section.settings.show_scroll_indicator -%}
+    <div class="san-hero__scroll" aria-hidden="true">
+      <div class="san-hero__scroll-line"></div>
+      <span class="san-hero__scroll-label">Scroll</span>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% javascript %}
+  class SanHeroCarousel {
+    constructor(element) {
+      this.el = element;
+      this.slides = [...element.querySelectorAll('.san-carousel__slide')];
+      this.dots = [...element.querySelectorAll('.san-carousel__dot')];
+      this.prevBtn = element.querySelector('.san-carousel__arrow--prev');
+      this.nextBtn = element.querySelector('.san-carousel__arrow--next');
+      this.progressBar = element.querySelector('.san-carousel__progress-bar');
+      this.current = 0;
+      this.total = this.slides.length;
+      this.interval = parseInt(element.dataset.interval || 5000, 10);
+      this.timer = null;
+      this.progressTimer = null;
+      this.isHovered = false;
+      this.isTransitioning = false;
+
+      if (this.total <= 1) return;
+      this.init();
+    }
+
+    init() {
+      if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.navigate(-1));
+      if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.navigate(1));
+
+      this.dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => this.goTo(i));
+      });
+
+      this.el.addEventListener('mouseenter', () => {
+        this.isHovered = true;
+        this.pause();
+      });
+
+      this.el.addEventListener('mouseleave', () => {
+        this.isHovered = false;
+        this.play();
+      });
+
+      this.el.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); this.navigate(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); this.navigate(1); }
+      });
+
+      this.setupTouch();
+      this.play();
+    }
+
+    navigate(dir) {
+      if (this.isTransitioning) return;
+      this.goTo((this.current + dir + this.total) % this.total);
+    }
+
+    goTo(index) {
+      if (index === this.current || this.isTransitioning) return;
+      this.isTransitioning = true;
+
+      const prev = this.current;
+      this.current = index;
+
+      this.slides[prev].classList.remove('is-active');
+      this.slides[prev].setAttribute('aria-hidden', 'true');
+      this.slides[this.current].classList.add('is-active');
+      this.slides[this.current].removeAttribute('aria-hidden');
+
+      if (this.dots[prev]) {
+        this.dots[prev].classList.remove('is-active');
+        this.dots[prev].setAttribute('aria-selected', 'false');
+      }
+      if (this.dots[this.current]) {
+        this.dots[this.current].classList.add('is-active');
+        this.dots[this.current].setAttribute('aria-selected', 'true');
+      }
+
+      setTimeout(() => { this.isTransitioning = false; }, 700);
+
+      this.pause();
+      if (!this.isHovered) this.play();
+    }
+
+    play() {
+      this.pause();
+      this.resetProgress();
+      this.timer = setInterval(() => this.navigate(1), this.interval);
+    }
+
+    pause() {
+      clearInterval(this.timer);
+      clearTimeout(this.progressTimer);
+      if (this.progressBar) {
+        this.progressBar.style.transition = 'none';
+        this.progressBar.style.width = '0%';
+      }
+    }
+
+    resetProgress() {
+      if (!this.progressBar) return;
+      this.progressBar.style.transition = 'none';
+      this.progressBar.style.width = '0%';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.progressBar.style.transition = `width ${this.interval}ms linear`;
+          this.progressBar.style.width = '100%';
+        });
+      });
+    }
+
+    setupTouch() {
+      let startX = 0;
+      let startY = 0;
+      let isDragging = false;
+
+      this.el.addEventListener('touchstart', (e) => {
+        startX = e.changedTouches[0].clientX;
+        startY = e.changedTouches[0].clientY;
+        isDragging = true;
+      }, { passive: true });
+
+      this.el.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        const diffX = startX - e.changedTouches[0].clientX;
+        const diffY = startY - e.changedTouches[0].clientY;
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+          this.navigate(diffX > 0 ? 1 : -1);
+        }
+        isDragging = false;
+      }, { passive: true });
+    }
+  }
+
+  function initSanCarousels() {
+    document.querySelectorAll('[data-carousel]').forEach((el) => {
+      if (!el._sanCarousel) {
+        el._sanCarousel = new SanHeroCarousel(el);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSanCarousels);
+  } else {
+    initSanCarousels();
+  }
+
+  document.addEventListener('shopify:section:load', initSanCarousels);
+  document.addEventListener('shopify:section:reorder', initSanCarousels);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Hero Principal",
+  "tag": "section",
+  "class": "san-hero-section",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide del carousel",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen del slide"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta (opcional)",
+          "info": "Texto pequeño sobre la imagen, ej: 'Nueva colección'"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption (opcional)",
+          "info": "Texto descriptivo sobre la imagen"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenido"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto eyebrow",
+      "default": "100% Natural · Hecho con amor"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Título principal",
+      "info": "Usa | para resaltar en verde: 'Bienestar que |nace de la naturaleza|'",
+      "default": "Bienestar que |nace de la naturaleza|"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales."
+    },
+    {
+      "type": "header",
+      "content": "Botones"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Botón primario — texto",
+      "default": "Comprar ahora"
+    },
+    {
+      "type": "url",
+      "id": "button_url_1",
+      "label": "Botón primario — enlace"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Botón secundario — texto",
+      "default": "Ver colección"
+    },
+    {
+      "type": "url",
+      "id": "button_url_2",
+      "label": "Botón secundario — enlace"
+    },
+    {
+      "type": "header",
+      "content": "Características"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Mostrar características",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "feature_1",
+      "label": "Característica 1",
+      "default": "100% Natural"
+    },
+    {
+      "type": "text",
+      "id": "feature_2",
+      "label": "Característica 2",
+      "default": "Sin conservantes"
+    },
+    {
+      "type": "text",
+      "id": "feature_3",
+      "label": "Característica 3",
+      "default": "Envío gratis"
+    },
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "range",
+      "id": "carousel_interval",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Intervalo entre slides",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Imagen de respaldo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen hero (si no hay slides)"
+    },
+    {
+      "type": "header",
+      "content": "Extras"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Mostrar badge giratorio",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Mostrar indicador de scroll",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 60,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Altura mínima",
+      "default": 90
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Principal"
+    }
+  ]
+}
+{% endschema %}

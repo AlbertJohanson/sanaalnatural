@@ -1,3 +1,4 @@
+{{ 'section-header.css' | asset_url | stylesheet_tag }}
 <link rel="stylesheet" href="{{ 'component-list-menu.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
@@ -122,8 +123,71 @@
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
   {% endif %}
-  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
+  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if section.settings.show_topbar %} san-has-topbar{% endif %}"
 >
+  {%- if section.settings.show_topbar -%}
+    <div class="san-topbar small-hide medium-hide">
+      <div class="san-topbar__inner">
+        <div class="san-topbar__left">
+          {%- if section.settings.topbar_phone != blank -%}
+            <a href="tel:{{ section.settings.topbar_phone | remove: ' ' }}" class="san-topbar__link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11a19.79 19.79 0 01-.95-8.24 2 2 0 011.94-1.76H7a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              {{ section.settings.topbar_phone }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.topbar_phone != blank and section.settings.topbar_email != blank -%}
+            <span class="san-topbar__separator" aria-hidden="true"></span>
+          {%- endif -%}
+          {%- if section.settings.topbar_email != blank -%}
+            <a href="mailto:{{ section.settings.topbar_email }}" class="san-topbar__link">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+              {{ section.settings.topbar_email }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.topbar_phone == blank and section.settings.topbar_email == blank and section.settings.topbar_message != blank -%}
+            <span class="san-topbar__message">{{ section.settings.topbar_message }}</span>
+          {%- endif -%}
+        </div>
+        <div class="san-topbar__right">
+          {%- if shop.customer_accounts_enabled -%}
+            <a
+              href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+              class="san-topbar__link"
+              rel="nofollow"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              {%- if customer -%}{{ 'customer.account_fallback' | t }}{%- else -%}{{ 'customer.log_in' | t }}{%- endif -%}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+            <span class="san-topbar__separator" aria-hidden="true"></span>
+            <localization-form data-prevent-hide>
+              {%- form 'localization', id: 'TopbarLanguageForm', class: 'localization-form' -%}
+                <div>
+                  <h2 class="visually-hidden" id="TopbarLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+                  {%- render 'language-localization', localPosition: 'TopbarLanguage' -%}
+                </div>
+              {%- endform -%}
+            </localization-form>
+          {%- endif -%}
+          {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+            {%- unless section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+              <span class="san-topbar__separator" aria-hidden="true"></span>
+            {%- endunless -%}
+            <localization-form data-prevent-hide>
+              {%- form 'localization', id: 'TopbarCountryForm', class: 'localization-form' -%}
+                <div>
+                  <h2 class="visually-hidden" id="TopbarCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                  {%- render 'country-localization', localPosition: 'TopbarCountry' -%}
+                </div>
+              {%- endform -%}
+            </localization-form>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
   {%- liquid
     assign social_links = false
     assign localization_forms = false
@@ -172,7 +236,22 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <div class="san-logo-placeholder" aria-label="{{ shop.name }}">
+            <div class="san-logo-placeholder__emblem" aria-hidden="true">
+              <svg class="san-logo-placeholder__leaf" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 47C18 47 2 35 2 19C2 9.6 9.6 2 18 2C26.4 2 34 9.6 34 19C34 35 18 47 18 47Z" stroke="currentColor" stroke-width="1.4" fill="rgba(85,130,61,0.08)"/>
+                <line x1="18" y1="2" x2="18" y2="47" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                <path d="M11 11C13.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                <path d="M25 11C22.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                <path d="M8 22C12 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+                <path d="M28 22C24 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+              </svg>
+            </div>
+            <div class="san-logo-placeholder__wordmark">
+              <span class="san-logo-placeholder__name">{{ shop.name }}</span>
+              <span class="san-logo-placeholder__tagline">productos naturales</span>
+            </div>
+          </div>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -215,7 +294,22 @@
             }}
           </div>
         {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
+          <div class="san-logo-placeholder" aria-label="{{ shop.name }}">
+            <div class="san-logo-placeholder__emblem" aria-hidden="true">
+              <svg class="san-logo-placeholder__leaf" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 47C18 47 2 35 2 19C2 9.6 9.6 2 18 2C26.4 2 34 9.6 34 19C34 35 18 47 18 47Z" stroke="currentColor" stroke-width="1.4" fill="rgba(85,130,61,0.08)"/>
+                <line x1="18" y1="2" x2="18" y2="47" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                <path d="M11 11C13.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                <path d="M25 11C22.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                <path d="M8 22C12 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+                <path d="M28 22C24 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+              </svg>
+            </div>
+            <div class="san-logo-placeholder__wordmark">
+              <span class="san-logo-placeholder__name">{{ shop.name }}</span>
+              <span class="san-logo-placeholder__tagline">productos naturales</span>
+            </div>
+          </div>
         {%- endif -%}
       </a>
       {%- if request.page_type == 'index' -%}
@@ -612,6 +706,35 @@
     },
     {
       "type": "header",
+      "content": "Barra superior"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_topbar",
+      "default": true,
+      "label": "Mostrar barra superior"
+    },
+    {
+      "type": "text",
+      "id": "topbar_phone",
+      "label": "Teléfono",
+      "placeholder": "+52 55 1234 5678"
+    },
+    {
+      "type": "text",
+      "id": "topbar_email",
+      "label": "Email",
+      "placeholder": "hola@sanaalnatural.com"
+    },
+    {
+      "type": "text",
+      "id": "topbar_message",
+      "label": "Mensaje promocional",
+      "info": "Solo se muestra si teléfono y email están vacíos",
+      "placeholder": "Envío gratis en pedidos mayores a $500 MXN"
+    },
+    {
+      "type": "header",
       "content": "t:sections.all.spacing"
     },
     {
@@ -636,7 +759,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_top",
-      "default": 20
+      "default": 28
     },
     {
       "type": "range",
@@ -646,7 +769,7 @@
       "step": 4,
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
-      "default": 20
+      "default": 28
     }
   ],
   "blocks": [

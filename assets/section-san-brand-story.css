@@ -1,0 +1,269 @@
+/* ================================================================
+   SANA AL NATURAL — Brand Story (Split Layout)
+   section-san-brand-story.css
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Section wrapper
+   ---------------------------------------------------------------- */
+.san-story {
+  padding: 10rem 0;
+  background: #fafaf8;
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------------
+   Inner grid
+   ---------------------------------------------------------------- */
+.san-story__inner {
+  max-width: 120rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 4.8rem;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 8rem;
+  align-items: center;
+}
+
+/* Reversed (image on right) */
+.san-story__inner--reversed {
+  direction: rtl;
+}
+
+.san-story__inner--reversed > * {
+  direction: ltr;
+}
+
+/* ----------------------------------------------------------------
+   Image column
+   ---------------------------------------------------------------- */
+.san-story__image-col {
+  position: relative;
+}
+
+.san-story__image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.san-story__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s ease;
+}
+
+.san-story__image-wrap:hover .san-story__img {
+  transform: scale(1.03);
+}
+
+/* Placeholder */
+.san-story__placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(85, 130, 61, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.san-story__ph-svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+}
+
+/* ----------------------------------------------------------------
+   Floating stat card
+   ---------------------------------------------------------------- */
+.san-story__stat {
+  position: absolute;
+  bottom: 0rem;
+  right: -2.4rem;
+  background: #31591d;
+  color: #ffffff;
+  padding: 2.4rem 3rem;
+  min-width: 18rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.san-story__stat-number {
+  display: block;
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  font-size: 3.6rem !important;
+  color: #afea90 !important;
+  line-height: 1 !important;
+}
+
+.san-story__stat-label {
+  display: block;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  letter-spacing: 0.04em !important;
+  margin-top: 0.4rem !important;
+  line-height: 1.4 !important;
+}
+
+/* ----------------------------------------------------------------
+   Botanical corner decoration
+   ---------------------------------------------------------------- */
+.san-story__image-deco {
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  width: 8rem;
+  height: 8rem;
+  pointer-events: none;
+}
+
+.san-story__image-deco svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ----------------------------------------------------------------
+   Text column
+   ---------------------------------------------------------------- */
+.san-story__text-col {
+  padding-left: 2rem;
+}
+
+.san-story__overline {
+  display: block;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.25em !important;
+  text-transform: uppercase !important;
+  color: rgba(85, 130, 61, 0.7) !important;
+  margin-bottom: 2rem !important;
+}
+
+.san-story__heading {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  font-size: 4rem !important;
+  color: #31591d !important;
+  line-height: 1.2 !important;
+  margin: 0 0 2.8rem 0 !important;
+}
+
+.san-story__body {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.55rem !important;
+  line-height: 1.8 !important;
+  color: rgba(0, 0, 0, 0.65) !important;
+  margin-bottom: 3.2rem !important;
+}
+
+.san-story__body p + p {
+  margin-top: 1.6rem;
+}
+
+.san-story__body p {
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------
+   Decorative divider
+   ---------------------------------------------------------------- */
+.san-story__divider {
+  margin-bottom: 3.6rem;
+}
+
+.san-story__divider svg {
+  display: block;
+}
+
+/* ----------------------------------------------------------------
+   CTA Button
+   ---------------------------------------------------------------- */
+.san-story__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #55823d;
+  padding: 1.4rem 3.2rem;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.san-story__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #31591d;
+  transform: translateX(-100%);
+  transition: transform 0.35s ease;
+}
+
+.san-story__btn:hover {
+  transform: translateY(-2px);
+}
+
+.san-story__btn:hover::before {
+  transform: translateX(0);
+}
+
+.san-story__btn span,
+.san-story__btn svg {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------------
+   Mobile
+   ---------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .san-story {
+    padding: 6rem 0;
+  }
+
+  .san-story__inner {
+    grid-template-columns: 1fr;
+    gap: 5rem;
+    padding: 0 2rem;
+  }
+
+  /* Remove rtl on mobile */
+  .san-story__inner--reversed {
+    direction: ltr;
+  }
+
+  .san-story__text-col {
+    padding-left: 0;
+  }
+
+  .san-story__heading {
+    font-size: 3rem !important;
+  }
+
+  .san-story__stat {
+    right: 1rem;
+    bottom: -2rem;
+  }
+
+  .san-story__image-deco {
+    top: -1rem;
+    left: -1rem;
+    width: 6rem;
+    height: 6rem;
+  }
+}
