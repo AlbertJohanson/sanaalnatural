@@ -1,0 +1,249 @@
+{{ 'section-san-features.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign eyebrow    = section.settings.eyebrow    | default: '¿Por qué elegirnos?'
+  assign heading    = section.settings.heading    | default: 'Calidad que se siente desde adentro'
+  assign subheading = section.settings.subheading | default: 'Cada producto nace de nuestra convicción de que la naturaleza es la mejor medicina.'
+  assign show_cta   = section.settings.show_cta
+  assign cta_text   = section.settings.cta_text   | default: '¿Listo para empezar tu camino natural?'
+  assign btn_label  = section.settings.btn_label  | default: 'Comprar ahora'
+  assign btn_url    = section.settings.btn_url    | default: '/collections/all'
+-%}
+
+{%- assign icon_leaf = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-4 8-8 8-14a8 8 0 0 0-16 0c0 6 4 10 8 14z"/><path d="M12 8v6M9 11l3 3 3-3"/></svg>' -%}
+{%- assign icon_check = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' -%}
+{%- assign icon_heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>' -%}
+{%- assign icon_star = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' -%}
+{%- assign icon_truck = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>' -%}
+{%- assign icon_shield = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' -%}
+
+<section class="san-features" id="san-features-{{ section.id }}">
+
+  <!-- Background decorations -->
+  <div class="san-features__bg" aria-hidden="true">
+    <svg class="san-features__bg-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M200 380 C200 380 80 300 60 180 C40 60 120 20 200 20 C280 20 360 60 340 180 C320 300 200 380 200 380Z" stroke="#afea90" stroke-width="1"/>
+      <path d="M200 340 C200 340 110 270 95 165 C80 60 145 30 200 30 C255 30 320 60 305 165 C290 270 200 340 200 340Z" stroke="#afea90" stroke-width="0.8"/>
+      <line x1="200" y1="20" x2="200" y2="380" stroke="#afea90" stroke-width="0.6"/>
+      <line x1="60" y1="200" x2="340" y2="200" stroke="#afea90" stroke-width="0.5"/>
+      <circle cx="200" cy="200" r="4" fill="#afea90"/>
+      <circle cx="200" cy="60" r="2.5" fill="#afea90" opacity="0.7"/>
+      <circle cx="200" cy="340" r="2.5" fill="#afea90" opacity="0.7"/>
+    </svg>
+    <svg class="san-features__bg-svg san-features__bg-svg--left" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M200 380 C200 380 80 300 60 180 C40 60 120 20 200 20 C280 20 360 60 340 180 C320 300 200 380 200 380Z" stroke="#afea90" stroke-width="1"/>
+      <line x1="200" y1="20" x2="200" y2="380" stroke="#afea90" stroke-width="0.6"/>
+    </svg>
+  </div>
+
+  <div class="san-features__inner">
+
+    <!-- Header -->
+    <div class="san-features__header san-reveal san-reveal--up">
+      {%- if eyebrow != blank -%}
+        <span class="san-features__eyebrow">{{ eyebrow }}</span>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="san-features__heading">{{ heading }}</h2>
+      {%- endif -%}
+      {%- if subheading != blank -%}
+        <p class="san-features__subheading">{{ subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Feature cards -->
+    <div class="san-features__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign title  = block.settings.title
+          assign desc   = block.settings.description
+          assign icon   = block.settings.icon
+          assign num    = forloop.index | prepend: '0'
+          if forloop.index >= 10
+            assign num = forloop.index
+          endif
+
+          case icon
+            when 'leaf'
+              assign icon_svg = icon_leaf
+            when 'check'
+              assign icon_svg = icon_check
+            when 'heart'
+              assign icon_svg = icon_heart
+            when 'star'
+              assign icon_svg = icon_star
+            when 'truck'
+              assign icon_svg = icon_truck
+            else
+              assign icon_svg = icon_shield
+          endcase
+        -%}
+
+        <div
+          class="san-features__card san-reveal san-reveal--up san-reveal-d{{ forloop.index }}"
+          {{ block.shopify_attributes }}
+        >
+          <span class="san-features__num" aria-hidden="true">{{ num }}</span>
+
+          <div class="san-features__icon" aria-hidden="true">
+            {{ icon_svg }}
+          </div>
+
+          {%- if title != blank -%}
+            <h3 class="san-features__title">{{ title }}</h3>
+          {%- endif -%}
+
+          {%- if desc != blank -%}
+            <p class="san-features__desc">{{ desc }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Bottom CTA -->
+    {%- if show_cta -%}
+      <div class="san-features__cta san-reveal san-reveal--up">
+        {%- if cta_text != blank -%}
+          <p class="san-features__cta-text">{{ cta_text }}</p>
+        {%- endif -%}
+        {%- if btn_label != blank -%}
+          <a href="{{ btn_url | default: routes.root_url }}" class="san-features__btn">
+            <span>{{ btn_label }}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "¿Por qué elegirnos?",
+  "tag": "div",
+  "class": "san-features-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto pequeño sobre el título",
+      "default": "¿Por qué elegirnos?"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Calidad que se siente desde adentro"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Cada producto nace de nuestra convicción de que la naturaleza es la mejor medicina."
+    },
+    {
+      "type": "header",
+      "content": "Llamada a la acción"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Mostrar botón al final",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto sobre el botón",
+      "default": "¿Listo para empezar tu camino natural?"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Texto del botón",
+      "default": "Comprar ahora"
+    },
+    {
+      "type": "url",
+      "id": "btn_url",
+      "label": "Enlace del botón"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Característica",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ícono",
+          "options": [
+            { "value": "leaf",   "label": "Hoja" },
+            { "value": "check",  "label": "Check / Certificado" },
+            { "value": "heart",  "label": "Corazón" },
+            { "value": "star",   "label": "Estrella" },
+            { "value": "truck",  "label": "Envío" },
+            { "value": "shield", "label": "Escudo / Garantía" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "100% Natural"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción",
+          "default": "Ingredientes seleccionados directamente de la naturaleza, sin aditivos ni conservantes artificiales."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "¿Por qué elegirnos?",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "leaf",
+            "title": "100% Natural",
+            "description": "Ingredientes seleccionados directamente de la naturaleza, sin aditivos ni conservantes artificiales."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "title": "Certificado Orgánico",
+            "description": "Trabajamos con proveedores certificados que garantizan procesos agrícolas sostenibles y responsables."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Hecho con Amor",
+            "description": "Cada producto es formulado con cuidado y atención, pensando en el bienestar de tu familia."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío Gratis +$500",
+            "description": "Recibe tus productos naturales directamente en casa sin costo adicional en pedidos mayores a $500."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,182 @@
+{%- liquid
+  assign heading         = section.settings.heading
+  assign subheading      = section.settings.subheading
+  assign placeholder     = section.settings.placeholder
+  assign button_label    = section.settings.button_label
+  assign success_message = section.settings.success_message
+-%}
+
+{{ 'section-san-newsletter.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #san-newsletter-{{ section.id }} .san-newsletter__field-wrap:focus-within {
+    border-color: #afea90;
+  }
+{%- endstyle -%}
+
+<section class="san-newsletter" id="san-newsletter-{{ section.id }}">
+
+  <!-- Botanical SVG background decoration -->
+  <div class="san-newsletter__bg-deco" aria-hidden="true">
+    <svg
+      width="100%"
+      height="100%"
+      viewBox="0 0 1440 480"
+      fill="none"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- Top-left cluster -->
+      <circle cx="80" cy="80" r="120" stroke="white" stroke-width="1" fill="none"/>
+      <circle cx="80" cy="80" r="70" stroke="white" stroke-width="0.6" fill="none"/>
+      <path d="M80 -40 C80 -40 30 30 30 80 C30 130 55 160 80 180 C105 160 130 130 130 80 C130 30 80 -40 80 -40Z" stroke="white" stroke-width="0.8" fill="none"/>
+      <line x1="80" y1="-40" x2="80" y2="180" stroke="white" stroke-width="0.5"/>
+      <path d="M50 30 C60 50 78 68 80 80" stroke="white" stroke-width="0.5"/>
+      <path d="M110 30 C100 50 82 68 80 80" stroke="white" stroke-width="0.5"/>
+
+      <!-- Top-right cluster -->
+      <circle cx="1360" cy="60" r="100" stroke="white" stroke-width="1" fill="none"/>
+      <circle cx="1360" cy="60" r="55" stroke="white" stroke-width="0.5" fill="none"/>
+      <path d="M1360 -30 C1360 -30 1315 25 1315 65 C1315 105 1338 130 1360 145 C1382 130 1405 105 1405 65 C1405 25 1360 -30 1360 -30Z" stroke="white" stroke-width="0.8" fill="none"/>
+      <line x1="1360" y1="-30" x2="1360" y2="145" stroke="white" stroke-width="0.5"/>
+
+      <!-- Bottom-left branch -->
+      <path d="M0 420 Q120 380 200 320 Q280 260 200 200" stroke="white" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M120 380 Q150 350 180 340" stroke="white" stroke-width="0.6" fill="none"/>
+      <path d="M160 350 Q190 330 210 310" stroke="white" stroke-width="0.6" fill="none"/>
+
+      <!-- Bottom-right branch -->
+      <path d="M1440 400 Q1320 360 1240 300 Q1160 240 1240 180" stroke="white" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <path d="M1320 360 Q1290 335 1260 325" stroke="white" stroke-width="0.6" fill="none"/>
+
+      <!-- Center botanical circle -->
+      <circle cx="720" cy="240" r="300" stroke="white" stroke-width="0.4" fill="none"/>
+      <circle cx="720" cy="240" r="180" stroke="white" stroke-width="0.3" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="san-newsletter__inner">
+    <div class="san-newsletter__content san-reveal">
+
+      <!-- Leaf icon -->
+      <div class="san-newsletter__icon" aria-hidden="true">
+        <svg width="32" height="40" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 47C18 47 2 35 2 19C2 9.6 9.6 2 18 2C26.4 2 34 9.6 34 19C34 35 18 47 18 47Z" stroke="#afea90" stroke-width="1.5" fill="rgba(175,234,144,0.15)"/>
+          <line x1="18" y1="2" x2="18" y2="47" stroke="#afea90" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+          <path d="M11 12C13.5 16.5 18 21 18 25" stroke="#afea90" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+          <path d="M25 12C22.5 16.5 18 21 18 25" stroke="#afea90" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+      </div>
+
+      <h2 class="san-newsletter__heading">{{ heading }}</h2>
+      <p class="san-newsletter__sub">{{ subheading }}</p>
+
+      {%- form 'customer',
+        id: 'san-newsletter-form-{{ section.id }}',
+        class: 'san-newsletter__form'
+      -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+
+        {%- if form.posted_successfully? -%}
+          <p class="san-newsletter__success">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            {{ success_message }}
+          </p>
+        {%- else -%}
+          <div class="san-newsletter__field-wrap">
+            <label for="san-nl-email-{{ section.id }}" class="visually-hidden">{{ placeholder }}</label>
+            <input
+              type="email"
+              name="contact[email]"
+              id="san-nl-email-{{ section.id }}"
+              class="san-newsletter__input"
+              placeholder="{{ placeholder }}"
+              autocomplete="email"
+              required
+              aria-label="{{ placeholder }}"
+            >
+            <button type="submit" class="san-newsletter__btn">
+              {{ button_label }}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          <p class="san-newsletter__privacy">
+            Al suscribirte aceptas nuestra
+            <a href="{{ routes.root_url }}policies/privacy-policy">política de privacidad</a>.
+            Sin spam, prometido.
+          </p>
+        {%- endif -%}
+      {%- endform -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "div",
+  "class": "san-newsletter-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Suscríbete y vive natural"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subtítulo",
+      "default": "Recibe descuentos exclusivos, recetas y consejos de bienestar"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Texto del campo de email",
+      "default": "Tu correo electrónico"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Suscribirse"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Mensaje de éxito",
+      "default": "¡Gracias! Te hemos enviado un email de confirmación."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

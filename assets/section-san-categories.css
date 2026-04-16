@@ -1,0 +1,317 @@
+/* ================================================================
+   SANA AL NATURAL — Category Grid / Editorial Cards
+   section-san-categories.css
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Section wrapper
+   ---------------------------------------------------------------- */
+.san-categories {
+  padding: 8rem 0;
+  max-width: var(--page-width, 120rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 4.8rem;
+  padding-right: 4.8rem;
+}
+
+/* ----------------------------------------------------------------
+   Section header / title row
+   ---------------------------------------------------------------- */
+.san-categories__header {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 5rem;
+}
+
+.san-categories__heading {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 3.6rem;
+  color: #31591d;
+  white-space: nowrap;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.san-categories__heading-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(85, 130, 61, 0.3), transparent);
+}
+
+.san-categories__empty {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  color: rgba(0, 0, 0, 0.45);
+  padding: 4rem 0;
+  grid-column: 1 / -1;
+}
+
+/* ----------------------------------------------------------------
+   Grid base
+   ---------------------------------------------------------------- */
+.san-categories__grid {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Single item */
+.san-categories__grid[data-count="1"] {
+  grid-template-columns: 1fr;
+}
+
+/* 3-item editorial: slight asymmetry */
+.san-categories__grid[data-count="3"] {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+/* Editorial first-child spans 2 rows for 3 or 4 items */
+.san-categories__grid[data-layout="editorial"][data-count="3"] .san-cat-card:first-child,
+.san-categories__grid[data-layout="editorial"][data-count="4"] .san-cat-card:first-child {
+  grid-row: span 2;
+}
+
+/* ----------------------------------------------------------------
+   Card base
+   ---------------------------------------------------------------- */
+.san-cat-card {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  min-height: 38rem;
+  cursor: pointer;
+  background: #f5f5f3;
+}
+
+/* First child slightly taller in editorial layouts */
+.san-categories__grid[data-layout="editorial"] .san-cat-card:first-child {
+  min-height: 48rem;
+}
+
+/* ----------------------------------------------------------------
+   Media (image layer)
+   ---------------------------------------------------------------- */
+.san-cat-card__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.san-cat-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.san-cat-card:hover .san-cat-card__img {
+  transform: scale(1.06);
+}
+
+/* Placeholder (no image) */
+.san-cat-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(85, 130, 61, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.san-cat-card__ph-svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+/* ----------------------------------------------------------------
+   Overlay gradient
+   ---------------------------------------------------------------- */
+.san-cat-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    transparent 100%
+  );
+  transition: background 0.4s ease;
+}
+
+.san-cat-card:hover .san-cat-card__overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+/* ----------------------------------------------------------------
+   Badge (overlay label)
+   ---------------------------------------------------------------- */
+.san-cat-card__badge {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #31591d;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.2rem;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  line-height: 1.4;
+}
+
+/* ----------------------------------------------------------------
+   Card content (bottom text area)
+   ---------------------------------------------------------------- */
+.san-cat-card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.8rem 3.2rem;
+  color: #ffffff;
+  transform: translateY(1rem);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.san-cat-card:hover .san-cat-card__content {
+  transform: translateY(0);
+}
+
+/* Title */
+.san-cat-card__title {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2.6rem;
+  color: #ffffff;
+  margin: 0 0 0.6rem 0;
+  line-height: 1.2;
+}
+
+.san-categories__grid[data-layout="editorial"] .san-cat-card:first-child .san-cat-card__title {
+  font-size: 3.2rem;
+}
+
+/* Subtitle */
+.san-cat-card__subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0 0 1.2rem 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease 0.05s, transform 0.35s ease 0.05s;
+}
+
+.san-cat-card:hover .san-cat-card__subtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* CTA arrow */
+.san-cat-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #afea90;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.san-cat-card:hover .san-cat-card__cta {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ----------------------------------------------------------------
+   Mobile
+   ---------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .san-categories {
+    padding: 5rem 0;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .san-categories__heading {
+    font-size: 2.8rem;
+    white-space: normal;
+  }
+
+  .san-categories__header {
+    margin-bottom: 3rem;
+  }
+
+  .san-categories__grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Reset all grid layout variations on mobile */
+  .san-categories__grid[data-count="1"],
+  .san-categories__grid[data-count="2"],
+  .san-categories__grid[data-count="3"],
+  .san-categories__grid[data-count="4"],
+  .san-categories__grid[data-count="5"],
+  .san-categories__grid[data-count="6"] {
+    grid-template-columns: 1fr;
+  }
+
+  /* Remove first-child row span on mobile */
+  .san-categories__grid .san-cat-card:first-child {
+    grid-row: auto;
+  }
+
+  .san-cat-card {
+    min-height: 28rem;
+  }
+
+  .san-categories__grid[data-layout="editorial"] .san-cat-card:first-child {
+    min-height: 32rem;
+  }
+
+  .san-cat-card__title {
+    font-size: 2.2rem;
+  }
+
+  .san-categories__grid[data-layout="editorial"] .san-cat-card:first-child .san-cat-card__title {
+    font-size: 2.4rem;
+  }
+
+  .san-cat-card__content {
+    padding: 2rem 2.4rem;
+    transform: translateY(0);
+  }
+
+  /* On mobile always show subtitle and CTA */
+  .san-cat-card__subtitle {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .san-cat-card__cta {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
