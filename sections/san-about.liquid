@@ -1,0 +1,1014 @@
+{{ 'san-about.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  ================================================================
+  SAN ABOUT — Sobre Nosotros
+  Sana Al Natural · Editorial botanical luxury
+  ================================================================
+{%- endcomment -%}
+
+{%- assign story_blocks   = section.blocks | where: 'type', 'story' -%}
+{%- assign mission_blocks = section.blocks | where: 'type', 'mission' -%}
+{%- assign value_blocks   = section.blocks | where: 'type', 'value' -%}
+{%- assign product_blocks = section.blocks | where: 'type', 'product_card' -%}
+{%- assign stat_blocks    = section.blocks | where: 'type', 'stat' -%}
+{%- assign testimonial_blocks = section.blocks | where: 'type', 'testimonial' -%}
+{%- assign team_blocks    = section.blocks | where: 'type', 'team_member' -%}
+
+<section class="san-about" id="san-about-{{ section.id }}" data-san-about>
+
+  {%- comment -%} ═══════ 1 · HERO ═══════ {%- endcomment -%}
+  <div class="sa-hero">
+    <div class="sa-hero__media">
+      {%- if section.settings.hero_image != blank -%}
+        {{ section.settings.hero_image
+          | image_url: width: 2000
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            sizes: '100vw',
+            alt: section.settings.hero_heading | escape
+        }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'sa-hero__placeholder' }}
+      {%- endif -%}
+    </div>
+    <div class="sa-hero__overlay" aria-hidden="true"></div>
+    <div class="sa-hero__grain" aria-hidden="true"></div>
+
+    {%- comment -%} Botanical corners {%- endcomment -%}
+    <svg class="sa-hero__botanical sa-hero__botanical--tl" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+      <path d="M10 290 C10 290 30 180 80 120 C130 60 200 40 280 20" stroke="#afea90" stroke-width="0.8" fill="none" opacity="0.4"/>
+      <path d="M10 290 C50 240 90 200 120 150 C150 100 170 60 250 30" stroke="#afea90" stroke-width="0.5" fill="none" opacity="0.25"/>
+      <circle cx="280" cy="20" r="3" fill="#afea90" opacity="0.3"/>
+      <circle cx="120" cy="150" r="2" fill="#afea90" opacity="0.2"/>
+    </svg>
+    <svg class="sa-hero__botanical sa-hero__botanical--br" viewBox="0 0 300 300" fill="none" aria-hidden="true">
+      <path d="M10 290 C10 290 30 180 80 120 C130 60 200 40 280 20" stroke="#afea90" stroke-width="0.8" fill="none" opacity="0.4"/>
+      <path d="M10 290 C50 240 90 200 120 150 C150 100 170 60 250 30" stroke="#afea90" stroke-width="0.5" fill="none" opacity="0.25"/>
+    </svg>
+
+    <div class="sa-hero__content">
+      {%- if section.settings.hero_eyebrow != blank -%}
+        <p class="sa-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.hero_heading != blank -%}
+        <h1 class="sa-hero__heading">
+          {%- assign h_parts = section.settings.hero_heading | split: '|' -%}
+          {%- for part in h_parts -%}
+            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
+          {%- endfor -%}
+        </h1>
+      {%- endif -%}
+
+      <div class="sa-hero__divider" aria-hidden="true"></div>
+
+      {%- if section.settings.hero_subtitle != blank -%}
+        <p class="sa-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="sa-hero__scroll" aria-hidden="true">
+      <span>Descubre</span>
+      <div class="sa-hero__scroll-line"></div>
+    </div>
+  </div>
+
+
+  {%- comment -%} ═══════ 2 · STORY ═══════ {%- endcomment -%}
+  {%- if story_blocks.size > 0 -%}
+    {%- assign story = story_blocks.first -%}
+    <div class="sa-story">
+      <div class="sa-story__inner">
+        <div class="sa-story__media" data-reveal="left">
+          <div class="sa-story__img-wrap">
+            {%- if story.settings.image != blank -%}
+              {{ story.settings.image
+                | image_url: width: 1000
+                | image_tag:
+                  loading: 'lazy',
+                  sizes: '(min-width: 990px) 50vw, 100vw',
+                  alt: story.settings.heading | escape
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            {%- endif -%}
+          </div>
+          <div class="sa-story__frame" aria-hidden="true"></div>
+
+          {%- comment -%} Floating leaf {%- endcomment -%}
+          <svg class="sa-story__leaf" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+            <path d="M40 10 C20 25 10 45 15 65 C20 75 35 78 45 70 C55 62 65 40 40 10Z" fill="#55823d" opacity="0.12"/>
+            <path d="M40 10 C40 10 38 35 30 55" stroke="#55823d" stroke-width="0.8" fill="none" opacity="0.15"/>
+          </svg>
+        </div>
+
+        <div class="sa-story__content" data-reveal="right">
+          {%- if story.settings.eyebrow != blank -%}
+            <p class="sa-story__eyebrow">{{ story.settings.eyebrow }}</p>
+          {%- endif -%}
+
+          {%- if story.settings.heading != blank -%}
+            <h2 class="sa-story__heading">{{ story.settings.heading }}</h2>
+          {%- endif -%}
+
+          {%- if story.settings.text != blank -%}
+            <div class="sa-story__text">{{ story.settings.text }}</div>
+          {%- endif -%}
+
+          {%- if story.settings.signature_name != blank -%}
+            <div class="sa-story__signature">
+              <p class="sa-story__signature-name">{{ story.settings.signature_name }}</p>
+              {%- if story.settings.signature_role != blank -%}
+                <p class="sa-story__signature-role">{{ story.settings.signature_role }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 3 · MISSION & VISION ═══════ {%- endcomment -%}
+  {%- if mission_blocks.size > 0 -%}
+    <div class="sa-mission">
+      {%- comment -%} Large botanical watermark {%- endcomment -%}
+      <svg class="sa-mission__watermark" viewBox="0 0 500 500" fill="none" aria-hidden="true">
+        <path d="M250 480 C250 480 100 380 80 250 C60 120 150 50 250 30 C350 10 440 100 420 230 C400 360 300 440 250 480Z" stroke="#55823d" stroke-width="1.5" fill="none"/>
+        <path d="M250 400 C250 400 150 330 140 240 C130 150 190 100 250 90 C310 80 370 130 360 220 C350 310 280 370 250 400Z" stroke="#55823d" stroke-width="1" fill="none"/>
+        <line x1="250" y1="480" x2="250" y2="30" stroke="#55823d" stroke-width="0.8"/>
+      </svg>
+
+      <div class="sa-mission__inner" data-reveal-stagger>
+        {%- for block in mission_blocks -%}
+          <div class="sa-mission__card" {{ block.shopify_attributes }}>
+            <div class="sa-mission__card-accent" aria-hidden="true"></div>
+
+            <div class="sa-mission__card-icon" aria-hidden="true">
+              {%- if block.settings.icon == 'vision' -%}
+                <svg viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.2"/>
+                  <circle cx="24" cy="24" r="8" stroke="currentColor" stroke-width="1.2"/>
+                  <circle cx="24" cy="24" r="2" fill="currentColor"/>
+                  <line x1="24" y1="2" x2="24" y2="10" stroke="currentColor" stroke-width="0.8"/>
+                  <line x1="24" y1="38" x2="24" y2="46" stroke="currentColor" stroke-width="0.8"/>
+                  <line x1="2" y1="24" x2="10" y2="24" stroke="currentColor" stroke-width="0.8"/>
+                  <line x1="38" y1="24" x2="46" y2="24" stroke="currentColor" stroke-width="0.8"/>
+                </svg>
+              {%- else -%}
+                <svg viewBox="0 0 48 48" fill="none">
+                  <path d="M24 4 C15 15 8 25 8 32 C8 40.8 15.2 44 24 44 C32.8 44 40 40.8 40 32 C40 25 33 15 24 4Z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+                  <path d="M24 14 C24 14 18 22 18 28 C18 32 20.7 34 24 34 C27.3 34 30 32 30 28 C30 22 24 14 24 14Z" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                  <line x1="24" y1="4" x2="24" y2="44" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+                </svg>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.label != blank -%}
+              <p class="sa-mission__card-label">{{ block.settings.label }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.heading != blank -%}
+              <h3 class="sa-mission__card-heading">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <p class="sa-mission__card-text">{{ block.settings.text }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 4 · VALUES ═══════ {%- endcomment -%}
+  {%- if value_blocks.size > 0 -%}
+    <div class="sa-values">
+      <div class="sa-values__header" data-reveal>
+        {%- if section.settings.values_eyebrow != blank -%}
+          <p class="sa-values__eyebrow">{{ section.settings.values_eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.values_heading != blank -%}
+          <h2 class="sa-values__heading">{{ section.settings.values_heading }}</h2>
+        {%- endif -%}
+      </div>
+
+      <div class="sa-values__grid" data-reveal-stagger>
+        {%- for block in value_blocks -%}
+          <div class="sa-values__card" {{ block.shopify_attributes }}>
+            <div class="sa-values__card-inner">
+              <div class="sa-values__card-icon" aria-hidden="true">
+                {%- case block.settings.icon -%}
+                  {%- when 'leaf' -%}
+                    <svg viewBox="0 0 56 56" fill="none">
+                      <path d="M28 8 C16 20 8 32 12 44 C14 50 22 52 28 48 C34 44 42 32 28 8Z" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M28 8 C28 8 26 28 20 40" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                      <path d="M23 30 C23 30 28 26 32 28" stroke="currentColor" stroke-width="0.6" fill="none"/>
+                    </svg>
+                  {%- when 'recycle' -%}
+                    <svg viewBox="0 0 56 56" fill="none">
+                      <path d="M28 8L18 24H38L28 8Z" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M14 36L8 24H22L14 36Z" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M42 36L48 24H34L42 36Z" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M22 42H34" stroke="currentColor" stroke-width="1.3"/>
+                      <path d="M18 28L12 38" stroke="currentColor" stroke-width="1.3"/>
+                      <path d="M38 28L44 38" stroke="currentColor" stroke-width="1.3"/>
+                    </svg>
+                  {%- when 'eye' -%}
+                    <svg viewBox="0 0 56 56" fill="none">
+                      <ellipse cx="28" cy="28" rx="20" ry="12" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <circle cx="28" cy="28" r="6" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <circle cx="28" cy="28" r="2" fill="currentColor"/>
+                    </svg>
+                  {%- when 'hands' -%}
+                    <svg viewBox="0 0 56 56" fill="none">
+                      <path d="M14 34 C14 34 18 28 24 26 C30 24 34 26 34 30 C34 34 30 38 28 40 C26 42 20 46 16 44 C12 42 14 34 14 34Z" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M42 34 C42 34 38 28 32 26" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M28 14 C28 14 24 20 24 26" stroke="currentColor" stroke-width="0.8" fill="none"/>
+                      <circle cx="28" cy="12" r="2" fill="currentColor" opacity="0.5"/>
+                    </svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 56 56" fill="none">
+                      <circle cx="28" cy="28" r="20" stroke="currentColor" stroke-width="1.3" fill="none"/>
+                      <path d="M28 16 L28 28 L36 36" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+                    </svg>
+                {%- endcase -%}
+              </div>
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="sa-values__card-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.text != blank -%}
+                <p class="sa-values__card-text">{{ block.settings.text }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 5 · PRODUCTS HIGHLIGHT ═══════ {%- endcomment -%}
+  {%- if product_blocks.size > 0 -%}
+    <div class="sa-products">
+      <div class="sa-products__grain" aria-hidden="true"></div>
+
+      <div class="sa-products__header" data-reveal>
+        {%- if section.settings.products_eyebrow != blank -%}
+          <p class="sa-products__eyebrow">{{ section.settings.products_eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.products_heading != blank -%}
+          <h2 class="sa-products__heading">{{ section.settings.products_heading }}</h2>
+        {%- endif -%}
+      </div>
+
+      <div class="sa-products__track" data-reveal>
+        {%- for block in product_blocks -%}
+          <a class="sa-products__card"
+             href="{{ block.settings.link | default: '#' }}"
+             {{ block.shopify_attributes }}>
+            <div class="sa-products__card-img">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image
+                  | image_url: width: 600
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 30vw, 70vw',
+                    alt: block.settings.title | escape
+                }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            <div class="sa-products__card-body">
+              {%- if block.settings.title != blank -%}
+                <h3 class="sa-products__card-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <p class="sa-products__card-desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 6 · IMPACT NUMBERS ═══════ {%- endcomment -%}
+  {%- if stat_blocks.size > 0 -%}
+    <div class="sa-impact">
+      <div class="sa-impact__inner" data-reveal-stagger>
+        {%- for block in stat_blocks -%}
+          <div class="sa-impact__item" {{ block.shopify_attributes }}>
+            <div class="sa-impact__number">
+              <span class="sa-impact__number-value" data-counter="{{ block.settings.number }}">0</span>
+              {%- if block.settings.suffix != blank -%}
+                <span class="sa-impact__number-suffix">{{ block.settings.suffix }}</span>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.label != blank -%}
+              <p class="sa-impact__label">{{ block.settings.label }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 7 · TESTIMONIALS ═══════ {%- endcomment -%}
+  {%- if testimonial_blocks.size > 0 -%}
+    <div class="sa-testimonials">
+      <div class="sa-testimonials__header" data-reveal>
+        {%- if section.settings.testimonials_eyebrow != blank -%}
+          <p class="sa-testimonials__eyebrow">{{ section.settings.testimonials_eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.testimonials_heading != blank -%}
+          <h2 class="sa-testimonials__heading">{{ section.settings.testimonials_heading }}</h2>
+        {%- endif -%}
+      </div>
+
+      <div class="sa-testimonials__carousel" data-testimonial-carousel>
+        <div class="sa-testimonials__track">
+          {%- for block in testimonial_blocks -%}
+            <div class="sa-testimonials__slide" {{ block.shopify_attributes }}>
+              <span class="sa-testimonials__quote-mark" aria-hidden="true">"</span>
+
+              <div class="sa-testimonials__stars" aria-label="{{ block.settings.stars }} estrellas">
+                {%- for i in (1..5) -%}
+                  {%- if i <= block.settings.stars -%}
+                    <svg class="sa-testimonials__star" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M8 1.3l1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 5.5l4-.6z"/>
+                    </svg>
+                  {%- else -%}
+                    <svg class="sa-testimonials__star" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1">
+                      <path d="M8 1.3l1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4L2.2 5.5l4-.6z"/>
+                    </svg>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+
+              {%- if block.settings.quote != blank -%}
+                <blockquote class="sa-testimonials__quote">{{ block.settings.quote }}</blockquote>
+              {%- endif -%}
+
+              <div class="sa-testimonials__author">
+                {%- if block.settings.avatar != blank -%}
+                  <div class="sa-testimonials__author-avatar">
+                    {{ block.settings.avatar | image_url: width: 120 | image_tag: loading: 'lazy' }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.author != blank -%}
+                  <p class="sa-testimonials__author-name">{{ block.settings.author }}</p>
+                {%- endif -%}
+                {%- if block.settings.author_info != blank -%}
+                  <p class="sa-testimonials__author-info">{{ block.settings.author_info }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- if testimonial_blocks.size > 1 -%}
+          <div class="sa-testimonials__nav">
+            <button class="sa-testimonials__btn" type="button" data-testimonial-prev aria-label="Anterior">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M11 4L6 9l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            <div class="sa-testimonials__dots">
+              {%- for block in testimonial_blocks -%}
+                <button class="sa-testimonials__dot{% if forloop.first %} is-active{% endif %}"
+                        type="button"
+                        data-testimonial-dot="{{ forloop.index0 }}"
+                        aria-label="Testimonio {{ forloop.index }}">
+                </button>
+              {%- endfor -%}
+            </div>
+
+            <button class="sa-testimonials__btn" type="button" data-testimonial-next aria-label="Siguiente">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M7 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 8 · TEAM ═══════ {%- endcomment -%}
+  {%- if team_blocks.size > 0 -%}
+    <div class="sa-team">
+      <div class="sa-team__header" data-reveal>
+        {%- if section.settings.team_eyebrow != blank -%}
+          <p class="sa-team__eyebrow">{{ section.settings.team_eyebrow }}</p>
+        {%- endif -%}
+        {%- if section.settings.team_heading != blank -%}
+          <h2 class="sa-team__heading">{{ section.settings.team_heading }}</h2>
+        {%- endif -%}
+      </div>
+
+      <div class="sa-team__grid" data-reveal-stagger>
+        {%- for block in team_blocks -%}
+          <div class="sa-team__member" {{ block.shopify_attributes }}>
+            <div class="sa-team__photo">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image
+                  | image_url: width: 600
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 33vw, 100vw',
+                    alt: block.settings.name | escape
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.name != blank -%}
+              <p class="sa-team__name">{{ block.settings.name }}</p>
+            {%- endif -%}
+            {%- if block.settings.role != blank -%}
+              <p class="sa-team__role">{{ block.settings.role }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+
+  {%- comment -%} ═══════ 9 · CTA ═══════ {%- endcomment -%}
+  <div class="sa-cta">
+    <div class="sa-cta__grain" aria-hidden="true"></div>
+    <div class="sa-cta__circle sa-cta__circle--1" aria-hidden="true"></div>
+    <div class="sa-cta__circle sa-cta__circle--2" aria-hidden="true"></div>
+
+    <div class="sa-cta__inner" data-reveal>
+      {%- if section.settings.cta_heading != blank -%}
+        <h2 class="sa-cta__heading">
+          {%- assign cta_parts = section.settings.cta_heading | split: '|' -%}
+          {%- for part in cta_parts -%}
+            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
+          {%- endfor -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.cta_text != blank -%}
+        <p class="sa-cta__text">{{ section.settings.cta_text }}</p>
+      {%- endif -%}
+
+      <div class="sa-cta__buttons">
+        {%- if section.settings.cta_button_label != blank -%}
+          <a href="{{ section.settings.cta_button_url | default: routes.all_products_collection_url }}"
+             class="sa-cta__btn sa-cta__btn--primary">
+            {{ section.settings.cta_button_label }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta_button_label_2 != blank -%}
+          <a href="{{ section.settings.cta_button_url_2 | default: '#' }}"
+             class="sa-cta__btn sa-cta__btn--outline">
+            {{ section.settings.cta_button_label_2 }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+{%- comment -%} ═══════ JAVASCRIPT ═══════ {%- endcomment -%}
+<script>
+  (function() {
+    const section = document.querySelector('#san-about-{{ section.id }}');
+    if (!section) return;
+
+    /* ── Scroll reveal (IntersectionObserver) ── */
+    const revealEls = section.querySelectorAll('[data-reveal], [data-reveal-stagger]');
+
+    if (revealEls.length && 'IntersectionObserver' in window) {
+      const revealObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      revealEls.forEach(function(el) { revealObs.observe(el); });
+    } else {
+      /* Fallback: show everything */
+      revealEls.forEach(function(el) { el.classList.add('is-visible'); });
+    }
+
+    /* ── Animated counters ── */
+    const counters = section.querySelectorAll('[data-counter]');
+
+    if (counters.length && 'IntersectionObserver' in window) {
+      var counterDone = false;
+
+      var counterObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting && !counterDone) {
+            counterDone = true;
+            counters.forEach(function(el) {
+              var target = parseInt(el.getAttribute('data-counter'), 10);
+              var duration = 2000;
+              var start = 0;
+              var startTime = null;
+
+              function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var progress = Math.min((timestamp - startTime) / duration, 1);
+                /* Ease out cubic */
+                var ease = 1 - Math.pow(1 - progress, 3);
+                var current = Math.floor(ease * target);
+                el.textContent = current.toLocaleString();
+                if (progress < 1) {
+                  requestAnimationFrame(step);
+                } else {
+                  el.textContent = target.toLocaleString();
+                }
+              }
+
+              requestAnimationFrame(step);
+            });
+            counterObs.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      counters.forEach(function(el) { counterObs.observe(el.closest('.sa-impact__item') || el); });
+    }
+
+    /* ── Testimonial carousel ── */
+    var carousel = section.querySelector('[data-testimonial-carousel]');
+    if (carousel) {
+      var track = carousel.querySelector('.sa-testimonials__track');
+      var slides = carousel.querySelectorAll('.sa-testimonials__slide');
+      var dots = carousel.querySelectorAll('[data-testimonial-dot]');
+      var prevBtn = carousel.querySelector('[data-testimonial-prev]');
+      var nextBtn = carousel.querySelector('[data-testimonial-next]');
+      var currentSlide = 0;
+      var totalSlides = slides.length;
+
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentSlide = index;
+        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('is-active', i === currentSlide);
+        });
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function() { goToSlide(currentSlide - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', function() { goToSlide(currentSlide + 1); });
+
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          goToSlide(parseInt(this.getAttribute('data-testimonial-dot'), 10));
+        });
+      });
+
+      /* Auto-advance every 6s */
+      var autoTimer = setInterval(function() { goToSlide(currentSlide + 1); }, 6000);
+      carousel.addEventListener('mouseenter', function() { clearInterval(autoTimer); });
+      carousel.addEventListener('mouseleave', function() {
+        autoTimer = setInterval(function() { goToSlide(currentSlide + 1); }, 6000);
+      });
+
+      /* Touch swipe */
+      var touchStartX = 0;
+      carousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      carousel.addEventListener('touchend', function(e) {
+        var diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+          goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
+        }
+      }, { passive: true });
+    }
+
+    /* ── Parallax hero (subtle) ── */
+    var hero = section.querySelector('.sa-hero');
+    if (hero) {
+      var heroMedia = hero.querySelector('.sa-hero__media');
+      var ticking = false;
+
+      window.addEventListener('scroll', function() {
+        if (!ticking) {
+          requestAnimationFrame(function() {
+            var rect = hero.getBoundingClientRect();
+            if (rect.bottom > 0 && rect.top < window.innerHeight) {
+              var scrolled = -rect.top;
+              var parallax = scrolled * 0.2;
+              heroMedia.style.transform = 'translateY(' + parallax + 'px) scale(1.05)';
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+  })();
+</script>
+
+
+{% schema %}
+{
+  "name": "Sobre Nosotros",
+  "tag": "section",
+  "class": "san-about-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Imagen de fondo"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Texto superior",
+      "default": "Sana Al Natural"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Título (usa | para resaltar)",
+      "default": "Sobre |Nosotros|"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Subtítulo",
+      "default": "Cuidado natural para ti y el planeta. Creamos productos que nutren tu piel y respetan el medio ambiente."
+    },
+    {
+      "type": "header",
+      "content": "Valores"
+    },
+    {
+      "type": "text",
+      "id": "values_eyebrow",
+      "label": "Texto superior",
+      "default": "Lo que nos define"
+    },
+    {
+      "type": "text",
+      "id": "values_heading",
+      "label": "Título",
+      "default": "Nuestros Valores"
+    },
+    {
+      "type": "header",
+      "content": "Productos"
+    },
+    {
+      "type": "text",
+      "id": "products_eyebrow",
+      "label": "Texto superior",
+      "default": "Lo que creamos"
+    },
+    {
+      "type": "text",
+      "id": "products_heading",
+      "label": "Título",
+      "default": "Nuestros Productos"
+    },
+    {
+      "type": "header",
+      "content": "Testimonios"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_eyebrow",
+      "label": "Texto superior",
+      "default": "Comunidad"
+    },
+    {
+      "type": "text",
+      "id": "testimonials_heading",
+      "label": "Título",
+      "default": "Lo Que Dicen Nuestros Clientes"
+    },
+    {
+      "type": "header",
+      "content": "Equipo"
+    },
+    {
+      "type": "text",
+      "id": "team_eyebrow",
+      "label": "Texto superior",
+      "default": "Nuestro equipo"
+    },
+    {
+      "type": "text",
+      "id": "team_heading",
+      "label": "Título",
+      "default": "Las Personas Detrás de la Marca"
+    },
+    {
+      "type": "header",
+      "content": "Llamada a la acción"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Título (usa | para resaltar)",
+      "default": "Únete a la |revolución natural|"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "Texto",
+      "default": "Descubre productos que transforman tu rutina de cuidado personal con el poder de la naturaleza."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "Botón principal",
+      "default": "Explorar Productos"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_url",
+      "label": "Enlace botón principal"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label_2",
+      "label": "Botón secundario",
+      "default": "Contáctanos"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_url_2",
+      "label": "Enlace botón secundario"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Historia",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Texto superior",
+          "default": "Nuestra historia"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título",
+          "default": "De la Pasión Nació un Propósito"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Texto",
+          "default": "<p>Nacimos de la convicción de que los ingredientes más puros son los más poderosos. Cada producto es formulado con ingredientes seleccionados cuidadosamente para ofrecer resultados reales sin comprometer la salud de tu piel ni la del planeta.</p><p>Nuestra historia comenzó con una búsqueda personal: encontrar productos de cuidado personal que fueran verdaderamente naturales, efectivos y honestos.</p>"
+        },
+        {
+          "type": "text",
+          "id": "signature_name",
+          "label": "Nombre de la firma",
+          "default": "Fundadora"
+        },
+        {
+          "type": "text",
+          "id": "signature_role",
+          "label": "Cargo",
+          "default": "Sana Al Natural"
+        }
+      ]
+    },
+    {
+      "type": "mission",
+      "name": "Misión / Visión",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "mission", "label": "Misión (gota)" },
+            { "value": "vision", "label": "Visión (ojo)" }
+          ],
+          "default": "mission"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Nuestra Misión"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título",
+          "default": "Cuidado Puro, Resultados Reales"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Texto",
+          "default": "Creemos que el cuidado personal debe ser tan puro como la naturaleza misma. Nos dedicamos a crear productos que nutren tu piel y respetan el medio ambiente."
+        }
+      ]
+    },
+    {
+      "type": "value",
+      "name": "Valor",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icono",
+          "options": [
+            { "value": "leaf", "label": "Hoja (Natural)" },
+            { "value": "recycle", "label": "Reciclar (Sustentable)" },
+            { "value": "eye", "label": "Ojo (Transparente)" },
+            { "value": "hands", "label": "Manos (Artesanal)" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Natural"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Descripción",
+          "default": "Ingredientes de origen natural, sin químicos agresivos ni aditivos artificiales."
+        }
+      ]
+    },
+    {
+      "type": "product_card",
+      "name": "Producto destacado",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Imagen"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Nombre del producto"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Descripción corta",
+          "default": "Descripción breve del producto"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Estadística",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "number",
+          "id": "number",
+          "label": "Número",
+          "default": 100
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Sufijo (+, %, K, etc.)",
+          "default": "+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Clientes Felices"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Estrellas",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonio",
+          "default": "Los productos de Sana Al Natural transformaron completamente mi rutina de cuidado. Mi piel nunca se había sentido tan bien."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Nombre",
+          "default": "María García"
+        },
+        {
+          "type": "text",
+          "id": "author_info",
+          "label": "Información adicional",
+          "default": "Cliente desde 2023"
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Foto (opcional)"
+        }
+      ]
+    },
+    {
+      "type": "team_member",
+      "name": "Miembro del equipo",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Foto"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nombre",
+          "default": "Nombre Apellido"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Cargo",
+          "default": "Cargo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sobre Nosotros",
+      "blocks": [
+        { "type": "story" },
+        { "type": "mission", "settings": { "icon": "mission", "label": "Nuestra Misión", "heading": "Cuidado Puro, Resultados Reales", "text": "Creemos que el cuidado personal debe ser tan puro como la naturaleza misma. Nos dedicamos a crear productos que nutren tu piel y respetan el medio ambiente." } },
+        { "type": "mission", "settings": { "icon": "vision", "label": "Nuestra Visión", "heading": "Un Mundo Más Consciente", "text": "Imaginamos un mundo donde cada persona elige productos que cuidan tanto de sí mismos como del planeta. Cada decisión cuenta." } },
+        { "type": "value", "settings": { "icon": "leaf", "title": "Natural", "text": "Ingredientes de origen natural, sin químicos agresivos ni aditivos artificiales." } },
+        { "type": "value", "settings": { "icon": "recycle", "title": "Sustentable", "text": "Comprometidos con prácticas responsables y empaques eco-amigables." } },
+        { "type": "value", "settings": { "icon": "eye", "title": "Transparente", "text": "Honestidad en cada ingrediente. Sabemos lo que ponemos en tu piel y tú también." } },
+        { "type": "value", "settings": { "icon": "hands", "title": "Artesanal", "text": "Cada producto es elaborado con dedicación y atención al detalle." } },
+        { "type": "stat", "settings": { "number": 500, "suffix": "+", "label": "Clientes Felices" } },
+        { "type": "stat", "settings": { "number": 50, "suffix": "+", "label": "Productos Naturales" } },
+        { "type": "stat", "settings": { "number": 3, "suffix": "", "label": "Años de Experiencia" } },
+        { "type": "stat", "settings": { "number": 100, "suffix": "%", "label": "Ingredientes Naturales" } },
+        { "type": "testimonial" },
+        { "type": "testimonial", "settings": { "quote": "Increíble la calidad y el aroma de cada producto. Se nota que están hechos con amor y con ingredientes reales.", "author": "Ana López", "author_info": "Cliente desde 2024" } },
+        { "type": "testimonial", "settings": { "quote": "Por fin encontré una marca que es honesta con lo que pone en sus productos. No vuelvo a usar otra cosa.", "author": "Carlos Ruiz", "author_info": "Cliente desde 2023" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

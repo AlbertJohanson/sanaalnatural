@@ -1,0 +1,196 @@
+{
+  "sections": {
+    "about": {
+      "type": "san-about",
+      "settings": {
+        "hero_eyebrow": "Sana Al Natural",
+        "hero_heading": "Sobre |Nosotros|",
+        "hero_subtitle": "Cuidado natural para ti y el planeta. Creamos productos que nutren tu piel y respetan el medio ambiente.",
+        "values_eyebrow": "Lo que nos define",
+        "values_heading": "Nuestros Valores",
+        "products_eyebrow": "Lo que creamos",
+        "products_heading": "Nuestros Productos",
+        "testimonials_eyebrow": "Comunidad",
+        "testimonials_heading": "Lo Que Dicen Nuestros Clientes",
+        "team_eyebrow": "Nuestro equipo",
+        "team_heading": "Las Personas Detrás de la Marca",
+        "cta_heading": "Únete a la |revolución natural|",
+        "cta_text": "Descubre productos que transforman tu rutina de cuidado personal con el poder de la naturaleza.",
+        "cta_button_label": "Explorar Productos",
+        "cta_button_label_2": "Contáctanos"
+      },
+      "blocks": {
+        "story_1": {
+          "type": "story",
+          "settings": {
+            "eyebrow": "Nuestra historia",
+            "heading": "De la Pasión Nació un Propósito",
+            "text": "<p>Nacimos de la convicción de que los ingredientes más puros son los más poderosos. Cada producto es formulado con ingredientes seleccionados cuidadosamente para ofrecer resultados reales sin comprometer la salud de tu piel ni la del planeta.</p><p>Nuestra historia comenzó con una búsqueda personal: encontrar productos de cuidado personal que fueran verdaderamente naturales, efectivos y honestos.</p>",
+            "signature_name": "Fundadora",
+            "signature_role": "Sana Al Natural"
+          }
+        },
+        "mission_1": {
+          "type": "mission",
+          "settings": {
+            "icon": "mission",
+            "label": "Nuestra Misión",
+            "heading": "Cuidado Puro, Resultados Reales",
+            "text": "Creemos que el cuidado personal debe ser tan puro como la naturaleza misma. Nos dedicamos a crear productos que nutren tu piel y respetan el medio ambiente."
+          }
+        },
+        "mission_2": {
+          "type": "mission",
+          "settings": {
+            "icon": "vision",
+            "label": "Nuestra Visión",
+            "heading": "Un Mundo Más Consciente",
+            "text": "Imaginamos un mundo donde cada persona elige productos que cuidan tanto de sí mismos como del planeta. Cada decisión cuenta."
+          }
+        },
+        "value_1": {
+          "type": "value",
+          "settings": {
+            "icon": "leaf",
+            "title": "Natural",
+            "text": "Ingredientes de origen natural, sin químicos agresivos ni aditivos artificiales."
+          }
+        },
+        "value_2": {
+          "type": "value",
+          "settings": {
+            "icon": "recycle",
+            "title": "Sustentable",
+            "text": "Comprometidos con prácticas responsables y empaques eco-amigables."
+          }
+        },
+        "value_3": {
+          "type": "value",
+          "settings": {
+            "icon": "eye",
+            "title": "Transparente",
+            "text": "Honestidad en cada ingrediente. Sabemos lo que ponemos en tu piel y tú también."
+          }
+        },
+        "value_4": {
+          "type": "value",
+          "settings": {
+            "icon": "hands",
+            "title": "Artesanal",
+            "text": "Cada producto es elaborado con dedicación y atención al detalle."
+          }
+        },
+        "product_1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Cuidado Facial",
+            "description": "Limpieza y nutrición para tu rostro con ingredientes naturales."
+          }
+        },
+        "product_2": {
+          "type": "product_card",
+          "settings": {
+            "title": "Cuidado Corporal",
+            "description": "Hidratación y protección para todo tu cuerpo."
+          }
+        },
+        "product_3": {
+          "type": "product_card",
+          "settings": {
+            "title": "Aromaterapia",
+            "description": "Bienestar y relajación con esencias puras."
+          }
+        },
+        "product_4": {
+          "type": "product_card",
+          "settings": {
+            "title": "Kits Especiales",
+            "description": "Combinaciones perfectas para regalar o regalarte."
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": 500,
+            "suffix": "+",
+            "label": "Clientes Felices"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": 50,
+            "suffix": "+",
+            "label": "Productos Naturales"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": 3,
+            "suffix": "",
+            "label": "Años de Experiencia"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "number": 100,
+            "suffix": "%",
+            "label": "Ingredientes Naturales"
+          }
+        },
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Los productos de Sana Al Natural transformaron completamente mi rutina de cuidado. Mi piel nunca se había sentido tan bien.",
+            "author": "María García",
+            "author_info": "Cliente desde 2023"
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Increíble la calidad y el aroma de cada producto. Se nota que están hechos con amor y con ingredientes reales.",
+            "author": "Ana López",
+            "author_info": "Cliente desde 2024"
+          }
+        },
+        "testimonial_3": {
+          "type": "testimonial",
+          "settings": {
+            "stars": 5,
+            "quote": "Por fin encontré una marca que es honesta con lo que pone en sus productos. No vuelvo a usar otra cosa.",
+            "author": "Carlos Ruiz",
+            "author_info": "Cliente desde 2023"
+          }
+        }
+      },
+      "block_order": [
+        "story_1",
+        "mission_1",
+        "mission_2",
+        "value_1",
+        "value_2",
+        "value_3",
+        "value_4",
+        "product_1",
+        "product_2",
+        "product_3",
+        "product_4",
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4",
+        "testimonial_1",
+        "testimonial_2",
+        "testimonial_3"
+      ]
+    }
+  },
+  "order": [
+    "about"
+  ]
+}
