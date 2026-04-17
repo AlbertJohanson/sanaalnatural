@@ -1,0 +1,566 @@
+/* ================================================================
+   SANA AL NATURAL — Collection Hero v2.0
+   "Botanical Cinematic" — Full-bleed editorial hero
+   Dawn base: 1rem = 10px (html 62.5%)
+   ================================================================ */
+
+/* ================================================================
+   1. HERO CONTAINER
+   ================================================================ */
+
+.san-hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+}
+
+/* Height variants */
+.san-hero--small  { min-height: 32rem; }
+.san-hero--medium { min-height: 42rem; }
+.san-hero--large  { min-height: 54rem; }
+
+@media screen and (min-width: 750px) {
+  .san-hero--small  { min-height: 38rem; }
+  .san-hero--medium { min-height: 50rem; }
+  .san-hero--large  { min-height: 65rem; }
+}
+
+@media screen and (min-width: 990px) {
+  .san-hero--small  { min-height: 42rem; }
+  .san-hero--medium { min-height: 56rem; }
+  .san-hero--large  { min-height: 72rem; }
+}
+
+/* ================================================================
+   2. BACKGROUND IMAGE — Ken Burns slow zoom
+   ================================================================ */
+
+.san-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.san-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  animation: sanHeroZoom 18s ease-in-out alternate infinite;
+  will-change: transform;
+}
+
+@keyframes sanHeroZoom {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.06); }
+}
+
+/* ================================================================
+   3. OVERLAY — Dark botanical gradient
+   ================================================================ */
+
+.san-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(26, 26, 26, 0.25) 0%,
+      rgba(26, 26, 26, var(--san-hero-overlay, 0.4)) 45%,
+      rgba(49, 89, 29, calc(var(--san-hero-overlay, 0.4) * 0.35)) 100%
+    );
+  pointer-events: none;
+}
+
+/* Subtle grain texture for cinema feel */
+.san-hero__overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* No-image fallback — elegant botanical gradient */
+.san-hero--no-image .san-hero__overlay {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(85, 130, 61, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 80%, rgba(175, 234, 144, 0.05) 0%, transparent 50%),
+    linear-gradient(180deg, #f8faf6 0%, #ffffff 100%);
+}
+
+/* ================================================================
+   4. CONTENT — Centered vertically & horizontally
+   ================================================================ */
+
+.san-hero__content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 4rem 2.4rem;
+  max-width: 72rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Text spotlight — soft dark backdrop behind content for readability */
+.san-hero:not(.san-hero--no-image) .san-hero__content::before {
+  content: '';
+  position: absolute;
+  inset: -2rem -4rem;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.3) 35%,
+    rgba(0, 0, 0, 0.1) 65%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(30px);
+}
+
+@media screen and (min-width: 750px) {
+  .san-hero:not(.san-hero--no-image) .san-hero__content::before {
+    inset: -4rem -8rem;
+    filter: blur(40px);
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .san-hero__content {
+    padding: 5rem;
+  }
+}
+
+/* ================================================================
+   5. BREADCRUMB — Ethereal trail
+   ================================================================ */
+
+.san-hero__breadcrumb {
+  margin-bottom: 2.4rem;
+  animation: sanHeroFadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+}
+
+.san-hero__breadcrumb-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.san-hero__breadcrumb-item {
+  font-family: var(--font-body, 'Poppins'), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* With image = white text, without image = muted dark text */
+.san-hero .san-hero__breadcrumb-item {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.san-hero--no-image .san-hero__breadcrumb-item {
+  color: rgba(30, 30, 30, 0.3);
+}
+
+.san-hero .san-hero__breadcrumb-item a {
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-hero--no-image .san-hero__breadcrumb-item a {
+  color: rgba(30, 30, 30, 0.3);
+}
+
+.san-hero .san-hero__breadcrumb-item a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.san-hero--no-image .san-hero__breadcrumb-item a:hover {
+  color: #55823d;
+}
+
+.san-hero__breadcrumb-item:not(:last-child)::after {
+  content: '/';
+  margin: 0 0.7rem;
+  opacity: 0.3;
+}
+
+.san-hero__breadcrumb-item--current {
+  opacity: 0.7;
+}
+
+.san-hero--no-image .san-hero__breadcrumb-item--current {
+  color: rgba(30, 30, 30, 0.5);
+}
+
+/* ================================================================
+   6. TITLE — Cinematic Noto Serif italic
+   ================================================================ */
+
+.san-hero__title {
+  font-family: var(--font-heading, 'Noto Serif'), Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 4.4rem;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0;
+  animation: sanHeroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+}
+
+.san-hero .san-hero__title {
+  color: #ffffff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+.san-hero--no-image .san-hero__title {
+  color: #1e1e1e;
+}
+
+@media screen and (min-width: 750px) {
+  .san-hero__title {
+    font-size: 6rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .san-hero__title {
+    font-size: 7.2rem;
+  }
+}
+
+/* ================================================================
+   7. BOTANICAL DIVIDER
+   ================================================================ */
+
+.san-hero__divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 2rem 0;
+  max-width: 14rem;
+  width: 100%;
+  animation: sanHeroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.35s backwards;
+}
+
+.san-hero__divider-line {
+  flex: 1;
+  height: 1px;
+}
+
+.san-hero .san-hero__divider-line {
+  background: linear-gradient(90deg, transparent, rgba(175, 234, 144, 0.35));
+}
+
+.san-hero .san-hero__divider-line:last-child {
+  background: linear-gradient(90deg, rgba(175, 234, 144, 0.35), transparent);
+}
+
+.san-hero--no-image .san-hero__divider-line {
+  background: linear-gradient(90deg, transparent, rgba(85, 130, 61, 0.25));
+}
+
+.san-hero--no-image .san-hero__divider-line:last-child {
+  background: linear-gradient(90deg, rgba(85, 130, 61, 0.25), transparent);
+}
+
+.san-hero__divider-leaf {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  opacity: 0.5;
+}
+
+.san-hero .san-hero__divider-leaf {
+  color: #afea90;
+}
+
+.san-hero--no-image .san-hero__divider-leaf {
+  color: #55823d;
+}
+
+/* ================================================================
+   8. PRODUCT COUNT
+   ================================================================ */
+
+.san-hero__count {
+  font-family: var(--font-body, 'Poppins'), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin: 0;
+  animation: sanHeroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s backwards;
+}
+
+.san-hero .san-hero__count {
+  color: rgba(175, 234, 144, 0.5);
+}
+
+.san-hero--no-image .san-hero__count {
+  color: rgba(85, 130, 61, 0.45);
+}
+
+/* ================================================================
+   9. DESCRIPTION
+   ================================================================ */
+
+.san-hero__description {
+  font-family: var(--font-body, 'Poppins'), sans-serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1.75;
+  max-width: 52rem;
+  margin-top: 1.8rem;
+  animation: sanHeroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s backwards;
+}
+
+.san-hero .san-hero__description {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.san-hero--no-image .san-hero__description {
+  color: rgba(30, 30, 30, 0.5);
+}
+
+.san-hero__description p {
+  margin: 0;
+}
+
+/* ================================================================
+   10. SCROLL INDICATOR
+   ================================================================ */
+
+.san-hero__scroll {
+  position: absolute;
+  bottom: 2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  animation: sanHeroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.7s backwards;
+}
+
+.san-hero__scroll-line {
+  width: 1px;
+  height: 3.2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.san-hero .san-hero__scroll-line {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.san-hero--no-image .san-hero__scroll-line {
+  background: rgba(85, 130, 61, 0.1);
+}
+
+.san-hero__scroll-line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: sanScrollLine 2s ease-in-out infinite;
+}
+
+.san-hero .san-hero__scroll-line::after {
+  background: linear-gradient(180deg, transparent, #afea90);
+}
+
+.san-hero--no-image .san-hero__scroll-line::after {
+  background: linear-gradient(180deg, transparent, #55823d);
+}
+
+@keyframes sanScrollLine {
+  0%   { top: -100%; }
+  50%  { top: 100%; }
+  100% { top: 100%; }
+}
+
+/* Hide scroll indicator on short heroes */
+.san-hero--small .san-hero__scroll {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .san-hero__scroll {
+    display: none;
+  }
+}
+
+/* ================================================================
+   11. BOTTOM EDGE — Subtle gradient fade to page
+   ================================================================ */
+
+.san-hero__edge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.san-hero .san-hero__edge {
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.06));
+}
+
+/* Green accent line at very bottom */
+.san-hero__edge::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(80%, 90rem);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(85, 130, 61, 0.2) 30%,
+    rgba(85, 130, 61, 0.3) 50%,
+    rgba(85, 130, 61, 0.2) 70%,
+    transparent 100%
+  );
+}
+
+/* ================================================================
+   12. ENTRANCE ANIMATION
+   ================================================================ */
+
+@keyframes sanHeroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================================================
+   13. RESPONSIVE — Mobile refinements
+   ================================================================ */
+
+@media screen and (max-width: 749px) {
+  .san-hero--small  { min-height: 28rem; }
+  .san-hero--medium { min-height: 36rem; }
+  .san-hero--large  { min-height: 46rem; }
+
+  .san-hero__content {
+    padding: 3rem 2rem;
+  }
+
+  .san-hero__breadcrumb {
+    margin-bottom: 1.8rem;
+  }
+
+  .san-hero__breadcrumb-item {
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+  }
+
+  .san-hero__title {
+    font-size: 3.4rem;
+  }
+
+  .san-hero__divider {
+    margin: 1.6rem 0;
+    max-width: 11rem;
+  }
+
+  .san-hero__count {
+    font-size: 1rem;
+  }
+
+  .san-hero__description {
+    font-size: 1.3rem;
+    margin-top: 1.4rem;
+  }
+}
+
+/* ================================================================
+   14. ACCESSIBILITY
+   ================================================================ */
+
+.san-hero__breadcrumb-item a:focus-visible {
+  outline: 2px solid #afea90;
+  outline-offset: 3px;
+}
+
+.san-hero--no-image .san-hero__breadcrumb-item a:focus-visible {
+  outline-color: #55823d;
+}
+
+/* ================================================================
+   15. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .san-hero__media img {
+    animation: none !important;
+  }
+
+  .san-hero__breadcrumb,
+  .san-hero__title,
+  .san-hero__divider,
+  .san-hero__count,
+  .san-hero__description,
+  .san-hero__scroll {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .san-hero__scroll-line::after {
+    animation: none !important;
+  }
+}
+
+/* ================================================================
+   16. NO-IMAGE VARIANT — Light botanical mood
+   ================================================================ */
+
+.san-hero--no-image {
+  background: #ffffff;
+}
+
+.san-hero--no-image .san-hero__edge::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(85, 130, 61, 0.12) 30%,
+    rgba(85, 130, 61, 0.18) 50%,
+    rgba(85, 130, 61, 0.12) 70%,
+    transparent 100%
+  );
+}
