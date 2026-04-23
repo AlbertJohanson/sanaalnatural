@@ -60,11 +60,11 @@
         <div class="san-filters__header-top">
           <div class="san-filters__header-left">
             <h2 class="san-filters__title" id="verticalTitle" tabindex="-1">Filtrar</h2>
-            <span class="san-filters__count">
-              {%- if results.products_count == results.all_products_count -%}
-                {{ results.products_count }} productos
+            <span class="san-filters__count" data-san-live-count>
+              {%- if results.products.size == results.products_count -%}
+                {{ results.products.size }} producto{{ results.products.size | pluralize: '', 's' }}
               {%- else -%}
-                {{ results.products_count }} de {{ results.all_products_count }}
+                {{ results.products.size }} de {{ results.products_count }}
               {%- endif -%}
             </span>
           </div>
@@ -245,6 +245,8 @@
                             placeholder="0"
                             min="0"
                             max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            data-min="0"
+                            data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                           >
                         </div>
                         <span class="san-filters__price-sep">–</span>
@@ -260,6 +262,8 @@
                             placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                             min="0"
                             max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            data-min="0"
+                            data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                           >
                         </div>
                       </div>
@@ -327,11 +331,11 @@
         <div class="san-filters-mobile__inner gradient">
           <div class="san-filters-mobile__header">
             <h2 class="san-filters-mobile__title">Filtrar</h2>
-            <p class="mobile-facets__count san-filters-mobile__count">
-              {%- if results.products_count == results.all_products_count -%}
-                {{ results.products_count }} productos
+            <p class="mobile-facets__count san-filters-mobile__count" data-san-live-count>
+              {%- if results.products.size == results.products_count -%}
+                {{ results.products.size }} producto{{ results.products.size | pluralize: '', 's' }}
               {%- else -%}
-                {{ results.products_count }} de {{ results.all_products_count }}
+                {{ results.products.size }} de {{ results.products_count }}
               {%- endif -%}
             </p>
           </div>
@@ -479,6 +483,8 @@
                                 placeholder="0"
                                 min="0"
                                 max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                data-min="0"
+                                data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                               >
                             </div>
                             <span class="san-filters__price-sep">–</span>
@@ -494,6 +500,8 @@
                                 placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                                 min="0"
                                 max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                data-min="0"
+                                data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                               >
                             </div>
                           </div>

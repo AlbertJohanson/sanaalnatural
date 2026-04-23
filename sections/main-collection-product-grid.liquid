@@ -79,11 +79,11 @@
               <span class="san-filters-trigger__badge">{{ total_active_values }}</span>
             {%- endif -%}
           </button>
-          <span class="san-collection-toolbar__count">
-            {%- if collection.products_count == collection.all_products_count -%}
-              {{ collection.products_count }} productos
+          <span class="san-collection-toolbar__count" data-san-live-count>
+            {%- if collection.products.size == collection.products_count -%}
+              {{ collection.products.size }} producto{{ collection.products.size | pluralize: '', 's' }}
             {%- else -%}
-              {{ collection.products_count }} de {{ collection.all_products_count }}
+              {{ collection.products.size }} de {{ collection.products_count }}
             {%- endif -%}
           </span>
         </div>
@@ -174,18 +174,27 @@
     const overlay = document.querySelector('[data-san-drawer-overlay]');
     const toggleBtns = document.querySelectorAll('[data-san-drawer-toggle]');
     const closeBtns = document.querySelectorAll('[data-san-drawer-close]');
+    if (!drawer || !overlay) return;
+
+    function getScrollbarWidth() {
+      return window.innerWidth - document.documentElement.clientWidth;
+    }
 
     function openDrawer() {
+      const gutter = getScrollbarWidth();
+      document.body.style.setProperty('--san-scrollbar-gutter', gutter + 'px');
       drawer.classList.add('san-filters--open');
       overlay.classList.add('san-drawer-overlay--visible');
       document.body.classList.add('san-drawer-open');
-      drawer.querySelector('.san-filters__close').focus();
+      const closeBtn = drawer.querySelector('.san-filters__close');
+      if (closeBtn) closeBtn.focus();
     }
 
     function closeDrawer() {
       drawer.classList.remove('san-filters--open');
       overlay.classList.remove('san-drawer-overlay--visible');
       document.body.classList.remove('san-drawer-open');
+      document.body.style.removeProperty('--san-scrollbar-gutter');
     }
 
     toggleBtns.forEach(function(btn) {
@@ -196,15 +205,51 @@
       btn.addEventListener('click', closeDrawer);
     });
 
-    if (overlay) {
-      overlay.addEventListener('click', closeDrawer);
-    }
+    overlay.addEventListener('click', closeDrawer);
 
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && drawer.classList.contains('san-filters--open')) {
         closeDrawer();
       }
     });
+
+    /* After facets.js swaps #ProductGridContainer, its freshly-rendered
+       cards carry .scroll-trigger.animate--slide-in. facets.js adds
+       .scroll-trigger--cancel so they stay visible; this observer is a
+       belt-and-braces safety net in case that class is missed. It also
+       keeps the live product counts (toolbar + drawer header) honest
+       with what is actually rendered on screen. */
+    const gridContainer = document.getElementById('ProductGridContainer');
+
+    function updateLiveCounts() {
+      const grid = document.getElementById('product-grid');
+      const countEl = document.getElementById('ProductCountDesktop') || document.getElementById('ProductCount');
+      if (!grid) return;
+
+      const onScreen = grid.querySelectorAll('.grid__item').length;
+      let total = onScreen;
+      if (countEl) {
+        const nums = (countEl.textContent.match(/\d+/g) || []).map(Number);
+        if (nums.length) total = Math.max.apply(null, nums);
+      }
+
+      const text = onScreen === total
+        ? onScreen + ' producto' + (onScreen === 1 ? '' : 's')
+        : onScreen + ' de ' + total;
+
+      document.querySelectorAll('[data-san-live-count]').forEach(function(el) {
+        el.textContent = text;
+      });
+    }
+
+    if (gridContainer && 'MutationObserver' in window) {
+      const mo = new MutationObserver(function() {
+        gridContainer.querySelectorAll('.scroll-trigger.animate--slide-in')
+          .forEach(function(el) { el.classList.add('scroll-trigger--cancel'); });
+        updateLiveCounts();
+      });
+      mo.observe(gridContainer, { childList: true, subtree: true });
+    }
   })();
 </script>
 

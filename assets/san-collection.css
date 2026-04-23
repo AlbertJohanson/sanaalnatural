@@ -44,6 +44,18 @@
 
 @media screen and (min-width: 750px) {
   .san-collection-layout {
+    padding: 0 2.8rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .san-collection-layout {
+    padding: 0 4rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .san-collection-layout {
     padding: 0 5rem;
   }
 }
@@ -791,37 +803,79 @@
 
 .product-grid-container {
   background: #ffffff;
+  /* Reserve vertical space so AJAX filter swaps don't collapse the page */
+  min-height: 50vh;
 }
 
 .collection .product-grid {
-  gap: 2.4rem !important;
+  gap: 2.4rem 1.6rem !important;
   padding: 0 !important;
 }
 
 @media screen and (min-width: 750px) {
   .collection .product-grid {
-    gap: 2.8rem 2.4rem !important;
+    gap: 3.2rem 2rem !important;
+  }
+
+  /* Force 3 columns from tablet upwards — overrides Dawn's
+     grid--2-col-tablet-down / any editor-set columns_desktop value */
+  .collection .product-grid .grid__item {
+    width: calc(33.3333% - (2rem * 2 / 3)) !important;
+    max-width: calc(33.3333% - (2rem * 2 / 3)) !important;
   }
 }
 
 @media screen and (min-width: 990px) {
   .collection .product-grid {
-    gap: 3rem 2.6rem !important;
+    gap: 3.6rem 2.4rem !important;
+  }
+
+  .collection .product-grid .grid__item {
+    width: calc(33.3333% - (2.4rem * 2 / 3)) !important;
+    max-width: calc(33.3333% - (2.4rem * 2 / 3)) !important;
   }
 }
 
 /* ================================================================
-   5. PRODUCT CARDS
+   5. PRODUCT CARDS — "Herbarium specimen" frame
    ================================================================ */
 
 .collection .card-wrapper {
   position: relative;
-  transition: transform var(--san-dur) var(--san-ease) !important;
+  background: #fbf9f4;
+  padding: 1.2rem 1.2rem 1.6rem;
+  transition:
+    transform 0.55s var(--san-ease),
+    box-shadow 0.55s var(--san-ease),
+    background 0.55s var(--san-ease) !important;
+}
+
+/* Hairline frame around the whole card */
+.collection .card-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(85, 130, 61, 0.12);
+  pointer-events: none;
+  transition: border-color 0.45s var(--san-ease);
+  z-index: 1;
 }
 
 @media (hover: hover) {
   .collection .card-wrapper:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    background: #ffffff;
+    box-shadow: 0 22px 45px -22px rgba(49, 89, 29, 0.28);
+  }
+
+  .collection .card-wrapper:hover::after {
+    border-color: var(--san-green-20);
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .collection .card-wrapper {
+    padding: 1.4rem 1.4rem 1.8rem;
   }
 }
 
@@ -841,7 +895,7 @@
 .collection .card__inner {
   border: none !important;
   border-radius: 0 !important;
-  background: transparent !important;
+  background: var(--san-sage) !important;
 }
 
 .collection .card--standard .card__inner,
@@ -857,8 +911,9 @@
   display: none !important;
 }
 
-.collection .card--card .card__content {
-  padding: 1.3rem 0 0 !important;
+.collection .card--card .card__content,
+.collection .card--standard > .card__content {
+  padding: 1.3rem 0.2rem 0 !important;
 }
 
 .collection .card--card .card__inner .card__media,
@@ -873,7 +928,8 @@
 .collection .card__media {
   border-radius: 0 !important;
   overflow: hidden !important;
-  position: relative !important;
+  position: absolute !important;
+  background: var(--san-sage) !important;
 }
 
 .collection .card .media {
@@ -882,12 +938,12 @@
 }
 
 .collection .card__media img {
-  transition: transform 0.7s var(--san-ease), opacity 0.5s ease !important;
+  transition: transform 0.8s var(--san-ease), opacity 0.5s ease !important;
 }
 
 @media (hover: hover) {
   .collection .card-wrapper:hover .card__media img:first-child {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 }
 
@@ -899,23 +955,6 @@
 @media (hover: hover) {
   .collection .card-wrapper:hover .media--hover-effect > img + img {
     opacity: 1 !important;
-  }
-}
-
-.collection .card__media::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  box-shadow: 0 12px 40px rgba(49, 89, 29, 0.1);
-  opacity: 0;
-  transition: opacity var(--san-dur) ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-@media (hover: hover) {
-  .collection .card-wrapper:hover .card__media::after {
-    opacity: 1;
   }
 }
 
@@ -1021,8 +1060,15 @@
 
 .collection .card__badge.bottom-left {
   bottom: auto !important;
-  top: 1rem !important;
-  left: 1rem !important;
+  top: 2rem !important;
+  left: 2rem !important;
+}
+
+@media screen and (min-width: 750px) {
+  .collection .card__badge.bottom-left {
+    top: 2.2rem !important;
+    left: 2.2rem !important;
+  }
 }
 
 /* ================================================================
@@ -1139,6 +1185,16 @@
 
 .collection .scroll-trigger.animate--slide-in.scroll-trigger--animate {
   animation: sanCardIn 0.6s var(--san-ease) forwards;
+}
+
+/* facets.js adds .scroll-trigger--cancel after AJAX swap — ensure cards
+   render immediately instead of staying hidden/shifted (grid-jump fix). */
+.collection .scroll-trigger--cancel,
+.product-grid-container.scroll-trigger--cancel,
+.collection .scroll-trigger.animate--slide-in.scroll-trigger--cancel {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
 }
 
 @keyframes sanCardIn {
@@ -1277,4 +1333,13 @@
 
 body.san-drawer-open {
   overflow: hidden;
+  /* Compensate for disappearing scrollbar so layout doesn't shift right.
+     --san-scrollbar-gutter is set in JS when the drawer opens. */
+  padding-right: var(--san-scrollbar-gutter, 0);
+}
+
+/* Sticky header also needs the same compensation so it doesn't jump */
+body.san-drawer-open .shopify-section-header-sticky,
+body.san-drawer-open .san-header {
+  padding-right: var(--san-scrollbar-gutter, 0);
 }
