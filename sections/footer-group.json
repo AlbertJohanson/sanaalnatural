@@ -1,31 +1,41 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "menu_1": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Tienda",
+            "menu": "footer"
+          }
+        },
+        "menu_2": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Ayuda",
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": ["menu_1", "menu_2"],
       "settings": {
-        "color_scheme": "scheme-1",
+        "tagline": "Belleza que nace de la <em>naturaleza</em>",
+        "description": "Productos naturales y artesanales para el cuidado de tu piel y cabello.",
         "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
+        "newsletter_heading": "Newsletter",
+        "newsletter_description": "Recibe novedades, tips de cuidado natural y ofertas exclusivas.",
+        "enable_follow_on_shop": false,
         "show_social": true,
         "enable_country_selector": true,
         "enable_language_selector": true,
         "payment_enable": true,
         "show_policy": true,
         "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 0,
+        "padding_bottom": 0
       }
     }
   },

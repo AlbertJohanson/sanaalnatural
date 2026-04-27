@@ -1,0 +1,1345 @@
+/* ================================================================
+   SANA AL NATURAL — Collection v3.0
+   "Herbarium Cabinet" — Slide-in filter drawer + full-width grid
+   Dawn base: 1rem = 10px (html 62.5%)
+   ================================================================ */
+
+/* ================================================================
+   0. CUSTOM PROPERTIES
+   ================================================================ */
+
+.san-collection-layout,
+.san-filters,
+.san-filters-mobile,
+.collection {
+  --san-green: #55823d;
+  --san-green-dark: #31591d;
+  --san-green-light: #afea90;
+  --san-ink: #1e1e1e;
+  --san-ink-70: rgba(30, 30, 30, 0.7);
+  --san-ink-50: rgba(30, 30, 30, 0.5);
+  --san-ink-35: rgba(30, 30, 30, 0.35);
+  --san-ink-20: rgba(30, 30, 30, 0.2);
+  --san-ink-08: rgba(30, 30, 30, 0.08);
+  --san-green-50: rgba(85, 130, 61, 0.5);
+  --san-green-20: rgba(85, 130, 61, 0.2);
+  --san-green-12: rgba(85, 130, 61, 0.12);
+  --san-green-06: rgba(85, 130, 61, 0.06);
+  --san-sage: #f0f7ec;
+  --san-sage-deep: #e4f0dd;
+  --san-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --san-dur: 0.4s;
+  --san-dur-fast: 0.2s;
+}
+
+/* ================================================================
+   1. LAYOUT — Full-width (no sidebar grid)
+   ================================================================ */
+
+.san-collection-layout {
+  max-width: var(--page-width, 120rem);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .san-collection-layout {
+    padding: 0 2.8rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .san-collection-layout {
+    padding: 0 4rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .san-collection-layout {
+    padding: 0 5rem;
+  }
+}
+
+/* ================================================================
+   1b. TRIGGER BUTTON — "Filtrar"
+   ================================================================ */
+
+.san-filters-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--san-ink);
+  background: none;
+  border: 1.5px solid var(--san-ink-08);
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: all var(--san-dur-fast) ease;
+  position: relative;
+}
+
+.san-filters-trigger:hover {
+  border-color: var(--san-green);
+  background: var(--san-green-06);
+  color: var(--san-green-dark);
+}
+
+.san-filters-trigger:active {
+  transform: scale(0.97);
+}
+
+.san-filters-trigger svg {
+  color: var(--san-green);
+  flex-shrink: 0;
+  transition: color var(--san-dur-fast) ease;
+}
+
+.san-filters-trigger__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8rem;
+  height: 1.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--san-green);
+  padding: 0 0.4rem;
+}
+
+/* Toolbar row above grid */
+.san-collection-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-bottom: 2.4rem;
+  flex-wrap: wrap;
+}
+
+.san-collection-toolbar__count {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--san-ink-35);
+}
+
+/* ================================================================
+   2. FILTER DRAWER — Fixed left panel
+   ================================================================ */
+
+.san-filters {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(38rem, 85vw);
+  z-index: 500;
+  background: var(--san-sage);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--san-green-20) transparent;
+
+  /* Hidden by default — slide in from left */
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition:
+    transform 0.45s var(--san-ease),
+    visibility 0s 0.45s;
+}
+
+/* Open state */
+.san-filters.san-filters--open {
+  transform: translateX(0);
+  visibility: visible;
+  transition:
+    transform 0.45s var(--san-ease),
+    visibility 0s 0s;
+}
+
+.san-filters::-webkit-scrollbar {
+  width: 3px;
+}
+.san-filters::-webkit-scrollbar-track {
+  background: transparent;
+}
+.san-filters::-webkit-scrollbar-thumb {
+  background: var(--san-green-20);
+}
+
+/* Leaf texture background */
+.san-filters::before {
+  content: '';
+  position: fixed;
+  width: min(38rem, 85vw);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 8c-5 10-15 18-15 28s6 12 15 12 15-2 15-12S45 18 40 8z' fill='none' stroke='%2355823d' stroke-width='0.4' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  pointer-events: none;
+  z-index: 0;
+  transform: translateX(-100%);
+  transition: transform 0.45s var(--san-ease);
+}
+
+.san-filters.san-filters--open::before {
+  transform: translateX(0);
+}
+
+/* Vine accent on right edge */
+.san-filters::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  bottom: 0;
+  width: 3px;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    var(--san-green-light) 2px,
+    var(--san-green) 6px,
+    var(--san-green-light) 10px,
+    transparent 12px,
+    transparent 20px
+  );
+  opacity: 0.25;
+  z-index: 1;
+}
+
+.san-filters__form {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* ————————————————————
+   Overlay backdrop
+   ———————————————————— */
+
+.san-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 499;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.35s ease,
+    visibility 0s 0.35s;
+  cursor: pointer;
+}
+
+.san-drawer-overlay.san-drawer-overlay--visible {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.35s ease,
+    visibility 0s 0s;
+}
+
+/* ————————————————————————————
+   Header (with close button)
+   ———————————————————————————— */
+
+.san-filters__header {
+  padding: 2.4rem 2.2rem 1.8rem;
+  border-bottom: 1px solid var(--san-green-12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.san-filters__header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.san-filters__header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.san-filters__title {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2.4rem;
+  color: var(--san-green-dark);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.san-filters__count {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--san-green-50);
+}
+
+/* Close button */
+.san-filters__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  background: none;
+  border: 1.5px solid var(--san-green-12);
+  cursor: pointer;
+  color: var(--san-ink-50);
+  transition: all var(--san-dur-fast) ease;
+  flex-shrink: 0;
+}
+
+.san-filters__close:hover {
+  color: var(--san-green-dark);
+  border-color: var(--san-green);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.san-filters__close:active {
+  transform: scale(0.92);
+}
+
+.san-filters__clear-all a {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--san-green-50);
+  text-decoration: none;
+  transition: color var(--san-dur-fast) ease;
+}
+
+.san-filters__clear-all a:hover {
+  color: var(--san-green-dark);
+}
+
+/* ————————————————————————————
+   Sort dropdown
+   ———————————————————————————— */
+
+.san-filters__sort {
+  padding: 1.4rem 2.2rem;
+  border-bottom: 1px solid var(--san-green-12);
+}
+
+.san-filters__sort-label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--san-ink-35);
+  margin-bottom: 0.6rem;
+}
+
+.san-filters__sort-select {
+  position: relative;
+}
+
+.san-filters__select {
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--san-ink);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--san-green-12);
+  border-radius: 0;
+  padding: 0.9rem 3rem 0.9rem 1.2rem;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--san-dur-fast) ease, background var(--san-dur-fast) ease;
+}
+
+.san-filters__select:hover {
+  border-color: var(--san-green-20);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.san-filters__select:focus {
+  border-color: var(--san-green);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--san-green);
+}
+
+.san-filters__select-icon {
+  position: absolute;
+  right: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--san-green-50);
+  pointer-events: none;
+}
+
+/* ————————————————————————————
+   Active filter pills
+   ———————————————————————————— */
+
+.san-filters__active {
+  padding: 0 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.san-filters__active:empty {
+  display: none;
+}
+
+.san-filters__active:not(:empty) {
+  padding-top: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--san-green-12);
+}
+
+.san-filters__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--san-green-dark);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--san-green-20);
+  padding: 0.4rem 0.9rem;
+  text-decoration: none;
+  transition: all var(--san-dur-fast) ease;
+  animation: sanPillIn 0.25s var(--san-ease) backwards;
+}
+
+@keyframes sanPillIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.san-filters__pill:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--san-green);
+}
+
+.san-filters__pill-text {
+  line-height: 1.3;
+}
+
+.san-filters__pill-x {
+  color: var(--san-green);
+  flex-shrink: 0;
+  transition: transform var(--san-dur-fast) ease;
+}
+
+.san-filters__pill:hover .san-filters__pill-x {
+  transform: rotate(90deg);
+}
+
+/* ————————————————————————————
+   Filter groups (accordions)
+   ———————————————————————————— */
+
+.san-filters__groups {
+  padding: 0;
+  flex: 1;
+}
+
+.san-filters__group {
+  border-bottom: 1px solid var(--san-green-12);
+}
+
+.san-filters__group-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2.2rem;
+  cursor: pointer;
+  list-style: none;
+  transition: background var(--san-dur-fast) ease;
+}
+
+.san-filters__group-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.san-filters__group-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.san-filters__group[open] > .san-filters__group-toggle {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.san-filters__group-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--san-ink-70);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.san-filters__group[open] > .san-filters__group-toggle .san-filters__group-label {
+  color: var(--san-green-dark);
+}
+
+.san-filters__group-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.8rem;
+  height: 1.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--san-green);
+  padding: 0 0.4rem;
+}
+
+/* Chevron rotation */
+.san-filters__chevron {
+  color: var(--san-green-50);
+  transition: transform 0.3s var(--san-ease);
+  flex-shrink: 0;
+}
+
+.san-filters__group[open] > .san-filters__group-toggle .san-filters__chevron,
+.san-filters-mobile__group[open] > .san-filters-mobile__group-toggle .san-filters__chevron {
+  transform: rotate(180deg);
+}
+
+/* Accordion content */
+.san-filters__group-content {
+  padding: 0 2.2rem 1.6rem;
+  animation: sanFilterOpen 0.3s var(--san-ease);
+}
+
+@keyframes sanFilterOpen {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ————————————————————————————
+   Checkbox options
+   ———————————————————————————— */
+
+.san-filters__fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.san-filters__options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.san-filters__option {
+  margin: 0;
+}
+
+.san-filters__option--disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.san-filters__checkbox {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  cursor: pointer;
+  transition: color var(--san-dur-fast) ease;
+}
+
+.san-filters__checkbox:hover {
+  color: var(--san-green-dark);
+}
+
+.san-filters__checkbox input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.san-filters__check-box {
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1.5px solid var(--san-green-20);
+  background: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--san-dur-fast) ease;
+}
+
+.san-filters__check-box svg {
+  opacity: 0;
+  transform: scale(0.6);
+  color: #ffffff;
+  transition: all var(--san-dur-fast) ease;
+}
+
+.san-filters__checkbox:hover .san-filters__check-box {
+  border-color: var(--san-green);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.san-filters__checkbox input:checked + .san-filters__check-box {
+  background: var(--san-green);
+  border-color: var(--san-green);
+}
+
+.san-filters__checkbox input:checked + .san-filters__check-box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.san-filters__checkbox input:focus-visible + .san-filters__check-box {
+  outline: 2px solid var(--san-green);
+  outline-offset: 2px;
+}
+
+.san-filters__check-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--san-ink-50);
+  line-height: 1.4;
+  transition: color var(--san-dur-fast) ease;
+}
+
+.san-filters__checkbox--active .san-filters__check-label {
+  color: var(--san-green-dark);
+  font-weight: 500;
+}
+
+.san-filters__checkbox:hover .san-filters__check-label {
+  color: var(--san-green-dark);
+}
+
+.san-filters__check-count {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  color: var(--san-ink-20);
+  margin-left: auto;
+}
+
+/* ————————————————————————————
+   Price range
+   ———————————————————————————— */
+
+.san-filters__price-header {
+  margin-bottom: 1rem;
+}
+
+.san-filters__price-max {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  color: var(--san-ink-35);
+}
+
+.san-filters__price-fields {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.san-filters__price-field {
+  flex: 1;
+  position: relative;
+}
+
+.san-filters__price-label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--san-ink-35);
+  margin-bottom: 0.4rem;
+}
+
+.san-filters__price-currency {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  color: var(--san-ink-35);
+  pointer-events: none;
+}
+
+.san-filters__price-input {
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  color: var(--san-ink);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1.5px solid var(--san-green-12);
+  border-radius: 0;
+  padding: 0.8rem 1rem 0.8rem 2.4rem;
+  transition: border-color var(--san-dur-fast) ease;
+  -moz-appearance: textfield;
+}
+
+.san-filters__price-input::-webkit-inner-spin-button,
+.san-filters__price-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.san-filters__price-input:hover {
+  border-color: var(--san-green-20);
+}
+
+.san-filters__price-input:focus {
+  border-color: var(--san-green);
+  outline: none;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.san-filters__price-sep {
+  font-family: 'Poppins', sans-serif;
+  color: var(--san-ink-20);
+  font-size: 1.4rem;
+  padding-top: 2rem;
+}
+
+/* ————————————————————————————
+   Drawer footer (apply button)
+   ———————————————————————————— */
+
+.san-filters__footer {
+  padding: 1.6rem 2.2rem;
+  border-top: 1px solid var(--san-green-12);
+  background: var(--san-sage-deep);
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.san-filters__footer-clear {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--san-green-50);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color var(--san-dur-fast) ease;
+}
+
+.san-filters__footer-clear:hover {
+  color: var(--san-green-dark);
+}
+
+.san-filters__footer-apply {
+  flex: 1;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--san-green-dark);
+  border: none;
+  border-radius: 0;
+  padding: 1.2rem 2rem;
+  cursor: pointer;
+  transition: background var(--san-dur-fast) ease;
+}
+
+.san-filters__footer-apply:hover {
+  background: var(--san-green);
+}
+
+/* Product count (hidden, for facets.js) */
+.san-filters__product-count {
+  display: none;
+}
+
+/* ================================================================
+   3. MOBILE FILTER DRAWER (kept for facets.js contract)
+   ================================================================ */
+
+.san-filters-mobile {
+  display: none !important;
+}
+
+/* ================================================================
+   4. PRODUCT GRID — Full width
+   ================================================================ */
+
+.product-grid-container {
+  background: #ffffff;
+  /* Reserve vertical space so AJAX filter swaps don't collapse the page */
+  min-height: 50vh;
+}
+
+.collection .product-grid {
+  gap: 2.4rem 1.6rem !important;
+  padding: 0 !important;
+}
+
+@media screen and (min-width: 750px) {
+  .collection .product-grid {
+    gap: 3.2rem 2rem !important;
+  }
+
+  /* Force 3 columns from tablet upwards — overrides Dawn's
+     grid--2-col-tablet-down / any editor-set columns_desktop value */
+  .collection .product-grid .grid__item {
+    width: calc(33.3333% - (2rem * 2 / 3)) !important;
+    max-width: calc(33.3333% - (2rem * 2 / 3)) !important;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .collection .product-grid {
+    gap: 3.6rem 2.4rem !important;
+  }
+
+  .collection .product-grid .grid__item {
+    width: calc(33.3333% - (2.4rem * 2 / 3)) !important;
+    max-width: calc(33.3333% - (2.4rem * 2 / 3)) !important;
+  }
+}
+
+/* ================================================================
+   5. PRODUCT CARDS — "Herbarium specimen" frame
+   ================================================================ */
+
+.collection .card-wrapper {
+  position: relative;
+  background: #fbf9f4;
+  padding: 1.2rem 1.2rem 1.6rem;
+  transition:
+    transform 0.55s var(--san-ease),
+    box-shadow 0.55s var(--san-ease),
+    background 0.55s var(--san-ease) !important;
+}
+
+/* Hairline frame around the whole card */
+.collection .card-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(85, 130, 61, 0.12);
+  pointer-events: none;
+  transition: border-color 0.45s var(--san-ease);
+  z-index: 1;
+}
+
+@media (hover: hover) {
+  .collection .card-wrapper:hover {
+    transform: translateY(-4px);
+    background: #ffffff;
+    box-shadow: 0 22px 45px -22px rgba(49, 89, 29, 0.28);
+  }
+
+  .collection .card-wrapper:hover::after {
+    border-color: var(--san-green-20);
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .collection .card-wrapper {
+    padding: 1.4rem 1.4rem 1.8rem;
+  }
+}
+
+.collection .card {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.collection .card::after,
+.collection .card__inner::after {
+  display: none !important;
+}
+
+.collection .card__inner {
+  border: none !important;
+  border-radius: 0 !important;
+  background: var(--san-sage) !important;
+}
+
+.collection .card--standard .card__inner,
+.collection .card--card {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+.collection .card--standard .card__inner::after,
+.collection .card--card::after {
+  box-shadow: none !important;
+  display: none !important;
+}
+
+.collection .card--card .card__content,
+.collection .card--standard > .card__content {
+  padding: 1.3rem 0.2rem 0 !important;
+}
+
+.collection .card--card .card__inner .card__media,
+.collection .card--standard .card__inner .card__media {
+  border-radius: 0 !important;
+}
+
+/* ================================================================
+   6. CARD IMAGES
+   ================================================================ */
+
+.collection .card__media {
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  background: var(--san-sage) !important;
+}
+
+.collection .card .media {
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
+
+.collection .card__media img {
+  transition: transform 0.8s var(--san-ease), opacity 0.5s ease !important;
+}
+
+@media (hover: hover) {
+  .collection .card-wrapper:hover .card__media img:first-child {
+    transform: scale(1.04);
+  }
+}
+
+.collection .media--hover-effect > img + img {
+  opacity: 0 !important;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+@media (hover: hover) {
+  .collection .card-wrapper:hover .media--hover-effect > img + img {
+    opacity: 1 !important;
+  }
+}
+
+/* ================================================================
+   7. CARD CONTENT & TYPOGRAPHY
+   ================================================================ */
+
+.collection .card__content {
+  padding: 1.3rem 0 0 !important;
+}
+
+.collection .card__heading {
+  margin: 0 !important;
+}
+
+.collection .card__heading a {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.35rem !important;
+  font-weight: 500 !important;
+  color: var(--san-ink) !important;
+  text-decoration: none !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.01em !important;
+  transition: color var(--san-dur-fast) ease !important;
+}
+
+@media (hover: hover) {
+  .collection .card-wrapper:hover .card__heading a {
+    color: var(--san-green) !important;
+  }
+}
+
+.collection .card-information .caption-with-letter-spacing {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--san-green-50) !important;
+  margin-bottom: 0.2rem !important;
+}
+
+/* ================================================================
+   8. PRICE
+   ================================================================ */
+
+.collection .price {
+  margin-top: 0.35rem !important;
+}
+
+.collection .price__regular .price-item,
+.collection .price .price-item--regular {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.45rem !important;
+  font-weight: 600 !important;
+  color: var(--san-ink) !important;
+}
+
+.collection .price--on-sale .price-item--sale {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.45rem !important;
+  font-weight: 600 !important;
+  color: var(--san-green) !important;
+}
+
+.collection .price--on-sale .price-item--regular {
+  font-size: 1.15rem !important;
+  color: var(--san-ink-35) !important;
+  text-decoration: line-through !important;
+}
+
+.collection .price--sold-out .price-item {
+  color: var(--san-ink-35) !important;
+}
+
+/* ================================================================
+   9. BADGES
+   ================================================================ */
+
+.collection .badge {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  padding: 0.45rem 1rem !important;
+}
+
+.collection .badge.color-scheme-1 {
+  background-color: var(--san-green-dark) !important;
+  color: #ffffff !important;
+}
+
+.collection .badge.color-scheme-2 {
+  background-color: var(--san-ink) !important;
+  color: #ffffff !important;
+}
+
+.collection .card__badge {
+  position: absolute !important;
+  z-index: 2 !important;
+}
+
+.collection .card__badge.bottom-left {
+  bottom: auto !important;
+  top: 2rem !important;
+  left: 2rem !important;
+}
+
+@media screen and (min-width: 750px) {
+  .collection .card__badge.bottom-left {
+    top: 2.2rem !important;
+    left: 2.2rem !important;
+  }
+}
+
+/* ================================================================
+   10. QUICK ADD
+   ================================================================ */
+
+.collection .quick-add {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s var(--san-ease) !important;
+}
+
+@media (hover: hover) {
+  .collection .card-wrapper:hover .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.collection .quick-add__submit {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  background-color: var(--san-green-dark) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 1.1rem 2rem !important;
+  cursor: pointer !important;
+  transition: background var(--san-dur-fast) ease !important;
+}
+
+.collection .quick-add__submit:hover {
+  background-color: var(--san-green) !important;
+}
+
+.collection .quick-add__submit[disabled] {
+  background-color: var(--san-ink-20) !important;
+  color: var(--san-ink-35) !important;
+}
+
+/* ================================================================
+   11. PAGINATION
+   ================================================================ */
+
+.collection .pagination-wrapper {
+  margin-top: 4.5rem !important;
+  padding-top: 3rem !important;
+  border-top: 1px solid var(--san-ink-08) !important;
+}
+
+.collection .pagination__list {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.3rem !important;
+  list-style: none !important;
+  padding: 0 !important;
+}
+
+.collection .pagination__item a,
+.collection .pagination__item span {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
+  color: var(--san-ink-35) !important;
+  text-decoration: none !important;
+  width: 4rem !important;
+  height: 4rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid transparent !important;
+  transition: all var(--san-dur-fast) ease !important;
+  position: relative !important;
+}
+
+.collection .pagination__item a:hover {
+  color: var(--san-green) !important;
+  border-color: var(--san-green-12) !important;
+}
+
+.collection .pagination__item--current span {
+  color: var(--san-green-dark) !important;
+  font-weight: 600 !important;
+}
+
+.collection .pagination__item--current span::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0.3rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 1.4rem !important;
+  height: 2px !important;
+  background: var(--san-green) !important;
+}
+
+.collection .pagination__item svg {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+}
+
+/* ================================================================
+   12. CARD ENTRANCE ANIMATIONS
+   ================================================================ */
+
+.collection .scroll-trigger.animate--slide-in {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.collection .scroll-trigger.animate--slide-in.scroll-trigger--animate {
+  animation: sanCardIn 0.6s var(--san-ease) forwards;
+}
+
+/* facets.js adds .scroll-trigger--cancel after AJAX swap — ensure cards
+   render immediately instead of staying hidden/shifted (grid-jump fix). */
+.collection .scroll-trigger--cancel,
+.product-grid-container.scroll-trigger--cancel,
+.collection .scroll-trigger.animate--slide-in.scroll-trigger--cancel {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+@keyframes sanCardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 1"]  { animation-delay: 0.04s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 2"]  { animation-delay: 0.09s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 3"]  { animation-delay: 0.14s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 4"]  { animation-delay: 0.19s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 5"]  { animation-delay: 0.24s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 6"]  { animation-delay: 0.29s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 7"]  { animation-delay: 0.34s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 8"]  { animation-delay: 0.39s; }
+.collection .scroll-trigger.animate--slide-in[style*="--animation-order: 9"]  { animation-delay: 0.44s; }
+
+.collection .loading-overlay {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* ================================================================
+   13. EMPTY STATE
+   ================================================================ */
+
+.collection--empty {
+  min-height: 36vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.collection--empty .title {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 2.2rem !important;
+  color: var(--san-ink-50) !important;
+}
+
+.collection--empty .title a {
+  color: var(--san-green) !important;
+}
+
+/* ================================================================
+   14. RESPONSIVE
+   ================================================================ */
+
+@media screen and (max-width: 749px) {
+  .collection .product-grid {
+    gap: 1.6rem 1rem !important;
+  }
+
+  .collection .card__heading a {
+    font-size: 1.2rem !important;
+  }
+
+  .collection .price__regular .price-item,
+  .collection .price .price-item--regular,
+  .collection .price--on-sale .price-item--sale {
+    font-size: 1.3rem !important;
+  }
+
+  .collection .quick-add {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .collection .pagination-wrapper {
+    margin-top: 3rem !important;
+  }
+}
+
+/* ================================================================
+   15. ACCESSIBILITY
+   ================================================================ */
+
+.san-filters__group-toggle:focus-visible {
+  outline: 2px solid var(--san-green);
+  outline-offset: -2px;
+}
+
+.san-filters__select:focus-visible {
+  outline: 2px solid var(--san-green);
+  outline-offset: 2px;
+}
+
+.san-filters__close:focus-visible {
+  outline: 2px solid var(--san-green);
+  outline-offset: 2px;
+}
+
+.san-filters-trigger:focus-visible {
+  outline: 2px solid var(--san-green);
+  outline-offset: 2px;
+}
+
+.collection .card__heading a:focus-visible {
+  outline: 2px solid var(--san-green) !important;
+  outline-offset: 2px !important;
+}
+
+.collection .pagination__item a:focus-visible {
+  outline: 2px solid var(--san-green) !important;
+  outline-offset: 2px !important;
+}
+
+/* ================================================================
+   16. REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .collection .card-wrapper,
+  .collection .card__media img,
+  .collection .quick-add,
+  .collection .scroll-trigger.animate--slide-in,
+  .san-filters__group-content,
+  .san-filters__pill {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .san-filters {
+    transition-duration: 0.01ms !important;
+  }
+
+  .san-drawer-overlay {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ================================================================
+   17. BODY SCROLL LOCK when drawer is open
+   ================================================================ */
+
+body.san-drawer-open {
+  overflow: hidden;
+  /* Compensate for disappearing scrollbar so layout doesn't shift right.
+     --san-scrollbar-gutter is set in JS when the drawer opens. */
+  padding-right: var(--san-scrollbar-gutter, 0);
+}
+
+/* Sticky header also needs the same compensation so it doesn't jump */
+body.san-drawer-open .shopify-section-header-sticky,
+body.san-drawer-open .san-header {
+  padding-right: var(--san-scrollbar-gutter, 0);
+}

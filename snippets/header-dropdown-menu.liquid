@@ -1,103 +1,200 @@
 {% comment %}
-  Renders a standard dropdown style menu for the header.
+  Renders the editorial desktop dropdown navigation — Sana Al Natural.
+  Designed from scratch. Organic luxury aesthetic.
+  Each top-level link with children opens a rich panel with
+  botanical illustration, animated child links, and smooth transitions.
 
-  Usage:
-  {% render 'header-dropdown-menu' %}
+  Usage: {% render 'header-dropdown-menu' %}
 {% endcomment %}
 
-<nav class="header__inline-menu">
-  <ul class="list-menu list-menu--inline" role="list">
+<nav class="header__inline-menu san-nav" aria-label="{{ 'general.navigation.menu' | t }}">
+  <ul class="san-nav__list list-menu list-menu--inline" role="list">
+
     {%- for link in section.settings.menu.links -%}
-      <li>
+      <li class="san-nav__item">
+
         {%- if link.links != blank -%}
+          {%- comment -%} Top-level link WITH children → dropdown {%- endcomment -%}
           <header-menu>
-            <details id="Details-HeaderMenu-{{ forloop.index }}">
+            <details
+              id="Details-HeaderMenu-{{ forloop.index }}"
+              class="san-nav__details"
+            >
               <summary
                 id="HeaderMenu-{{ link.handle }}"
-                class="header__menu-item list-menu__item link focus-inset"
+                class="san-nav__trigger header__menu-item list-menu__item link focus-inset"
+                aria-haspopup="true"
               >
-                <span
-                  {%- if link.child_active %}
-                    class="header__active-menu-item"
-                  {% endif %}
-                >
+                <span class="san-nav__trigger-text{% if link.child_active %} san-nav__trigger-text--active{% endif %}">
                   {{- link.title | escape -}}
                 </span>
-                {{- 'icon-caret.svg' | inline_asset_content -}}
+                <svg class="san-nav__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </summary>
-              <ul
-                id="HeaderMenu-MenuList-{{ forloop.index }}"
-                class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup"
-                role="list"
-                tabindex="-1"
+
+              <div
+                id="HeaderMenu-Panel-{{ forloop.index }}"
+                class="san-nav__panel"
+                role="region"
+                aria-labelledby="HeaderMenu-{{ link.handle }}"
               >
-                {%- for childlink in link.links -%}
-                  <li>
-                    {%- if childlink.links == blank -%}
-                      <a
-                        id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                        href="{{ childlink.url }}"
-                        class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %}"
-                        {% if childlink.current %}
-                          aria-current="page"
-                        {% endif %}
-                      >
-                        {{ childlink.title | escape }}
-                      </a>
-                    {%- else -%}
-                      <details id="Details-HeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}">
-                        <summary
+                <div class="san-nav__panel-inner">
+
+                  {%- comment -%} ── LEFT: links column ── {%- endcomment -%}
+                  <div class="san-nav__panel-links">
+
+                    {%- for childlink in link.links -%}
+                      {%- if childlink.links == blank -%}
+
+                        <a
                           id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                          class="header__menu-item link link--text list-menu__item focus-inset caption-large"
+                          href="{{ childlink.url }}"
+                          class="san-nav__child{% if childlink.current %} san-nav__child--active{% endif %}"
+                          {% if childlink.current %}aria-current="page"{% endif %}
                         >
-                          <span>{{ childlink.title | escape }}</span>
-                          {{- 'icon-caret.svg' | inline_asset_content -}}
-                        </summary>
-                        <ul
-                          id="HeaderMenu-SubMenuList-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                          class="header__submenu list-menu motion-reduce"
+                          <span class="san-nav__child-dot" aria-hidden="true"></span>
+                          <span class="san-nav__child-text">{{ childlink.title | escape }}</span>
+                          <svg class="san-nav__child-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+                          </svg>
+                        </a>
+
+                      {%- else -%}
+                        {%- comment -%} Child WITH grandchildren → nested sub-details {%- endcomment -%}
+                        <details
+                          id="Details-Sub-{{ link.handle }}-{{ childlink.handle }}"
+                          class="san-nav__subdetails"
                         >
-                          {%- for grandchildlink in childlink.links -%}
-                            <li>
-                              <a
-                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                href="{{ grandchildlink.url }}"
-                                class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if grandchildlink.current %} list-menu__item--active{% endif %}"
-                                {% if grandchildlink.current %}
-                                  aria-current="page"
-                                {% endif %}
-                              >
-                                {{ grandchildlink.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      </details>
-                    {%- endif -%}
-                  </li>
-                {%- endfor -%}
-              </ul>
+                          <summary
+                            id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                            class="san-nav__child san-nav__child--has-sub"
+                          >
+                            <span class="san-nav__child-dot" aria-hidden="true"></span>
+                            <span class="san-nav__child-text">{{ childlink.title | escape }}</span>
+                            <svg class="san-nav__sub-caret" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </summary>
+
+                          <ul class="san-nav__grandchildren" role="list">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li>
+                                <a
+                                  id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                  href="{{ grandchildlink.url }}"
+                                  class="san-nav__grandchild{% if grandchildlink.current %} san-nav__grandchild--active{% endif %}"
+                                  {% if grandchildlink.current %}aria-current="page"{% endif %}
+                                >
+                                  <span class="san-nav__grandchild-dot" aria-hidden="true"></span>
+                                  {{ grandchildlink.title | escape }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </details>
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                  </div>
+                  {%- comment -%} ── RIGHT: botanical illustration ── {%- endcomment -%}
+                  <div class="san-nav__panel-deco" aria-hidden="true">
+                    <span class="san-nav__deco-label">natural</span>
+                    <svg
+                      class="san-nav__botanical"
+                      viewBox="0 0 160 240"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <!-- Main stem, slightly curved -->
+                      <path d="M80 236 C79 210 76 185 72 162 C68 139 65 115 68 92 C71 69 76 46 80 20"
+                            stroke="#55823d" stroke-width="1.4" stroke-linecap="round" opacity="0.3"/>
+
+                      <!-- Left branch — lower -->
+                      <path d="M72 164 Q54 152 34 144"
+                            stroke="#55823d" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+                      <!-- Leaf L1 -->
+                      <path d="M34 144 C18 136 14 118 26 114 C38 110 44 128 34 144Z"
+                            stroke="#55823d" stroke-width="0.9" fill="rgba(85,130,61,0.07)" opacity="0.5"/>
+                      <!-- Vein L1 -->
+                      <path d="M34 144 C28 132 24 120 26 114"
+                            stroke="#55823d" stroke-width="0.5" stroke-linecap="round" opacity="0.2"/>
+
+                      <!-- Right branch — lower -->
+                      <path d="M74 148 Q93 138 114 132"
+                            stroke="#55823d" stroke-width="1" stroke-linecap="round" opacity="0.25"/>
+                      <!-- Leaf R1 -->
+                      <path d="M114 132 C130 124 138 108 128 104 C118 100 110 116 114 132Z"
+                            stroke="#55823d" stroke-width="0.9" fill="rgba(85,130,61,0.07)" opacity="0.5"/>
+                      <!-- Vein R1 -->
+                      <path d="M114 132 C122 120 128 108 128 104"
+                            stroke="#55823d" stroke-width="0.5" stroke-linecap="round" opacity="0.2"/>
+
+                      <!-- Left branch — mid -->
+                      <path d="M70 108 Q52 96 32 88"
+                            stroke="#55823d" stroke-width="0.9" stroke-linecap="round" opacity="0.22"/>
+                      <!-- Leaf L2 -->
+                      <path d="M32 88 C16 80 12 62 24 60 C36 58 40 74 32 88Z"
+                            stroke="#55823d" stroke-width="0.85" fill="rgba(85,130,61,0.06)" opacity="0.45"/>
+
+                      <!-- Right branch — mid -->
+                      <path d="M72 96 Q90 85 112 78"
+                            stroke="#55823d" stroke-width="0.9" stroke-linecap="round" opacity="0.22"/>
+                      <!-- Leaf R2 -->
+                      <path d="M112 78 C128 70 134 54 124 50 C114 46 106 62 112 78Z"
+                            stroke="#55823d" stroke-width="0.85" fill="rgba(85,130,61,0.06)" opacity="0.45"/>
+
+                      <!-- Left branch — upper -->
+                      <path d="M74 62 Q58 54 40 48"
+                            stroke="#55823d" stroke-width="0.8" stroke-linecap="round" opacity="0.18"/>
+                      <!-- Small leaf L3 -->
+                      <path d="M40 48 C26 42 24 28 34 26 C44 24 46 38 40 48Z"
+                            stroke="#55823d" stroke-width="0.8" fill="rgba(85,130,61,0.05)" opacity="0.4"/>
+
+                      <!-- Right branch — upper -->
+                      <path d="M76 54 Q92 46 110 40"
+                            stroke="#55823d" stroke-width="0.8" stroke-linecap="round" opacity="0.18"/>
+                      <!-- Small leaf R3 -->
+                      <path d="M110 40 C124 34 128 20 120 18 C112 16 106 28 110 40Z"
+                            stroke="#55823d" stroke-width="0.8" fill="rgba(85,130,61,0.05)" opacity="0.4"/>
+
+                      <!-- Tiny berry dots -->
+                      <circle cx="44" cy="140" r="2.5" fill="#55823d" opacity="0.18"/>
+                      <circle cx="112" cy="128" r="2"   fill="#55823d" opacity="0.18"/>
+                      <circle cx="38"  cy="84"  r="2"   fill="#55823d" opacity="0.15"/>
+                      <circle cx="114" cy="76"  r="1.8" fill="#55823d" opacity="0.15"/>
+                      <circle cx="42"  cy="46"  r="1.5" fill="#55823d" opacity="0.13"/>
+                      <circle cx="112" cy="38"  r="1.5" fill="#55823d" opacity="0.13"/>
+
+                      <!-- Near-stem small leaves (bottom) -->
+                      <path d="M76 192 C60 184 54 170 62 164 C70 158 80 170 76 192Z"
+                            stroke="#55823d" stroke-width="0.75" fill="rgba(85,130,61,0.05)" opacity="0.38"/>
+                      <path d="M79 186 C95 178 102 164 96 158 C90 152 80 164 79 186Z"
+                            stroke="#55823d" stroke-width="0.75" fill="rgba(85,130,61,0.05)" opacity="0.38"/>
+                    </svg>
+                  </div>
+
+                </div>
+              </div>
             </details>
           </header-menu>
+
         {%- else -%}
+          {%- comment -%} Top-level link WITHOUT children → plain link {%- endcomment -%}
           <a
             id="HeaderMenu-{{ link.handle }}"
             href="{{ link.url }}"
-            class="header__menu-item list-menu__item link link--text focus-inset"
-            {% if link.current %}
-              aria-current="page"
-            {% endif %}
+            class="san-nav__link header__menu-item list-menu__item link link--text focus-inset"
+            {% if link.current %}aria-current="page"{% endif %}
           >
-            <span
-              {%- if link.current %}
-                class="header__active-menu-item"
-              {% endif %}
-            >
+            <span class="san-nav__link-text{% if link.current %} san-nav__link-text--active{% endif %}">
               {{- link.title | escape -}}
             </span>
           </a>
         {%- endif -%}
+
       </li>
     {%- endfor -%}
+
   </ul>
 </nav>

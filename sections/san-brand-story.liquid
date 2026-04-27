@@ -1,0 +1,172 @@
+{%- liquid
+  assign overline       = section.settings.overline
+  assign heading        = section.settings.heading
+  assign body_text      = section.settings.body_text
+  assign stat_number    = section.settings.stat_number
+  assign stat_label     = section.settings.stat_label
+  assign button_label   = section.settings.button_label
+  assign button_url     = section.settings.button_url
+  assign image          = section.settings.image
+  assign image_position = section.settings.image_position
+-%}
+
+{{ 'section-san-brand-story.css' | asset_url | stylesheet_tag }}
+
+<section class="san-story" id="san-story-{{ section.id }}">
+  <div class="san-story__inner{% if image_position == 'right' %} san-story__inner--reversed{% endif %}">
+
+    <!-- Image column -->
+    <div class="san-story__image-col san-reveal san-reveal--left">
+      <div class="san-story__image-wrap">
+        {%- if image != blank -%}
+          {{
+            image
+            | image_url: width: 900
+            | image_tag:
+              class: 'san-story__img',
+              loading: 'lazy',
+              widths: '450, 700, 900',
+              sizes: '(max-width: 749px) 100vw, (max-width: 1199px) 50vw, 45vw',
+              alt: heading
+          }}
+        {%- else -%}
+          <div class="san-story__placeholder">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'san-story__ph-svg' }}
+          </div>
+        {%- endif -%}
+
+        <!-- Floating stat card -->
+        <div class="san-story__stat" aria-label="{{ stat_number }} {{ stat_label }}">
+          <span class="san-story__stat-number">{{ stat_number }}</span>
+          <span class="san-story__stat-label">{{ stat_label }}</span>
+        </div>
+
+        <!-- Botanical corner decoration -->
+        <div class="san-story__image-deco" aria-hidden="true">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 78 C40 78 10 60 8 40 C6 20 20 8 40 8 C60 8 74 20 72 40 C70 60 40 78 40 78Z" stroke="#afea90" stroke-width="1" opacity="0.5"/>
+            <line x1="40" y1="8" x2="40" y2="78" stroke="#afea90" stroke-width="0.6" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text column -->
+    <div class="san-story__text-col san-reveal san-reveal--right">
+      {%- if overline != blank -%}
+        <span class="san-story__overline">{{ overline }}</span>
+      {%- endif -%}
+
+      {%- if heading != blank -%}
+        <h2 class="san-story__heading">{{ heading }}</h2>
+      {%- endif -%}
+
+      {%- if body_text != blank -%}
+        <div class="san-story__body">{{ body_text }}</div>
+      {%- endif -%}
+
+      <!-- Decorative divider -->
+      <div class="san-story__divider" aria-hidden="true">
+        <svg width="60" height="12" viewBox="0 0 60 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="20" y2="6" stroke="#55823d" stroke-width="1"/>
+          <circle cx="30" cy="6" r="3" stroke="#55823d" stroke-width="1"/>
+          <line x1="40" y1="6" x2="60" y2="6" stroke="#55823d" stroke-width="1"/>
+        </svg>
+      </div>
+
+      {%- if button_label != blank -%}
+        <a
+          href="{{ button_url | default: routes.root_url }}"
+          class="san-story__btn"
+        >
+          <span>{{ button_label }}</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Historia de Marca",
+  "tag": "div",
+  "class": "san-brand-story-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Posición de imagen",
+      "options": [
+        { "value": "left",  "label": "Izquierda" },
+        { "value": "right", "label": "Derecha" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Texto sobre el título",
+      "default": "Nuestra Historia"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "default": "Más de 5 años llevando la naturaleza a tu mesa"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Texto de la historia",
+      "default": "<p>Nacimos de la convicción de que la naturaleza ofrece todo lo que necesitamos para vivir bien. Cada producto que llevamos a tu hogar es seleccionado con cuidado, respetando los ciclos naturales y los más altos estándares de calidad.</p><p>Trabajamos directamente con pequeños productores comprometidos con la agricultura orgánica, garantizando que cada ingrediente llegue a ti en su forma más pura y nutritiva.</p>"
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Número estadístico",
+      "default": "5000+"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "label": "Descripción de la estadística",
+      "default": "Familias que confían en nosotros"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Conoce nuestra historia"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Enlace del botón"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Historia de Marca"
+    }
+  ]
+}
+{% endschema %}

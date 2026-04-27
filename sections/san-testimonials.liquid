@@ -1,0 +1,186 @@
+{%- liquid
+  assign heading = section.settings.heading
+-%}
+
+{{ 'section-san-testimonials.css' | asset_url | stylesheet_tag }}
+
+<section class="san-testi" id="san-testi-{{ section.id }}">
+  <div class="san-testi__inner">
+
+    <div class="san-testi__header san-reveal">
+      <h2 class="san-testi__heading">{{ heading }}</h2>
+      <div class="san-testi__heading-deco" aria-hidden="true">
+        <svg width="80" height="12" viewBox="0 0 80 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="0" y1="6" x2="30" y2="6" stroke="#55823d" stroke-width="1" opacity="0.4"/>
+          <circle cx="40" cy="6" r="3" stroke="#55823d" stroke-width="1" opacity="0.6"/>
+          <line x1="50" y1="6" x2="80" y2="6" stroke="#55823d" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="san-testi__grid" id="san-testi-grid-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign delay_index = forloop.index | at_most: 5
+          assign delay_class = 'san-reveal-d' | append: delay_index
+        -%}
+        <div
+          class="san-testi__card san-reveal {{ delay_class }}"
+          {{ block.shopify_attributes }}
+        >
+          <!-- Star rating -->
+          <div
+            class="san-testi__stars"
+            role="img"
+            aria-label="{{ block.settings.rating }} estrellas de 5"
+          >
+            {%- for i in (1..5) -%}
+              {%- liquid
+                assign star_class = 'san-testi__star'
+                if i > block.settings.rating
+                  assign star_class = 'san-testi__star san-testi__star--empty'
+                endif
+              -%}
+              <svg
+                class="{{ star_class }}"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            {%- endfor -%}
+          </div>
+
+          <!-- Large decorative quote mark -->
+          <div class="san-testi__quote-mark" aria-hidden="true">"</div>
+
+          <!-- Quote text -->
+          <blockquote class="san-testi__quote">
+            {{ block.settings.quote }}
+          </blockquote>
+
+          <!-- Author info -->
+          <div class="san-testi__author">
+            <div class="san-testi__avatar" aria-hidden="true">
+              {%- assign initial = block.settings.avatar_initial -%}
+              {%- if initial == blank -%}
+                {%- assign initial = block.settings.author | slice: 0 -%}
+              {%- endif -%}
+              {{ initial | upcase }}
+            </div>
+            <div class="san-testi__author-info">
+              <span class="san-testi__author-name">{{ block.settings.author }}</span>
+              {%- if block.settings.location != blank -%}
+                <span class="san-testi__author-location">{{ block.settings.location }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        <p class="san-testi__empty">Agrega testimonios desde el editor de tema.</p>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonios",
+  "tag": "div",
+  "class": "san-testimonials-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título de sección",
+      "default": "Lo que dicen nuestros clientes"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonio",
+          "default": "Un producto increíble que realmente cambió mi vida."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Nombre del cliente",
+          "default": "Cliente Satisfecho"
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Ciudad / Ubicación (opcional)"
+        },
+        {
+          "type": "select",
+          "id": "rating",
+          "label": "Calificación",
+          "options": [
+            { "value": "5", "label": "5 estrellas" },
+            { "value": "4", "label": "4 estrellas" },
+            { "value": "3", "label": "3 estrellas" },
+            { "value": "2", "label": "2 estrellas" },
+            { "value": "1", "label": "1 estrella" }
+          ],
+          "default": "5"
+        },
+        {
+          "type": "text",
+          "id": "avatar_initial",
+          "label": "Inicial del avatar (1 carácter)",
+          "info": "Si se deja vacío, se usa la primera letra del nombre."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonios",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Los suplementos de Sana Al Natural cambiaron completamente mi rutina de bienestar. Noto la diferencia desde la primera semana.",
+            "author": "María González",
+            "location": "Ciudad de México",
+            "rating": "5",
+            "avatar_initial": "M"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Por fin encontré productos naturales que realmente funcionan y saben deliciosos. Los tés de infusión son increíbles.",
+            "author": "Carlos Ruiz",
+            "location": "Guadalajara, Jalisco",
+            "rating": "5",
+            "avatar_initial": "C"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "La calidad es incomparable. Soy muy exigente con lo que compro para mi familia y Sana Al Natural nunca me decepciona.",
+            "author": "Ana Morales",
+            "location": "Monterrey, N.L.",
+            "rating": "5",
+            "avatar_initial": "A"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

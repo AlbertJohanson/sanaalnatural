@@ -116,6 +116,7 @@ button.button--primary:hover,
 /* Botón secundario */
 .button--secondary {
   --color-secondary-button-text: 85, 130, 61 !important;
+  background-color: transparent !important;
   border-color: var(--color-primary) !important;
   color: var(--color-primary) !important;
 }
@@ -126,14 +127,7 @@ button.button--primary:hover,
 }
 
 /* Links */
-a:not(.button) {
-  color: var(--color-primary);
-  transition: color var(--transition-fast);
-}
 
-a:not(.button):hover {
-  color: var(--color-primary-dark);
-}
 
 /* Focus states */
 *:focus-visible {
@@ -464,4 +458,144 @@ select.brand-input:focus {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-primary-dark);
+}
+
+
+/* ==========================================================================
+   HEADER — Ver assets/section-header.css (cargado desde sections/header.liquid)
+   ========================================================================== */
+
+/* Solo spacing global necesario aquí */
+.section-header {
+  margin-bottom: 0 !important;
+}
+
+
+/* ================================================================
+   FEATURED COLLECTION — Brand overrides for Dawn product cards
+   ================================================================ */
+
+/* Section heading */
+.featured-collection .title-wrapper .title {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 3.6rem;
+  color: #31591d;
+}
+
+/* Card wrapper */
+.card-wrapper {
+  text-decoration: none !important;
+}
+
+/* Card base */
+.card {
+  border: none !important;
+  box-shadow: none !important;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease !important;
+  background: #ffffff !important;
+}
+
+.card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 48px rgba(49, 89, 29, 0.12) !important;
+}
+
+/* Image container */
+.card__inner {
+  overflow: hidden !important;
+}
+
+.card__media img,
+.card__media .media img {
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.card-wrapper:hover .card__media img,
+.card-wrapper:hover .card__media .media img {
+  transform: scale(1.06) !important;
+}
+
+/* Card content */
+.card__content {
+  padding: 1.6rem 0.4rem !important;
+}
+
+/* Product title */
+.card__heading,
+.card__heading a {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.45rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  color: rgba(0, 0, 0, 0.8) !important;
+  text-decoration: none !important;
+  line-height: 1.4 !important;
+  transition: color 0.2s ease !important;
+}
+
+.card-wrapper:hover .card__heading,
+.card-wrapper:hover .card__heading a {
+  color: #55823d !important;
+}
+
+/* Price */
+.price .price__regular,
+.price__container .price-item--regular {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #31591d !important;
+}
+
+.price .price__sale .price-item--sale,
+.price__container .price-item--sale {
+  color: #55823d !important;
+  font-weight: 700 !important;
+}
+
+.price .price__sale .price-item--regular,
+.price-item--regular.price-item--last {
+  color: rgba(0, 0, 0, 0.35) !important;
+  font-weight: 400 !important;
+  text-decoration: line-through !important;
+}
+
+/* Badge: sale/new */
+.badge {
+  border-radius: 0 !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.badge--sale,
+.badge--on-sale {
+  background: #55823d !important;
+  color: #ffffff !important;
+}
+
+/* "View all" button */
+.featured-collection .button--secondary,
+.featured-collection a.button {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  background: none !important;
+  color: #31591d !important;
+  border: 1.5px solid #31591d !important;
+  border-radius: 0 !important;
+  padding: 1.4rem 4rem !important;
+  transition: background-color 0.25s ease, color 0.25s ease !important;
+}
+
+.featured-collection .button--secondary:hover,
+.featured-collection a.button:hover {
+  background: #31591d !important;
+  color: #ffffff !important;
 }

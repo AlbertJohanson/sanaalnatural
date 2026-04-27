@@ -5,7 +5,33 @@
     | plus: predictive_search.resources.pages.size
     | plus: predictive_search.resources.articles.size
   %}
+  {% assign san_total_results = predictive_search.resources.products.size | plus: first_column_results_size %}
   <div id="predictive-search-results" role="listbox">
+    {%- if san_total_results == 0 -%}
+      <div class="san-search__empty" role="status">
+        <div class="san-search__empty-art" aria-hidden="true">
+          <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="34" stroke="currentColor" stroke-width="2" fill="none"/>
+            <line x1="96" y1="96" x2="124" y2="124" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M70 52 C 62 60, 62 72, 70 82" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.55"/>
+            <path d="M70 52 C 78 60, 78 72, 70 82" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.55"/>
+            <circle cx="70" cy="68" r="2" fill="currentColor"/>
+            <circle cx="58" cy="72" r="1.4" fill="currentColor" opacity="0.6"/>
+            <circle cx="82" cy="72" r="1.4" fill="currentColor" opacity="0.6"/>
+            <path d="M62 84 Q 70 80, 78 84" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <h2 class="san-search__empty-title">Oops, no hemos encontrado este producto</h2>
+        <p class="san-search__empty-sub">Intenta con otra palabra o explora nuestro catálogo completo.</p>
+        <a href="{{ routes.collections_url }}/all" class="san-search__empty-cta">
+          Ver todos los productos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+    {%- endif -%}
     {%- if first_column_results_size > 0 or predictive_search.resources.products.size > 0 -%}
       <div
         id="predictive-search-results-groups-wrapper"
@@ -132,37 +158,20 @@
               {%- for product in predictive_search.resources.products -%}
                 <li
                   id="predictive-search-option-product-{{ forloop.index }}"
-                  class="predictive-search__list-item"
+                  class="predictive-search__list-item san-search__product-card"
                   role="option"
                   aria-selected="false"
                 >
-                  <a
-                    href="{{ product.url }}"
-                    class="predictive-search__item predictive-search__item--link-with-thumbnail link link--text"
-                    tabindex="-1"
-                  >
-                    {%- if product.featured_media != blank -%}
-                      <img
-                        class="predictive-search__image"
-                        src="{{ product.featured_media | image_url: width: 150 }}"
-                        alt="{{ product.featured_media.alt | escape }}"
-                        width="50"
-                        height="{{ 50 | divided_by: product.featured_media.preview_image.aspect_ratio }}"
-                      >
-                    {%- endif -%}
-                    <div class="predictive-search__item-content{% unless settings.predictive_search_show_vendor or settings.predictive_search_show_price %} predictive-search__item-content--centered{% endunless %}">
-                      {%- if settings.predictive_search_show_vendor -%}
-                        <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                        <div class="predictive-search__item-vendor caption-with-letter-spacing">
-                          {{ product.vendor }}
-                        </div>
-                      {%- endif -%}
-                      <p class="predictive-search__item-heading h5">{{ product.title | escape }}</p>
-                      {%- if settings.predictive_search_show_price -%}
-                        {% render 'price', product: product, use_variant: true, show_badges: false %}
-                      {%- endif -%}
-                    </div>
-                  </a>
+                  {%- render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: 'square',
+                    show_secondary_image: true,
+                    show_vendor: settings.predictive_search_show_vendor,
+                    show_rating: false,
+                    lazy_load: false,
+                    skip_styles: true,
+                    section_id: 'predictive-search'
+                  -%}
                 </li>
               {%- endfor -%}
             </ul>
@@ -221,21 +230,23 @@
 
     {%- render 'loading-spinner', class: 'predictive-search__loading-state' -%}
 
-    <div id="predictive-search-option-search-keywords" class="predictive-search__search-for-button">
-      <button
-        class="predictive-search__item predictive-search__item--term link link--text h5 animate-arrow"
-        tabindex="-1"
-        role="option"
-        aria-selected="false"
-      >
-        <span data-predictive-search-search-for-text>
-          {{- 'templates.search.search_for' | t: terms: predictive_search.terms -}}
-        </span>
-        <span class="svg-wrapper">
-          {{- 'icon-arrow.svg' | inline_asset_content -}}
-        </span>
-      </button>
-    </div>
+    {%- if san_total_results > 0 -%}
+      <div id="predictive-search-option-search-keywords" class="predictive-search__search-for-button">
+        <button
+          class="predictive-search__item predictive-search__item--term link link--text h5 animate-arrow"
+          tabindex="-1"
+          role="option"
+          aria-selected="false"
+        >
+          <span data-predictive-search-search-for-text>
+            {{- 'templates.search.search_for' | t: terms: predictive_search.terms -}}
+          </span>
+          <span class="svg-wrapper">
+            {{- 'icon-arrow.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
+    {%- endif -%}
   </div>
 
   <span class="hidden" data-predictive-search-live-region-count-value>

@@ -1,49 +1,122 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{{ 'san-collection-hero.css' | asset_url | stylesheet_tag }}
 
-{%- style -%}
-  @media screen and (max-width: 749px) {
-    .collection-hero--with-image .collection-hero__inner {
-      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
-    }
-  }
-{%- endstyle -%}
+{%- liquid
+  assign hero_image = section.settings.hero_image
+  unless hero_image
+    if section.settings.show_collection_image and collection.image
+      assign hero_image = collection.image
+    endif
+  endunless
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
+  assign has_image = false
+  if hero_image
+    assign has_image = true
+  endif
 
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
-      {%- endif -%}
+  assign hero_height = section.settings.hero_height | default: 'medium'
+  assign overlay_opacity = section.settings.overlay_opacity | default: 40
+  assign overlay_decimal = overlay_opacity | divided_by: 100.0
+-%}
+
+<section
+  class="san-hero san-hero--{{ hero_height }}{% unless has_image %} san-hero--no-image{% endunless %}"
+  style="--san-hero-overlay: {{ overlay_decimal }};"
+  aria-label="{{ collection.title | escape }}"
+>
+  {%- comment -%} Background Image {%- endcomment -%}
+  {%- if has_image -%}
+    <div class="san-hero__media">
+      <img
+        srcset="
+          {%- if hero_image.width >= 550 -%}{{ hero_image | image_url: width: 550 }} 550w,{%- endif -%}
+          {%- if hero_image.width >= 750 -%}{{ hero_image | image_url: width: 750 }} 750w,{%- endif -%}
+          {%- if hero_image.width >= 1100 -%}{{ hero_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+          {%- if hero_image.width >= 1500 -%}{{ hero_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+          {%- if hero_image.width >= 1920 -%}{{ hero_image | image_url: width: 1920 }} 1920w,{%- endif -%}
+          {%- if hero_image.width >= 2560 -%}{{ hero_image | image_url: width: 2560 }} 2560w,{%- endif -%}
+          {{ hero_image | image_url }} {{ hero_image.width }}w
+        "
+        src="{{ hero_image | image_url: width: 1500 }}"
+        sizes="100vw"
+        alt="{{ hero_image.alt | default: collection.title | escape }}"
+        width="{{ hero_image.width }}"
+        height="{{ hero_image.height }}"
+        loading="eager"
+        fetchpriority="high"
+      >
     </div>
 
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
+    {%- comment -%} Overlay {%- endcomment -%}
+    <div class="san-hero__overlay" aria-hidden="true"></div>
+  {%- else -%}
+    <div class="san-hero__overlay" aria-hidden="true"></div>
+  {%- endif -%}
+
+  {%- comment -%} Centered Content {%- endcomment -%}
+  <div class="san-hero__content">
+
+    {%- comment -%} Breadcrumb {%- endcomment -%}
+    <nav class="san-hero__breadcrumb" aria-label="Breadcrumb">
+      <ol class="san-hero__breadcrumb-list">
+        <li class="san-hero__breadcrumb-item">
+          <a href="{{ routes.root_url }}">Inicio</a>
+        </li>
+        <li class="san-hero__breadcrumb-item">
+          <a href="{{ routes.collections_url }}">Colecciones</a>
+        </li>
+        <li class="san-hero__breadcrumb-item san-hero__breadcrumb-item--current" aria-current="page">
+          {{ collection.title | escape }}
+        </li>
+      </ol>
+    </nav>
+
+    {%- comment -%} Collection Title {%- endcomment -%}
+    <h1 class="san-hero__title">
+      <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
+      {{- collection.title | escape -}}
+    </h1>
+
+    {%- comment -%} Botanical Divider {%- endcomment -%}
+    <div class="san-hero__divider" aria-hidden="true">
+      <span class="san-hero__divider-line"></span>
+      <svg class="san-hero__divider-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2C6.5 7 3 12 3 17c0 3 2.5 5 5 5 2 0 3.5-1 4-3 .5 2 2 3 4 3 2.5 0 5-2 5-5 0-5-3.5-10-9-15z"/>
+        <path d="M12 2v20"/>
+      </svg>
+      <span class="san-hero__divider-line"></span>
+    </div>
+
+    {%- comment -%} Product Count {%- endcomment -%}
+    <p class="san-hero__count">
+      {{ collection.products_count }}
+      {%- if collection.products_count == 1 -%}
+        producto
+      {%- else -%}
+        productos
+      {%- endif -%}
+    </p>
+
+    {%- comment -%} Description {%- endcomment -%}
+    {%- if section.settings.show_collection_description and collection.description != blank -%}
+      <div class="san-hero__description rte">
+        {{ collection.description }}
       </div>
     {%- endif -%}
+
   </div>
-</div>
+
+  {%- comment -%} Scroll Indicator {%- endcomment -%}
+  {%- if has_image -%}
+    <div class="san-hero__scroll" aria-hidden="true">
+      <div class="san-hero__scroll-line"></div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Bottom Edge {%- endcomment -%}
+  <div class="san-hero__edge" aria-hidden="true"></div>
+
+</section>
 
 {% schema %}
 {
@@ -51,8 +124,31 @@
   "class": "section",
   "settings": [
     {
-      "type": "paragraph",
-      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Imagen del hero",
+      "info": "Imagen de fondo para esta colección. Si no se selecciona, se usará la imagen de la colección."
+    },
+    {
+      "type": "select",
+      "id": "hero_height",
+      "label": "Altura del hero",
+      "options": [
+        { "value": "small",  "label": "Pequeño" },
+        { "value": "medium", "label": "Mediano" },
+        { "value": "large",  "label": "Grande" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacidad del overlay",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 40
     },
     {
       "type": "checkbox",
@@ -63,7 +159,7 @@
     {
       "type": "checkbox",
       "id": "show_collection_image",
-      "default": false,
+      "default": true,
       "label": "t:sections.main-collection-banner.settings.show_collection_image.label"
     },
     {

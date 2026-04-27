@@ -1,0 +1,771 @@
+/* ================================================================
+   SAN HERO — Sección hero principal
+   Sana Al Natural · Editorial organic e-commerce aesthetic
+   ================================================================ */
+
+/* ---- Animations ---- */
+
+@keyframes san-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes san-fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes badge-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50%       { transform: translateY(8px); opacity: 0.4; }
+}
+
+/* ================================================================
+   ROOT SECTION
+   ================================================================ */
+
+.san-hero {
+  position: relative;
+  /* Fill the viewport minus the sticky header */
+  min-height: calc(100vh - var(--header-height, 88px));
+  min-height: calc(100svh - var(--header-height, 88px));
+  overflow: hidden;
+  background-color: #ffffff;
+  margin: 0;
+}
+
+.san-hero__inner {
+  display: grid;
+  grid-template-columns: 45fr 55fr;
+  min-height: calc(100vh - var(--header-height, 88px));
+  min-height: calc(100svh - var(--header-height, 88px));
+}
+
+/* ================================================================
+   DECORATIVE BOTANICAL BACKGROUND
+   ================================================================ */
+
+.san-hero__decor {
+  position: absolute;
+  top: -5%;
+  left: -2%;
+  width: 42%;
+  height: 110%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.san-hero__decor-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ================================================================
+   TEXT / CONTENT COLUMN
+   ================================================================ */
+
+.san-hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 4.5rem 7rem 5rem;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+}
+
+/* Staggered entrance animations */
+.san-hero__eyebrow {
+  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 0.05s;
+}
+
+.san-hero__heading {
+  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 0.2s;
+}
+
+.san-hero__description {
+  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 0.35s;
+}
+
+.san-hero__cta-group {
+  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 0.5s;
+}
+
+.san-hero__features {
+  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 0.65s;
+}
+
+/* ---- Eyebrow ---- */
+
+.san-hero__eyebrow {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #55823d;
+  margin: 0 0 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  line-height: 1;
+}
+
+.san-hero__eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background-color: #55823d;
+  flex-shrink: 0;
+}
+
+/* ---- Main heading ---- */
+
+.san-hero__heading {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: clamp(4rem, 5.5vw, 7.5rem);
+  font-weight: 700;
+  font-style: italic;
+  color: #31591d;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin: 0 0 2.5rem;
+}
+
+.san-hero__heading-accent {
+  font-style: italic;
+  color: #55823d;
+  position: relative;
+}
+
+/* ---- Description ---- */
+
+.san-hero__description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: rgba(0, 0, 0, 0.55);
+  margin: 0 0 3.5rem;
+  max-width: 38ch;
+}
+
+/* ---- CTA Buttons ---- */
+
+.san-hero__cta-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+.san-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.8rem 3.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.22s ease,
+              color 0.22s ease,
+              transform 0.22s ease,
+              box-shadow 0.22s ease;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.san-hero__btn--primary {
+  background-color: #55823d;
+  color: #ffffff !important;
+}
+
+.san-hero__btn--primary:hover {
+  background-color: #31591d;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(85, 130, 61, 0.3);
+}
+
+.san-hero__btn--primary svg {
+  transition: transform 0.22s ease;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.san-hero__btn--primary:hover svg {
+  transform: translateX(4px);
+}
+
+.san-hero__btn--outline {
+  background-color: transparent;
+  color: #55823d !important;
+  border: 1.5px solid #55823d;
+}
+
+.san-hero__btn--outline:hover {
+  background-color: #55823d;
+  color: #ffffff !important;
+}
+
+/* ---- Feature pills ---- */
+
+.san-hero__features {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.san-hero__feature {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #55823d;
+}
+
+.san-hero__feature svg {
+  flex-shrink: 0;
+  color: #55823d;
+  width: 14px;
+  height: 14px;
+}
+
+/* ================================================================
+   IMAGE / MEDIA COLUMN
+   ================================================================ */
+
+.san-hero__media {
+  position: relative;
+  overflow: hidden;
+  background-color: #e2f0d9;
+  animation: san-fade-in-right 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+  animation-delay: 0.1s;
+}
+
+.san-hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 7s ease;
+}
+
+.san-hero__media:hover .san-hero__image {
+  transform: scale(1.04);
+}
+
+/* Image placeholder (no image set) */
+.san-hero__placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  background: linear-gradient(
+    148deg,
+    #afea90 0%,
+    #7cc45c 35%,
+    #55823d 68%,
+    #31591d 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.san-hero__placeholder-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.san-hero__placeholder-svg {
+  width: 55%;
+  height: auto;
+  opacity: 0.18;
+  color: #ffffff;
+}
+
+/* Gradient overlay on image */
+.san-hero__media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(49, 89, 29, 0.04) 0%,
+    transparent 40%,
+    rgba(49, 89, 29, 0.18) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ================================================================
+   SPINNING BADGE
+   ================================================================ */
+
+.san-hero__badge {
+  position: absolute;
+  bottom: 2.25rem;
+  right: 2.25rem;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.san-hero__badge-ring {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: badge-spin 20s linear infinite;
+}
+
+.san-hero__badge-ring text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  fill: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+}
+
+.san-hero__badge-center {
+  position: relative;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(49, 89, 29, 0.3);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ================================================================
+   SCROLL INDICATOR
+   ================================================================ */
+
+.san-hero__scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.san-hero__scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, #55823d, transparent);
+  animation: scroll-bounce 2s ease infinite;
+}
+
+.san-hero__scroll-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #55823d;
+  opacity: 0.6;
+}
+
+/* ================================================================
+   RESPONSIVE — Tablet
+   ================================================================ */
+
+@media screen and (max-width: 989px) {
+  .san-hero {
+    min-height: auto;
+  }
+
+  .san-hero__inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: 58vw auto;
+    min-height: auto;
+  }
+
+  .san-hero__media {
+    order: 1;
+    height: 58vw;
+  }
+
+  .san-hero__content {
+    order: 2;
+    padding: 5rem 4rem 6rem;
+  }
+
+  .san-hero__decor {
+    display: none;
+  }
+
+  .san-hero__badge {
+    width: 80px;
+    height: 80px;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .san-hero__scroll {
+    display: none;
+  }
+}
+
+/* ================================================================
+   RESPONSIVE — Mobile
+   ================================================================ */
+
+@media screen and (max-width: 749px) {
+  .san-hero__inner {
+    grid-template-rows: 72vw auto;
+  }
+
+  .san-hero__media {
+    height: 72vw;
+  }
+
+  .san-hero__content {
+    padding: 4rem 2.5rem 5rem;
+  }
+
+  .san-hero__heading {
+    font-size: 3.5rem;
+  }
+
+  .san-hero__description {
+    font-size: 1.5rem;
+    max-width: none;
+  }
+
+  .san-hero__cta-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .san-hero__btn {
+    justify-content: center;
+    padding: 1.8rem 3rem;
+    font-size: 1.3rem;
+  }
+
+  .san-hero__features {
+    gap: 1.5rem;
+  }
+
+  .san-hero__eyebrow {
+    font-size: 1.1rem;
+  }
+
+  .san-hero__btn {
+    padding: 1.6rem 3rem;
+    font-size: 1.2rem;
+  }
+
+  .san-hero__feature {
+    font-size: 1.1rem;
+  }
+
+  .san-hero__badge {
+    width: 70px;
+    height: 70px;
+    bottom: 1rem;
+    right: 1rem;
+  }
+
+  .san-hero__badge-center {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ================================================================
+   REDUCED MOTION
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .san-hero__eyebrow,
+  .san-hero__heading,
+  .san-hero__description,
+  .san-hero__cta-group,
+  .san-hero__features,
+  .san-hero__media {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .san-hero__badge-ring {
+    animation: none;
+  }
+
+  .san-hero__scroll-line {
+    animation: none;
+  }
+
+  .san-hero__image,
+  .san-hero__media:hover .san-hero__image {
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ================================================================
+   CAROUSEL — San Hero
+   Crossfade carousel with progress, dots, and arrows
+   ================================================================ */
+
+/* ── Container ── */
+.san-carousel {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.san-carousel:active {
+  cursor: grabbing;
+}
+
+/* ── Track: CSS grid stacking ── */
+.san-carousel__track {
+  display: grid;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Slides: all stacked in the same grid cell ── */
+.san-carousel__slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  position: relative;
+}
+
+.san-carousel__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* ── Slide image ── */
+.san-carousel__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 6s ease;
+}
+
+.san-carousel__slide.is-active .san-carousel__img {
+  transform: scale(1.03);
+}
+
+/* ── Placeholder (no image set) ── */
+.san-carousel__placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(148deg, #afea90 0%, #7cc45c 35%, #55823d 68%, #31591d 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.san-carousel__placeholder-svg {
+  width: 50%;
+  height: auto;
+  opacity: 0.18;
+  color: #ffffff;
+}
+
+/* ── Slide info / caption overlay ── */
+.san-carousel__slide-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2.5rem 2.5rem 5rem;
+  background: linear-gradient(to top, rgba(49, 89, 29, 0.55) 0%, transparent 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.san-carousel__slide-label {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(175, 234, 144, 0.9);
+  margin-bottom: 0.5rem;
+}
+
+.san-carousel__slide-caption {
+  display: block;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: 1.8rem;
+  font-style: italic;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+/* ── Navigation Arrows ── */
+.san-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.san-carousel:hover .san-carousel__arrow {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.san-carousel__arrow:hover {
+  background-color: rgba(85, 130, 61, 0.85);
+  border-color: transparent;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.san-carousel__arrow--prev { left: 1.75rem; }
+.san-carousel__arrow--next { right: 1.75rem; }
+
+/* ── Dot indicators ── */
+.san-carousel__dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.san-carousel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+}
+
+.san-carousel__dot.is-active {
+  background-color: #ffffff;
+  transform: scale(1.5);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.san-carousel__dot:hover:not(.is-active) {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+/* ── Progress bar ── */
+.san-carousel__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.15);
+  z-index: 10;
+}
+
+.san-carousel__progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, rgba(175, 234, 144, 0.6), rgba(175, 234, 144, 0.9));
+  transition: width 0s linear;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .san-carousel__slide {
+    transition: opacity 0.2s ease;
+  }
+
+  .san-carousel__slide.is-active .san-carousel__img {
+    transform: none;
+  }
+
+  .san-carousel__img {
+    transition: none;
+  }
+}

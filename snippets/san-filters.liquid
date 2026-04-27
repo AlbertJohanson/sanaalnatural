@@ -1,0 +1,544 @@
+{% comment %}
+  San Al Natural — Filter Drawer
+  "Herbarium Cabinet" — Slide-in botanical filter panel
+
+  Accepts:
+  - results: {Object} Collection or Search object
+  - enable_filtering: {Boolean}
+  - enable_sorting: {Boolean}
+  - paginate: {Object}
+
+  Usage:
+  {% render 'san-filters', results: collection, enable_filtering: true, enable_sorting: true, paginate: paginate %}
+
+  IMPORTANT: IDs and class names are contractual with Dawn's facets.js for AJAX filtering.
+{% endcomment %}
+
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign total_active_values = 0
+  if results.url
+    assign results_url = results.url
+  else
+    assign terms = results.terms | escape
+    assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+  endif
+
+  for filter in results.filters
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+    if filter.type == 'price_range'
+      if filter.min_value.value or filter.max_value.value
+        assign total_active_values = total_active_values | plus: 1
+      endif
+    endif
+  endfor
+-%}
+
+{%- comment -%}
+  ═══════════════════════════════════════
+  OVERLAY BACKDROP
+  ═══════════════════════════════════════
+{%- endcomment -%}
+<div class="san-drawer-overlay" data-san-drawer-overlay></div>
+
+{%- comment -%}
+  ═══════════════════════════════════════
+  DESKTOP FILTER DRAWER (slides in from left)
+  ═══════════════════════════════════════
+{%- endcomment -%}
+
+<div class="san-filters" id="main-collection-filters" data-id="{{ section.id }}" data-san-drawer>
+  <facet-filters-form class="san-filters__form-wrap">
+    <form id="FacetFiltersForm" class="san-filters__form">
+      {%- if results.terms -%}
+        <input type="hidden" name="q" value="{{ results.terms | escape }}">
+        <input name="options[prefix]" type="hidden" value="last">
+      {%- endif -%}
+
+      {%- comment -%} — Header with close button — {%- endcomment -%}
+      <div class="san-filters__header">
+        <div class="san-filters__header-top">
+          <div class="san-filters__header-left">
+            <h2 class="san-filters__title" id="verticalTitle" tabindex="-1">Filtrar</h2>
+            <span class="san-filters__count" data-san-live-count>
+              {%- if results.products.size == results.products_count -%}
+                {{ results.products.size }} producto{{ results.products.size | pluralize: '', 's' }}
+              {%- else -%}
+                {{ results.products.size }} de {{ results.products_count }}
+              {%- endif -%}
+            </span>
+          </div>
+          <button type="button" class="san-filters__close" data-san-drawer-close aria-label="Cerrar filtros">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        {%- if total_active_values > 0 -%}
+          <facet-remove class="san-filters__clear-all js-facet-remove">
+            <a href="{{ results_url }}">Limpiar todo</a>
+          </facet-remove>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} — Sort — {%- endcomment -%}
+      {%- if enable_sorting -%}
+        <div class="san-filters__sort sorting">
+          <label class="san-filters__sort-label" for="SanSortBy">Ordenar por</label>
+          <div class="san-filters__sort-select">
+            <select
+              name="sort_by"
+              id="SanSortBy"
+              class="san-filters__select"
+              aria-describedby="a11y-refresh-page-message"
+            >
+              {%- for option in results.sort_options -%}
+                <option
+                  value="{{ option.value | escape }}"
+                  {% if option.value == sort_by %}selected="selected"{% endif %}
+                >
+                  {{ option.name | escape }}
+                </option>
+              {%- endfor -%}
+            </select>
+            <svg class="san-filters__select-icon" width="10" height="6" viewBox="0 0 10 6" fill="none">
+              <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} — Active filter pills — {%- endcomment -%}
+      <div class="san-filters__active active-facets-desktop">
+        {%- for filter in results.filters -%}
+          {%- for value in filter.active_values -%}
+            <facet-remove class="js-facet-remove">
+              <a href="{{ value.url_to_remove }}" class="san-filters__pill">
+                <span class="san-filters__pill-text">{{ value.label | escape }}</span>
+                <svg class="san-filters__pill-x" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                  <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+              </a>
+            </facet-remove>
+          {%- endfor -%}
+
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value or filter.max_value.value -%}
+              <facet-remove class="js-facet-remove">
+                <a href="{{ filter.url_to_remove }}" class="san-filters__pill">
+                  <span class="san-filters__pill-text">
+                    {{ filter.min_value.value | default: 0 | money }} – {{ filter.max_value.value | default: filter.range_max | money }}
+                  </span>
+                  <svg class="san-filters__pill-x" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                    <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                  <span class="visually-hidden">{{ 'products.facets.clear_filter' | t }}</span>
+                </a>
+              </facet-remove>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} — Filter groups — {%- endcomment -%}
+      {%- if enable_filtering -%}
+        <div id="FacetsWrapperDesktop" class="san-filters__groups">
+          {%- for filter in results.filters -%}
+            {%- case filter.type -%}
+
+              {%- when 'boolean', 'list' -%}
+                <details
+                  id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
+                  class="san-filters__group js-filter"
+                  data-index="{{ forloop.index }}"
+                  {% if forloop.index <= 3 %}open{% endif %}
+                >
+                  <summary class="san-filters__group-toggle">
+                    <span class="san-filters__group-label">
+                      {{ filter.label | escape }}
+                      {%- if filter.active_values.size > 0 -%}
+                        <span class="san-filters__group-badge">{{ filter.active_values.size }}</span>
+                      {%- endif -%}
+                    </span>
+                    <svg class="san-filters__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                      <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </summary>
+
+                  <div id="Facet-{{ forloop.index }}-{{ section.id }}" class="san-filters__group-content">
+                    <fieldset class="san-filters__fieldset">
+                      <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                      <ul class="san-filters__options" role="list">
+                        {%- liquid
+                          assign sorted_values = filter.values
+                          if filter.operator == 'AND'
+                            assign active_filter_values = filter.values | where: 'active', true
+                            assign inactive_filter_values = filter.values | where: 'active', false
+                            assign sorted_values = active_filter_values | concat: inactive_filter_values
+                          endif
+                        -%}
+                        {%- for value in sorted_values -%}
+                          {%- liquid
+                            assign input_id = 'Filter-' | append: filter.param_name | escape | append: '-' | append: forloop.index
+                            assign is_disabled = false
+                            if value.count == 0 and value.active == false
+                              assign is_disabled = true
+                            endif
+                          -%}
+                          <li class="san-filters__option{% if is_disabled %} san-filters__option--disabled{% endif %}">
+                            <label for="{{ input_id }}" class="san-filters__checkbox{% if value.active %} san-filters__checkbox--active{% endif %}">
+                              <input
+                                type="checkbox"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                id="{{ input_id }}"
+                                {% if value.active %}checked{% endif %}
+                                {% if is_disabled %}disabled{% endif %}
+                              >
+                              <span class="san-filters__check-box" aria-hidden="true">
+                                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                  <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </span>
+                              <span class="san-filters__check-label">{{ value.label | escape }}</span>
+                              <span class="san-filters__check-count">({{ value.count }})</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </fieldset>
+                  </div>
+                </details>
+
+              {%- when 'price_range' -%}
+                <details
+                  id="Details-{{ filter.param_name | escape }}-{{ section.id }}"
+                  class="san-filters__group js-filter"
+                  data-index="{{ forloop.index }}"
+                  open
+                >
+                  <summary class="san-filters__group-toggle">
+                    <span class="san-filters__group-label">{{ filter.label | escape }}</span>
+                    <svg class="san-filters__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                      <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </summary>
+
+                  <div id="Facet-{{ forloop.index }}-{{ section.id }}" class="san-filters__group-content">
+                    <div class="san-filters__price-header">
+                      <span class="san-filters__price-max">
+                        {{ 'products.facets.max_price' | t: price: filter.range_max | money | strip_html }}
+                      </span>
+                    </div>
+                    <price-range class="san-filters__price-range">
+                      <div class="san-filters__price-fields">
+                        <div class="san-filters__price-field">
+                          <label class="san-filters__price-label" for="Filter-{{ filter.min_value.param_name | escape }}">Min</label>
+                          <span class="san-filters__price-currency">{{ cart.currency.symbol }}</span>
+                          <input
+                            class="san-filters__price-input"
+                            name="{{ filter.min_value.param_name }}"
+                            id="Filter-{{ filter.min_value.param_name | escape }}"
+                            {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                            type="number"
+                            placeholder="0"
+                            min="0"
+                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            data-min="0"
+                            data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                          >
+                        </div>
+                        <span class="san-filters__price-sep">–</span>
+                        <div class="san-filters__price-field">
+                          <label class="san-filters__price-label" for="Filter-{{ filter.max_value.param_name | escape }}">Max</label>
+                          <span class="san-filters__price-currency">{{ cart.currency.symbol }}</span>
+                          <input
+                            class="san-filters__price-input"
+                            name="{{ filter.max_value.param_name }}"
+                            id="Filter-{{ filter.max_value.param_name | escape }}"
+                            {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                            type="number"
+                            placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            min="0"
+                            max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            data-min="0"
+                            data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                          >
+                        </div>
+                      </div>
+                    </price-range>
+                  </div>
+                </details>
+
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} — Drawer footer: apply + product count — {%- endcomment -%}
+      <div class="san-filters__footer">
+        {%- if total_active_values > 0 -%}
+          <facet-remove class="js-facet-remove">
+            <a href="{{ results_url }}" class="san-filters__footer-clear">Limpiar todo</a>
+          </facet-remove>
+        {%- endif -%}
+        <button type="button" class="san-filters__footer-apply" data-san-drawer-close>
+          Ver {{ results.products_count }} producto{{ results.products_count | pluralize: '', 's' }}
+        </button>
+      </div>
+
+      {%- comment -%} — Product count (hidden, used by facets.js) — {%- endcomment -%}
+      <div class="san-filters__product-count" role="status">
+        <span id="ProductCountDesktop">
+          {%- if results.results_count -%}
+            {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
+          {%- elsif results.products_count == results.all_products_count -%}
+            {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
+          {%- else -%}
+            {{ 'products.facets.product_count' | t: product_count: results.products_count, count: results.all_products_count }}
+          {%- endif -%}
+        </span>
+        {%- render 'loading-spinner' -%}
+      </div>
+
+    </form>
+  </facet-filters-form>
+</div>
+
+{%- comment -%}
+  ═══════════════════════════════════════
+  MOBILE DRAWER (same as desktop, via <menu-drawer>)
+  facets.js needs a separate mobile form
+  ═══════════════════════════════════════
+{%- endcomment -%}
+
+<menu-drawer class="san-filters-mobile" style="display:none;" data-breakpoint="mobile">
+  <details class="san-filters-mobile__disclosure disclosure-has-popup">
+    <summary class="san-filters-mobile__trigger focus-offset">
+      <span class="mobile-facets__open">
+        <span class="mobile-facets__open-label button-label">Filtrar</span>
+      </span>
+      <span tabindex="0" class="mobile-facets__close san-filters-mobile__close-icon">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </summary>
+
+    <facet-filters-form>
+      <form id="FacetFiltersFormMobile" class="san-filters-mobile__form">
+        <div class="san-filters-mobile__inner gradient">
+          <div class="san-filters-mobile__header">
+            <h2 class="san-filters-mobile__title">Filtrar</h2>
+            <p class="mobile-facets__count san-filters-mobile__count" data-san-live-count>
+              {%- if results.products.size == results.products_count -%}
+                {{ results.products.size }} producto{{ results.products.size | pluralize: '', 's' }}
+              {%- else -%}
+                {{ results.products.size }} de {{ results.products_count }}
+              {%- endif -%}
+            </p>
+          </div>
+
+          {%- if enable_sorting -%}
+            <div class="san-filters-mobile__sort sorting">
+              <label class="san-filters-mobile__sort-label" for="SanSortByMobile">Ordenar por</label>
+              <div class="san-filters-mobile__sort-select">
+                <select
+                  name="sort_by"
+                  id="SanSortByMobile"
+                  class="san-filters-mobile__select"
+                  aria-describedby="a11y-refresh-page-message"
+                >
+                  {%- for option in results.sort_options -%}
+                    <option
+                      value="{{ option.value | escape }}"
+                      {% if option.value == sort_by %}selected="selected"{% endif %}
+                    >
+                      {{ option.name | escape }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+                <svg class="san-filters-mobile__select-icon" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="san-filters-mobile__active active-facets-mobile">
+            {%- for filter in results.filters -%}
+              {%- for value in filter.active_values -%}
+                <facet-remove class="js-facet-remove">
+                  <a href="{{ value.url_to_remove }}" class="san-filters__pill">
+                    <span class="san-filters__pill-text">{{ value.label | escape }}</span>
+                    <svg class="san-filters__pill-x" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                      <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </a>
+                </facet-remove>
+              {%- endfor -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value or filter.max_value.value -%}
+                  <facet-remove class="js-facet-remove">
+                    <a href="{{ filter.url_to_remove }}" class="san-filters__pill">
+                      <span class="san-filters__pill-text">
+                        {{ filter.min_value.value | default: 0 | money }} – {{ filter.max_value.value | default: filter.range_max | money }}
+                      </span>
+                      <svg class="san-filters__pill-x" width="8" height="8" viewBox="0 0 8 8" fill="none">
+                        <path d="M1 1L7 7M7 1L1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </a>
+                  </facet-remove>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <div id="FacetsWrapperMobile" class="san-filters-mobile__groups">
+            {%- if enable_filtering -%}
+              {%- for filter in results.filters -%}
+                {%- case filter.type -%}
+
+                  {%- when 'boolean', 'list' -%}
+                    <details
+                      id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
+                      class="san-filters-mobile__group js-filter"
+                      data-index="mobile-{{ forloop.index }}"
+                    >
+                      <summary class="san-filters-mobile__group-toggle">
+                        <span>
+                          {{ filter.label | escape }}
+                          {%- if filter.active_values.size > 0 -%}
+                            <span class="san-filters-mobile__group-badge">{{ filter.active_values.size }}</span>
+                          {%- endif -%}
+                        </span>
+                        <svg class="san-filters__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                          <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </summary>
+
+                      <div id="FacetMobile-{{ forloop.index }}-{{ section.id }}" class="san-filters-mobile__group-content">
+                        <fieldset class="san-filters__fieldset">
+                          <legend class="visually-hidden">{{ filter.label | escape }}</legend>
+                          <ul class="san-filters__options" role="list">
+                            {%- for value in filter.values -%}
+                              {%- liquid
+                                assign input_id = 'Filter-Mobile-' | append: filter.param_name | escape | append: '-' | append: forloop.index
+                                assign is_disabled = false
+                                if value.count == 0 and value.active == false
+                                  assign is_disabled = true
+                                endif
+                              -%}
+                              <li class="san-filters__option{% if is_disabled %} san-filters__option--disabled{% endif %}">
+                                <label for="{{ input_id }}" class="san-filters__checkbox{% if value.active %} san-filters__checkbox--active{% endif %}">
+                                  <input
+                                    type="checkbox"
+                                    name="{{ value.param_name }}"
+                                    value="{{ value.value }}"
+                                    id="{{ input_id }}"
+                                    {% if value.active %}checked{% endif %}
+                                    {% if is_disabled %}disabled{% endif %}
+                                  >
+                                  <span class="san-filters__check-box" aria-hidden="true">
+                                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                      <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                  </span>
+                                  <span class="san-filters__check-label">{{ value.label | escape }}</span>
+                                  <span class="san-filters__check-count">({{ value.count }})</span>
+                                </label>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </fieldset>
+                      </div>
+                    </details>
+
+                  {%- when 'price_range' -%}
+                    <details
+                      id="Details-Mobile-{{ filter.param_name | escape }}-{{ section.id }}"
+                      class="san-filters-mobile__group js-filter"
+                      data-index="mobile-{{ forloop.index }}"
+                    >
+                      <summary class="san-filters-mobile__group-toggle">
+                        <span>{{ filter.label | escape }}</span>
+                        <svg class="san-filters__chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                          <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </summary>
+
+                      <div id="FacetMobile-{{ forloop.index }}-{{ section.id }}" class="san-filters-mobile__group-content">
+                        <price-range class="san-filters__price-range">
+                          <div class="san-filters__price-fields">
+                            <div class="san-filters__price-field">
+                              <label class="san-filters__price-label" for="Filter-Mobile-{{ filter.min_value.param_name | escape }}">Min</label>
+                              <span class="san-filters__price-currency">{{ cart.currency.symbol }}</span>
+                              <input
+                                class="san-filters__price-input"
+                                name="{{ filter.min_value.param_name }}"
+                                id="Filter-Mobile-{{ filter.min_value.param_name | escape }}"
+                                {% if filter.min_value.value %}value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                                type="number"
+                                placeholder="0"
+                                min="0"
+                                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                data-min="0"
+                                data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              >
+                            </div>
+                            <span class="san-filters__price-sep">–</span>
+                            <div class="san-filters__price-field">
+                              <label class="san-filters__price-label" for="Filter-Mobile-{{ filter.max_value.param_name | escape }}">Max</label>
+                              <span class="san-filters__price-currency">{{ cart.currency.symbol }}</span>
+                              <input
+                                class="san-filters__price-input"
+                                name="{{ filter.max_value.param_name }}"
+                                id="Filter-Mobile-{{ filter.max_value.param_name | escape }}"
+                                {% if filter.max_value.value %}value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"{% endif %}
+                                type="number"
+                                placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                min="0"
+                                max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                                data-min="0"
+                                data-max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                              >
+                            </div>
+                          </div>
+                        </price-range>
+                      </div>
+                    </details>
+
+                {%- endcase -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+
+          <div class="san-filters-mobile__footer">
+            {%- if total_active_values > 0 -%}
+              <facet-remove class="js-facet-remove">
+                <a href="{{ results_url }}" class="san-filters-mobile__clear">Limpiar todo</a>
+              </facet-remove>
+            {%- endif -%}
+            <button type="button" class="san-filters-mobile__apply" onclick="this.closest('details').removeAttribute('open')">
+              Ver {{ results.products_count }} producto{{ results.products_count | pluralize: '', 's' }}
+            </button>
+          </div>
+
+          <div class="product-count" role="status" style="display:none;">
+            <span id="ProductCount">
+              {%- if results.results_count -%}
+                {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
+              {%- elsif results.products_count == results.all_products_count -%}
+                {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
+              {%- else -%}
+                {{ 'products.facets.product_count' | t: product_count: results.products_count, count: results.all_products_count }}
+              {%- endif -%}
+            </span>
+          </div>
+
+        </div>
+      </form>
+    </facet-filters-form>
+  </details>
+</menu-drawer>

@@ -1,0 +1,325 @@
+/* ================================================================
+   SANA AL NATURAL — Popular Products
+   section-san-popular.css
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Section wrapper
+   ---------------------------------------------------------------- */
+.san-popular {
+  padding: 10rem 0 12rem;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.san-popular__header {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 4.8rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 6rem;
+  gap: 3rem;
+}
+
+.san-popular__header-text {
+  flex: 1;
+}
+
+.san-popular__eyebrow {
+  display: block;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3em !important;
+  text-transform: uppercase !important;
+  color: #55823d !important;
+  margin-bottom: 1.4rem !important;
+}
+
+.san-popular__heading {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  font-size: 4.4rem !important;
+  color: #31591d !important;
+  line-height: 1.15 !important;
+  margin: 0 !important;
+}
+
+.san-popular__cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #55823d;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.3);
+  padding-bottom: 0.2rem;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.san-popular__cta-link:hover {
+  color: #31591d;
+  border-color: #31591d;
+}
+
+.san-popular__cta-link svg {
+  transition: transform 0.2s;
+}
+
+.san-popular__cta-link:hover svg {
+  transform: translateX(4px);
+}
+
+/* ----------------------------------------------------------------
+   Product grid
+   ---------------------------------------------------------------- */
+.san-popular__grid {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 4.8rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+/* ----------------------------------------------------------------
+   Product card
+   ---------------------------------------------------------------- */
+.san-popular__card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.san-popular__card:hover {
+  border-color: rgba(85, 130, 61, 0.3);
+  z-index: 2;
+}
+
+/* Rank number — large faint behind image */
+.san-popular__rank {
+  position: absolute;
+  top: 1.2rem;
+  left: 1.6rem;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 8rem;
+  line-height: 1;
+  color: rgba(175, 234, 144, 0.35);
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.3s;
+}
+
+.san-popular__card:hover .san-popular__rank {
+  color: rgba(175, 234, 144, 0.55);
+}
+
+/* Image container */
+.san-popular__img-wrap {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #f5f5f0;
+}
+
+.san-popular__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.san-popular__card:hover .san-popular__img {
+  transform: scale(1.06);
+}
+
+/* Placeholder image */
+.san-popular__placeholder {
+  width: 100%;
+  height: 100%;
+  background: rgba(85, 130, 61, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.san-popular__placeholder svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.3;
+}
+
+/* Quick-add overlay */
+.san-popular__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(49, 89, 29, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.san-popular__card:hover .san-popular__overlay {
+  opacity: 1;
+}
+
+.san-popular__quick-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #31591d;
+  background: #afea90;
+  padding: 1.2rem 2.4rem;
+  border: none;
+  cursor: pointer;
+  transform: translateY(10px);
+  transition: transform 0.3s 0.05s, background 0.2s;
+}
+
+.san-popular__card:hover .san-popular__quick-btn {
+  transform: translateY(0);
+}
+
+.san-popular__quick-btn:hover {
+  background: #ffffff;
+}
+
+/* Badge */
+.san-popular__badge {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #55823d;
+  padding: 0.4rem 1rem;
+  z-index: 3;
+}
+
+.san-popular__badge--sale {
+  background: #31591d;
+}
+
+/* Card body */
+.san-popular__body {
+  padding: 2rem 2.4rem 2.4rem;
+  background: #ffffff;
+}
+
+.san-popular__vendor {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(85, 130, 61, 0.6);
+  margin-bottom: 0.6rem;
+}
+
+.san-popular__title {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.45rem !important;
+  font-weight: 500 !important;
+  color: #1a1a1a !important;
+  line-height: 1.4 !important;
+  margin: 0 0 1.2rem !important;
+  transition: color 0.2s;
+}
+
+.san-popular__card:hover .san-popular__title {
+  color: #31591d !important;
+}
+
+.san-popular__price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.san-popular__price {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
+  color: #31591d !important;
+}
+
+.san-popular__compare-price {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 400 !important;
+  color: rgba(0, 0, 0, 0.35) !important;
+  text-decoration: line-through !important;
+}
+
+/* ----------------------------------------------------------------
+   Mobile
+   ---------------------------------------------------------------- */
+@media screen and (max-width: 989px) {
+  .san-popular__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .san-popular__heading {
+    font-size: 3.2rem !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .san-popular {
+    padding: 6rem 0 8rem;
+  }
+
+  .san-popular__header {
+    padding: 0 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .san-popular__grid {
+    padding: 0 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+
+  .san-popular__heading {
+    font-size: 2.8rem !important;
+  }
+
+  .san-popular__rank {
+    font-size: 5.5rem;
+  }
+}
