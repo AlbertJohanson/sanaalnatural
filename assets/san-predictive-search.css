@@ -1,0 +1,950 @@
+/* ================================================================
+   SAN PREDICTIVE SEARCH
+   Full-viewport search overlay with live product + collection
+   results. Replaces Dawn's compact dropdown.
+   ================================================================ */
+
+/* --- 1. Icon toggle in header ---------------------------------- */
+
+.san-search {
+  display: flex;
+  align-items: center;
+  position: static;
+}
+
+.san-search .header__icon,
+.san-search .header__icon--search,
+.san-search .header__icon--summary {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 4.2rem !important;
+  height: 4.2rem !important;
+  color: #1e1e1e !important;
+  cursor: pointer !important;
+  transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  background: none !important;
+  position: relative !important;
+}
+
+.san-search .header__icon:hover,
+.san-search .header__icon--search:hover {
+  color: #55823d !important;
+  transform: scale(1.08) !important;
+  background: none !important;
+}
+
+.san-search .header__icon svg,
+.san-search .header__icon .svg-wrapper svg {
+  width: 2.2rem !important;
+  height: 2.2rem !important;
+  color: inherit !important;
+  display: block !important;
+  pointer-events: none;
+}
+
+/* Icon swap: search ↔ X */
+.san-search__icon-x { display: none !important; }
+.san-search details[open] .san-search__icon-x { display: flex !important; }
+.san-search details[open] .san-search__icon-open { display: none !important; }
+
+.san-search .header__icon-close { display: none !important; }
+.san-search details[open] .header__icon-close { display: flex !important; }
+.san-search details[open] > summary > span > .svg-wrapper:not(.header__icon-close):not(.san-search__icon-x) {
+  display: none !important;
+}
+
+/* Lock page scroll while overlay is open */
+html:has(.san-search details[open]),
+body:has(.san-search details[open]) {
+  overflow: hidden;
+}
+
+/* --- 2. Full-viewport overlay shell ---------------------------- */
+
+.san-search .search-modal,
+.san-search__overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: 400 !important;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  animation: sanSearchFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* Kill Dawn's scrim — we fill the viewport ourselves */
+.san-search .modal-overlay,
+.san-search__scrim {
+  display: none !important;
+}
+
+/* Gradient accent bar at very top */
+.san-search__overlay::before {
+  content: '';
+  display: block;
+  height: 3px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #31591d 0%, #55823d 35%, #afea90 50%, #55823d 65%, #31591d 100%);
+}
+
+/* --- 3. Inner wrapper (sticky header + scrollable body) -------- */
+
+.san-search .search-modal__content,
+.san-search .search-modal__content-bottom,
+.san-search .search-modal__content-top,
+.san-search__bar {
+  all: unset !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  background: transparent !important;
+  overflow: hidden !important;
+}
+
+.san-search__bar-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+}
+
+/* --- 4. Form wrappers ------------------------------------------ */
+
+.san-search .search-modal__form,
+.san-search__form-wrap,
+.san-search__form {
+  width: 100% !important;
+  max-width: none !important;
+  position: relative !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+.san-search__form-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+
+/* --- 5. Top input row ------------------------------------------ */
+
+.san-search__field-wrapper {
+  flex-shrink: 0;
+  background: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 6.8rem 2.4rem 2.4rem;
+  animation: sanSearchSlideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.san-search .field,
+.san-search__field {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.2rem !important;
+  width: 100% !important;
+  max-width: 68rem !important;
+  height: 5.6rem !important;
+  margin: 0 auto !important;
+  padding: 0 0.6rem 0 2rem !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  background: rgba(85, 130, 61, 0.05) !important;
+  border: 1px solid rgba(85, 130, 61, 0.14) !important;
+  border-radius: 9999px !important;
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.san-search .field:focus-within,
+.san-search__field:focus-within {
+  border-color: rgba(85, 130, 61, 0.45) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(175, 234, 144, 0.2), 0 6px 20px rgba(49, 89, 29, 0.06) !important;
+}
+
+.san-search__field-icon {
+  color: rgba(85, 130, 61, 0.55);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.25s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  line-height: 0;
+}
+
+.san-search__field:focus-within .san-search__field-icon {
+  color: #55823d;
+  transform: scale(1.1);
+}
+
+/* --- 6. The input ---------------------------------------------- */
+
+.san-search .field__input,
+.san-search .search__input,
+.san-search__input {
+  all: unset !important;
+  flex: 1 1 auto !important;
+  font-family: 'Poppins', 'Helvetica Neue', sans-serif !important;
+  font-style: normal !important;
+  font-size: 1.55rem !important;
+  font-weight: 400 !important;
+  color: #1e1e1e !important;
+  padding: 0.4rem 0 !important;
+  line-height: 1.3 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  letter-spacing: 0 !important;
+}
+
+.san-search .field__input::placeholder,
+.san-search .search__input::placeholder,
+.san-search__input::placeholder {
+  color: rgba(30, 30, 30, 0.35) !important;
+  font-style: normal !important;
+  opacity: 1 !important;
+}
+
+.san-search .field__label {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --- 7. Reset + Submit buttons (inside pill) ------------------- */
+
+.san-search .field__button,
+.san-search .search__button,
+.san-search .reset__button,
+.san-search__reset,
+.san-search__submit {
+  all: unset !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  cursor: pointer !important;
+  border-radius: 9999px !important;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease !important;
+  line-height: 0 !important;
+}
+
+/* Reset (clear) — subtle circle */
+.san-search .reset__button,
+.san-search__reset {
+  width: 3rem !important;
+  height: 3rem !important;
+  color: rgba(30, 30, 30, 0.4) !important;
+  background: transparent !important;
+}
+
+.san-search .reset__button:hover,
+.san-search__reset:hover {
+  color: #31591d !important;
+  background: rgba(49, 89, 29, 0.08) !important;
+  transform: rotate(90deg) !important;
+}
+
+/* Submit — solid primary pill icon button */
+.san-search .search__button,
+.san-search__submit {
+  width: 4.2rem !important;
+  height: 4.2rem !important;
+  color: #ffffff !important;
+  background: #55823d !important;
+  opacity: 1 !important;
+}
+
+.san-search .search__button:hover,
+.san-search__submit:hover {
+  background: #31591d !important;
+  transform: translateX(2px) !important;
+}
+
+.san-search .search__button:focus-visible,
+.san-search__submit:focus-visible {
+  box-shadow: 0 0 0 3px rgba(85, 130, 61, 0.3) !important;
+}
+
+.san-search .search-modal__close-button {
+  display: none !important;
+}
+
+/* --- 7b. Close button (top-right of overlay) ------------------- */
+
+.san-search__close {
+  all: unset;
+  position: absolute;
+  top: 2rem;
+  right: 2.4rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 0.8rem 0.8rem 1.6rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1e1e1e;
+  background: transparent;
+  border: 1px solid rgba(30, 30, 30, 0.12);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.san-search__close:hover {
+  color: #ffffff;
+  background: #31591d;
+  border-color: #31591d;
+  transform: translateY(-1px);
+}
+
+.san-search__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(85, 130, 61, 0.3);
+}
+
+.san-search__close-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  background: rgba(30, 30, 30, 0.06);
+  color: inherit;
+  transition: background-color 0.25s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  line-height: 0;
+}
+
+.san-search__close:hover .san-search__close-icon {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+.san-search__close-icon svg {
+  display: block;
+}
+
+@media screen and (max-width: 749px) {
+  .san-search__close {
+    top: 1.4rem;
+    right: 1.4rem;
+    padding: 0.5rem;
+    border-color: transparent;
+  }
+  .san-search__close-label {
+    display: none;
+  }
+  .san-search__close-icon {
+    width: 3.2rem;
+    height: 3.2rem;
+    background: rgba(30, 30, 30, 0.05);
+  }
+  .san-search__close:hover {
+    background: transparent;
+    border-color: transparent;
+    color: #31591d;
+  }
+  .san-search__close:hover .san-search__close-icon {
+    background: rgba(49, 89, 29, 0.1);
+  }
+}
+
+/* --- 8. Scrollable results region ------------------------------ */
+
+.san-search .predictive-search,
+.san-search__predictions {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: 100% !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+}
+
+/* --- 9. Results layout: collections sidebar + product grid ----- */
+
+.san-search .predictive-search__results-groups-wrapper {
+  display: grid !important;
+  grid-template-columns: 28rem 1fr !important;
+  gap: 4rem !important;
+  width: 100% !important;
+  max-width: var(--page-width, 140rem) !important;
+  margin: 0 auto !important;
+  padding: 4rem 5rem 6rem !important;
+  box-sizing: border-box !important;
+  align-items: start !important;
+}
+
+.san-search .predictive-search__results-groups-wrapper--no-products {
+  grid-template-columns: 1fr !important;
+}
+
+.san-search .predictive-search__result-group:only-child {
+  grid-column: 1 / -1 !important;
+}
+
+.san-search .predictive-search__result-group {
+  min-width: 0;
+}
+
+/* Section headings */
+.san-search .predictive-search__heading {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: #55823d !important;
+  padding: 0 0 1.2rem !important;
+  margin: 0 0 1.6rem !important;
+  border-bottom: 1px solid rgba(85, 130, 61, 0.12) !important;
+}
+
+.san-search .predictive-search__results-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* --- 10. Left column: queries + collections -------------------- */
+
+/* Queries & collections as stacked text links */
+.san-search .predictive-search__result-group:first-child .predictive-search__list-item {
+  border-bottom: none !important;
+}
+
+.san-search .predictive-search__result-group:first-child .predictive-search__item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 1.1rem 1rem !important;
+  margin: 0 -1rem !important;
+  text-decoration: none !important;
+  color: #1e1e1e !important;
+  transition: background-color 0.15s ease, color 0.15s ease, padding 0.15s ease !important;
+  border-radius: 0 !important;
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-size: 1.8rem !important;
+  line-height: 1.3 !important;
+}
+
+.san-search .predictive-search__result-group:first-child .predictive-search__item::before {
+  content: '→';
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  color: rgba(85, 130, 61, 0.4);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.san-search .predictive-search__result-group:first-child .predictive-search__item:hover,
+.san-search .predictive-search__result-group:first-child .predictive-search__list-item[aria-selected='true'] > * {
+  color: #31591d !important;
+  background-color: rgba(175, 234, 144, 0.12) !important;
+}
+
+.san-search .predictive-search__result-group:first-child .predictive-search__item:hover::before,
+.san-search .predictive-search__result-group:first-child .predictive-search__list-item[aria-selected='true'] .predictive-search__item::before {
+  opacity: 1;
+  transform: translateX(0);
+  color: #55823d;
+}
+
+.san-search .predictive-search__item-heading {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  font-style: inherit !important;
+  line-height: inherit !important;
+  color: inherit !important;
+  margin: 0 !important;
+  text-decoration: none !important;
+}
+
+/* Query highlight */
+.san-search .predictive-search__item-query-result mark {
+  background-color: rgba(175, 234, 144, 0.4) !important;
+  color: #31591d !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  padding: 0 0.15em !important;
+}
+
+.san-search .predictive-search__item-query-result *:not(mark) {
+  font-weight: 400 !important;
+  color: inherit !important;
+}
+
+/* Hide pages duplicate in first column (keep mobile version in second) */
+.san-search .predictive-search__result-group:first-child .predictive-search__pages-wrapper {
+  margin-top: 3rem;
+}
+
+@media screen and (max-width: 989px) {
+  .san-search .predictive-search__result-group:first-child .predictive-search__pages-wrapper {
+    display: none !important;
+  }
+}
+
+/* --- 11. Right column: product grid ---------------------------- */
+
+.san-search .predictive-search__result-group:last-child #predictive-search-results-products-list,
+.san-search .predictive-search__result-group:only-child #predictive-search-results-products-list {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 3rem 2.4rem !important;
+}
+
+@media screen and (max-width: 1199px) {
+  .san-search .predictive-search__result-group:last-child #predictive-search-results-products-list,
+  .san-search .predictive-search__result-group:only-child #predictive-search-results-products-list {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .san-search .predictive-search__result-group:last-child #predictive-search-results-products-list,
+  .san-search .predictive-search__result-group:only-child #predictive-search-results-products-list {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Product card (uses Dawn's card-product snippet) */
+.san-search .san-search__product-card {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  min-width: 0 !important;
+}
+
+.san-search .san-search__product-card .card-wrapper {
+  height: 100%;
+}
+
+.san-search .san-search__product-card .card {
+  border: none;
+  background: transparent;
+}
+
+/* Image wrapper — match collection grid aesthetic */
+.san-search .san-search__product-card .card__inner {
+  background: rgba(85, 130, 61, 0.04);
+  border: 1px solid rgba(85, 130, 61, 0.08);
+  border-radius: 0;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.san-search .san-search__product-card .card-wrapper:hover .card__inner {
+  border-color: rgba(85, 130, 61, 0.28);
+}
+
+.san-search .san-search__product-card .card__media {
+  overflow: hidden;
+}
+
+.san-search .san-search__product-card .card__media img,
+.san-search .san-search__product-card .media img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease !important;
+}
+
+.san-search .san-search__product-card .card-wrapper:hover .card__media img,
+.san-search .san-search__product-card .card-wrapper:hover .media img {
+  transform: scale(1.04);
+}
+
+/* Text content below image */
+.san-search .san-search__product-card .card__content {
+  padding: 1.2rem 0.2rem 0;
+}
+
+.san-search .san-search__product-card .card__information {
+  padding: 0;
+}
+
+.san-search .san-search__product-card .card__heading,
+.san-search .san-search__product-card .card__heading a,
+.san-search .san-search__product-card .card-information .card__heading,
+.san-search .san-search__product-card .full-unstyled-link {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.4rem !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  line-height: 1.35 !important;
+  color: #1e1e1e !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  margin: 0 !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+.san-search .san-search__product-card .card-wrapper:hover .card__heading,
+.san-search .san-search__product-card .card-wrapper:hover .card__heading a,
+.san-search .san-search__product-card .card-wrapper:hover .full-unstyled-link {
+  color: #55823d !important;
+}
+
+.san-search .san-search__product-card .caption-with-letter-spacing,
+.san-search .san-search__product-card .card__information .caption {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: rgba(85, 130, 61, 0.6) !important;
+  margin: 0 0 0.4rem !important;
+}
+
+.san-search .san-search__product-card .price,
+.san-search .san-search__product-card .price .price-item,
+.san-search .san-search__product-card .price__regular .price-item--regular {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 600 !important;
+  color: #55823d !important;
+  margin-top: 0.4rem !important;
+}
+
+.san-search .san-search__product-card .price__sale .price-item--sale {
+  color: #55823d !important;
+}
+
+.san-search .san-search__product-card .price__sale .price-item--regular {
+  color: rgba(30, 30, 30, 0.4) !important;
+}
+
+/* Hide Dawn's quick-add inside search results (keep it clean) */
+.san-search .san-search__product-card .quick-add {
+  display: none !important;
+}
+
+/* --- 12. "Search for…" CTA at bottom --------------------------- */
+
+.san-search .predictive-search__search-for-button {
+  grid-column: 1 / -1 !important;
+  border-top: 1px solid rgba(85, 130, 61, 0.12) !important;
+  margin-top: 4rem !important;
+  padding-top: 2rem !important;
+}
+
+.san-search .predictive-search__item--term {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 1.4rem 1rem !important;
+  margin: 0 -1rem !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.3rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important;
+  color: #55823d !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.san-search .predictive-search__item--term:hover {
+  background-color: rgba(85, 130, 61, 0.05) !important;
+}
+
+.san-search .predictive-search__item--term .icon-arrow {
+  color: #55823d !important;
+  width: 1.4rem !important;
+  height: 1.4rem !important;
+  transition: transform 0.2s ease !important;
+}
+
+.san-search .predictive-search__item--term:hover .icon-arrow {
+  transform: translateX(4px) !important;
+}
+
+/* --- 13. Loading spinner --------------------------------------- */
+
+/* Hidden unless <predictive-search> carries the loading attribute */
+.san-search predictive-search:not([loading]) .predictive-search__loading-state {
+  display: none !important;
+}
+
+.san-search predictive-search[loading] .predictive-search__loading-state {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 4rem 0 !important;
+  grid-column: 1 / -1 !important;
+}
+
+.san-search .predictive-search__loading-state .spinner {
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+  color: #55823d !important;
+}
+
+/* --- 14. Empty state ------------------------------------------- */
+
+.san-search__empty {
+  grid-column: 1 / -1 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem 8rem;
+  gap: 2.4rem;
+  animation: sanSearchFadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.san-search__empty-art {
+  width: 14rem;
+  height: 14rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #55823d;
+  opacity: 0.55;
+  position: relative;
+}
+
+.san-search__empty-art::after {
+  content: '';
+  position: absolute;
+  inset: -1rem;
+  border: 1px dashed rgba(85, 130, 61, 0.25);
+  border-radius: 50%;
+  animation: sanSearchSpin 40s linear infinite;
+}
+
+.san-search__empty-art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.san-search__empty-title {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.2rem, 3vw, 3rem);
+  color: #31591d;
+  margin: 0;
+  line-height: 1.25;
+  max-width: 44rem;
+}
+
+.san-search__empty-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  color: rgba(30, 30, 30, 0.6);
+  margin: 0;
+  max-width: 40rem;
+  line-height: 1.55;
+}
+
+.san-search__empty-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #31591d;
+  text-decoration: none;
+  padding: 1.4rem 2.8rem;
+  border: 1px solid #31591d;
+  background: transparent;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  margin-top: 0.8rem;
+}
+
+.san-search__empty-cta:hover {
+  background: #31591d;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.san-search__empty-cta svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  transition: transform 0.25s ease;
+}
+
+.san-search__empty-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* --- 15. Idle state (no query yet) ----------------------------- */
+
+.san-search__idle {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 2rem;
+  gap: 1.2rem;
+  color: rgba(85, 130, 61, 0.55);
+}
+
+.san-search__idle-hint {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 2.2vw, 2.2rem);
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.4;
+  max-width: 48rem;
+}
+
+.san-search__idle-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(85, 130, 61, 0.4);
+  margin: 0;
+}
+
+/* --- 16. Scrollbar styling ------------------------------------- */
+
+.san-search .predictive-search::-webkit-scrollbar,
+.san-search__predictions::-webkit-scrollbar {
+  width: 4px;
+}
+
+.san-search .predictive-search::-webkit-scrollbar-track,
+.san-search__predictions::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.san-search .predictive-search::-webkit-scrollbar-thumb,
+.san-search__predictions::-webkit-scrollbar-thumb {
+  background: rgba(85, 130, 61, 0.2);
+}
+
+.san-search .predictive-search::-webkit-scrollbar-thumb:hover,
+.san-search__predictions::-webkit-scrollbar-thumb:hover {
+  background: rgba(85, 130, 61, 0.4);
+}
+
+/* --- 17. Responsive -------------------------------------------- */
+
+@media screen and (max-width: 989px) {
+  .san-search__field-wrapper {
+    padding: 6.4rem 1.6rem 2rem;
+  }
+
+  .san-search .field,
+  .san-search__field {
+    height: 5rem !important;
+    padding: 0 0.5rem 0 1.6rem !important;
+    gap: 0.8rem !important;
+  }
+
+  .san-search .search__button,
+  .san-search__submit {
+    width: 3.8rem !important;
+    height: 3.8rem !important;
+  }
+
+  .san-search .predictive-search__results-groups-wrapper {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    padding: 2.4rem 2.4rem 6rem !important;
+  }
+
+  .san-search .predictive-search__result-group:first-child {
+    order: 2;
+  }
+
+  .san-search .predictive-search__result-group:last-child {
+    order: 1;
+  }
+}
+
+/* --- 18. Animations -------------------------------------------- */
+
+@keyframes sanSearchFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes sanSearchSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sanSearchFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sanSearchSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
