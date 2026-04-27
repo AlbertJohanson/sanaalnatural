@@ -1,0 +1,495 @@
+{{ 'san-contact.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.65 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.65 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign wa_digits = section.settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' -%}
+
+<section class="san-contact section-{{ section.id }}-padding" data-san-contact>
+  <div class="san-contact__inner">
+
+    {%- comment -%} ────── LEFT COLUMN: photo + intro + channels ────── {%- endcomment -%}
+    <div class="san-contact__intro">
+
+      <div class="san-contact__image-wrap">
+        {%- if section.settings.brand_image != blank -%}
+          {{ section.settings.brand_image | image_url: width: 1400 | image_tag:
+            loading: 'lazy',
+            sizes: '(min-width: 990px) 45vw, 100vw',
+            widths: '400, 600, 900, 1200, 1400, 1800',
+            class: 'san-contact__image',
+            alt: section.settings.brand_image.alt | default: section.settings.heading
+          }}
+        {%- else -%}
+          <div class="san-contact__image san-contact__image--placeholder" aria-hidden="true">
+            <svg viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="200" height="260" fill="url(#san-contact-grad)"/>
+              <defs>
+                <linearGradient id="san-contact-grad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f6f1e7"/>
+                  <stop offset="100%" stop-color="#e6ecdf"/>
+                </linearGradient>
+              </defs>
+              <g stroke="#55823d" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.55">
+                <path d="M100 60 C 90 90, 85 120, 100 200"/>
+                <path d="M100 90 C 85 95, 75 90, 68 80"/>
+                <path d="M100 90 C 115 95, 125 90, 132 80"/>
+                <path d="M100 120 C 82 128, 68 125, 58 112"/>
+                <path d="M100 120 C 118 128, 132 125, 142 112"/>
+                <path d="M100 150 C 80 158, 64 156, 54 142"/>
+                <path d="M100 150 C 120 158, 136 156, 146 142"/>
+                <path d="M100 180 C 85 186, 74 186, 66 178"/>
+                <path d="M100 180 C 115 186, 126 186, 134 178"/>
+              </g>
+              <circle cx="100" cy="60" r="4" fill="#55823d" opacity="0.75"/>
+            </svg>
+            <span class="san-contact__image-hint">Agrega una foto en el editor</span>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="san-contact__intro-text">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="san-contact__eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h1 class="san-contact__heading">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+
+        {%- if section.settings.intro != blank -%}
+          <div class="san-contact__intro-body rte">{{ section.settings.intro }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.email != blank or section.settings.whatsapp_number != blank or section.settings.address_line_1 != blank -%}
+          <ul class="san-contact__channels" role="list">
+
+            {%- if section.settings.email != blank -%}
+              <li class="san-contact__channel">
+                <span class="san-contact__channel-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="5" width="18" height="14" rx="1.5"/>
+                    <path d="M3 7l9 6 9-6"/>
+                  </svg>
+                </span>
+                <div class="san-contact__channel-body">
+                  <span class="san-contact__channel-label">Email</span>
+                  <a href="mailto:{{ section.settings.email }}" class="san-contact__channel-value">{{ section.settings.email }}</a>
+                </div>
+              </li>
+            {%- endif -%}
+
+            {%- if section.settings.whatsapp_number != blank -%}
+              <li class="san-contact__channel">
+                <span class="san-contact__channel-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+                  </svg>
+                </span>
+                <div class="san-contact__channel-body">
+                  <span class="san-contact__channel-label">WhatsApp</span>
+                  <a href="https://wa.me/{{ wa_digits }}" target="_blank" rel="noopener" class="san-contact__channel-value">
+                    {{ section.settings.whatsapp_display | default: section.settings.whatsapp_number }}
+                  </a>
+                </div>
+              </li>
+            {%- endif -%}
+
+            {%- if section.settings.address_line_1 != blank -%}
+              <li class="san-contact__channel">
+                <span class="san-contact__channel-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </span>
+                <div class="san-contact__channel-body">
+                  <span class="san-contact__channel-label">Ubicación</span>
+                  <span class="san-contact__channel-value">
+                    {{ section.settings.address_line_1 }}
+                    {%- if section.settings.address_line_2 != blank -%}
+                      <br>{{ section.settings.address_line_2 }}
+                    {%- endif -%}
+                  </span>
+                </div>
+              </li>
+            {%- endif -%}
+
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.instagram_url != blank or section.settings.facebook_url != blank or section.settings.tiktok_url != blank -%}
+          <div class="san-contact__social">
+            <span class="san-contact__social-label">Síguenos</span>
+            <ul class="san-contact__social-list" role="list">
+              {%- if section.settings.instagram_url != blank -%}
+                <li>
+                  <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram" class="san-contact__social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="5"/>
+                      <circle cx="12" cy="12" r="4"/>
+                      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+                    </svg>
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if section.settings.facebook_url != blank -%}
+                <li>
+                  <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook" class="san-contact__social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                    </svg>
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if section.settings.tiktok_url != blank -%}
+                <li>
+                  <a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener" aria-label="TikTok" class="san-contact__social-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 3v10.5a3.5 3.5 0 11-3.5-3.5"/>
+                      <path d="M15 3c.3 2.5 2 4.5 4.5 4.8"/>
+                    </svg>
+                  </a>
+                </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ────── RIGHT COLUMN: form ────── {%- endcomment -%}
+    <div class="san-contact__form-wrap">
+      {%- form 'contact', id: 'SanContactForm', class: 'san-contact__form' -%}
+
+        {%- if form.posted_successfully? -%}
+          <div class="san-contact__success" role="status" tabindex="-1" autofocus>
+            <span class="san-contact__success-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <h2 class="san-contact__success-title">¡Mensaje enviado!</h2>
+            <p class="san-contact__success-text">
+              {{ section.settings.success_text | default: 'Gracias por escribirnos. Te responderemos pronto.' }}
+            </p>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="san-contact__error" role="alert" tabindex="-1" autofocus>
+            <span class="san-contact__error-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
+            <p class="san-contact__error-text">
+              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+            </p>
+          </div>
+        {%- endif -%}
+
+        <div class="san-contact__fields">
+          <div class="san-contact__field">
+            <label class="san-contact__label" for="SanContactForm-name">Nombre</label>
+            <input
+              class="san-contact__input"
+              type="text"
+              id="SanContactForm-name"
+              name="contact[Nombre]"
+              autocomplete="name"
+              placeholder="Tu nombre"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            >
+          </div>
+
+          <div class="san-contact__field">
+            <label class="san-contact__label" for="SanContactForm-email">
+              Email <span class="san-contact__required" aria-hidden="true">*</span>
+            </label>
+            <input
+              class="san-contact__input{% if form.errors contains 'email' %} san-contact__input--error{% endif %}"
+              type="email"
+              id="SanContactForm-email"
+              name="contact[email]"
+              autocomplete="email"
+              spellcheck="false"
+              autocapitalize="off"
+              aria-required="true"
+              placeholder="tu@email.com"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="san-contact__field">
+            <label class="san-contact__label" for="SanContactForm-phone">Teléfono</label>
+            <input
+              class="san-contact__input"
+              type="tel"
+              id="SanContactForm-phone"
+              name="contact[Teléfono]"
+              autocomplete="tel"
+              placeholder="+502 0000 0000"
+              value="{% if form.phone %}{{ form.phone }}{% endif %}"
+            >
+          </div>
+
+          {%- if section.blocks.size > 0 -%}
+            <div class="san-contact__field">
+              <label class="san-contact__label" for="SanContactForm-subject">Motivo</label>
+              <div class="san-contact__select-wrap">
+                <select
+                  class="san-contact__select"
+                  id="SanContactForm-subject"
+                  name="contact[Motivo]"
+                  data-san-contact-subject
+                >
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'subject' -%}
+                      <option
+                        value="{{ block.settings.label | escape }}"
+                        data-placeholder="{{ block.settings.placeholder | escape }}"
+                        {{ block.shopify_attributes }}
+                      >
+                        {{ block.settings.label }}
+                      </option>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </select>
+                <span class="san-contact__select-caret" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="san-contact__field san-contact__field--full">
+            <label class="san-contact__label" for="SanContactForm-body">Mensaje</label>
+            <textarea
+              class="san-contact__textarea"
+              id="SanContactForm-body"
+              name="contact[{{ 'templates.contact.form.comment' | t }}]"
+              rows="5"
+              placeholder="Cuéntanos en qué podemos ayudarte…"
+              data-san-contact-body
+            >{{ form.body }}</textarea>
+          </div>
+        </div>
+
+        <div class="san-contact__submit-wrap">
+          <button type="submit" class="san-contact__submit">
+            <span>Enviar mensaje</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+        </div>
+
+      {%- endform -%}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  (function() {
+    var scope = document.querySelector('[data-san-contact]');
+    if (!scope) return;
+    var subject = scope.querySelector('[data-san-contact-subject]');
+    var body = scope.querySelector('[data-san-contact-body]');
+    if (!subject || !body) return;
+
+    function update() {
+      var opt = subject.options[subject.selectedIndex];
+      var ph = opt && opt.getAttribute('data-placeholder');
+      if (ph) body.setAttribute('placeholder', ph);
+    }
+
+    subject.addEventListener('change', update);
+    update();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Contacto (Sana)",
+  "tag": "section",
+  "class": "section section--san-contact",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    { "type": "header", "content": "Imagen" },
+    {
+      "type": "image_picker",
+      "id": "brand_image",
+      "label": "Foto editorial (columna izquierda)"
+    },
+
+    { "type": "header", "content": "Intro" },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow",
+      "label": "Caption",
+      "default": "Contacto"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Título",
+      "default": "Hablemos."
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Párrafo",
+      "default": "<p>Estamos aquí para responder cualquier duda sobre nuestros productos, pedidos, mayoreo o colaboraciones. Escríbenos y te responderemos en menos de 24 horas.</p>"
+    },
+
+    { "type": "header", "content": "Canales" },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "hola@sanaalnatural.com"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp (número en formato internacional, solo dígitos)",
+      "info": "Se usará en el enlace wa.me. Ej: 50212345678",
+      "default": "50200000000"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_display",
+      "label": "WhatsApp — texto visible",
+      "info": "Opcional. Ej: +502 0000 0000",
+      "default": "+502 0000 0000"
+    },
+    {
+      "type": "text",
+      "id": "address_line_1",
+      "label": "Dirección línea 1",
+      "default": "Ciudad de Guatemala"
+    },
+    {
+      "type": "text",
+      "id": "address_line_2",
+      "label": "Dirección línea 2",
+      "default": "Guatemala"
+    },
+
+    { "type": "header", "content": "Redes sociales" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook URL" },
+    { "type": "url", "id": "tiktok_url", "label": "TikTok URL" },
+
+    { "type": "header", "content": "Mensaje de éxito" },
+    {
+      "type": "textarea",
+      "id": "success_text",
+      "label": "Texto tras enviar",
+      "default": "Gracias por escribirnos. Te responderemos pronto."
+    },
+
+    { "type": "header", "content": "Padding" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 72
+    }
+  ],
+  "blocks": [
+    {
+      "type": "subject",
+      "name": "Motivo de contacto",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "Consulta general"
+        },
+        {
+          "type": "textarea",
+          "id": "placeholder",
+          "label": "Placeholder del mensaje cuando se selecciona",
+          "default": "Cuéntanos en qué podemos ayudarte…"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contacto (Sana)",
+      "blocks": [
+        {
+          "type": "subject",
+          "settings": {
+            "label": "Consulta general",
+            "placeholder": "Cuéntanos en qué podemos ayudarte…"
+          }
+        },
+        {
+          "type": "subject",
+          "settings": {
+            "label": "Problema con mi pedido",
+            "placeholder": "Incluye tu número de pedido y cuéntanos qué sucedió…"
+          }
+        },
+        {
+          "type": "subject",
+          "settings": {
+            "label": "Mayoreo / Distribución",
+            "placeholder": "Cuéntanos sobre tu negocio y qué productos te interesan…"
+          }
+        },
+        {
+          "type": "subject",
+          "settings": {
+            "label": "Colaboración / Prensa",
+            "placeholder": "Cuéntanos sobre tu proyecto o la colaboración que propones…"
+          }
+        },
+        {
+          "type": "subject",
+          "settings": {
+            "label": "Otro",
+            "placeholder": "Cuéntanos de qué se trata…"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
