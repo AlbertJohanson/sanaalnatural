@@ -1,0 +1,215 @@
+{% comment %}
+  Sana Al Natural — Custom Cart Drawer (snippet)
+
+  Renders an empty <san-cart-drawer> shell. The element's JS owns all
+  rendering, state, and Shopify cart API calls. The initial cart state
+  is passed in via the data-cart attribute so the first render is correct
+  without an extra fetch.
+
+  No Dawn cart-drawer / cart.js dependency.
+
+  Usage:
+  {% render 'san-cart-drawer' %}
+{% endcomment %}
+
+{{ 'san-cart-drawer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'san-cart-drawer.js' | asset_url }}" defer="defer"></script>
+<script>
+    window.Shopify = window.Shopify || {};
+    window.Shopify.money_format = {{ shop.money_format | json }}
+</script>
+<san-cart-drawer
+  class="san-cart-drawer"
+  aria-hidden="true"
+  data-cart='{{ cart | json | escape }}'
+>
+  <div class="san-cart-drawer__overlay" data-overlay aria-hidden="true"></div>
+
+  <aside
+    class="san-cart-drawer__panel"
+    data-panel
+    data-state="{% if cart == empty %}empty{% else %}items{% endif %}"
+    role="dialog"
+    aria-modal="true"
+    aria-label="{{ 'sections.cart.title' | t }}"
+    tabindex="-1"
+  >
+    {%- comment -%} Empty state {%- endcomment -%}
+    <div class="san-cart-drawer__empty" data-empty>
+      <button
+        type="button"
+        class="san-cart-drawer__close san-cart-drawer__close--empty"
+        data-close
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
+          <path d="M2 2 L14 14 M14 2 L2 14" />
+        </svg>
+      </button>
+
+      <div class="san-cart-drawer__empty-inner">
+        <div class="san-cart-drawer__empty-art" aria-hidden="true">
+          <svg viewBox="0 0 140 160" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+            {%- comment -%} Vessel: rim, body, base shadow line {%- endcomment -%}
+            <ellipse cx="70" cy="98" rx="42" ry="6" />
+            <path d="M28 98 Q30 138 70 144 Q110 138 112 98" />
+            <path d="M40 138 Q70 142 100 138" opacity="0.4" />
+            {%- comment -%} Sprig: stem + asymmetric leaves + bud {%- endcomment -%}
+            <path d="M70 98 C 68 80, 74 60, 68 40 C 64 28, 70 18, 68 8" />
+            <path d="M70 84 Q 84 80 92 70" />
+            <path d="M70 84 Q 82 84 92 70" />
+            <path d="M68 64 Q 54 60 46 50" />
+            <path d="M68 64 Q 56 64 46 50" />
+            <path d="M70 44 Q 84 40 90 30" />
+            <path d="M70 44 Q 82 44 90 30" />
+            <circle cx="68" cy="8" r="2.4" fill="currentColor" stroke="none" />
+            {%- comment -%} Tiny falling petals beside the vessel for atmosphere {%- endcomment -%}
+            <circle cx="22" cy="118" r="1.2" fill="currentColor" stroke="none" opacity="0.5" />
+            <circle cx="120" cy="124" r="1.2" fill="currentColor" stroke="none" opacity="0.5" />
+            <circle cx="14" cy="134" r="0.9" fill="currentColor" stroke="none" opacity="0.35" />
+          </svg>
+        </div>
+
+        <p class="san-cart-drawer__eyebrow">Tu selección</p>
+        <h2 class="san-cart-drawer__empty-title">Tu carrito está vacío</h2>
+        <p class="san-cart-drawer__empty-sub">
+          Cada elección cuenta. Empieza a descubrir lo natural.
+        </p>
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="san-cart-drawer__cta"
+          data-cta
+        >
+          Ver todos los productos
+        </a>
+
+        {%- if shop.customer_accounts_enabled and customer == null -%}
+          <p class="san-cart-drawer__login">
+            {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Items state {%- endcomment -%}
+    <header class="san-cart-drawer__header" data-header>
+      <div class="san-cart-drawer__header-text">
+        <p class="san-cart-drawer__eyebrow">Tu selección</p>
+        <h2 class="san-cart-drawer__title">
+          Carrito <span class="san-cart-drawer__count" data-count>({{ cart.item_count }})</span>
+        </h2>
+      </div>
+      <button
+        type="button"
+        class="san-cart-drawer__close"
+        data-close
+        aria-label="{{ 'accessibility.close' | t }}"
+      >
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
+          <path d="M2 2 L14 14 M14 2 L2 14" />
+        </svg>
+      </button>
+    </header>
+
+    <div class="san-cart-drawer__items-wrap" data-items-wrap>
+      <ul class="san-cart-drawer__items" data-items role="list"></ul>
+      <div class="san-cart-drawer__errors" data-errors role="alert"></div>
+    </div>
+
+    <footer class="san-cart-drawer__footer-wrap" data-footer>
+      <ul class="san-cart-drawer__cart-discounts" data-cart-discounts role="list"></ul>
+
+      <div class="san-cart-drawer__footer">
+        <div class="san-cart-drawer__totals">
+          <span class="san-cart-drawer__totals-label">Subtotal</span>
+          <span class="san-cart-drawer__totals-value" data-subtotal>{{ cart.total_price | money }}</span>
+        </div>
+
+        <p class="san-cart-drawer__tax-note">
+          {%- if shop.shipping_policy.body != blank -%}
+            Envío y descuentos calculados al finalizar · <a href="{{ shop.shipping_policy.url }}">Política de envío</a>
+          {%- else -%}
+            Envío y descuentos calculados al finalizar
+          {%- endif -%}
+        </p>
+
+        <div class="san-cart-drawer__ctas">
+          <a
+            href="/checkout"
+            class="san-cart-drawer__checkout"
+            data-checkout
+          >
+            Finalizar compra
+          </a>
+          <p class="san-cart-drawer__reassurance">
+            Productos elaborados a mano · Envío en Guatemala
+          </p>
+        </div>
+      </div>
+    </footer>
+  </aside>
+
+  {%- comment -%}
+    Item template — cloned by JS per line item.
+    Placeholders are minimal; JS populates everything via data-* hooks.
+  {%- endcomment -%}
+  <template id="san-cart-item-template">
+    <li class="san-cart-drawer__item" data-line>
+      <a class="san-cart-drawer__item-media" data-media tabindex="-1" aria-hidden="true">
+        <img class="san-cart-drawer__item-image" data-image alt="" loading="lazy" />
+      </a>
+
+      <div class="san-cart-drawer__item-body">
+        <div class="san-cart-drawer__item-head" data-options-root>
+          <p class="san-cart-drawer__item-vendor" data-vendor></p>
+          <a class="san-cart-drawer__item-name" data-name href="#"></a>
+          <dl class="san-cart-drawer__item-options" data-options></dl>
+          <p class="san-cart-drawer__item-selling-plan" data-selling-plan></p>
+          <ul class="san-cart-drawer__item-discounts" data-line-discounts role="list"></ul>
+        </div>
+
+        <div class="san-cart-drawer__item-foot">
+          <div class="san-cart-drawer__qty-row">
+            <div class="san-cart-drawer__qty" role="group" aria-label="Cantidad">
+              <button
+                type="button"
+                class="san-cart-drawer__qty-btn"
+                data-action="qty-minus"
+                aria-label="Disminuir cantidad"
+              >
+                <svg viewBox="0 0 14 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                  <path d="M1 1 L13 1" />
+                </svg>
+              </button>
+              <span class="san-cart-drawer__qty-value" data-qty-value aria-live="polite">1</span>
+              <button
+                type="button"
+                class="san-cart-drawer__qty-btn"
+                data-action="qty-plus"
+                aria-label="Aumentar cantidad"
+              >
+                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+                  <path d="M1 7 L13 7 M7 1 L7 13" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="san-cart-drawer__price">
+              <s class="san-cart-drawer__price-old" data-price-old></s>
+              <span class="san-cart-drawer__price-final" data-price-final></span>
+              <span class="san-cart-drawer__unit-price" data-unit-price></span>
+            </div>
+
+            <button
+              type="button"
+              class="san-cart-drawer__remove"
+              data-action="remove"
+            >
+              Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+  </template>
+</san-cart-drawer>
