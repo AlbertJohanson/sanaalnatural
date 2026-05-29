@@ -1,0 +1,73 @@
+{%- comment -%}
+  Renders a small round flag icon for the language switcher.
+  Clipping to a circle is done in CSS (.san-flag overflow:hidden) so the inline
+  SVGs need no per-instance clipPath ids (safe to render many times).
+
+  Accepts:
+    - code: language iso code (e.g. 'en', 'es', 'es-419'). Matched on first 2 chars.
+{%- endcomment -%}
+
+{%- assign c = code | slice: 0, 2 | downcase -%}
+
+{%- case c -%}
+
+  {%- when 'es' -%}
+    {%- comment -%} Bandera de la Hispanidad — white field, gold rising sun, three purple crosses {%- endcomment -%}
+    <span class="san-flag san-flag--es" role="img" aria-hidden="true">
+      <svg class="san-flag__svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" fill="#ffffff"/>
+        <g fill="#e3992e">
+          <circle cx="12" cy="17.4" r="3.5"/>
+          <polygon points="12,10.6 10.9,12.6 13.1,12.6"/>
+          <polygon points="7.2,11.9 7.2,14 9,13.2"/>
+          <polygon points="16.8,11.9 15,13.2 16.8,14"/>
+          <polygon points="4.4,15.2 5.5,16.8 6.3,15"/>
+          <polygon points="19.6,15.2 17.7,15 18.5,16.8"/>
+        </g>
+        <g fill="#5c2d91">
+          <rect x="5.55" y="6.3" width="0.9" height="2.6" rx="0.2"/>
+          <rect x="4.7" y="7.15" width="2.6" height="0.9" rx="0.2"/>
+          <rect x="11.55" y="4.3" width="0.9" height="2.6" rx="0.2"/>
+          <rect x="10.7" y="5.15" width="2.6" height="0.9" rx="0.2"/>
+          <rect x="17.55" y="6.3" width="0.9" height="2.6" rx="0.2"/>
+          <rect x="16.7" y="7.15" width="2.6" height="0.9" rx="0.2"/>
+        </g>
+      </svg>
+    </span>
+
+  {%- when 'en' -%}
+    {%- comment -%} United States — stars & stripes {%- endcomment -%}
+    <span class="san-flag san-flag--en" role="img" aria-hidden="true">
+      <svg class="san-flag__svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" fill="#ffffff"/>
+        <g fill="#b22234">
+          <rect y="0" width="24" height="1.846"/>
+          <rect y="3.692" width="24" height="1.846"/>
+          <rect y="7.385" width="24" height="1.846"/>
+          <rect y="11.077" width="24" height="1.846"/>
+          <rect y="14.769" width="24" height="1.846"/>
+          <rect y="18.462" width="24" height="1.846"/>
+          <rect y="22.154" width="24" height="1.846"/>
+        </g>
+        <rect width="9.6" height="12.92" fill="#3c3b6e"/>
+        <g fill="#ffffff">
+          <circle cx="1.9" cy="2.2" r="0.55"/><circle cx="4.8" cy="2.2" r="0.55"/><circle cx="7.7" cy="2.2" r="0.55"/>
+          <circle cx="3.35" cy="4.6" r="0.55"/><circle cx="6.25" cy="4.6" r="0.55"/>
+          <circle cx="1.9" cy="7.0" r="0.55"/><circle cx="4.8" cy="7.0" r="0.55"/><circle cx="7.7" cy="7.0" r="0.55"/>
+          <circle cx="3.35" cy="9.4" r="0.55"/><circle cx="6.25" cy="9.4" r="0.55"/>
+          <circle cx="1.9" cy="11.4" r="0.55"/><circle cx="4.8" cy="11.4" r="0.55"/><circle cx="7.7" cy="11.4" r="0.55"/>
+        </g>
+      </svg>
+    </span>
+
+  {%- else -%}
+    {%- comment -%} Generic globe fallback for any other language {%- endcomment -%}
+    <span class="san-flag san-flag--generic" role="img" aria-hidden="true">
+      <svg class="san-flag__svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" fill="#55823d"/>
+        <circle cx="12" cy="12" r="7.5" stroke="#ffffff" stroke-width="1.2"/>
+        <path d="M4.5 12h15M12 4.5c2.2 2.2 3.3 4.8 3.3 7.5s-1.1 5.3-3.3 7.5c-2.2-2.2-3.3-4.8-3.3-7.5s1.1-5.3 3.3-7.5z" stroke="#ffffff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+
+{%- endcase -%}

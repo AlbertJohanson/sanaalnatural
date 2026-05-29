@@ -1,0 +1,63 @@
+{%- comment -%}
+  Branded language switcher (custom dropdown).
+
+  Built on native <details>/<summary> + <button type="submit"> so the core
+  behaviour needs NO JavaScript:
+    • <summary> toggles the panel (browser-native).
+    • each option is a submit button (name="locale_code") inside Shopify's
+      {% form 'localization' %}, so clicking it natively switches request.locale
+      and redirects back — no /localization dead-end, no JS required.
+  assets/san-language-switcher.js is a pure enhancement (close on outside click).
+
+  Accepts:
+    - position: unique slug for IDs (e.g. 'Topbar', 'HeaderBar', 'Footer')
+    - placement: 'topbar' | 'bar' | 'footer' (style hook: colour + open direction)
+
+  Only render when more than one language is published in the Shopify admin
+  (Settings → Languages). Guard before calling.
+{%- endcomment -%}
+
+{%- liquid
+  assign position = position | default: 'Locale'
+  assign placement = placement | default: 'bar'
+  assign form_id = position | append: 'LangForm'
+-%}
+
+<div class="san-lang-form">
+  {%- form 'localization', id: form_id, class: 'san-lang' -%}
+    <h2 class="visually-hidden" id="{{ position }}LangLabel">{{ 'localization.language_label' | t }}</h2>
+
+    <details class="san-lang__switcher san-lang__switcher--{{ placement }}" data-san-lang>
+      <summary class="san-lang__current" aria-label="{{ 'localization.language_label' | t }}">
+        {%- render 'san-flag', code: localization.language.iso_code -%}
+        <span class="san-lang__code">{{ localization.language.iso_code | upcase }}</span>
+        <svg class="san-lang__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+          <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+
+      <ul class="san-lang__panel" role="list" aria-describedby="{{ position }}LangLabel">
+        {%- for language in localization.available_languages -%}
+          <li>
+            <button
+              type="submit"
+              name="locale_code"
+              value="{{ language.iso_code }}"
+              class="san-lang__option{% if language.iso_code == localization.language.iso_code %} is-current{% endif %}"
+              lang="{{ language.iso_code }}"
+              hreflang="{{ language.iso_code }}"
+              {% if language.iso_code == localization.language.iso_code %}aria-current="true"{% endif %}
+            >
+              {%- render 'san-flag', code: language.iso_code -%}
+              <span class="san-lang__option-name">{{ language.endonym_name | capitalize }}</span>
+              <span class="san-lang__option-code">{{ language.iso_code | upcase }}</span>
+              <svg class="san-lang__check" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2.5 7.5l3 3 6-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </details>
+  {%- endform -%}
+</div>

@@ -1,0 +1,322 @@
+{{ 'section-san-featured-tabs.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign tabs = section.blocks | where: 'type', 'tab'
+  assign cols = section.settings.columns_desktop
+  assign feat_eyebrow = 'san.featured_tabs.eyebrow' | t
+  assign feat_heading = 'san.featured_tabs.heading' | t
+  assign feat_description = 'san.featured_tabs.description' | t
+  assign feat_view_all = 'san.featured_tabs.view_all' | t
+-%}
+
+{%- style -%}
+  #san-feat-{{ section.id }} {
+    --feat-cols: {{ cols }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  class="san-feat"
+  id="san-feat-{{ section.id }}"
+  data-feat-tabs
+  aria-label="{{ feat_heading | replace: '|', '' | escape }}"
+>
+  <div class="san-feat__inner">
+
+    {%- comment -%} ─── Header ─── {%- endcomment -%}
+    <div class="san-feat__head san-reveal">
+      {%- if feat_eyebrow != blank -%}
+        <p class="san-feat__eyebrow">{{ feat_eyebrow }}</p>
+      {%- endif -%}
+
+      {%- if feat_heading != blank -%}
+        <h2 class="san-feat__heading">
+          {%- assign heading_parts = feat_heading | split: '|' -%}
+          {%- for part in heading_parts -%}
+            {%- if forloop.index == 2 -%}
+              <em class="san-feat__heading-accent">{{ part }}</em>
+            {%- else -%}
+              {{ part }}
+            {%- endif -%}
+          {%- endfor -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if feat_description != blank -%}
+        <p class="san-feat__desc">{{ feat_description }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if tabs.size > 0 -%}
+
+      {%- comment -%} ─── Tab navigation ─── {%- endcomment -%}
+      {%- if tabs.size > 1 -%}
+        <div class="san-feat__tabs san-reveal san-reveal-d1" role="tablist" aria-label="{{ feat_heading | replace: '|', '' | escape }}">
+          {%- for block in tabs -%}
+            {%- assign coll = block.settings.collection -%}
+            {%- assign tab_key = 'san.featured_tabs.tabs.' | append: forloop.index -%}
+            {%- assign tab_label = tab_key | t -%}
+            {%- if tab_label contains 'translation missing' -%}
+              {%- if block.settings.label != blank -%}
+                {%- assign tab_label = block.settings.label -%}
+              {%- elsif coll.title != blank -%}
+                {%- assign tab_label = coll.title -%}
+              {%- else -%}
+                {%- assign tab_label = 'san.featured_tabs.default_tab' | t -%}
+              {%- endif -%}
+            {%- endif -%}
+            <button
+              class="san-feat__tab{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              role="tab"
+              id="san-feat-tab-{{ section.id }}-{{ forloop.index0 }}"
+              aria-controls="san-feat-panel-{{ section.id }}-{{ forloop.index0 }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              data-tab="{{ forloop.index0 }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ tab_label }}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} ─── Panels ─── {%- endcomment -%}
+      <div class="san-feat__panels">
+        {%- for block in tabs -%}
+          {%- assign coll = block.settings.collection -%}
+          <div
+            class="san-feat__panel{% if forloop.first %} is-active{% endif %}"
+            id="san-feat-panel-{{ section.id }}-{{ forloop.index0 }}"
+            role="tabpanel"
+            aria-labelledby="san-feat-tab-{{ section.id }}-{{ forloop.index0 }}"
+            data-panel="{{ forloop.index0 }}"
+            {%- unless forloop.first %} hidden{% endunless -%}
+          >
+            {%- if coll != blank and coll.products.size > 0 -%}
+              <div class="san-feat__grid">
+                {%- for product in coll.products limit: section.settings.products_to_show -%}
+                  {%- render 'san-product-card',
+                    product: product,
+                    show_vendor: section.settings.show_vendor,
+                    index: forloop.index
+                  -%}
+                {%- endfor -%}
+              </div>
+
+              {%- if section.settings.show_view_all -%}
+                <div class="san-feat__panel-foot">
+                  <a href="{{ coll.url }}" class="san-feat__view-all">
+                    {{ feat_view_all }}
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+              {%- endif -%}
+            {%- else -%}
+              <p class="san-feat__empty">
+                {{ 'san.featured_tabs.panel_empty' | t }}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+    {%- else -%}
+      <p class="san-feat__empty">{{ 'san.featured_tabs.empty' | t }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% javascript %}
+  class SanFeatTabs {
+    constructor(el) {
+      this.el = el;
+      this.tabs = Array.from(el.querySelectorAll('.san-feat__tab'));
+      this.panels = Array.from(el.querySelectorAll('.san-feat__panel'));
+      if (this.tabs.length === 0) return;
+      this.bind();
+    }
+
+    bind() {
+      this.tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => this.activate(i));
+        tab.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            const dir = e.key === 'ArrowRight' ? 1 : -1;
+            const next = (i + dir + this.tabs.length) % this.tabs.length;
+            this.activate(next);
+            this.tabs[next].focus();
+          }
+        });
+      });
+    }
+
+    activate(index) {
+      this.tabs.forEach((tab, i) => {
+        const active = i === index;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      this.panels.forEach((panel, i) => {
+        const active = i === index;
+        panel.classList.toggle('is-active', active);
+        if (active) {
+          panel.removeAttribute('hidden');
+          // Restart the staggered card entrance for the newly shown panel
+          panel.classList.remove('is-animating');
+          void panel.offsetWidth;
+          panel.classList.add('is-animating');
+        } else {
+          panel.setAttribute('hidden', '');
+        }
+      });
+    }
+  }
+
+  function initSanFeatTabs(scope) {
+    (scope || document).querySelectorAll('[data-feat-tabs]').forEach((el) => {
+      if (!el._sanFeatTabs) el._sanFeatTabs = new SanFeatTabs(el);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initSanFeatTabs());
+  } else {
+    initSanFeatTabs();
+  }
+  document.addEventListener('shopify:section:load', (e) => initSanFeatTabs(e.target));
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Productos con pestañas",
+  "tag": "section",
+  "class": "san-feat-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Encabezado"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Nuestra selección"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Título",
+      "info": "Usa | para resaltar en verde claro: 'Productos que |nutren tu día|'",
+      "default": "Lo mejor de la |naturaleza|"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Explora nuestras categorías y encuentra el producto natural perfecto para ti."
+    },
+    {
+      "type": "header",
+      "content": "Cuadrícula"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Productos por pestaña",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columnas (escritorio)",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Mostrar marca",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostrar botón 'Ver todo'",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Texto 'Ver todo'",
+      "default": "Ver todo"
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Pestaña / Categoría",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta de pestaña",
+          "info": "Opcional. Si se deja vacío, usa el nombre de la colección."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Productos con pestañas",
+      "blocks": [
+        { "type": "tab" },
+        { "type": "tab" },
+        { "type": "tab" },
+        { "type": "tab" }
+      ]
+    }
+  ]
+}
+{% endschema %}

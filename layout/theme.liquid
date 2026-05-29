@@ -301,7 +301,9 @@
 
     {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
       {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      {{ 'san-language-switcher.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'san-language-switcher.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
     {%- if settings.predictive_search_enabled -%}
@@ -321,6 +323,13 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+
+    {%- comment -%} No-JS fallback: never leave scroll-reveal content invisible {%- endcomment -%}
+    <noscript>
+      <style>
+        .san-reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+      </style>
+    </noscript>
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
@@ -391,6 +400,50 @@
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    {%- comment -%} Global scroll-reveal observer (drives .san-reveal across the theme) {%- endcomment -%}
+    <script>
+      (function () {
+        var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        function revealAll(scope) {
+          (scope || document).querySelectorAll('.san-reveal:not(.is-visible)').forEach(function (el) {
+            el.classList.add('is-visible');
+          });
+        }
+        if (!('IntersectionObserver' in window) || prefersReduced) {
+          revealAll();
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries, obs) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                obs.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+        function observe(scope) {
+          (scope || document).querySelectorAll('.san-reveal:not(.is-visible)').forEach(function (el) {
+            io.observe(el);
+          });
+        }
+        observe();
+        // Re-scan when the theme editor injects/reorders sections
+        document.addEventListener('shopify:section:load', function (e) { observe(e.target); });
+        document.addEventListener('shopify:section:reorder', function () { observe(); });
+        // Safety net: nothing above the fold should ever stay hidden
+        window.addEventListener('load', function () {
+          setTimeout(function () {
+            document.querySelectorAll('.san-reveal:not(.is-visible)').forEach(function (el) {
+              if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-visible');
+            });
+          }, 800);
+        });
+      })();
+    </script>
 
   </body>
 </html>

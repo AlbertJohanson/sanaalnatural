@@ -1,0 +1,85 @@
+{%- comment -%}
+  Reusable premium product card — Sana Al Natural
+  Params:
+    product     {object}  required
+    show_vendor {boolean} optional
+    index       {number}  optional — used for staggered entrance
+{%- endcomment -%}
+
+{%- liquid
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+  assign sold_out = false
+  unless product.available
+    assign sold_out = true
+  endunless
+  assign second_media = product.media[1]
+-%}
+
+<a
+  class="san-pcard"
+  href="{{ product.url }}"
+  style="--card-i: {{ index | default: 1 }};"
+  aria-label="{{ product.title | escape }}"
+>
+  <div class="san-pcard__media">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 720
+        | image_tag:
+          class: 'san-pcard__img san-pcard__img--primary',
+          loading: 'lazy',
+          widths: '300, 450, 600, 720',
+          sizes: '(max-width: 749px) 50vw, 25vw',
+          alt: product.featured_media.alt | default: product.title | escape
+      }}
+      {%- if second_media -%}
+        {{
+          second_media
+          | image_url: width: 720
+          | image_tag:
+            class: 'san-pcard__img san-pcard__img--secondary',
+            loading: 'lazy',
+            widths: '300, 450, 600, 720',
+            sizes: '(max-width: 749px) 50vw, 25vw',
+            alt: product.title | escape
+        }}
+      {%- endif -%}
+    {%- else -%}
+      <div class="san-pcard__placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'san-pcard__ph-svg' }}
+      </div>
+    {%- endif -%}
+
+    {%- if sold_out -%}
+      <span class="san-pcard__badge san-pcard__badge--soldout">Agotado</span>
+    {%- elsif on_sale -%}
+      <span class="san-pcard__badge san-pcard__badge--sale">Oferta</span>
+    {%- endif -%}
+
+    <span class="san-pcard__cta">
+      Ver producto
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+  </div>
+
+  <div class="san-pcard__body">
+    {%- if show_vendor and product.vendor != blank -%}
+      <span class="san-pcard__vendor">{{ product.vendor }}</span>
+    {%- endif -%}
+    <h3 class="san-pcard__title">{{ product.title }}</h3>
+    <div class="san-pcard__price">
+      {%- if on_sale -%}
+        <span class="san-pcard__price-sale">{{ product.price | money }}</span>
+        <s class="san-pcard__price-compare">{{ product.compare_at_price | money }}</s>
+      {%- else -%}
+        <span class="san-pcard__price-regular">{{ product.price | money }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</a>

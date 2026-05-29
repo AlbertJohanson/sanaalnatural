@@ -88,14 +88,7 @@
           {%- endif -%}
           {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
             <span class="san-topbar__sep" aria-hidden="true"></span>
-            <localization-form data-prevent-hide>
-              {%- form 'localization', id: 'TopbarLanguageForm', class: 'localization-form' -%}
-                <div>
-                  <h2 class="visually-hidden" id="TopbarLanguageLabel">{{ 'localization.language_label' | t }}</h2>
-                  {%- render 'language-localization', localPosition: 'TopbarLanguage' -%}
-                </div>
-              {%- endform -%}
-            </localization-form>
+            {%- render 'san-language-switcher', position: 'Topbar', placement: 'topbar' -%}
           {%- endif -%}
           {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
             {%- unless section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
@@ -264,6 +257,12 @@
               {% render block %}
           {%- endcase -%}
         {%- endfor -%}
+
+        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+          <div class="san-header__lang">
+            {%- render 'san-language-switcher', position: 'HeaderBar', placement: 'bar' -%}
+          </div>
+        {%- endif -%}
 
         <a href="{{ routes.cart_url }}" class="san-header__cart" id="cart-icon-bubble">
           <svg class="san-header__cart-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

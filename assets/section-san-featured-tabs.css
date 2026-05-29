@@ -1,0 +1,249 @@
+/* ================================================================
+   SANA AL NATURAL — Featured products with category tabs
+   section-san-featured-tabs.css
+   Pale-sage section so product photos read; deep-green typography.
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+.san-feat {
+  background:
+    radial-gradient(120% 90% at 50% -10%, rgba(85, 130, 61, 0.06), transparent 60%),
+    #eef2e7;
+  overflow: hidden;
+}
+
+.san-feat__inner {
+  max-width: 132rem;
+  margin: 0 auto;
+  padding-left: 4.8rem;
+  padding-right: 4.8rem;
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.san-feat__head {
+  text-align: center;
+  max-width: 64rem;
+  margin: 0 auto 4.8rem;
+}
+
+.san-feat__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #55823d;
+  margin: 0 0 1.8rem;
+}
+
+.san-feat__eyebrow::before,
+.san-feat__eyebrow::after {
+  content: '';
+  width: 2.4rem;
+  height: 1px;
+  background: rgba(85, 130, 61, 0.45);
+}
+
+.san-feat__heading {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(3.2rem, 4.6vw, 5.4rem);
+  color: #1f3a13;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.san-feat__heading-accent {
+  color: #55823d;
+  font-style: italic;
+}
+
+.san-feat__desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.55rem;
+  line-height: 1.7;
+  color: rgba(28, 43, 20, 0.62);
+  margin: 2rem auto 0;
+  max-width: 52rem;
+}
+
+/* ----------------------------------------------------------------
+   Tabs
+   ---------------------------------------------------------------- */
+.san-feat__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 2.4rem;
+  margin-bottom: 4.8rem;
+  border-bottom: 1px solid rgba(49, 89, 29, 0.12);
+  padding-bottom: 0;
+}
+
+.san-feat__tab {
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(28, 43, 20, 0.5);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 0 1.6rem;
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.san-feat__tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: #55823d;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.san-feat__tab:hover {
+  color: #31591d;
+}
+
+.san-feat__tab.is-active {
+  color: #1f3a13;
+}
+
+.san-feat__tab.is-active::after {
+  transform: scaleX(1);
+}
+
+/* ----------------------------------------------------------------
+   Panels + grid
+   ---------------------------------------------------------------- */
+.san-feat__panel[hidden] {
+  display: none;
+}
+
+.san-feat__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--feat-cols, 4), 1fr);
+  gap: 2.4rem 2rem;
+}
+
+.san-feat__panel-foot {
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+}
+
+.san-feat__view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #31591d;
+  padding: 1.6rem 4rem;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.san-feat__view-all:hover {
+  background: #1f3a13;
+  transform: translateY(-2px);
+}
+
+.san-feat__view-all svg {
+  transition: transform 0.2s ease;
+}
+
+.san-feat__view-all:hover svg {
+  transform: translateX(4px);
+}
+
+.san-feat__empty {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  color: rgba(28, 43, 20, 0.5);
+  padding: 4rem 0;
+}
+
+/* ----------------------------------------------------------------
+   Staggered card entrance (re-runs when a panel is shown)
+   ---------------------------------------------------------------- */
+@keyframes sanFeatCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.san-feat__panel.is-active .san-pcard {
+  animation: sanFeatCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--card-i, 1) * 55ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .san-feat__panel.is-active .san-pcard {
+    animation: none;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+@media screen and (max-width: 989px) {
+  .san-feat__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .san-feat__inner {
+    padding-left: 1.8rem;
+    padding-right: 1.8rem;
+  }
+
+  .san-feat__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1.4rem;
+  }
+
+  .san-feat__head {
+    margin-bottom: 3.4rem;
+  }
+
+  .san-feat__tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    gap: 2rem;
+    margin-bottom: 3.4rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .san-feat__tabs::-webkit-scrollbar {
+    display: none;
+  }
+}

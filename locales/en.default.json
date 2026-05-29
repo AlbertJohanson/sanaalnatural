@@ -8,6 +8,119 @@
  * ------------------------------------------------------------
  */
 {
+  "san": {
+    "hero": {
+      "eyebrow": "100% Natural · Made with love",
+      "heading": "Wellness that |grows from nature|",
+      "description": "Sana al Natural is a brand devoted to health and wellbeing through natural products.",
+      "button_1": "Shop now",
+      "button_2": "View collection",
+      "badge": "NATURAL · ORGANIC · HEALTHY · WELLBEING ·",
+      "a11y": {
+        "gallery": "Image gallery",
+        "previous": "Previous slide",
+        "next": "Next slide",
+        "slides": "Slides",
+        "slide_count": "{{ index }} of {{ total }}",
+        "go_to": "Go to slide {{ index }}"
+      },
+      "slides": {
+        "1": { "label": "New collection", "caption": "Nature in every product" },
+        "2": { "label": "Natural wellbeing", "caption": "Crafted with the finest ingredients" },
+        "3": { "label": "100% organic", "caption": "No artificial preservatives" }
+      }
+    },
+    "featured_tabs": {
+      "eyebrow": "Our selection",
+      "heading": "The best of |nature|",
+      "description": "Browse by category and find the perfect natural product for you.",
+      "view_all": "View all",
+      "default_tab": "Collection",
+      "empty": "Add tabs (collections) from the theme editor.",
+      "panel_empty": "Assign a collection with products to this tab from the theme editor.",
+      "tabs": {
+        "1": "Featured",
+        "2": "Supplements",
+        "3": "Superfoods",
+        "4": "Essential Oils",
+        "5": "Teas & Infusions"
+      }
+    },
+    "brand_story": {
+      "overline": "Our Story",
+      "heading": "Over 5 years bringing nature to your table",
+      "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p><p>We work directly with certified organic producers, ensuring that what reaches your home is genuinely natural, delicious and powerful for your wellbeing.</p>",
+      "value_1": "Certified organic ingredients",
+      "value_2": "Fair trade with small-scale producers",
+      "value_3": "No artificial additives or preservatives",
+      "stat_number": "5000+",
+      "stat_label": "Families who trust us",
+      "button": "Discover our story"
+    },
+    "categories": {
+      "eyebrow": "Browse by category",
+      "heading": "Find what your |body needs|",
+      "description": "Every category brings together the best of nature, curated for your wellbeing.",
+      "nav_label": "Categories",
+      "view": "View {{ name }}",
+      "view_all": "View all products in {{ name }}",
+      "empty": "There are no collections with products to show yet."
+    },
+    "testimonials": {
+      "heading": "What our customers say",
+      "empty": "Add testimonials from the theme editor.",
+      "rating": "{{ rating }} of 5 stars",
+      "items": {
+        "1": {
+          "quote": "Sana Al Natural's supplements completely transformed my wellness routine. I noticed the difference from the very first week. The quality is unmatched and the taste is incredible.",
+          "author": "María González",
+          "location": "Mexico City"
+        },
+        "2": {
+          "quote": "I finally found natural products that truly work and taste delicious. The infusion teas are my favorite — I drink them every morning and they give me amazing energy.",
+          "author": "Carlos Ruiz",
+          "location": "Guadalajara, Jalisco"
+        },
+        "3": {
+          "quote": "The quality is unmatched. I'm very demanding about what I buy for my family, and Sana Al Natural never lets me down. The essential oils are simply perfect.",
+          "author": "Ana Morales",
+          "location": "Monterrey, N.L."
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "We answer your questions",
+      "heading": "Frequently asked |questions|",
+      "description": "Everything you need to know about our products, shipping and commitment to all things natural.",
+      "contact_label": "More questions? Write to us",
+      "empty": "Add questions from the theme editor.",
+      "items": {
+        "1": {
+          "question": "Are your products 100% natural?",
+          "answer_html": "<p>Yes. All our products are formulated with selected natural ingredients, free from artificial additives and preservatives.</p>"
+        },
+        "2": {
+          "question": "How long does shipping take?",
+          "answer_html": "<p>Orders are processed within 24–48 hours and arrive in 3 to 5 business days. Shipping is free on purchases over $500.</p>"
+        },
+        "3": {
+          "question": "Are you organically certified?",
+          "answer_html": "<p>We work with certified producers that guarantee sustainable and responsible farming processes.</p>"
+        },
+        "4": {
+          "question": "Can I return a product?",
+          "answer_html": "<p>We accept returns within 30 days of purchase. Write to us and we'll help you with the process.</p>"
+        }
+      }
+    },
+    "footer": {
+      "statement": "Wellness that |grows from nature|",
+      "blurb": "Carefully selected natural products for your wellbeing — from the field to your table.",
+      "newsletter_heading": "Join the community",
+      "newsletter_text": "Get news, natural-wellness tips and exclusive offers.",
+      "rights": "All rights reserved."
+    }
+  },
   "general": {
     "password_page": {
       "login_form_heading": "Enter store using password:",

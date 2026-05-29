@@ -1,10 +1,38 @@
 {%- liquid
-  assign heading = section.settings.heading
+  assign heading = 'san.testimonials.heading' | t
+  assign bg_image = section.settings.background_image
+  assign has_bg = false
+  if bg_image != blank
+    assign has_bg = true
+  endif
+  assign overlay = section.settings.overlay_opacity | default: 55
+  assign overlay_decimal = overlay | divided_by: 100.0
 -%}
 
 {{ 'section-san-testimonials.css' | asset_url | stylesheet_tag }}
 
-<section class="san-testi" id="san-testi-{{ section.id }}">
+<section
+  class="san-testi{% if has_bg %} san-testi--has-bg{% endif %}"
+  id="san-testi-{{ section.id }}"
+  {% if has_bg %}style="--san-testi-overlay: {{ overlay_decimal }};"{% endif %}
+>
+  {%- if has_bg -%}
+    <div class="san-testi__bg" aria-hidden="true">
+      <img
+        src="{{ bg_image | image_url: width: 1800 }}"
+        srcset="{{ bg_image | image_url: width: 900 }} 900w, {{ bg_image | image_url: width: 1400 }} 1400w, {{ bg_image | image_url: width: 1800 }} 1800w, {{ bg_image | image_url: width: 2400 }} 2400w"
+        sizes="100vw"
+        alt=""
+        loading="lazy"
+        width="{{ bg_image.width }}"
+        height="{{ bg_image.height }}"
+      >
+      <div class="san-testi__bg-overlay"></div>
+    </div>
+  {%- else -%}
+    {%- comment -%} Living animated backdrop for the default (no-image) variant {%- endcomment -%}
+    {%- render 'san-organic-bg', uid: section.id -%}
+  {%- endif -%}
   <div class="san-testi__inner">
 
     <div class="san-testi__header san-reveal">
@@ -23,6 +51,18 @@
         {%- liquid
           assign delay_index = forloop.index | at_most: 5
           assign delay_class = 'san-reveal-d' | append: delay_index
+          assign t_quote = 'san.testimonials.items.' | append: forloop.index | append: '.quote' | t
+          if t_quote contains 'translation missing'
+            assign t_quote = block.settings.quote
+          endif
+          assign t_author = 'san.testimonials.items.' | append: forloop.index | append: '.author' | t
+          if t_author contains 'translation missing'
+            assign t_author = block.settings.author
+          endif
+          assign t_location = 'san.testimonials.items.' | append: forloop.index | append: '.location' | t
+          if t_location contains 'translation missing'
+            assign t_location = block.settings.location
+          endif
         -%}
         <div
           class="san-testi__card san-reveal {{ delay_class }}"
@@ -32,7 +72,7 @@
           <div
             class="san-testi__stars"
             role="img"
-            aria-label="{{ block.settings.rating }} estrellas de 5"
+            aria-label="{{ 'san.testimonials.rating' | t: rating: block.settings.rating }}"
           >
             {%- for i in (1..5) -%}
               {%- liquid
@@ -54,12 +94,12 @@
             {%- endfor -%}
           </div>
 
-          <!-- Large decorative quote mark -->
-          <div class="san-testi__quote-mark" aria-hidden="true">"</div>
+          <!-- Large decorative quote mark (curly serif) -->
+          <div class="san-testi__quote-mark" aria-hidden="true">&ldquo;</div>
 
           <!-- Quote text -->
           <blockquote class="san-testi__quote">
-            {{ block.settings.quote }}
+            {{ t_quote }}
           </blockquote>
 
           <!-- Author info -->
@@ -67,20 +107,20 @@
             <div class="san-testi__avatar" aria-hidden="true">
               {%- assign initial = block.settings.avatar_initial -%}
               {%- if initial == blank -%}
-                {%- assign initial = block.settings.author | slice: 0 -%}
+                {%- assign initial = t_author | slice: 0 -%}
               {%- endif -%}
               {{ initial | upcase }}
             </div>
             <div class="san-testi__author-info">
-              <span class="san-testi__author-name">{{ block.settings.author }}</span>
-              {%- if block.settings.location != blank -%}
-                <span class="san-testi__author-location">{{ block.settings.location }}</span>
+              <span class="san-testi__author-name">{{ t_author }}</span>
+              {%- if t_location != blank -%}
+                <span class="san-testi__author-location">{{ t_location }}</span>
               {%- endif -%}
             </div>
           </div>
         </div>
       {%- else -%}
-        <p class="san-testi__empty">Agrega testimonios desde el editor de tema.</p>
+        <p class="san-testi__empty">{{ 'san.testimonials.empty' | t }}</p>
       {%- endfor -%}
     </div>
 
@@ -98,6 +138,26 @@
       "id": "heading",
       "label": "Título de sección",
       "default": "Lo que dicen nuestros clientes"
+    },
+    {
+      "type": "header",
+      "content": "Fondo cinemático"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Imagen de fondo (full-bleed)",
+      "info": "Si se selecciona, la sección se renderiza con un fondo de imagen estilo editorial. Si se deja vacío, se mantiene el fondo claro original."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Opacidad del overlay",
+      "min": 20,
+      "max": 85,
+      "step": 5,
+      "unit": "%",
+      "default": 55
     }
   ],
   "blocks": [

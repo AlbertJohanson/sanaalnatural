@@ -1,22 +1,46 @@
 /* ================================================================
-   SANA AL NATURAL — Testimonials / Social Proof
-   section-san-testimonials.css
+   SANA AL NATURAL — Testimonials / Social Proof (light, v5)
+   White section + soft green living backdrop · white cards w/ animation
    Dawn base: 62.5% html → 1rem = 10px
    ================================================================ */
 
-/* ----------------------------------------------------------------
-   Section wrapper
-   ---------------------------------------------------------------- */
 .san-testi {
-  padding: 10rem 0;
-  background: linear-gradient(180deg, #f7f5f2 0%, #ffffff 100%);
+  position: relative;
+  padding: 11rem 0;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(70% 60% at 82% 2%, rgba(85, 130, 61, 0.1), transparent 55%),
+    radial-gradient(60% 70% at 8% 100%, rgba(175, 234, 144, 0.16), transparent 55%),
+    #ffffff;
+}
+
+/* ----------------------------------------------------------------
+   Animated backdrop — tuned to stay lively on the WHITE section.
+   The drifting green blobs read as soft moving color; the leaf
+   line-art + particles are recolored so the motion shows on white.
+   ---------------------------------------------------------------- */
+.san-testi .san-organic {
+  opacity: 0.9;
+}
+.san-testi .san-organic__leaf {
+  opacity: 0.16 !important;
+}
+.san-testi .san-organic__leaf path,
+.san-testi .san-organic__leaf line {
+  stroke: #55823d !important;
+}
+.san-testi .san-organic__dot {
+  fill: #6aa048;
 }
 
 /* ----------------------------------------------------------------
    Inner container
    ---------------------------------------------------------------- */
 .san-testi__inner {
-  max-width: 120rem;
+  position: relative;
+  z-index: 1;
+  max-width: 124rem;
   margin-left: auto;
   margin-right: auto;
   padding: 0 4.8rem;
@@ -34,15 +58,24 @@
   font-family: 'Noto Serif', Georgia, serif;
   font-style: italic;
   font-weight: 700;
-  font-size: 3.6rem;
+  font-size: clamp(3rem, 4vw, 4.4rem);
   color: #31591d;
-  margin: 0 0 2rem 0;
-  line-height: 1.2;
+  margin: 0 0 1.8rem 0;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
 .san-testi__heading-deco {
   display: flex;
   justify-content: center;
+}
+.san-testi__heading-deco svg line {
+  stroke: #55823d !important;
+  opacity: 0.45 !important;
+}
+.san-testi__heading-deco svg circle {
+  stroke: #55823d !important;
+  opacity: 0.7 !important;
 }
 
 .san-testi__empty {
@@ -51,6 +84,7 @@
   color: rgba(0, 0, 0, 0.45);
   padding: 4rem 0;
   grid-column: 1 / -1;
+  text-align: center;
 }
 
 /* ----------------------------------------------------------------
@@ -63,16 +97,20 @@
 }
 
 /* ----------------------------------------------------------------
-   Individual card
+   Card — white, elevated, on the soft-green section
    ---------------------------------------------------------------- */
 .san-testi__card {
-  background: #ffffff;
-  padding: 3.6rem 3.2rem;
   position: relative;
-  border: 1px solid rgba(85, 130, 61, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  padding: 3.6rem 3.2rem;
+  background: #ffffff;
+  border: 1px solid rgba(49, 89, 29, 0.08);
+  box-shadow: 0 18px 44px rgba(31, 58, 19, 0.1);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s ease,
+    border-color 0.3s ease;
 }
 
+/* Animated accent line at top (faint shimmer, full sweep on hover) */
 .san-testi__card::before {
   content: '';
   position: absolute;
@@ -80,24 +118,49 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #31591d, #55823d, #afea90);
-  transform: scaleX(0);
+  background: linear-gradient(90deg, transparent, #31591d, #55823d, #afea90, transparent);
+  background-size: 200% 100%;
+  opacity: 0.6;
+  transform: scaleX(0.55);
   transform-origin: left center;
-  transition: transform 0.35s ease;
+  animation: sanTestiSheen 6s linear infinite;
+  transition: transform 0.45s var(--ease-out-expo), opacity 0.35s ease;
+}
+
+@keyframes sanTestiSheen {
+  to { background-position: -200% 0; }
 }
 
 .san-testi__card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(49, 89, 29, 0.1);
-  border-color: rgba(85, 130, 61, 0.25);
+  transform: translateY(-8px);
+  border-color: rgba(85, 130, 61, 0.28);
+  box-shadow: 0 34px 74px rgba(31, 58, 19, 0.18);
 }
 
 .san-testi__card:hover::before {
   transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Soft breathing glow inside each card */
+.san-testi__card::after {
+  content: '';
+  position: absolute;
+  bottom: -40%;
+  right: -20%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(85, 130, 61, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.san-testi__card:hover::after {
+  opacity: 1;
 }
 
 /* ----------------------------------------------------------------
-   Stars
+   Stars — gentle staggered twinkle
    ---------------------------------------------------------------- */
 .san-testi__stars {
   display: flex;
@@ -108,25 +171,43 @@
 .san-testi__star {
   color: #55823d;
   flex-shrink: 0;
+  animation: sanTestiTwinkle 4s ease-in-out infinite;
 }
+.san-testi__star:nth-child(2) { animation-delay: 0.4s; }
+.san-testi__star:nth-child(3) { animation-delay: 0.8s; }
+.san-testi__star:nth-child(4) { animation-delay: 1.2s; }
+.san-testi__star:nth-child(5) { animation-delay: 1.6s; }
 
 .san-testi__star--empty {
   color: rgba(85, 130, 61, 0.2);
+  animation: none;
+}
+
+@keyframes sanTestiTwinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 /* ----------------------------------------------------------------
-   Decorative quote mark
+   Decorative quote mark — gentle float
    ---------------------------------------------------------------- */
 .san-testi__quote-mark {
   font-family: 'Noto Serif', Georgia, serif;
   font-style: italic;
   font-weight: 700;
-  font-size: 8rem;
-  line-height: 0.6;
-  color: rgba(85, 130, 61, 0.15);
-  margin-bottom: 1.2rem;
+  font-size: 10rem;
+  line-height: 0.55;
+  color: rgba(85, 130, 61, 0.2);
+  margin: 0 0 0.8rem -0.4rem;
   display: block;
   user-select: none;
+  letter-spacing: -0.04em;
+  animation: sanTestiFloat 6s ease-in-out infinite;
+}
+
+@keyframes sanTestiFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 /* ----------------------------------------------------------------
@@ -134,7 +215,7 @@
    ---------------------------------------------------------------- */
 .san-testi__quote {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.45rem;
+  font-size: 1.5rem;
   line-height: 1.75;
   color: rgba(0, 0, 0, 0.68);
   font-style: italic;
@@ -149,25 +230,30 @@
   display: flex;
   align-items: center;
   gap: 1.4rem;
-  border-top: 1px solid rgba(85, 130, 61, 0.1);
+  border-top: 1px solid rgba(49, 89, 29, 0.1);
   padding-top: 2rem;
 }
 
-/* Avatar circle with initial */
 .san-testi__avatar {
-  width: 4.4rem;
-  height: 4.4rem;
+  width: 4.6rem;
+  height: 4.6rem;
   border-radius: 50%;
   background: #31591d;
   color: #afea90;
   font-family: 'Noto Serif', Georgia, serif;
-  font-size: 1.8rem;
+  font-size: 1.9rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   line-height: 1;
+  transition: transform 0.4s var(--ease-out-expo), background 0.3s ease;
+}
+
+.san-testi__card:hover .san-testi__avatar {
+  transform: scale(1.08) rotate(-4deg);
+  background: #3d6b28;
 }
 
 .san-testi__author-info {
@@ -179,7 +265,7 @@
 .san-testi__author-name {
   display: block;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #31591d;
   line-height: 1.3;
@@ -194,7 +280,18 @@
 }
 
 /* ----------------------------------------------------------------
-   Mobile
+   Reduced motion — kill the ambient loops
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .san-testi__card::before,
+  .san-testi__star,
+  .san-testi__quote-mark {
+    animation: none !important;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Responsive
    ---------------------------------------------------------------- */
 @media screen and (max-width: 999px) {
   .san-testi__grid {
@@ -204,30 +301,106 @@
 
 @media screen and (max-width: 749px) {
   .san-testi {
-    padding: 6rem 0;
+    padding: 7rem 0;
   }
-
   .san-testi__inner {
     padding: 0 2rem;
   }
-
-  .san-testi__heading {
-    font-size: 2.8rem;
-  }
-
   .san-testi__header {
     margin-bottom: 4rem;
   }
-
   .san-testi__grid {
     grid-template-columns: 1fr;
   }
-
   .san-testi__card {
     padding: 2.8rem 2.4rem;
   }
-
   .san-testi__card:hover {
     transform: none;
+  }
+}
+
+/* ================================================================
+   FULL-BLEED IMAGE BACKGROUND VARIANT  (--has-bg)
+   Activated when the section's "background_image" setting is set.
+   Cinematic — glassmorphism cards on a photo backdrop (inverted text).
+   ================================================================ */
+.san-testi--has-bg {
+  background: #1a2616;
+  padding: 12rem 0;
+}
+
+.san-testi--has-bg .san-testi__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.san-testi--has-bg .san-testi__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: saturate(0.92);
+}
+
+.san-testi--has-bg .san-testi__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(26, 38, 22, 0.25) 0%, rgba(20, 35, 14, 0.55) 60%, rgba(20, 35, 14, 0.85) 100%),
+    linear-gradient(180deg, rgba(20, 35, 14, calc(var(--san-testi-overlay, 0.55) * 0.6)) 0%, rgba(20, 35, 14, var(--san-testi-overlay, 0.55)) 100%);
+}
+
+.san-testi--has-bg .san-testi__heading {
+  color: #ffffff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}
+.san-testi--has-bg .san-testi__heading-deco svg line,
+.san-testi--has-bg .san-testi__heading-deco svg circle {
+  stroke: #afea90 !important;
+}
+
+/* Glass cards + inverted text on the cinematic variant */
+.san-testi--has-bg .san-testi__card {
+  background: rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+.san-testi--has-bg .san-testi__quote {
+  color: rgba(255, 255, 255, 0.92);
+}
+.san-testi--has-bg .san-testi__quote-mark {
+  color: rgba(175, 234, 144, 0.35);
+  font-size: 11rem;
+}
+.san-testi--has-bg .san-testi__star {
+  color: #afea90;
+}
+.san-testi--has-bg .san-testi__star--empty {
+  color: rgba(255, 255, 255, 0.2);
+}
+.san-testi--has-bg .san-testi__author {
+  border-top-color: rgba(255, 255, 255, 0.14);
+}
+.san-testi--has-bg .san-testi__avatar {
+  background: rgba(175, 234, 144, 0.18);
+  color: #afea90;
+  border: 1px solid rgba(175, 234, 144, 0.3);
+}
+.san-testi--has-bg .san-testi__author-name {
+  color: #ffffff;
+}
+.san-testi--has-bg .san-testi__author-location {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media screen and (max-width: 749px) {
+  .san-testi--has-bg {
+    padding: 8rem 0;
   }
 }

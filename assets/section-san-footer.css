@@ -1,119 +1,128 @@
 /* ================================================================
-   SANA AL NATURAL — Footer v1.0
-   Editorial Botanical Luxury · Dark Green Base
-   Mirrors header design language (gradient accent, typography)
-   Dawn base: 1rem = 10px (html 62.5%)
-   ================================================================ */
-
-/* ================================================================
-   1. WRAPPER & GRADIENT ACCENT
+   SANA AL NATURAL — Footer v2.0
+   Botanical Immersive · Deep-Green Base
+   Animated organic backdrop + oversized statement + glass newsletter
+   + giant brand watermark. Dawn base: 1rem = 10px (html 62.5%)
    ================================================================ */
 
 .san-footer {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   background-color: #31591d;
   color: rgba(255, 255, 255, 0.85);
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  position: relative;
-  overflow: hidden;
   margin-top: 0 !important;
   border-top: none !important;
 }
 
-/* Gradient accent — mirrors header ::before */
+/* Gradient accent — mirrors header */
 .san-footer::before {
   content: '';
-  display: block;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    #31591d 0%,
-    #55823d 25%,
-    #afea90 50%,
-    #55823d 75%,
-    #31591d 100%
-  );
-  flex-shrink: 0;
-}
-
-/* Subtle botanical texture overlay */
-.san-footer::after {
-  content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(ellipse at 15% 20%, rgba(175, 234, 144, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 80%, rgba(175, 234, 144, 0.03) 0%, transparent 50%);
-  pointer-events: none;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 3;
+  background: linear-gradient(90deg, #31591d 0%, #55823d 25%, #afea90 50%, #55823d 75%, #31591d 100%);
 }
 
-/* ================================================================
-   2. MAIN CONTENT AREA
-   ================================================================ */
+/* Backdrop layering */
+.san-footer .san-organic {
+  z-index: 0;
+}
 
-.san-footer__main {
-  position: relative;
+/* Oversized brand watermark */
+.san-footer__watermark {
+  position: absolute;
+  left: 50%;
+  bottom: -1.5rem;
+  transform: translateX(-50%);
   z-index: 1;
+  margin: 0;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(6rem, 17vw, 24rem);
+  line-height: 0.78;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  user-select: none;
+}
+
+.san-footer__inner {
+  position: relative;
+  z-index: 2;
   max-width: var(--page-width, 120rem);
   margin: 0 auto;
-  padding: 6rem 5rem 4rem;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
-  gap: 4rem;
+  padding: 7rem 5rem 3.5rem;
 }
 
 /* ================================================================
-   3. BRAND COLUMN
+   TOP — statement + newsletter
    ================================================================ */
 
-.san-footer__brand {
-  padding-right: 2rem;
+.san-footer__top {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 5rem;
+  align-items: start;
 }
 
 .san-footer__logo {
   display: block;
-  max-width: 16rem;
-  margin-bottom: 2rem;
+  max-width: 15rem;
+  margin-bottom: 2.4rem;
 }
 
-.san-footer__logo img,
-.san-footer__logo svg {
+.san-footer__logo img {
   width: 100%;
   height: auto;
   filter: brightness(0) invert(1);
 }
 
-.san-footer__tagline {
+.san-footer__brandname {
+  display: inline-block;
+  margin-bottom: 2.4rem;
   font-family: 'Noto Serif', Georgia, serif;
   font-style: italic;
   font-weight: 700;
-  font-size: 2rem;
-  line-height: 1.35;
+  font-size: 2.4rem;
   color: #ffffff;
-  margin: 0 0 1.6rem;
-  letter-spacing: -0.01em;
+  text-decoration: none;
 }
 
-.san-footer__tagline .accent {
+.san-footer__statement {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 3.4vw, 4.2rem);
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: #ffffff;
+  margin: 0 0 2rem;
+  max-width: 18ch;
+}
+
+.san-footer__statement em {
+  font-style: italic;
   color: #afea90;
 }
 
-.san-footer__description {
-  font-size: 1.3rem;
-  line-height: 1.7;
+.san-footer__blurb {
+  font-size: 1.4rem;
+  line-height: 1.75;
   color: rgba(255, 255, 255, 0.6);
-  margin: 0 0 2.4rem;
-  max-width: 28rem;
+  margin: 0 0 2.8rem;
+  max-width: 36rem;
 }
 
-/* Social icons in brand column */
+/* Social */
 .san-footer__social {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1.1rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -123,184 +132,204 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.6rem;
-  height: 3.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.7);
-  transition: all 0.3s ease;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.72);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   text-decoration: none;
 }
 
 .san-footer__social-link:hover {
-  background-color: #55823d;
-  border-color: #55823d;
-  color: #ffffff;
-  transform: translateY(-2px);
+  background-color: #afea90;
+  border-color: #afea90;
+  color: #31591d;
+  transform: translateY(-3px);
 }
 
 .san-footer__social-link svg {
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 1.7rem;
+  height: 1.7rem;
 }
 
-/* ================================================================
-   4. NAVIGATION COLUMNS
-   ================================================================ */
-
-.san-footer__nav-col {}
-
-.san-footer__heading {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #afea90;
-  margin: 0 0 2rem;
+/* Newsletter — glass card */
+.san-footer__newsletter {
+  padding: 3.2rem 3rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
 }
 
-.san-footer__nav-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.san-footer__nav-list li {
-  margin-bottom: 1rem;
-}
-
-.san-footer__nav-list a {
-  font-size: 1.35rem;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.65);
-  text-decoration: none;
-  transition: color 0.25s ease, padding-left 0.25s ease;
-  display: inline-block;
-  position: relative;
-}
-
-.san-footer__nav-list a::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 0;
-  height: 1px;
-  background-color: #afea90;
-  transition: width 0.3s ease;
-}
-
-.san-footer__nav-list a:hover {
+.san-footer__nl-heading {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2.2rem;
   color: #ffffff;
+  margin: 0 0 0.8rem;
 }
 
-.san-footer__nav-list a:hover::before {
-  width: 100%;
-}
-
-.san-footer__nav-list .list-menu__item--active {
-  color: #afea90;
-}
-
-/* ================================================================
-   5. NEWSLETTER COLUMN
-   ================================================================ */
-
-.san-footer__newsletter {}
-
-.san-footer__newsletter-text {
+.san-footer__nl-text {
   font-size: 1.3rem;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.6);
   margin: 0 0 2rem;
 }
 
-.san-footer__newsletter-form {
-  position: relative;
-}
-
-.san-footer__newsletter-field {
+.san-footer__nl-field {
   display: flex;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 2px;
+  overflow: hidden;
   transition: border-color 0.3s ease;
 }
 
-.san-footer__newsletter-field:focus-within {
+.san-footer__nl-field:focus-within {
   border-color: #afea90;
 }
 
-.san-footer__newsletter-input {
+.san-footer__nl-input {
   flex: 1;
+  min-width: 0;
   background: transparent;
   border: none;
-  padding: 1.2rem 1.6rem;
+  padding: 1.3rem 1.6rem;
   font-family: 'Poppins', sans-serif;
   font-size: 1.3rem;
   color: #ffffff;
   outline: none;
 }
 
-.san-footer__newsletter-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+.san-footer__nl-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
   font-style: italic;
 }
 
-.san-footer__newsletter-btn {
-  background-color: #55823d;
+.san-footer__nl-btn {
+  flex-shrink: 0;
+  background-color: #afea90;
   border: none;
-  padding: 1.2rem 1.8rem;
+  padding: 0 2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  transition: background-color 0.25s ease;
-  flex-shrink: 0;
-}
-
-.san-footer__newsletter-btn:hover {
-  background-color: #afea90;
   color: #31591d;
+  transition: background-color 0.25s ease;
 }
 
-.san-footer__newsletter-btn svg {
+.san-footer__nl-btn:hover {
+  background-color: #ffffff;
+}
+
+.san-footer__nl-btn svg {
   width: 1.8rem;
   height: 1.8rem;
 }
 
-/* Newsletter messages */
-.san-footer__newsletter-error,
-.san-footer__newsletter-success {
+.san-footer__nl-error,
+.san-footer__nl-success {
   font-size: 1.2rem;
-  margin-top: 0.8rem;
+  margin-top: 0.9rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.san-footer__newsletter-error {
-  color: #f0a0a0;
+.san-footer__nl-error {
+  color: #f4b1b1;
 }
 
-.san-footer__newsletter-success {
+.san-footer__nl-success {
   color: #afea90;
 }
 
-/* Follow on Shop */
 .san-footer__follow-on-shop {
-  margin-top: 2rem;
+  margin-top: 1.8rem;
 }
 
 /* ================================================================
-   6. DIVIDER
+   LINK COLUMNS
+   ================================================================ */
+
+.san-footer__cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 3rem 4rem;
+  margin-top: 5.5rem;
+}
+
+.san-footer__col-heading {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #afea90;
+  margin: 0 0 1.8rem;
+}
+
+.san-footer__col-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.san-footer__col-list li {
+  margin-bottom: 1rem;
+}
+
+.san-footer__col-list a {
+  position: relative;
+  display: inline-block;
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-footer__col-list a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: #afea90;
+  transition: width 0.3s ease;
+}
+
+.san-footer__col-list a:hover {
+  color: #ffffff;
+}
+
+.san-footer__col-list a:hover::before {
+  width: 100%;
+}
+
+.san-footer__col-list .list-menu__item--active {
+  color: #afea90;
+}
+
+.san-footer__col-text {
+  font-size: 1.35rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.san-footer__col-text a {
+  color: #afea90;
+}
+
+/* ================================================================
+   DIVIDER
    ================================================================ */
 
 .san-footer__divider {
-  position: relative;
-  z-index: 1;
-  max-width: var(--page-width, 120rem);
-  margin: 0 auto;
-  padding: 0 5rem;
+  margin: 5rem 0 0;
 }
 
 .san-footer__divider-line {
@@ -315,33 +344,25 @@
 }
 
 /* ================================================================
-   7. BOTTOM BAR
+   BOTTOM BAR
    ================================================================ */
 
 .san-footer__bottom {
-  position: relative;
-  z-index: 1;
-  max-width: var(--page-width, 120rem);
-  margin: 0 auto;
-  padding: 2.4rem 5rem 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1.6rem;
+  gap: 1.6rem 2.4rem;
+  padding-top: 2.6rem;
 }
 
 .san-footer__copyright {
   font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.35);
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .san-footer__copyright a {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.55);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -350,10 +371,10 @@
   color: #afea90;
 }
 
-/* Policies */
 .san-footer__policies {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 2rem;
   list-style: none;
   padding: 0;
@@ -362,7 +383,7 @@
 
 .san-footer__policies a {
   font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.45);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -371,15 +392,15 @@
   color: #afea90;
 }
 
-.san-footer__policies li + li::before {
-  content: none;
+.san-footer__localization {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
 }
 
-/* Payment icons */
 .san-footer__payment {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
 }
 
 .san-footer__payment .list-payment {
@@ -393,12 +414,12 @@
 }
 
 .san-footer__payment .list-payment__item {
-  opacity: 0.5;
+  opacity: 0.55;
   transition: opacity 0.2s ease;
 }
 
 .san-footer__payment .list-payment__item:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
 .san-footer__payment .icon {
@@ -406,42 +427,14 @@
   height: auto;
 }
 
-/* Localization */
-.san-footer__localization {
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
-}
-
-.san-footer__localization .localization-form {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.san-footer__localization .localization-form__select,
-.san-footer__localization .localization-selector.link {
-  color: rgba(255, 255, 255, 0.5) !important;
+/* Country selector (Dawn disclosure) on dark bg */
+.san-footer__localization .localization-form__select {
+  color: rgba(255, 255, 255, 0.55) !important;
   font-size: 1.15rem;
 }
 
-.san-footer__localization .localization-form__select:hover,
-.san-footer__localization .localization-selector.link:hover {
+.san-footer__localization .localization-form__select:hover {
   color: #afea90 !important;
-}
-
-.san-footer__localization noscript .localization-form__select {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Disclosure overrides for dark bg */
-.san-footer .disclosure__button {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 1.15rem;
-}
-
-.san-footer .disclosure__button:hover {
-  color: #afea90;
 }
 
 .san-footer .disclosure__list-wrapper {
@@ -459,139 +452,79 @@
 }
 
 /* ================================================================
-   8. RESPONSIVE — TABLET
+   RESPONSIVE — TABLET
    ================================================================ */
 
 @media screen and (max-width: 989px) {
-  .san-footer__main {
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem 3rem;
-    padding: 5rem 4rem 3.5rem;
+  .san-footer__inner {
+    padding: 5.5rem 4rem 3rem;
   }
 
-  .san-footer__brand {
-    grid-column: 1 / -1;
-    padding-right: 0;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .san-footer__description {
-    max-width: 40rem;
-  }
-
-  .san-footer__social {
-    justify-content: center;
-  }
-
-  .san-footer__divider {
-    padding: 0 4rem;
-  }
-
-  .san-footer__bottom {
-    padding: 2rem 4rem 2.5rem;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .san-footer__policies {
-    justify-content: center;
-  }
-
-  .san-footer__payment {
-    justify-content: center;
-  }
-}
-
-/* ================================================================
-   9. RESPONSIVE — MOBILE
-   ================================================================ */
-
-@media screen and (max-width: 749px) {
-  .san-footer__main {
+  .san-footer__top {
     grid-template-columns: 1fr;
     gap: 3.5rem;
-    padding: 4rem 2.4rem 3rem;
   }
 
-  .san-footer__brand {
-    text-align: center;
-  }
-
-  .san-footer__tagline {
-    font-size: 1.8rem;
-  }
-
-  .san-footer__nav-col {
-    text-align: center;
-  }
-
-  .san-footer__heading {
-    margin-bottom: 1.4rem;
-  }
-
-  .san-footer__nav-list a::before {
-    left: 50%;
-    transform: translateX(-50%);
+  .san-footer__statement {
+    max-width: 22ch;
   }
 
   .san-footer__newsletter {
-    text-align: center;
+    max-width: 48rem;
   }
 
-  .san-footer__divider {
-    padding: 0 2.4rem;
-  }
-
-  .san-footer__bottom {
-    padding: 2rem 2.4rem 2.5rem;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.2rem;
-  }
-
-  .san-footer__policies {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.2rem;
-  }
-
-  .san-footer__localization {
-    justify-content: center;
+  .san-footer__cols {
+    margin-top: 4.5rem;
   }
 }
 
 /* ================================================================
-   10. ENTRANCE ANIMATIONS
+   RESPONSIVE — MOBILE
    ================================================================ */
 
-@keyframes sanFooterFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
+@media screen and (max-width: 749px) {
+  .san-footer__inner {
+    padding: 4.5rem 2.4rem 2.8rem;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .san-footer__newsletter {
+    padding: 2.6rem 2rem;
+  }
+
+  .san-footer__cols {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2rem;
+    margin-top: 4rem;
+  }
+
+  .san-footer__divider {
+    margin-top: 4rem;
+  }
+
+  .san-footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.4rem;
+  }
+
+  .san-footer__watermark {
+    font-size: clamp(5rem, 26vw, 12rem);
+    bottom: -0.8rem;
   }
 }
 
-.san-footer__main > * {
-  opacity: 0;
-  animation: sanFooterFadeUp 0.6s ease forwards;
+@media screen and (max-width: 479px) {
+  .san-footer__cols {
+    grid-template-columns: 1fr;
+  }
 }
 
-.san-footer__main > *:nth-child(1) { animation-delay: 0.1s; }
-.san-footer__main > *:nth-child(2) { animation-delay: 0.2s; }
-.san-footer__main > *:nth-child(3) { animation-delay: 0.3s; }
-.san-footer__main > *:nth-child(4) { animation-delay: 0.4s; }
+/* ================================================================
+   REDUCED MOTION (organic bg + reveals handled globally)
+   ================================================================ */
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .san-footer__main > * {
-    animation: none;
-    opacity: 1;
+  .san-footer__social-link {
+    transition: none;
   }
 }

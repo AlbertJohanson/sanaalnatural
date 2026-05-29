@@ -1,90 +1,210 @@
 {%- liquid
-  assign show_heading = section.settings.show_heading
-  assign heading = section.settings.heading
-  assign layout = section.settings.layout
+  assign heading = 'san.categories.heading' | t
+  assign cat_eyebrow = 'san.categories.eyebrow' | t
+  assign cat_description = 'san.categories.description' | t
+  assign max_cats = section.settings.max_categories
+  assign per_cat = section.settings.products_to_show
+
+  comment
+    Build an ordered list of collection handles to display:
+    every store collection, skipping 'all'/'frontpage' and empty ones,
+    capped at max_categories — so nav buttons and panels stay aligned.
+  endcomment
+  assign cat_handles = ''
+  assign shown = 0
+  for collection in collections
+    if collection.handle == 'all' or collection.handle == 'frontpage'
+      continue
+    endif
+    if collection.all_products_count == 0
+      continue
+    endif
+    if shown >= max_cats
+      break
+    endif
+    assign cat_handles = cat_handles | append: collection.handle | append: ','
+    assign shown = shown | plus: 1
+  endfor
+  assign cat_list = cat_handles | split: ','
 -%}
 
 {{ 'section-san-categories.css' | asset_url | stylesheet_tag }}
 
-<section
-  class="san-categories san-reveal"
-  id="san-cats-{{ section.id }}"
-  data-layout="{{ layout }}"
->
-  {%- if show_heading and heading != blank -%}
-    <div class="san-categories__header">
-      <h2 class="san-categories__heading">{{ heading }}</h2>
-      <div class="san-categories__heading-line" aria-hidden="true"></div>
-    </div>
-  {%- endif -%}
+{%- style -%}
+  #san-catx-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
 
-  <div
-    class="san-categories__grid"
-    data-count="{{ section.blocks.size }}"
-    data-layout="{{ layout }}"
-  >
-    {%- for block in section.blocks -%}
-      {%- assign delay_class = 'san-reveal-d' | append: forloop.index -%}
-      {%- if forloop.index > 5 -%}
-        {%- assign delay_class = 'san-reveal-d5' -%}
+<section class="san-catx" id="san-catx-{{ section.id }}" data-cat-tabs>
+
+  {%- comment -%} Living animated backdrop — continues the field from the brand story above {%- endcomment -%}
+  {%- render 'san-organic-bg', uid: section.id -%}
+
+  <div class="san-catx__inner">
+
+    {%- comment -%} ─── Header ─── {%- endcomment -%}
+    <div class="san-catx__head san-reveal">
+      {%- if cat_eyebrow != blank -%}
+        <p class="san-catx__eyebrow">{{ cat_eyebrow }}</p>
       {%- endif -%}
-      <a
-        href="{{ block.settings.url | default: '/collections/all' }}"
-        class="san-cat-card san-reveal {{ delay_class }}"
-        {{ block.shopify_attributes }}
-        aria-label="{{ block.settings.title }}"
-      >
-        <div class="san-cat-card__media">
-          {%- if block.settings.image != blank -%}
-            {{
-              block.settings.image
-              | image_url: width: 800
-              | image_tag:
-                class: 'san-cat-card__img',
-                loading: 'lazy',
-                widths: '400, 600, 800',
-                sizes: '(max-width: 749px) 100vw, (max-width: 1199px) 50vw, 33vw',
-                alt: block.settings.title
-            }}
-          {%- else -%}
-            <div class="san-cat-card__placeholder">
-              {{ 'collection-1' | placeholder_svg_tag: 'san-cat-card__ph-svg' }}
-            </div>
-          {%- endif -%}
-          <div class="san-cat-card__overlay"></div>
-          {%- if block.settings.label != blank -%}
-            <span class="san-cat-card__badge">{{ block.settings.label }}</span>
-          {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="san-catx__heading">
+          {%- assign hp = heading | split: '|' -%}
+          {%- for part in hp -%}
+            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
+          {%- endfor -%}
+        </h2>
+      {%- endif -%}
+      {%- if cat_description != blank -%}
+        <p class="san-catx__desc">{{ cat_description }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if cat_list.size > 0 -%}
+      <div class="san-catx__body san-reveal san-reveal-d1">
+
+        {%- comment -%} ─── Category nav (vertical / scroll on mobile) ─── {%- endcomment -%}
+        <div class="san-catx__nav" role="tablist" aria-label="{{ 'san.categories.nav_label' | t }}" aria-orientation="vertical">
+          {%- for handle in cat_list -%}
+            {%- assign coll = collections[handle] -%}
+            <button
+              class="san-catx__nav-item{% if forloop.first %} is-active{% endif %}"
+              type="button"
+              role="tab"
+              id="san-catx-tab-{{ section.id }}-{{ forloop.index0 }}"
+              aria-controls="san-catx-panel-{{ section.id }}-{{ forloop.index0 }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              data-tab="{{ forloop.index0 }}"
+            >
+              <span class="san-catx__nav-index">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="san-catx__nav-label">{{ coll.title }}</span>
+              <span class="san-catx__nav-count">{{ coll.all_products_count }}</span>
+              <svg class="san-catx__nav-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          {%- endfor -%}
         </div>
 
-        <div class="san-cat-card__content">
-          <h3 class="san-cat-card__title">{{ block.settings.title }}</h3>
-          {%- if block.settings.subtitle != blank -%}
-            <p class="san-cat-card__subtitle">{{ block.settings.subtitle }}</p>
-          {%- endif -%}
-          <span class="san-cat-card__cta">
-            Explorar
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
+        {%- comment -%} ─── Panels ─── {%- endcomment -%}
+        <div class="san-catx__panels">
+          {%- for handle in cat_list -%}
+            {%- assign coll = collections[handle] -%}
+            <div
+              class="san-catx__panel{% if forloop.first %} is-active{% endif %}"
+              id="san-catx-panel-{{ section.id }}-{{ forloop.index0 }}"
+              role="tabpanel"
+              aria-labelledby="san-catx-tab-{{ section.id }}-{{ forloop.index0 }}"
+              data-panel="{{ forloop.index0 }}"
+              {%- unless forloop.first %} hidden{% endunless -%}
             >
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </span>
+              <div class="san-catx__panel-head">
+                <div>
+                  <h3 class="san-catx__panel-title">{{ coll.title }}</h3>
+                  {%- if coll.description != blank -%}
+                    <p class="san-catx__panel-desc">{{ coll.description | strip_html | truncatewords: 24 }}</p>
+                  {%- endif -%}
+                </div>
+                <a href="{{ coll.url }}" class="san-catx__panel-cta">
+                  {{ 'san.categories.view' | t: name: coll.title }}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+
+              <div class="san-catx__grid">
+                {%- for product in coll.products limit: per_cat -%}
+                  {%- render 'san-product-card',
+                    product: product,
+                    show_vendor: section.settings.show_vendor,
+                    index: forloop.index
+                  -%}
+                {%- endfor -%}
+              </div>
+
+              <a href="{{ coll.url }}" class="san-catx__panel-foot-cta">
+                {{ 'san.categories.view_all' | t: name: coll.title }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          {%- endfor -%}
         </div>
-      </a>
+
+      </div>
     {%- else -%}
-      <p class="san-categories__empty">Agrega categorías desde el editor de tema.</p>
-    {%- endfor -%}
+      <p class="san-catx__empty">{{ 'san.categories.empty' | t }}</p>
+    {%- endif -%}
+
   </div>
 </section>
+
+{% javascript %}
+  class SanCatTabs {
+    constructor(el) {
+      this.el = el;
+      this.tabs = Array.from(el.querySelectorAll('.san-catx__nav-item'));
+      this.panels = Array.from(el.querySelectorAll('.san-catx__panel'));
+      if (this.tabs.length === 0) return;
+      this.bind();
+    }
+
+    bind() {
+      this.tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => this.activate(i));
+        tab.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            this.move(i, 1);
+          } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            this.move(i, -1);
+          }
+        });
+      });
+    }
+
+    move(from, dir) {
+      const next = (from + dir + this.tabs.length) % this.tabs.length;
+      this.activate(next);
+      this.tabs[next].focus();
+    }
+
+    activate(index) {
+      this.tabs.forEach((tab, i) => {
+        const active = i === index;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      this.panels.forEach((panel, i) => {
+        const active = i === index;
+        panel.classList.toggle('is-active', active);
+        if (active) {
+          panel.removeAttribute('hidden');
+        } else {
+          panel.setAttribute('hidden', '');
+        }
+      });
+    }
+  }
+
+  function initSanCatTabs(scope) {
+    (scope || document).querySelectorAll('[data-cat-tabs]').forEach((el) => {
+      if (!el._sanCatTabs) el._sanCatTabs = new SanCatTabs(el);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initSanCatTabs());
+  } else {
+    initSanCatTabs();
+  }
+  document.addEventListener('shopify:section:load', (e) => initSanCatTabs(e.target));
+{% endjavascript %}
 
 {% schema %}
 {
@@ -93,101 +213,82 @@
   "class": "san-categories-section",
   "settings": [
     {
-      "type": "checkbox",
-      "id": "show_heading",
-      "label": "Mostrar título",
-      "default": true
+      "type": "paragraph",
+      "content": "Muestra automáticamente todas las colecciones de tu tienda como pestañas, con sus productos destacados."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Explora por categoría"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Título de sección",
-      "default": "Explora nuestras categorías"
+      "label": "Título",
+      "info": "Usa | para resaltar parte del título en verde claro.",
+      "default": "Encuentra lo que tu |cuerpo necesita|"
     },
     {
-      "type": "select",
-      "id": "layout",
-      "label": "Diseño",
-      "options": [
-        { "value": "editorial", "label": "Editorial (asimétrico)" },
-        { "value": "grid",      "label": "Cuadrícula uniforme" }
-      ],
-      "default": "editorial"
-    }
-  ],
-  "blocks": [
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Cada categoría reúne lo mejor de la naturaleza, seleccionado para tu bienestar."
+    },
     {
-      "type": "category",
-      "name": "Categoría",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Imagen"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Título",
-          "default": "Categoría"
-        },
-        {
-          "type": "text",
-          "id": "subtitle",
-          "label": "Subtítulo (opcional)"
-        },
-        {
-          "type": "url",
-          "id": "url",
-          "label": "Enlace"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Etiqueta superpuesta (opcional)"
-        }
-      ]
+      "type": "range",
+      "id": "max_categories",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Máximo de categorías",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "label": "Productos por categoría",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Mostrar marca en las tarjetas",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+  "type": "range",
+  "id": "padding_top",
+  "min": 0,
+  "max": 160,
+  "step": 4,
+  "unit": "px",
+  "label": "Espaciado superior",
+  "default": 108
+}
+,
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 108
     }
   ],
   "presets": [
     {
-      "name": "Categorías",
-      "blocks": [
-        {
-          "type": "category",
-          "settings": {
-            "title": "Suplementos",
-            "subtitle": "Cuida tu cuerpo desde adentro",
-            "url": "/collections/suplementos"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Superalimentos",
-            "subtitle": "Potencia tu nutrición",
-            "url": "/collections/superalimentos"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Aceites Esenciales",
-            "subtitle": "Aromaterapia y bienestar",
-            "url": "/collections/aceites-esenciales"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Tés e Infusiones",
-            "subtitle": "Rituales de calma diaria",
-            "url": "/collections/tes-infusiones"
-          }
-        }
-      ]
+      "name": "Categorías"
     }
-  ],
-  "max_blocks": 6
+  ]
 }
 {% endschema %}

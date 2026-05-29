@@ -70,9 +70,9 @@
   background:
     linear-gradient(
       180deg,
-      rgba(26, 26, 26, 0.25) 0%,
-      rgba(26, 26, 26, var(--san-hero-overlay, 0.4)) 45%,
-      rgba(49, 89, 29, calc(var(--san-hero-overlay, 0.4) * 0.35)) 100%
+      rgba(26, 26, 26, 0.35) 0%,
+      rgba(26, 26, 26, calc(var(--san-hero-overlay, 0.4) + 0.1)) 45%,
+      rgba(20, 35, 14, calc(var(--san-hero-overlay, 0.4) + 0.15)) 100%
     );
   pointer-events: none;
 }
@@ -174,43 +174,47 @@
 
 /* With image = white text, without image = muted dark text */
 .san-hero .san-hero__breadcrumb-item {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .san-hero--no-image .san-hero__breadcrumb-item {
-  color: rgba(30, 30, 30, 0.3);
+  color: rgba(30, 30, 30, 0.75);
 }
 
 .san-hero .san-hero__breadcrumb-item a {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   transition: color 0.25s ease;
 }
 
 .san-hero--no-image .san-hero__breadcrumb-item a {
-  color: rgba(30, 30, 30, 0.3);
+  color: rgba(30, 30, 30, 0.75);
 }
 
 .san-hero .san-hero__breadcrumb-item a:hover {
-  color: rgba(255, 255, 255, 0.8);
+  color: #ffffff;
 }
 
 .san-hero--no-image .san-hero__breadcrumb-item a:hover {
-  color: #55823d;
+  color: #31591d;
 }
 
 .san-hero__breadcrumb-item:not(:last-child)::after {
   content: '/';
   margin: 0 0.7rem;
-  opacity: 0.3;
+  opacity: 0.55;
 }
 
 .san-hero__breadcrumb-item--current {
-  opacity: 0.7;
+  opacity: 1;
+}
+
+.san-hero .san-hero__breadcrumb-item--current {
+  color: #ffffff;
 }
 
 .san-hero--no-image .san-hero__breadcrumb-item--current {
-  color: rgba(30, 30, 30, 0.5);
+  color: #31591d;
 }
 
 /* ================================================================
@@ -315,11 +319,11 @@
 }
 
 .san-hero .san-hero__count {
-  color: rgba(175, 234, 144, 0.5);
+  color: rgba(175, 234, 144, 0.95);
 }
 
 .san-hero--no-image .san-hero__count {
-  color: rgba(85, 130, 61, 0.45);
+  color: #55823d;
 }
 
 /* ================================================================
@@ -337,11 +341,12 @@
 }
 
 .san-hero .san-hero__description {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
 }
 
 .san-hero--no-image .san-hero__description {
-  color: rgba(30, 30, 30, 0.5);
+  color: #2a3a22;
 }
 
 .san-hero__description p {
