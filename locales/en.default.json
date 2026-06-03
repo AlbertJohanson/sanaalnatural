@@ -9,6 +9,20 @@
  */
 {
   "san": {
+    "about": {
+      "hero": {
+        "eyebrow": "Since 2013 · A Global Natural Products brand",
+        "heading": "About |us|",
+        "subtitle": "Sana al Natural is a brand devoted to health and wellbeing through natural products.",
+        "scroll": "Discover our story"
+      },
+      "story": {
+        "eyebrow": "Our story",
+        "heading": "How |Sana al Natural| began",
+        "paragraph_1": "Founded in 2013, Global Natural Products built its name distributing quality health and beauty products to stores, markets, pharmacies and distributors.",
+        "paragraph_2": "As more people sought products made with natural ingredients, the company created its own line — Sana al Natural — devoted to health, beauty and everyday wellbeing, combining natural ingredients with reliable formulations."
+      }
+    },
     "hero": {
       "eyebrow": "100% Natural · Made with love",
       "heading": "Wellness that |grows from nature|",

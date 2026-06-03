@@ -9,6 +9,20 @@
  */
 {
   "san": {
+    "about": {
+      "hero": {
+        "eyebrow": "Desde 2013 · Una marca de Global Natural Products",
+        "heading": "Sobre |nosotros|",
+        "subtitle": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
+        "scroll": "Descubre nuestra historia"
+      },
+      "story": {
+        "eyebrow": "Nuestra historia",
+        "heading": "Cómo nació |Sana al Natural|",
+        "paragraph_1": "Fundada en 2013, Global Natural Products se hizo un nombre distribuyendo productos de salud y belleza de calidad a tiendas, markets, farmacias y distribuidores.",
+        "paragraph_2": "Al crecer el interés por los productos elaborados con ingredientes naturales, la empresa desarrolló su propia línea —Sana al Natural— enfocada en la salud, la belleza y el bienestar diario, combinando ingredientes de origen natural con formulaciones confiables."
+      }
+    },
     "hero": {
       "eyebrow": "100% Natural · Hecho con amor",
       "heading": "Bienestar que |nace de la naturaleza|",

@@ -17,118 +17,141 @@
 
 <section class="san-about" id="san-about-{{ section.id }}" data-san-about>
 
-  {%- comment -%} ═══════ 1 · HERO ═══════ {%- endcomment -%}
+  {%- comment -%} ═══════ 1 · HERO (Editorial Masthead) ═══════ {%- endcomment -%}
   <div class="sa-hero">
-    <div class="sa-hero__media">
-      {%- if section.settings.hero_image != blank -%}
-        {{ section.settings.hero_image
-          | image_url: width: 2000
-          | image_tag:
-            loading: 'eager',
-            fetchpriority: 'high',
-            sizes: '100vw',
-            alt: section.settings.hero_heading | escape
-        }}
-      {%- else -%}
-        {{ 'lifestyle-2' | placeholder_svg_tag: 'sa-hero__placeholder' }}
-      {%- endif -%}
-    </div>
-    <div class="sa-hero__overlay" aria-hidden="true"></div>
     <div class="sa-hero__grain" aria-hidden="true"></div>
-
-    {%- comment -%} Botanical corners {%- endcomment -%}
-    <svg class="sa-hero__botanical sa-hero__botanical--tl" viewBox="0 0 300 300" fill="none" aria-hidden="true">
-      <path d="M10 290 C10 290 30 180 80 120 C130 60 200 40 280 20" stroke="#afea90" stroke-width="0.8" fill="none" opacity="0.4"/>
-      <path d="M10 290 C50 240 90 200 120 150 C150 100 170 60 250 30" stroke="#afea90" stroke-width="0.5" fill="none" opacity="0.25"/>
-      <circle cx="280" cy="20" r="3" fill="#afea90" opacity="0.3"/>
-      <circle cx="120" cy="150" r="2" fill="#afea90" opacity="0.2"/>
-    </svg>
-    <svg class="sa-hero__botanical sa-hero__botanical--br" viewBox="0 0 300 300" fill="none" aria-hidden="true">
-      <path d="M10 290 C10 290 30 180 80 120 C130 60 200 40 280 20" stroke="#afea90" stroke-width="0.8" fill="none" opacity="0.4"/>
-      <path d="M10 290 C50 240 90 200 120 150 C150 100 170 60 250 30" stroke="#afea90" stroke-width="0.5" fill="none" opacity="0.25"/>
-    </svg>
-
-    <div class="sa-hero__content">
-      {%- if section.settings.hero_eyebrow != blank -%}
-        <p class="sa-hero__eyebrow">{{ section.settings.hero_eyebrow }}</p>
-      {%- endif -%}
-
-      {%- if section.settings.hero_heading != blank -%}
-        <h1 class="sa-hero__heading">
-          {%- assign h_parts = section.settings.hero_heading | split: '|' -%}
-          {%- for part in h_parts -%}
-            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
-          {%- endfor -%}
-        </h1>
-      {%- endif -%}
-
-      <div class="sa-hero__divider" aria-hidden="true"></div>
-
-      {%- if section.settings.hero_subtitle != blank -%}
-        <p class="sa-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
-      {%- endif -%}
+    <div class="sa-hero__watermark" aria-hidden="true">
+      <span>Sana</span>
+      <span>al</span>
+      <span>Natural</span>
     </div>
 
-    <div class="sa-hero__scroll" aria-hidden="true">
-      <span>Descubre</span>
-      <div class="sa-hero__scroll-line"></div>
+    {%- comment -%} Ambient drifting leaves {%- endcomment -%}
+    <div class="sa-hero__ambient" aria-hidden="true">
+      <span class="sa-hero__leaf sa-hero__leaf--1">
+        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/><path d="M30 6 C30 6 28 32 18 46" stroke="#31591d" stroke-width="0.8" opacity="0.4"/></svg>
+      </span>
+      <span class="sa-hero__leaf sa-hero__leaf--2">
+        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/></svg>
+      </span>
+      <span class="sa-hero__leaf sa-hero__leaf--3">
+        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/></svg>
+      </span>
+    </div>
+
+    <div class="sa-hero__inner">
+      {%- comment -%} Top eyebrow row with drawing rule {%- endcomment -%}
+      <div class="sa-hero__top">
+        <p class="sa-hero__eyebrow">{{ 'san.about.hero.eyebrow' | t }}</p>
+      </div>
+
+      <div class="sa-hero__grid">
+        {%- comment -%} Headline column {%- endcomment -%}
+        <div class="sa-hero__col sa-hero__col--text">
+          {%- assign hero_heading = 'san.about.hero.heading' | t -%}
+          <div class="sa-hero__heading-wrap">
+            <h1 class="sa-hero__heading">
+              {%- assign h_parts = hero_heading | split: '|' -%}
+              {%- for part in h_parts -%}
+                {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
+              {%- endfor -%}
+            </h1>
+          </div>
+
+          <p class="sa-hero__subtitle">{{ 'san.about.hero.subtitle' | t }}</p>
+        </div>
+      </div>
+
+      {%- comment -%} Scroll invitation (replaces CTA buttons) {%- endcomment -%}
+      <a class="sa-hero__scroll" href="#sa-story">
+        <span class="sa-hero__scroll-label">{{ 'san.about.hero.scroll' | t }}</span>
+        <span class="sa-hero__scroll-track"><span class="sa-hero__scroll-dot"></span></span>
+      </a>
     </div>
   </div>
 
 
-  {%- comment -%} ═══════ 2 · STORY ═══════ {%- endcomment -%}
-  {%- if story_blocks.size > 0 -%}
-    {%- assign story = story_blocks.first -%}
-    <div class="sa-story">
-      <div class="sa-story__inner">
-        <div class="sa-story__media" data-reveal="left">
-          <div class="sa-story__img-wrap">
-            {%- if story.settings.image != blank -%}
-              {{ story.settings.image
-                | image_url: width: 1000
-                | image_tag:
-                  loading: 'lazy',
-                  sizes: '(min-width: 990px) 50vw, 100vw',
-                  alt: story.settings.heading | escape
-              }}
-            {%- else -%}
-              {{ 'lifestyle-1' | placeholder_svg_tag }}
-            {%- endif -%}
-          </div>
-          <div class="sa-story__frame" aria-hidden="true"></div>
+  {%- comment -%} ═══════ 2 · STORY / HISTORIA ═══════ {%- endcomment -%}
+  {%- assign story = story_blocks.first -%}
+  <div class="sa-story" id="sa-story">
+    <div class="sa-story__inner">
+      <div class="sa-story__media" data-reveal="left">
+        <div class="sa-story__frame" aria-hidden="true"></div>
 
-          {%- comment -%} Floating leaf {%- endcomment -%}
-          <svg class="sa-story__leaf" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-            <path d="M40 10 C20 25 10 45 15 65 C20 75 35 78 45 70 C55 62 65 40 40 10Z" fill="#55823d" opacity="0.12"/>
-            <path d="M40 10 C40 10 38 35 30 55" stroke="#55823d" stroke-width="0.8" fill="none" opacity="0.15"/>
-          </svg>
+        <div class="sa-story__img-wrap sa-story__img-wrap--main">
+          {%- if story.settings.image != blank -%}
+            {{ story.settings.image
+              | image_url: width: 1000
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 990px) 50vw, 100vw',
+                alt: 'Sana al Natural'
+            }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag }}
+          {%- endif -%}
         </div>
 
-        <div class="sa-story__content" data-reveal="right">
-          {%- if story.settings.eyebrow != blank -%}
-            <p class="sa-story__eyebrow">{{ story.settings.eyebrow }}</p>
+        {%- comment -%} Secondary stacked photo {%- endcomment -%}
+        <div class="sa-story__img-float">
+          {%- if story.settings.image_2 != blank -%}
+            {{ story.settings.image_2
+              | image_url: width: 600
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 990px) 18vw, 40vw',
+                alt: 'Sana al Natural'
+            }}
+          {%- else -%}
+            {{ 'lifestyle-2' | placeholder_svg_tag }}
           {%- endif -%}
+        </div>
 
-          {%- if story.settings.heading != blank -%}
-            <h2 class="sa-story__heading">{{ story.settings.heading }}</h2>
-          {%- endif -%}
+        {%- comment -%} Floating leaf {%- endcomment -%}
+        <svg class="sa-story__leaf" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+          <path d="M40 10 C20 25 10 45 15 65 C20 75 35 78 45 70 C55 62 65 40 40 10Z" fill="#55823d" opacity="0.12"/>
+          <path d="M40 10 C40 10 38 35 30 55" stroke="#55823d" stroke-width="0.8" fill="none" opacity="0.15"/>
+        </svg>
+      </div>
 
-          {%- if story.settings.text != blank -%}
-            <div class="sa-story__text">{{ story.settings.text }}</div>
-          {%- endif -%}
+      <div class="sa-story__content" data-reveal>
+        {%- comment -%} Growing botanical vine — natural-identity motion {%- endcomment -%}
+        <svg class="sa-story__vine" viewBox="0 0 64 260" fill="none" aria-hidden="true">
+          <path class="sa-story__vine-stem" pathLength="1" d="M32 252 C32 214 27 192 32 160 C37 128 28 104 33 72 C35 50 33 28 32 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+          <path class="sa-story__vine-leaf sa-story__vine-leaf--1" pathLength="1" d="M31 168 C15 162 8 147 11 130 C26 136 34 151 31 168Z" stroke="currentColor" stroke-width="1.2"/>
+          <path class="sa-story__vine-leaf sa-story__vine-leaf--2" pathLength="1" d="M33 112 C49 106 56 91 53 74 C38 80 30 95 33 112Z" stroke="currentColor" stroke-width="1.2"/>
+          <circle class="sa-story__vine-bud" cx="32" cy="12" r="4.5" fill="currentColor"/>
+        </svg>
 
-          {%- if story.settings.signature_name != blank -%}
-            <div class="sa-story__signature">
-              <p class="sa-story__signature-name">{{ story.settings.signature_name }}</p>
-              {%- if story.settings.signature_role != blank -%}
-                <p class="sa-story__signature-role">{{ story.settings.signature_role }}</p>
+        <p class="sa-story__eyebrow">{{ 'san.about.story.eyebrow' | t }}</p>
+
+        {%- assign story_heading = 'san.about.story.heading' | t -%}
+        <h2 class="sa-story__heading" aria-label="{{ story_heading | remove: '|' | escape }}">
+          {%- assign hp = story_heading | split: '|' -%}
+          {%- for seg in hp -%}
+            {%- assign is_accent = false -%}
+            {%- if forloop.index == 2 -%}{%- assign is_accent = true -%}{%- endif -%}
+            {%- assign words = seg | strip | split: ' ' -%}
+            {%- for w in words -%}
+              {%- if w != blank -%}
+                <span class="sa-story__word{% if is_accent %} is-accent{% endif %}" aria-hidden="true"><span>{{ w }}</span></span>
               {%- endif -%}
-            </div>
-          {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        </h2>
+
+        <div class="sa-story__text">
+          <p>{{ 'san.about.story.paragraph_1' | t }}</p>
+          <p>{{ 'san.about.story.paragraph_2' | t }}</p>
+        </div>
+
+        <div class="sa-story__signature">
+          <span class="sa-story__est">Est. 2013</span>
+          <span class="sa-story__signature-name">Global Natural Products</span>
         </div>
       </div>
     </div>
-  {%- endif -%}
+  </div>
 
 
   {%- comment -%} ═══════ 3 · MISSION & VISION ═══════ {%- endcomment -%}
@@ -604,7 +627,8 @@
     /* ── Parallax hero (subtle) ── */
     var hero = section.querySelector('.sa-hero');
     if (hero) {
-      var heroMedia = hero.querySelector('.sa-hero__media');
+      var heroMedia = hero.querySelector('.sa-hero__col--media');
+      var heroMark = hero.querySelector('.sa-hero__watermark');
       var ticking = false;
 
       window.addEventListener('scroll', function() {
@@ -613,8 +637,8 @@
             var rect = hero.getBoundingClientRect();
             if (rect.bottom > 0 && rect.top < window.innerHeight) {
               var scrolled = -rect.top;
-              var parallax = scrolled * 0.2;
-              heroMedia.style.transform = 'translateY(' + parallax + 'px) scale(1.05)';
+              if (heroMedia) heroMedia.style.transform = 'translateY(' + (scrolled * 0.12) + 'px)';
+              if (heroMark) heroMark.style.transform = 'translateY(' + (scrolled * 0.05) + 'px)';
             }
             ticking = false;
           });
@@ -637,27 +661,22 @@
       "content": "Hero"
     },
     {
-      "type": "image_picker",
-      "id": "hero_image",
-      "label": "Imagen de fondo"
-    },
-    {
       "type": "text",
       "id": "hero_eyebrow",
       "label": "Texto superior",
-      "default": "Sana Al Natural"
+      "default": "Desde 2013 · Una marca de Global Natural Products"
     },
     {
       "type": "text",
       "id": "hero_heading",
       "label": "Título (usa | para resaltar)",
-      "default": "Sobre |Nosotros|"
+      "default": "About |us|"
     },
     {
       "type": "textarea",
       "id": "hero_subtitle",
       "label": "Subtítulo",
-      "default": "Cuidado natural para ti y el planeta. Creamos productos que nutren tu piel y respetan el medio ambiente."
+      "default": "Productos de cuidado personal, belleza y salud que combinan ingredientes de origen natural con formulaciones confiables."
     },
     {
       "type": "header",
@@ -771,7 +790,12 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Imagen"
+          "label": "Imagen principal"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Imagen secundaria (pequeña)"
         },
         {
           "type": "text",

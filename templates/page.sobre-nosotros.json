@@ -189,10 +189,10 @@
         "testimonial_3"
       ],
       "settings": {
-        "hero_image": "shopify://shop_images/Screenshot_2026-04-16_at_17.24.30.png",
-        "hero_eyebrow": "Sana Al Natural",
-        "hero_heading": "Sobre |Nosotros|",
-        "hero_subtitle": "Cuidado natural para ti y el planeta. Creamos productos que nutren tu piel y respetan el medio ambiente.",
+        "hero_image": "shopify://shop_images/image_hero_About.jpg",
+        "hero_eyebrow": "Desde 2013 · Una marca de Global Natural Products",
+        "hero_heading": "About |us|",
+        "hero_subtitle": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
         "values_eyebrow": "Lo que nos define",
         "values_heading": "Nuestros Valores",
         "products_eyebrow": "Lo que creamos",
