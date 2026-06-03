@@ -35,11 +35,7 @@
       ],
       "settings": {
         "footer_logo": "shopify://shop_images/1._SANA_AL_NATURAL.png",
-        "tagline": "Belleza que nace de la <em>naturaleza</em>",
-        "description": "Productos naturales y artesanales para el cuidado de tu piel y cabello.",
         "newsletter_enable": true,
-        "newsletter_heading": "Newsletter",
-        "newsletter_description": "Recibe novedades, tips de cuidado natural y ofertas exclusivas.",
         "enable_follow_on_shop": false,
         "show_social": true,
         "enable_country_selector": true,
