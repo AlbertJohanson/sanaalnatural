@@ -43,11 +43,16 @@
 
 .san-hero {
   position: relative;
-  /* Fill the viewport minus the sticky header */
+  /* Fill the screen exactly — viewport minus the sticky header — so the
+     bottom of the image (caption + badge) is never cut off. */
   min-height: calc(100vh - var(--header-height, 88px));
   min-height: calc(100svh - var(--header-height, 88px));
   overflow: hidden;
-  background-color: #ffffff;
+  background-color: #1f3a13;
+  background-image:
+    radial-gradient(120% 120% at 12% 8%, rgba(85, 130, 61, 0.55), transparent 55%),
+    radial-gradient(90% 90% at 100% 100%, rgba(175, 234, 144, 0.1), transparent 60%),
+    linear-gradient(150deg, #31591d 0%, #244016 55%, #1c350f 100%);
   margin: 0;
 }
 
@@ -78,6 +83,12 @@
   height: 100%;
 }
 
+/* Brighten the botanical line-art so it reads on the dark canvas */
+.san-hero__decor-svg path,
+.san-hero__decor-svg line {
+  stroke: #afea90 !important;
+}
+
 /* ================================================================
    TEXT / CONTENT COLUMN
    ================================================================ */
@@ -89,7 +100,7 @@
   padding: 7rem 4.5rem 7rem 5rem;
   position: relative;
   z-index: 2;
-  background-color: #ffffff;
+  background-color: transparent;
 }
 
 /* Staggered entrance animations */
@@ -126,7 +137,7 @@
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #55823d;
+  color: #afea90;
   margin: 0 0 2.5rem;
   display: flex;
   align-items: center;
@@ -139,7 +150,7 @@
   display: inline-block;
   width: 36px;
   height: 1px;
-  background-color: #55823d;
+  background-color: #afea90;
   flex-shrink: 0;
 }
 
@@ -150,7 +161,7 @@
   font-size: clamp(4rem, 5.5vw, 7.5rem);
   font-weight: 700;
   font-style: italic;
-  color: #31591d;
+  color: #ffffff;
   line-height: 1.04;
   letter-spacing: -0.025em;
   margin: 0 0 2.5rem;
@@ -158,7 +169,7 @@
 
 .san-hero__heading-accent {
   font-style: italic;
-  color: #55823d;
+  color: #afea90;
   position: relative;
 }
 
@@ -169,7 +180,7 @@
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.75;
-  color: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.72);
   margin: 0 0 3.5rem;
   max-width: 38ch;
 }
@@ -206,15 +217,15 @@
 }
 
 .san-hero__btn--primary {
-  background-color: #55823d;
-  color: #ffffff !important;
+  background-color: #afea90;
+  color: #1f3a13 !important;
 }
 
 .san-hero__btn--primary:hover {
-  background-color: #31591d;
-  color: #ffffff !important;
+  background-color: #ffffff;
+  color: #1f3a13 !important;
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(85, 130, 61, 0.3);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.35);
 }
 
 .san-hero__btn--primary svg {
@@ -230,13 +241,14 @@
 
 .san-hero__btn--outline {
   background-color: transparent;
-  color: #55823d !important;
-  border: 1.5px solid #55823d;
+  color: #ffffff !important;
+  border: 1.5px solid rgba(175, 234, 144, 0.5);
 }
 
 .san-hero__btn--outline:hover {
-  background-color: #55823d;
-  color: #ffffff !important;
+  background-color: rgba(175, 234, 144, 0.12);
+  border-color: #afea90;
+  color: #afea90 !important;
 }
 
 /* ---- Feature pills ---- */
@@ -258,12 +270,12 @@
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: #55823d;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .san-hero__feature svg {
   flex-shrink: 0;
-  color: #55823d;
+  color: #afea90;
   width: 14px;
   height: 14px;
 }
@@ -639,30 +651,50 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 2.5rem 2.5rem 5rem;
-  background: linear-gradient(to top, rgba(49, 89, 29, 0.55) 0%, transparent 100%);
+  padding: 6rem 4.5rem 4.5rem;
+  background: linear-gradient(
+    to top,
+    rgba(15, 28, 8, 0.88) 0%,
+    rgba(15, 28, 8, 0.55) 38%,
+    rgba(15, 28, 8, 0.12) 70%,
+    transparent 100%
+  );
   z-index: 3;
   pointer-events: none;
 }
 
 .san-carousel__slide-label {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(175, 234, 144, 0.9);
-  margin-bottom: 0.5rem;
+  color: #afea90;
+  margin-bottom: 1.4rem;
+}
+
+.san-carousel__slide-label::before {
+  content: '';
+  width: 3.2rem;
+  height: 2px;
+  background: #afea90;
+  flex-shrink: 0;
 }
 
 .san-carousel__slide-caption {
   display: block;
   font-family: 'Noto Serif', Georgia, serif;
-  font-size: 1.8rem;
+  font-size: clamp(2.6rem, 3vw, 4rem);
   font-style: italic;
+  font-weight: 700;
   color: #ffffff;
-  line-height: 1.2;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  max-width: 24ch;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
 }
 
 /* ── Navigation Arrows ── */
@@ -753,6 +785,23 @@
   width: 0%;
   background: linear-gradient(to right, rgba(175, 234, 144, 0.6), rgba(175, 234, 144, 0.9));
   transition: width 0s linear;
+}
+
+/* ── Slide caption — mobile ── */
+@media screen and (max-width: 749px) {
+  .san-carousel__slide-info {
+    padding: 4rem 2.4rem 3rem;
+  }
+
+  .san-carousel__slide-label {
+    font-size: 1.2rem;
+    letter-spacing: 0.18em;
+    margin-bottom: 1rem;
+  }
+
+  .san-carousel__slide-label::before {
+    width: 2.4rem;
+  }
 }
 
 /* ── Reduced motion ── */

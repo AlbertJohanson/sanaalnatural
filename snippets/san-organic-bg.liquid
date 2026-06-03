@@ -1,0 +1,46 @@
+{%- comment -%}
+  Living animated SVG background — Sana Al Natural
+  Renders drifting blobs + slowly rotating leaf line-art + floating particles.
+  Sits behind deep-green sections; share it across adjacent sections to fuse
+  them into one continuous, alive canvas.
+
+  Params:
+    uid {string} required — unique id (use section.id) to avoid <defs> clashes
+{%- endcomment -%}
+{%- assign uid = uid | default: 'og' -%}
+<div class="san-organic" aria-hidden="true">
+  <svg class="san-organic__svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="og-{{ uid }}-a" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#afea90" stop-opacity="0.22"/>
+        <stop offset="100%" stop-color="#afea90" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="og-{{ uid }}-b" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#6aa048" stop-opacity="0.42"/>
+        <stop offset="100%" stop-color="#6aa048" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <ellipse class="san-organic__blob san-organic__blob--1" cx="220" cy="170" rx="360" ry="320" fill="url(#og-{{ uid }}-a)"/>
+    <ellipse class="san-organic__blob san-organic__blob--2" cx="1010" cy="650" rx="440" ry="380" fill="url(#og-{{ uid }}-b)"/>
+    <ellipse class="san-organic__blob san-organic__blob--3" cx="620" cy="800" rx="340" ry="300" fill="url(#og-{{ uid }}-a)"/>
+
+    <g stroke="#afea90" fill="none" stroke-linecap="round">
+      <g class="san-organic__leaf san-organic__leaf--1" opacity="0.13" transform="translate(170 560)">
+        <path d="M0 90C0 90 -34 50 -32 18C-30 -14 -6 -34 0 -34C6 -34 30 -14 32 18C34 50 0 90 0 90Z" stroke-width="1.2"/>
+        <line x1="0" y1="-34" x2="0" y2="90" stroke-width="0.8"/>
+      </g>
+      <g class="san-organic__leaf san-organic__leaf--2" opacity="0.1" transform="translate(980 230) scale(1.4)">
+        <path d="M0 90C0 90 -34 50 -32 18C-30 -14 -6 -34 0 -34C6 -34 30 -14 32 18C34 50 0 90 0 90Z" stroke-width="1.2"/>
+        <line x1="0" y1="-34" x2="0" y2="90" stroke-width="0.8"/>
+      </g>
+    </g>
+
+    <g fill="#afea90">
+      <circle class="san-organic__dot san-organic__dot--1" cx="320" cy="620" r="3"/>
+      <circle class="san-organic__dot san-organic__dot--2" cx="860" cy="250" r="2.4"/>
+      <circle class="san-organic__dot san-organic__dot--3" cx="1110" cy="520" r="2"/>
+      <circle class="san-organic__dot san-organic__dot--4" cx="150" cy="330" r="2.6"/>
+    </g>
+  </svg>
+</div>

@@ -15,6 +15,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/carousel_1.jpg",
             "label": "Nueva colección",
             "caption": "Naturaleza en cada producto"
           }
@@ -22,6 +23,7 @@
         "slide_2": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/carousel_2.jpg",
             "label": "Bienestar natural",
             "caption": "Formulado con los mejores ingredientes"
           }
@@ -29,12 +31,17 @@
         "slide_3": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/683795938_18028736423659478_2864624872226640397_n.jpg",
             "label": "100% orgánico",
             "caption": "Sin conservantes artificiales"
           }
         }
       },
-      "block_order": ["slide_1", "slide_2", "slide_3"],
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
       "settings": {
         "eyebrow": "100% Natural · Hecho con amor",
         "heading": "Bienestar que |nace de la naturaleza|",
@@ -44,148 +51,96 @@
         "button_label_2": "Ver colección",
         "button_url_2": "/collections",
         "show_features": true,
-        "feature_1": "100% Natural",
-        "feature_2": "Sin conservantes",
-        "feature_3": "Envío gratis",
         "carousel_interval": 5,
         "show_badge": true,
         "show_scroll_indicator": true,
         "min_height": 90
       }
     },
-    "san_trust_bar": {
-      "type": "san-trust-bar",
+    "san_featured_tabs": {
+      "type": "san-featured-tabs",
       "blocks": {
-        "trust_1": {
-          "type": "item",
+        "tab_all": {
+          "type": "tab",
           "settings": {
-            "label": "100% Natural",
-            "icon": "leaf"
+            "collection": "all",
+            "label": "Destacados"
           }
         },
-        "trust_2": {
-          "type": "item",
+        "tab_1": {
+          "type": "tab",
           "settings": {
-            "label": "Sin Conservantes Artificiales",
-            "icon": "check"
+            "collection": "suplementos",
+            "label": "Suplementos"
           }
         },
-        "trust_3": {
-          "type": "item",
+        "tab_2": {
+          "type": "tab",
           "settings": {
-            "label": "Envío Gratis +$500",
-            "icon": "truck"
+            "collection": "superalimentos",
+            "label": "Superalimentos"
           }
         },
-        "trust_4": {
-          "type": "item",
+        "tab_3": {
+          "type": "tab",
           "settings": {
-            "label": "Hecho con Amor",
-            "icon": "heart"
+            "collection": "aceites-esenciales",
+            "label": "Aceites Esenciales"
           }
         },
-        "trust_5": {
-          "type": "item",
+        "tab_4": {
+          "type": "tab",
           "settings": {
-            "label": "Certificado Orgánico",
-            "icon": "star"
-          }
-        },
-        "trust_6": {
-          "type": "item",
-          "settings": {
-            "label": "5000+ Clientes Felices",
-            "icon": "shield"
+            "collection": "tes-infusiones",
+            "label": "Tés e Infusiones"
           }
         }
       },
-      "block_order": ["trust_1", "trust_2", "trust_3", "trust_4", "trust_5", "trust_6"],
+      "block_order": [
+        "tab_all",
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4"
+      ],
       "settings": {
-        "bg_variant": "light"
-      }
-    },
-    "san_categories": {
-      "type": "san-categories",
-      "blocks": {
-        "cat_1": {
-          "type": "category",
-          "settings": {
-            "title": "Suplementos",
-            "subtitle": "Cuida tu cuerpo desde adentro",
-            "url": "/collections/suplementos"
-          }
-        },
-        "cat_2": {
-          "type": "category",
-          "settings": {
-            "title": "Superalimentos",
-            "subtitle": "Potencia tu nutrición",
-            "url": "/collections/superalimentos"
-          }
-        },
-        "cat_3": {
-          "type": "category",
-          "settings": {
-            "title": "Aceites Esenciales",
-            "subtitle": "Aromaterapia y bienestar",
-            "url": "/collections/aceites-esenciales"
-          }
-        },
-        "cat_4": {
-          "type": "category",
-          "settings": {
-            "title": "Tés e Infusiones",
-            "subtitle": "Rituales de calma diaria",
-            "url": "/collections/tes-infusiones"
-          }
-        }
-      },
-      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4"],
-      "settings": {
-        "heading": "Explora nuestras categorías",
-        "show_heading": true,
-        "layout": "editorial"
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Nuestros productos",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
+        "eyebrow": "Nuestra selección",
+        "heading": "Lo mejor de la |naturaleza|",
+        "description": "Explora por categoría y encuentra el producto natural perfecto para ti.",
         "products_to_show": 8,
         "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "show_view_all": true,
+        "view_all_label": "Ver todo",
+        "padding_top": 108,
+        "padding_bottom": 108
       }
     },
     "san_brand_story": {
       "type": "san-brand-story",
       "settings": {
+        "image": "shopify://shop_images/sana_natural.png",
+        "image_position": "left",
         "overline": "Nuestra Historia",
         "heading": "Más de 5 años llevando la naturaleza a tu mesa",
         "body_text": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
         "stat_number": "5000+",
         "stat_label": "Familias que confían en nosotros",
         "button_label": "Conoce nuestra historia",
-        "button_url": "/pages/about",
-        "image_position": "left"
+        "button_url": "/pages/about"
+      }
+    },
+    "san_categories": {
+      "type": "san-categories",
+      "settings": {
+        "eyebrow": "Explora por categoría",
+        "heading": "Encuentra lo que tu |cuerpo necesita|",
+        "description": "Cada categoría reúne lo mejor de la naturaleza, seleccionado para tu bienestar.",
+        "max_categories": 8,
+        "products_to_show": 6,
+        "show_vendor": false,
+        "padding_top": 108,
+        "padding_bottom": 108
       }
     },
     "san_testimonials": {
@@ -222,89 +177,68 @@
           }
         }
       },
-      "block_order": ["testi_1", "testi_2", "testi_3"],
+      "block_order": [
+        "testi_1",
+        "testi_2",
+        "testi_3"
+      ],
       "settings": {
-        "heading": "Lo que dicen nuestros clientes"
+        "heading": "Lo que dicen nuestros clientes",
+        "overlay_opacity": 55
       }
     },
-    "san_popular": {
-      "type": "san-popular",
-      "settings": {
-        "eyebrow": "Tendencias",
-        "heading": "Lo más buscado",
-        "products_to_show": 4,
-        "show_vendor": false,
-        "cta_label": "Ver todo",
-        "cta_url": "/collections/all"
-      }
-    },
-    "san_features": {
-      "type": "san-features",
+    "san_faq": {
+      "type": "san-faq",
       "blocks": {
-        "feat_1": {
-          "type": "feature",
+        "faq_1": {
+          "type": "faq",
           "settings": {
-            "icon": "leaf",
-            "title": "100% Natural",
-            "description": "Ingredientes seleccionados directamente de la naturaleza, sin aditivos ni conservantes artificiales."
+            "question": "¿Sus productos son 100% naturales?",
+            "answer": "<p>Sí. Todos nuestros productos están formulados con ingredientes naturales seleccionados, sin aditivos ni conservantes artificiales.</p>"
           }
         },
-        "feat_2": {
-          "type": "feature",
+        "faq_2": {
+          "type": "faq",
           "settings": {
-            "icon": "check",
-            "title": "Certificado Orgánico",
-            "description": "Trabajamos con proveedores certificados que garantizan procesos agrícolas sostenibles y responsables."
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p>Los pedidos se procesan en 24–48 horas y llegan en 3 a 5 días hábiles. El envío es gratis en compras superiores a $500.</p>"
           }
         },
-        "feat_3": {
-          "type": "feature",
+        "faq_3": {
+          "type": "faq",
           "settings": {
-            "icon": "heart",
-            "title": "Hecho con Amor",
-            "description": "Cada producto es formulado con cuidado y atención, pensando en el bienestar de tu familia."
+            "question": "¿Cuentan con certificación orgánica?",
+            "answer": "<p>Trabajamos con productores certificados que garantizan procesos agrícolas sostenibles y responsables.</p>"
           }
         },
-        "feat_4": {
-          "type": "feature",
+        "faq_4": {
+          "type": "faq",
           "settings": {
-            "icon": "truck",
-            "title": "Envío Gratis +$500",
-            "description": "Recibe tus productos naturales directamente en casa sin costo adicional en pedidos mayores a $500."
+            "question": "¿Puedo devolver un producto?",
+            "answer": "<p>Aceptamos devoluciones dentro de los 30 días posteriores a la compra. Escríbenos y te ayudamos con el proceso.</p>"
           }
         }
       },
-      "block_order": ["feat_1", "feat_2", "feat_3", "feat_4"],
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"],
       "settings": {
-        "eyebrow": "¿Por qué elegirnos?",
-        "heading": "Calidad que se siente desde adentro",
-        "subheading": "Cada producto nace de nuestra convicción de que la naturaleza es la mejor medicina.",
-        "show_cta": true,
-        "cta_text": "¿Listo para empezar tu camino natural?",
-        "btn_label": "Comprar ahora",
-        "btn_url": "/collections/all"
-      }
-    },
-    "san_newsletter": {
-      "type": "san-newsletter",
-      "settings": {
-        "heading": "Suscríbete y vive natural",
-        "subheading": "Recibe descuentos exclusivos, recetas y consejos de bienestar directamente en tu correo.",
-        "placeholder": "Tu correo electrónico",
-        "button_label": "Suscribirse",
-        "success_message": "¡Gracias! Te hemos enviado un email de confirmación."
+        "eyebrow": "Resolvemos tus dudas",
+        "heading": "Preguntas |frecuentes|",
+        "description": "Todo lo que necesitas saber sobre nuestros productos, envíos y compromiso con lo natural.",
+        "first_open": true,
+        "show_contact": true,
+        "contact_label": "¿Más preguntas? Escríbenos",
+        "contact_url": "/pages/contact",
+        "padding_top": 108,
+        "padding_bottom": 108
       }
     }
   },
   "order": [
     "san_hero",
-    "san_trust_bar",
-    "san_categories",
-    "featured_collection",
-    "san_popular",
+    "san_featured_tabs",
     "san_brand_story",
-    "san_features",
+    "san_categories",
     "san_testimonials",
-    "san_newsletter"
+    "san_faq"
   ]
 }

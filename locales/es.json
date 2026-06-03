@@ -8,6 +8,119 @@
  * ------------------------------------------------------------
  */
 {
+  "san": {
+    "hero": {
+      "eyebrow": "100% Natural · Hecho con amor",
+      "heading": "Bienestar que |nace de la naturaleza|",
+      "description": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
+      "button_1": "Comprar ahora",
+      "button_2": "Ver colección",
+      "badge": "NATURAL · ORGÁNICO · SALUDABLE · BIENESTAR ·",
+      "a11y": {
+        "gallery": "Galería de imágenes",
+        "previous": "Slide anterior",
+        "next": "Slide siguiente",
+        "slides": "Slides",
+        "slide_count": "{{ index }} de {{ total }}",
+        "go_to": "Ir al slide {{ index }}"
+      },
+      "slides": {
+        "1": { "label": "Nueva colección", "caption": "Naturaleza en cada producto" },
+        "2": { "label": "Bienestar natural", "caption": "Formulado con los mejores ingredientes" },
+        "3": { "label": "100% orgánico", "caption": "Sin conservantes artificiales" }
+      }
+    },
+    "featured_tabs": {
+      "eyebrow": "Nuestra selección",
+      "heading": "Lo mejor de la |naturaleza|",
+      "description": "Explora por categoría y encuentra el producto natural perfecto para ti.",
+      "view_all": "Ver todo",
+      "default_tab": "Colección",
+      "empty": "Agrega pestañas (colecciones) desde el editor de tema.",
+      "panel_empty": "Asigna una colección con productos a esta pestaña desde el editor de tema.",
+      "tabs": {
+        "1": "Destacados",
+        "2": "Suplementos",
+        "3": "Superalimentos",
+        "4": "Aceites Esenciales",
+        "5": "Tés e Infusiones"
+      }
+    },
+    "brand_story": {
+      "overline": "Nuestra Historia",
+      "heading": "Más de 5 años llevando la naturaleza a tu mesa",
+      "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
+      "value_1": "Ingredientes orgánicos certificados",
+      "value_2": "Comercio justo con pequeños productores",
+      "value_3": "Sin aditivos ni conservantes artificiales",
+      "stat_number": "5000+",
+      "stat_label": "Familias que confían en nosotros",
+      "button": "Conoce nuestra historia"
+    },
+    "categories": {
+      "eyebrow": "Explora por categoría",
+      "heading": "Encuentra lo que tu |cuerpo necesita|",
+      "description": "Cada categoría reúne lo mejor de la naturaleza, seleccionado para tu bienestar.",
+      "nav_label": "Categorías",
+      "view": "Ver {{ name }}",
+      "view_all": "Ver todos los productos de {{ name }}",
+      "empty": "No hay colecciones con productos para mostrar todavía."
+    },
+    "testimonials": {
+      "heading": "Lo que dicen nuestros clientes",
+      "empty": "Agrega testimonios desde el editor de tema.",
+      "rating": "{{ rating }} estrellas de 5",
+      "items": {
+        "1": {
+          "quote": "Los suplementos de Sana Al Natural cambiaron completamente mi rutina de bienestar. Noto la diferencia desde la primera semana. La calidad es incomparable y el sabor es increíble.",
+          "author": "María González",
+          "location": "Ciudad de México"
+        },
+        "2": {
+          "quote": "Por fin encontré productos naturales que realmente funcionan y saben deliciosos. Los tés de infusión son mis favoritos, los tomo cada mañana y me dan una energía increíble.",
+          "author": "Carlos Ruiz",
+          "location": "Guadalajara, Jalisco"
+        },
+        "3": {
+          "quote": "La calidad es incomparable. Soy muy exigente con lo que compro para mi familia y Sana Al Natural nunca me decepciona. Los aceites esenciales son simplemente perfectos.",
+          "author": "Ana Morales",
+          "location": "Monterrey, N.L."
+        }
+      }
+    },
+    "faq": {
+      "eyebrow": "Resolvemos tus dudas",
+      "heading": "Preguntas |frecuentes|",
+      "description": "Todo lo que necesitas saber sobre nuestros productos, envíos y compromiso con lo natural.",
+      "contact_label": "¿Más preguntas? Escríbenos",
+      "empty": "Agrega preguntas desde el editor de tema.",
+      "items": {
+        "1": {
+          "question": "¿Sus productos son 100% naturales?",
+          "answer_html": "<p>Sí. Todos nuestros productos están formulados con ingredientes naturales seleccionados, sin aditivos ni conservantes artificiales.</p>"
+        },
+        "2": {
+          "question": "¿Cuánto tarda el envío?",
+          "answer_html": "<p>Los pedidos se procesan en 24–48 horas y llegan en 3 a 5 días hábiles. El envío es gratis en compras superiores a $500.</p>"
+        },
+        "3": {
+          "question": "¿Cuentan con certificación orgánica?",
+          "answer_html": "<p>Trabajamos con productores certificados que garantizan procesos agrícolas sostenibles y responsables.</p>"
+        },
+        "4": {
+          "question": "¿Puedo devolver un producto?",
+          "answer_html": "<p>Aceptamos devoluciones dentro de los 30 días posteriores a la compra. Escríbenos y te ayudamos con el proceso.</p>"
+        }
+      }
+    },
+    "footer": {
+      "statement": "Bienestar que |nace de la naturaleza|",
+      "blurb": "Productos naturales seleccionados para tu bienestar, del campo a tu mesa.",
+      "newsletter_heading": "Únete a la comunidad",
+      "newsletter_text": "Recibe novedades, tips de bienestar natural y ofertas exclusivas.",
+      "rights": "Todos los derechos reservados."
+    }
+  },
   "general": {
     "password_page": {
       "login_form_heading": "Entrar a la tienda usando contraseña:",

@@ -1,0 +1,229 @@
+/* ============================================================
+   San — Language switcher (custom dropdown, native <details>)
+   Trigger inherits currentColor so it adapts to dark/light bars
+   (topbar placement forces light text). Panel is a self-contained
+   light card readable on any surface.
+   ============================================================ */
+
+.san-lang-form,
+.san-lang {
+  display: inline-flex;
+}
+
+.san-lang__switcher {
+  position: relative;
+  display: inline-flex;
+  font-family: var(--font-body-family, 'Poppins', sans-serif);
+}
+
+/* ── Trigger (summary) ── */
+.san-lang__current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.4rem 0.2rem;
+  cursor: pointer;
+  list-style: none;
+  color: currentColor;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  opacity: 0.9;
+  transition: opacity 0.25s ease, color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.san-lang__current::-webkit-details-marker {
+  display: none;
+}
+
+.san-lang__current::marker {
+  content: '';
+}
+
+.san-lang__current:hover,
+.san-lang__switcher[open] .san-lang__current {
+  opacity: 1;
+}
+
+.san-lang__current:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.san-lang__code {
+  font-variant-numeric: tabular-nums;
+}
+
+.san-lang__caret {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+.san-lang__switcher[open] .san-lang__caret {
+  transform: rotate(180deg);
+}
+
+/* ── Round flag icon ── */
+.san-flag {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.san-flag__svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.san-lang__current .san-flag {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.san-lang__current:hover .san-flag {
+  transform: scale(1.08);
+}
+
+/* ── Panel ── (native <details> hides it while closed) */
+.san-lang__panel {
+  position: absolute;
+  z-index: 60;
+  min-width: 16rem;
+  margin: 0;
+  padding: 0.6rem;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid rgba(49, 89, 29, 0.12);
+  box-shadow: 0 1.8rem 4rem -1.2rem rgba(49, 89, 29, 0.32);
+  animation: san-lang-in 0.26s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes san-lang-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Options ── */
+.san-lang__option {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 1rem 1.2rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-primary-dark, #31591d);
+  font-family: var(--font-body-family, 'Poppins', sans-serif);
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.san-lang__option:hover,
+.san-lang__option:focus-visible {
+  background: rgba(175, 234, 144, 0.22);
+  outline: none;
+}
+
+.san-lang__option-name {
+  flex: 1 1 auto;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.san-lang__option-code {
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+
+.san-lang__check {
+  flex-shrink: 0;
+  color: var(--color-primary, #55823d);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.san-lang__option.is-current {
+  color: var(--color-primary, #55823d);
+}
+
+.san-lang__option.is-current .san-lang__option-code {
+  opacity: 0.7;
+}
+
+.san-lang__option.is-current .san-lang__check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Placement: panel open direction ── */
+.san-lang__switcher--topbar .san-lang__panel,
+.san-lang__switcher--bar .san-lang__panel {
+  top: calc(100% + 0.8rem);
+  right: 0;
+}
+
+.san-lang__switcher--footer .san-lang__panel {
+  bottom: calc(100% + 0.8rem);
+  left: 0;
+}
+
+/* ── Placement: topbar sits on dark green — force a light trigger ── */
+.san-lang__switcher--topbar .san-lang__current {
+  color: rgba(255, 255, 255, 0.72);
+  opacity: 1;
+}
+
+.san-lang__switcher--topbar .san-lang__current:hover,
+.san-lang__switcher--topbar[open] .san-lang__current {
+  color: #afea90;
+}
+
+/* ── In-bar (main header) visibility ──
+   Shown on mobile, when sticky, or when there's no topbar.
+   Hidden on desktop where the topbar already shows the switcher. */
+.san-header__lang {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media screen and (min-width: 990px) {
+  .san-has-topbar .san-header__lang {
+    display: none;
+  }
+}
+
+.shopify-section-header-sticky .san-header__lang {
+  display: inline-flex !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .san-lang__panel,
+  .san-flag,
+  .san-lang__caret,
+  .san-lang__check {
+    animation: none;
+    transition: none;
+  }
+}

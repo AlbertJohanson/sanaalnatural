@@ -1,24 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "about": {
       "type": "san-about",
-      "settings": {
-        "hero_eyebrow": "Sana Al Natural",
-        "hero_heading": "Sobre |Nosotros|",
-        "hero_subtitle": "Cuidado natural para ti y el planeta. Creamos productos que nutren tu piel y respetan el medio ambiente.",
-        "values_eyebrow": "Lo que nos define",
-        "values_heading": "Nuestros Valores",
-        "products_eyebrow": "Lo que creamos",
-        "products_heading": "Nuestros Productos",
-        "testimonials_eyebrow": "Comunidad",
-        "testimonials_heading": "Lo Que Dicen Nuestros Clientes",
-        "team_eyebrow": "Nuestro equipo",
-        "team_heading": "Las Personas Detrás de la Marca",
-        "cta_heading": "Únete a la |revolución natural|",
-        "cta_text": "Descubre productos que transforman tu rutina de cuidado personal con el poder de la naturaleza.",
-        "cta_button_label": "Explorar Productos",
-        "cta_button_label_2": "Contáctanos"
-      },
       "blocks": {
         "story_1": {
           "type": "story",
@@ -83,29 +75,37 @@
         "product_1": {
           "type": "product_card",
           "settings": {
+            "image": "shopify://shop_images/682913978_18029027366659478_3434108225692525867_n.jpg",
             "title": "Cuidado Facial",
-            "description": "Limpieza y nutrición para tu rostro con ingredientes naturales."
+            "description": "Limpieza y nutrición para tu rostro con ingredientes naturales.",
+            "link": ""
           }
         },
         "product_2": {
           "type": "product_card",
           "settings": {
+            "image": "shopify://shop_images/670317972_18026562941659478_972741926026560984_n.jpg",
             "title": "Cuidado Corporal",
-            "description": "Hidratación y protección para todo tu cuerpo."
+            "description": "Hidratación y protección para todo tu cuerpo.",
+            "link": ""
           }
         },
         "product_3": {
           "type": "product_card",
           "settings": {
+            "image": "shopify://shop_images/unnamed.png",
             "title": "Aromaterapia",
-            "description": "Bienestar y relajación con esencias puras."
+            "description": "Bienestar y relajación con esencias puras.",
+            "link": ""
           }
         },
         "product_4": {
           "type": "product_card",
           "settings": {
+            "image": "shopify://shop_images/706296945_18032848685659478_6531309919755136462_n.jpg",
             "title": "Kits Especiales",
-            "description": "Combinaciones perfectas para regalar o regalarte."
+            "description": "Combinaciones perfectas para regalar o regalarte.",
+            "link": ""
           }
         },
         "stat_1": {
@@ -187,7 +187,27 @@
         "testimonial_1",
         "testimonial_2",
         "testimonial_3"
-      ]
+      ],
+      "settings": {
+        "hero_image": "shopify://shop_images/Screenshot_2026-04-16_at_17.24.30.png",
+        "hero_eyebrow": "Sana Al Natural",
+        "hero_heading": "Sobre |Nosotros|",
+        "hero_subtitle": "Cuidado natural para ti y el planeta. Creamos productos que nutren tu piel y respetan el medio ambiente.",
+        "values_eyebrow": "Lo que nos define",
+        "values_heading": "Nuestros Valores",
+        "products_eyebrow": "Lo que creamos",
+        "products_heading": "Nuestros Productos",
+        "testimonials_eyebrow": "Comunidad",
+        "testimonials_heading": "Lo Que Dicen Nuestros Clientes",
+        "team_eyebrow": "Nuestro equipo",
+        "team_heading": "Las Personas Detrás de la Marca",
+        "cta_heading": "Únete a la |revolución natural|",
+        "cta_text": "Descubre productos que transforman tu rutina de cuidado personal con el poder de la naturaleza.",
+        "cta_button_label": "Explorar Productos",
+        "cta_button_url": "",
+        "cta_button_label_2": "Contáctanos",
+        "cta_button_url_2": ""
+      }
     }
   },
   "order": [

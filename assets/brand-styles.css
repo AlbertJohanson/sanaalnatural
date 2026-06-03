@@ -87,6 +87,34 @@
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
   --shadow-brand: 0 4px 20px rgba(85, 130, 61, 0.15);
+
+  /* ----------------------------------------------------------------
+     SURFACE SYSTEM — deep-green dominant (v5, 2026)
+     The homepage is built around #31591d as the base canvas instead
+     of white. These tokens drive every san-* section background.
+     ---------------------------------------------------------------- */
+  --surface-deep: #1f3a13;          /* darkest green — depth, gradients */
+  --surface-base: #31591d;          /* dominant dark surface */
+  --surface-mid: #3d6b28;           /* mid green for layered panels */
+  --surface-leaf: #afea90;          /* bright accent surface */
+  --surface-sage: #eef2e7;          /* pale sage — product sections (replaces white) */
+  --surface-cream: #f5f2ea;         /* warm cream alternative */
+
+  /* Text on dark surfaces */
+  --on-dark: #ffffff;
+  --on-dark-strong: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.66);
+  --on-dark-faint: rgba(255, 255, 255, 0.42);
+  --on-dark-leaf: #afea90;
+  --hairline-dark: rgba(175, 234, 144, 0.16);
+
+  /* Text on light/sage surfaces */
+  --on-light: #1c2b14;
+  --on-light-muted: rgba(28, 43, 20, 0.62);
+  --hairline-light: rgba(49, 89, 29, 0.12);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 
@@ -598,4 +626,328 @@ select.brand-input:focus {
 .featured-collection a.button:hover {
   background: #31591d !important;
   color: #ffffff !important;
+}
+
+
+/* ==========================================================================
+   GLOBAL SCROLL-REVEAL SYSTEM (v5)
+   Canonical definition. Driven by the observer in theme.liquid which toggles
+   `.is-visible`. A <noscript> fallback in <head> reveals everything if JS is
+   off, so content can never be stranded invisible.
+   ========================================================================== */
+
+.san-reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.9s var(--ease-out-expo),
+    filter 0.9s ease;
+  will-change: opacity, transform;
+}
+
+.san-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Directional variants */
+.san-reveal--left {
+  transform: translateX(-36px);
+}
+.san-reveal--right {
+  transform: translateX(36px);
+}
+.san-reveal--scale {
+  transform: translateY(28px) scale(0.94);
+}
+.san-reveal--blur {
+  filter: blur(10px);
+}
+.san-reveal--fade {
+  transform: none;
+}
+
+/* Stagger delays */
+.san-reveal-d1 { transition-delay: 0.08s; }
+.san-reveal-d2 { transition-delay: 0.16s; }
+.san-reveal-d3 { transition-delay: 0.24s; }
+.san-reveal-d4 { transition-delay: 0.32s; }
+.san-reveal-d5 { transition-delay: 0.40s; }
+.san-reveal-d6 { transition-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .san-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   REUSABLE PRODUCT CARD — .san-pcard (snippets/san-product-card.liquid)
+   Premium card used by tabbed featured products + popular section.
+   ========================================================================== */
+
+.san-pcard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: #ffffff;
+  border: 1px solid rgba(49, 89, 29, 0.08);
+  overflow: hidden;
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s ease,
+    border-color 0.3s ease;
+}
+
+.san-pcard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(31, 58, 19, 0.16);
+  border-color: rgba(85, 130, 61, 0.28);
+}
+
+.san-pcard__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #f1f4ec;
+}
+
+.san-pcard__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s var(--ease-out-expo), opacity 0.5s ease;
+}
+
+.san-pcard__img--primary {
+  z-index: 1;
+}
+
+.san-pcard__img--secondary {
+  z-index: 2;
+  opacity: 0;
+}
+
+.san-pcard:hover .san-pcard__img--primary {
+  transform: scale(1.06);
+}
+
+.san-pcard:hover .san-pcard__img--secondary {
+  opacity: 1;
+  transform: scale(1.06);
+}
+
+.san-pcard__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(85, 130, 61, 0.06);
+}
+
+.san-pcard__ph-svg {
+  width: 60%;
+  height: 60%;
+  opacity: 0.3;
+}
+
+/* Badges */
+.san-pcard__badge {
+  position: absolute;
+  top: 1.4rem;
+  left: 1.4rem;
+  z-index: 3;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5rem 1.1rem;
+  line-height: 1.4;
+}
+
+.san-pcard__badge--sale {
+  background: #afea90;
+  color: #1f3a13;
+}
+
+.san-pcard__badge--soldout {
+  background: rgba(31, 58, 19, 0.85);
+  color: #ffffff;
+}
+
+/* Hover CTA */
+.san-pcard__cta {
+  position: absolute;
+  left: 1.4rem;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1f3a13;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  padding: 1.2rem 1.6rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.35s var(--ease-out-expo),
+    background 0.2s ease, color 0.2s ease;
+}
+
+.san-pcard:hover .san-pcard__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.san-pcard__cta:hover {
+  background: #31591d;
+  color: #ffffff;
+}
+
+/* Body */
+.san-pcard__body {
+  padding: 1.8rem 1.8rem 2.2rem;
+}
+
+.san-pcard__vendor {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(85, 130, 61, 0.7);
+  margin-bottom: 0.6rem;
+}
+
+.san-pcard__title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #1c2b14;
+  margin: 0 0 1rem;
+  transition: color 0.2s ease;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.san-pcard:hover .san-pcard__title {
+  color: #55823d;
+}
+
+.san-pcard__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.san-pcard__price-regular,
+.san-pcard__price-sale {
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: #31591d;
+}
+
+.san-pcard__price-sale {
+  color: #55823d;
+}
+
+.san-pcard__price-compare {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgba(28, 43, 20, 0.4);
+  text-decoration: line-through;
+}
+
+
+/* ==========================================================================
+   ORGANIC ANIMATED BACKGROUND — snippets/san-organic-bg.liquid
+   A living SVG field (drifting blobs + rotating leaf line-art + floating
+   particles). Designed to sit behind deep-green sections and fuse adjacent
+   ones into a single, alive canvas. Transform/opacity only = GPU friendly.
+   ========================================================================== */
+
+.san-organic {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.san-organic__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.san-organic__blob,
+.san-organic__leaf,
+.san-organic__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.san-organic__blob--1 { animation: sanOrgDriftA 26s ease-in-out infinite; }
+.san-organic__blob--2 { animation: sanOrgDriftB 32s ease-in-out infinite; }
+.san-organic__blob--3 { animation: sanOrgDriftC 38s ease-in-out infinite; }
+
+@keyframes sanOrgDriftA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(70px, 46px) scale(1.16); }
+}
+@keyframes sanOrgDriftB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-80px, -54px) scale(1.1); }
+}
+@keyframes sanOrgDriftC {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(48px, -64px) scale(0.94); }
+}
+
+.san-organic__leaf--1 { animation: sanOrgSpin 54s linear infinite; }
+.san-organic__leaf--2 { animation: sanOrgSpinRev 68s linear infinite; }
+
+@keyframes sanOrgSpin { to { transform: rotate(360deg); } }
+@keyframes sanOrgSpinRev { to { transform: rotate(-360deg); } }
+
+.san-organic__dot--1 { animation: sanOrgFloat 13s ease-in-out infinite; }
+.san-organic__dot--2 { animation: sanOrgFloat 17s ease-in-out 1.5s infinite; }
+.san-organic__dot--3 { animation: sanOrgFloat 21s ease-in-out 0.8s infinite; }
+.san-organic__dot--4 { animation: sanOrgFloat 15s ease-in-out 2.4s infinite; }
+
+@keyframes sanOrgFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.15; }
+  50% { transform: translateY(-34px); opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .san-organic__blob,
+  .san-organic__leaf,
+  .san-organic__dot {
+    animation: none !important;
+  }
 }
