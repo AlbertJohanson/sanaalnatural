@@ -7,9 +7,16 @@
   }
 {%- endstyle -%}
 
-{%- assign slide_blocks = section.blocks | where: 'type', 'slide' -%}
+{%- liquid
+  assign slide_blocks = section.blocks | where: 'type', 'slide'
+  assign hero_eyebrow = 'san.hero.eyebrow' | t
+  assign hero_heading = 'san.hero.heading' | t
+  assign hero_description = 'san.hero.description' | t
+  assign hero_button_1 = 'san.hero.button_1' | t
+  assign hero_button_2 = 'san.hero.button_2' | t
+-%}
 
-<section class="san-hero" id="san-hero-{{ section.id }}" aria-label="{{ section.settings.heading | escape }}">
+<section class="san-hero" id="san-hero-{{ section.id }}" aria-label="{{ hero_heading | replace: '|', '' | escape }}">
 
   {%- comment -%} Decorative botanical SVG {%- endcomment -%}
   <div class="san-hero__decor" aria-hidden="true">
@@ -25,13 +32,13 @@
     {%- comment -%} ─── TEXT COLUMN ─── {%- endcomment -%}
     <div class="san-hero__content">
 
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="san-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- if hero_eyebrow != blank -%}
+        <p class="san-hero__eyebrow">{{ hero_eyebrow }}</p>
       {%- endif -%}
 
-      {%- if section.settings.heading != blank -%}
+      {%- if hero_heading != blank -%}
         <h1 class="san-hero__heading">
-          {%- assign heading_parts = section.settings.heading | split: '|' -%}
+          {%- assign heading_parts = hero_heading | split: '|' -%}
           {%- for part in heading_parts -%}
             {%- if forloop.index == 2 -%}
               <em class="san-hero__heading-accent">{{ part }}</em>
@@ -42,61 +49,32 @@
         </h1>
       {%- endif -%}
 
-      {%- if section.settings.description != blank -%}
-        <p class="san-hero__description">{{ section.settings.description }}</p>
+      {%- if hero_description != blank -%}
+        <p class="san-hero__description">{{ hero_description }}</p>
       {%- endif -%}
 
       <div class="san-hero__cta-group">
-        {%- if section.settings.button_label_1 != blank -%}
+        {%- if hero_button_1 != blank -%}
           <a
             href="{{ section.settings.button_url_1 | default: routes.all_products_collection_url }}"
             class="san-hero__btn san-hero__btn--primary"
           >
-            <span>{{ section.settings.button_label_1 }}</span>
+            <span>{{ hero_button_1 }}</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
         {%- endif -%}
 
-        {%- if section.settings.button_label_2 != blank -%}
+        {%- if hero_button_2 != blank -%}
           <a
             href="{{ section.settings.button_url_2 | default: routes.collections_url }}"
             class="san-hero__btn san-hero__btn--outline"
           >
-            {{ section.settings.button_label_2 }}
+            {{ hero_button_2 }}
           </a>
         {%- endif -%}
       </div>
-
-      {%- if section.settings.show_features -%}
-        <ul class="san-hero__features" role="list">
-          {%- if section.settings.feature_1 != blank -%}
-            <li class="san-hero__feature">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M2.5 6.5l2.5 2.5L10.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              {{ section.settings.feature_1 }}
-            </li>
-          {%- endif -%}
-          {%- if section.settings.feature_2 != blank -%}
-            <li class="san-hero__feature">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M2.5 6.5l2.5 2.5L10.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              {{ section.settings.feature_2 }}
-            </li>
-          {%- endif -%}
-          {%- if section.settings.feature_3 != blank -%}
-            <li class="san-hero__feature">
-              <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-                <path d="M2.5 6.5l2.5 2.5L10.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              {{ section.settings.feature_3 }}
-            </li>
-          {%- endif -%}
-        </ul>
-      {%- endif -%}
 
     </div>
 
@@ -112,7 +90,7 @@
           data-interval="{{ section.settings.carousel_interval | times: 1000 }}"
           id="carousel-{{ section.id }}"
           role="region"
-          aria-label="Galería de imágenes"
+          aria-label="{{ 'san.hero.a11y.gallery' | t }}"
           aria-roledescription="carousel"
         >
 
@@ -123,7 +101,7 @@
                 class="san-carousel__slide{% if forloop.first %} is-active{% endif %}"
                 role="group"
                 aria-roledescription="slide"
-                aria-label="{{ forloop.index }} de {{ slide_blocks.size }}"
+                aria-label="{{ 'san.hero.a11y.slide_count' | t: index: forloop.index, total: slide_blocks.size }}"
                 {%- unless forloop.first -%} aria-hidden="true"{%- endunless -%}
                 {{ block.shopify_attributes }}
               >
@@ -156,13 +134,23 @@
                   </div>
                 {%- endif -%}
 
-                {%- if block.settings.caption != blank or block.settings.label != blank -%}
+                {%- liquid
+                  assign slide_label = 'san.hero.slides.' | append: forloop.index | append: '.label' | t
+                  if slide_label contains 'translation missing'
+                    assign slide_label = block.settings.label
+                  endif
+                  assign slide_caption = 'san.hero.slides.' | append: forloop.index | append: '.caption' | t
+                  if slide_caption contains 'translation missing'
+                    assign slide_caption = block.settings.caption
+                  endif
+                -%}
+                {%- if slide_caption != blank or slide_label != blank -%}
                   <div class="san-carousel__slide-info">
-                    {%- if block.settings.label != blank -%}
-                      <span class="san-carousel__slide-label">{{ block.settings.label }}</span>
+                    {%- if slide_label != blank -%}
+                      <span class="san-carousel__slide-label">{{ slide_label }}</span>
                     {%- endif -%}
-                    {%- if block.settings.caption != blank -%}
-                      <span class="san-carousel__slide-caption">{{ block.settings.caption }}</span>
+                    {%- if slide_caption != blank -%}
+                      <span class="san-carousel__slide-caption">{{ slide_caption }}</span>
                     {%- endif -%}
                   </div>
                 {%- endif -%}
@@ -177,7 +165,7 @@
             <button
               class="san-carousel__arrow san-carousel__arrow--prev"
               type="button"
-              aria-label="Slide anterior"
+              aria-label="{{ 'san.hero.a11y.previous' | t }}"
               aria-controls="carousel-{{ section.id }}"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -188,7 +176,7 @@
             <button
               class="san-carousel__arrow san-carousel__arrow--next"
               type="button"
-              aria-label="Slide siguiente"
+              aria-label="{{ 'san.hero.a11y.next' | t }}"
               aria-controls="carousel-{{ section.id }}"
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -197,7 +185,7 @@
             </button>
 
             {%- comment -%} Dot indicators {%- endcomment -%}
-            <div class="san-carousel__dots" role="tablist" aria-label="Slides">
+            <div class="san-carousel__dots" role="tablist" aria-label="{{ 'san.hero.a11y.slides' | t }}">
               {%- for block in slide_blocks -%}
                 <button
                   class="san-carousel__dot{% if forloop.first %} is-active{% endif %}"
@@ -205,7 +193,7 @@
                   role="tab"
                   aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
                   data-index="{{ forloop.index0 }}"
-                  aria-label="Ir al slide {{ forloop.index }}"
+                  aria-label="{{ 'san.hero.a11y.go_to' | t: index: forloop.index }}"
                   aria-controls="carousel-{{ section.id }}"
                 >
                 </button>
@@ -254,7 +242,7 @@
             </defs>
             <text>
               <textPath href="#badge-path-{{ section.id }}" startOffset="0%">
-                NATURAL · ORGÁNICO · SALUDABLE · BIENESTAR ·&nbsp;
+                {{ 'san.hero.badge' | t }}&nbsp;
               </textPath>
             </text>
           </svg>
@@ -272,13 +260,6 @@
     </div>
 
   </div>
-
-  {%- if section.settings.show_scroll_indicator -%}
-    <div class="san-hero__scroll" aria-hidden="true">
-      <div class="san-hero__scroll-line"></div>
-      <span class="san-hero__scroll-label">Scroll</span>
-    </div>
-  {%- endif -%}
 
 </section>
 
@@ -470,7 +451,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Texto eyebrow",
-      "default": "100% Natural · Hecho con amor"
+      "default": "100% Natural"
     },
     {
       "type": "textarea",
@@ -520,24 +501,6 @@
       "id": "show_features",
       "label": "Mostrar características",
       "default": true
-    },
-    {
-      "type": "text",
-      "id": "feature_1",
-      "label": "Característica 1",
-      "default": "100% Natural"
-    },
-    {
-      "type": "text",
-      "id": "feature_2",
-      "label": "Característica 2",
-      "default": "Sin conservantes"
-    },
-    {
-      "type": "text",
-      "id": "feature_3",
-      "label": "Característica 3",
-      "default": "Envío gratis"
     },
     {
       "type": "header",

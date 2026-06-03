@@ -210,13 +210,40 @@
               {%- when 'custom_liquid' -%}
                 {{ block.settings.custom_liquid }}
               {%- when 'collapsible_tab' -%}
+                {%- liquid
+                  assign san_tab_heading = block.settings.heading | default: block.settings.page.title
+                  assign san_locale = request.locale.iso_code | downcase
+                  if san_locale contains 'es'
+                    assign san_tab_key = san_tab_heading | downcase | strip
+                    case san_tab_key
+                      when 'benefits', 'benefit'
+                        assign san_tab_heading = 'Beneficios'
+                      when 'directions', 'directions for use', 'how to use', 'how to use it', 'usage'
+                        assign san_tab_heading = 'Modo de uso'
+                      when 'ingredients', 'ingredient list'
+                        assign san_tab_heading = 'Ingredientes'
+                      when 'description'
+                        assign san_tab_heading = 'Descripción'
+                      when 'shipping', 'shipping & returns', 'shipping and returns'
+                        assign san_tab_heading = 'Envíos y devoluciones'
+                      when 'returns', 'return policy'
+                        assign san_tab_heading = 'Política de devoluciones'
+                      when 'warnings', 'warning', 'caution'
+                        assign san_tab_heading = 'Advertencias'
+                      when 'nutrition', 'nutrition facts', 'supplement facts'
+                        assign san_tab_heading = 'Información nutricional'
+                      when 'faq', 'faqs', 'frequently asked questions'
+                        assign san_tab_heading = 'Preguntas frecuentes'
+                    endcase
+                  endif
+                -%}
                 <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
                   <details id="Details-{{ block.id }}-{{ section.id }}">
                     <summary>
                       <div class="summary__title">
                         {% render 'icon-accordion', icon: block.settings.icon %}
                         <h2 class="h4 accordion__title inline-richtext">
-                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                          {{ san_tab_heading | escape }}
                         </h2>
                       </div>
                       {{- 'icon-caret.svg' | inline_asset_content -}}
