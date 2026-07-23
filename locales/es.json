@@ -9,6 +9,85 @@
  */
 {
   "san": {
+    "about": {
+      "hero": {
+        "eyebrow": "Desde 2013 · Una marca de Global Natural Products",
+        "heading": "Sobre |nosotros|",
+        "subtitle": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
+        "scroll": "Descubre nuestra historia"
+      },
+      "story": {
+        "eyebrow": "Nuestra historia",
+        "heading": "Cómo nació |Sana al Natural|",
+        "paragraph_1": "Fundada en 2013, Global Natural Products se hizo un nombre distribuyendo productos de salud y belleza de calidad a tiendas, markets, farmacias y distribuidores.",
+        "paragraph_2": "Al crecer el interés por los productos elaborados con ingredientes naturales, la empresa desarrolló su propia línea —Sana al Natural— enfocada en la salud, la belleza y el bienestar diario, combinando ingredientes de origen natural con formulaciones confiables."
+      },
+      "mv": {
+        "eyebrow": "Lo que nos mueve",
+        "heading": "Propósito y |horizonte|"
+      },
+      "mission": {
+        "label": "Nuestra Misión",
+        "heading": "Cuidado natural, al alcance de todos",
+        "text": "Ofrecer productos de salud, bienestar y cuidado personal que combinan ingredientes de origen natural con formulaciones confiables, brindando soluciones accesibles para el cuidado diario."
+      },
+      "vision": {
+        "label": "Nuestra Visión",
+        "heading": "Crecer cuidando lo que importa",
+        "text": "Seguir creciendo como una empresa confiable en el desarrollo de productos de salud y belleza, expandiendo nuestras marcas y líneas naturales para contribuir al bienestar de las personas."
+      },
+      "values": {
+        "eyebrow": "Lo que nos define",
+        "heading": "Nuestros |valores|",
+        "hint": "✦ Pasa el cursor sobre cada valor",
+        "v1": {
+          "title": "Calidad",
+          "text": "Ingredientes seleccionados y formulaciones confiables que cumplen los estándares que nuestros clientes esperan."
+        },
+        "v2": {
+          "title": "Compromiso con lo natural",
+          "text": "Promovemos ingredientes de origen natural, ofreciendo alternativas inspiradas en la naturaleza para el cuidado y el bienestar."
+        },
+        "v3": {
+          "title": "Confianza",
+          "text": "Construimos relaciones duraderas con clientes, distribuidores y socios, basadas en la confianza y el respeto."
+        },
+        "v4": {
+          "title": "Innovación",
+          "text": "Desarrollamos nuevos productos y mejoramos nuestras formulaciones para responder a las necesidades del mercado."
+        },
+        "v5": {
+          "title": "Servicio al cliente",
+          "text": "Atención cercana y soluciones eficientes para apoyar el crecimiento de nuestros clientes y distribuidores."
+        }
+      },
+      "partners": {
+        "eyebrow": "Comercios y aliados",
+        "heading": "Crece con |nosotros|",
+        "intro": "Apoyamos a tiendas, markets, farmacias y distribuidores con productos de calidad que combinan ingredientes de origen natural y formulaciones confiables.",
+        "marquee": "Tiendas · Markets · Farmacias · Distribuidores",
+        "c1": {
+          "title": "Tiendas",
+          "text": "Surtimos a tiendas con productos de cuidado personal y bienestar de rotación constante y fácil venta."
+        },
+        "c2": {
+          "title": "Markets",
+          "text": "Abastecemos markets y autoservicios con líneas naturales y productos OTC listos para el anaquel."
+        },
+        "c3": {
+          "title": "Farmacias",
+          "text": "Proveemos a farmacias productos OTC y naturales con formulaciones confiables y respaldo de marca."
+        },
+        "c4": {
+          "title": "Distribuidores",
+          "text": "Trabajamos de la mano con distribuidores y socios comerciales, con atención cercana para crecer juntos."
+        },
+        "cta_title": "¿Quieres distribuir Sana al Natural?",
+        "cta_text": "Conversemos sobre mayoreo, precios y alianzas comerciales. Te respondemos personalmente.",
+        "cta_whatsapp": "Escríbenos por WhatsApp",
+        "cta_email": "Enviar un correo"
+      }
+    },
     "hero": {
       "eyebrow": "100% Natural · Hecho con amor",
       "heading": "Bienestar que |nace de la naturaleza|",
@@ -221,6 +300,39 @@
       "share": "Compartir este artículo",
       "success": "Tu comentario se publicó correctamente. ¡Gracias!",
       "success_moderated": "Tu comentario se publicó correctamente. Lo publicaremos en breve, cuando se modere nuestro blog."
+    },
+    "header": {
+      "mega_discover": "Descubre",
+      "mega_shop_all": "Ver todo",
+      "mega_collections": "Colecciones",
+      "mega_recommended": "Recomendados",
+      "mega_view_product": "Ver producto"
+    },
+    "collections": {
+      "home": "Inicio",
+      "title": "Colecciones",
+      "eyebrow": "El índice de colecciones",
+      "heading": "Nuestras |colecciones|",
+      "scroll": "Explorar el índice",
+      "intro": "Explora nuestras familias de productos naturales, agrupadas para que encontrar tu ritual sea sencillo.",
+      "count": {
+        "one": "{{ count }} colección",
+        "other": "{{ count }} colecciones"
+      },
+      "product_count": {
+        "one": "{{ count }} producto",
+        "other": "{{ count }} productos"
+      },
+      "explore": "Explorar",
+      "empty": "Aún no hay colecciones",
+      "all_eyebrow": "Todo el catálogo",
+      "all_heading": "Toda la |tienda|",
+      "all_subtitle": "Todos los productos de todas las colecciones, reunidos en un solo lugar.",
+      "all_browse": "Explora por colección",
+      "view_results": {
+        "one": "Ver {{ count }} producto",
+        "other": "Ver {{ count }} productos"
+      }
     }
   },
   "onboarding": {

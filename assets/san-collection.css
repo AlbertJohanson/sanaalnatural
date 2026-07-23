@@ -842,40 +842,51 @@
 
 .collection .card-wrapper {
   position: relative;
-  background: #fbf9f4;
-  padding: 1.2rem 1.2rem 1.6rem;
+  background: linear-gradient(165deg, #2f561c 0%, #21400f 100%);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 14px 32px -22px rgba(0, 0, 0, 0.55);
   transition:
     transform 0.55s var(--san-ease),
-    box-shadow 0.55s var(--san-ease),
-    background 0.55s var(--san-ease) !important;
+    box-shadow 0.55s var(--san-ease) !important;
 }
 
-/* Hairline frame around the whole card */
+/* Light-green frame that tightens inward on hover */
 .collection .card-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(85, 130, 61, 0.12);
+  border: 1px solid rgba(175, 234, 144, 0);
   pointer-events: none;
-  transition: border-color 0.45s var(--san-ease);
-  z-index: 1;
+  transition: border-color 0.5s var(--san-ease), inset 0.5s var(--san-ease);
+  z-index: 4;
+}
+
+/* Soft top glow on hover */
+.collection .card-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(80% 45% at 50% 0%, rgba(175, 234, 144, 0.18), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
 @media (hover: hover) {
   .collection .card-wrapper:hover {
-    transform: translateY(-4px);
-    background: #ffffff;
-    box-shadow: 0 22px 45px -22px rgba(49, 89, 29, 0.28);
+    transform: translateY(-8px);
+    box-shadow: 0 32px 58px -22px rgba(0, 0, 0, 0.62);
   }
 
   .collection .card-wrapper:hover::after {
-    border-color: var(--san-green-20);
+    border-color: rgba(175, 234, 144, 0.5);
+    inset: 0.7rem;
   }
-}
 
-@media screen and (min-width: 750px) {
-  .collection .card-wrapper {
-    padding: 1.4rem 1.4rem 1.8rem;
+  .collection .card-wrapper:hover::before {
+    opacity: 1;
   }
 }
 
@@ -913,7 +924,9 @@
 
 .collection .card--card .card__content,
 .collection .card--standard > .card__content {
-  padding: 1.3rem 0.2rem 0 !important;
+  padding: 1.6rem 1.7rem 1.9rem !important;
+  position: relative !important;
+  z-index: 2 !important;
 }
 
 .collection .card--card .card__inner .card__media,
@@ -938,12 +951,39 @@
 }
 
 .collection .card__media img {
-  transition: transform 0.8s var(--san-ease), opacity 0.5s ease !important;
+  transition: transform 0.9s var(--san-ease), opacity 0.5s ease !important;
+}
+
+/* Diagonal shine sweep across the image on hover */
+.collection .card__media::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 50%;
+  height: 100%;
+  z-index: 2;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: skewX(-18deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .collection .card-wrapper:hover .card__media::after {
+    animation: sanCardShine 0.9s var(--san-ease);
+  }
+}
+
+@keyframes sanCardShine {
+  0% { left: -60%; opacity: 0; }
+  30% { opacity: 1; }
+  100% { left: 130%; opacity: 0; }
 }
 
 @media (hover: hover) {
   .collection .card-wrapper:hover .card__media img:first-child {
-    transform: scale(1.04);
+    transform: scale(1.06);
   }
 }
 
@@ -972,9 +1012,9 @@
 
 .collection .card__heading a {
   font-family: 'Poppins', sans-serif !important;
-  font-size: 1.35rem !important;
+  font-size: 1.4rem !important;
   font-weight: 500 !important;
-  color: var(--san-ink) !important;
+  color: #f3efe4 !important;
   text-decoration: none !important;
   line-height: 1.4 !important;
   letter-spacing: 0.01em !important;
@@ -983,17 +1023,17 @@
 
 @media (hover: hover) {
   .collection .card-wrapper:hover .card__heading a {
-    color: var(--san-green) !important;
+    color: var(--san-green-light) !important;
   }
 }
 
 .collection .card-information .caption-with-letter-spacing {
   font-family: 'Poppins', sans-serif !important;
   font-size: 1rem !important;
-  letter-spacing: 0.12em !important;
+  letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
-  color: var(--san-green-50) !important;
-  margin-bottom: 0.2rem !important;
+  color: rgba(175, 234, 144, 0.7) !important;
+  margin-bottom: 0.4rem !important;
 }
 
 /* ================================================================
@@ -1001,7 +1041,7 @@
    ================================================================ */
 
 .collection .price {
-  margin-top: 0.35rem !important;
+  margin-top: 0.5rem !important;
 }
 
 .collection .price__regular .price-item,
@@ -1009,24 +1049,24 @@
   font-family: 'Poppins', sans-serif !important;
   font-size: 1.45rem !important;
   font-weight: 600 !important;
-  color: var(--san-ink) !important;
+  color: #f3efe4 !important;
 }
 
 .collection .price--on-sale .price-item--sale {
   font-family: 'Poppins', sans-serif !important;
   font-size: 1.45rem !important;
   font-weight: 600 !important;
-  color: var(--san-green) !important;
+  color: var(--san-green-light) !important;
 }
 
 .collection .price--on-sale .price-item--regular {
   font-size: 1.15rem !important;
-  color: var(--san-ink-35) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
   text-decoration: line-through !important;
 }
 
 .collection .price--sold-out .price-item {
-  color: var(--san-ink-35) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* ================================================================
@@ -1044,13 +1084,13 @@
 }
 
 .collection .badge.color-scheme-1 {
-  background-color: var(--san-green-dark) !important;
-  color: #ffffff !important;
+  background-color: var(--san-green-light) !important;
+  color: var(--san-green-dark) !important;
 }
 
 .collection .badge.color-scheme-2 {
-  background-color: var(--san-ink) !important;
-  color: #ffffff !important;
+  background-color: #ffffff !important;
+  color: var(--san-green-dark) !important;
 }
 
 .collection .card__badge {
@@ -1076,9 +1116,10 @@
    ================================================================ */
 
 .collection .quick-add {
+  margin-top: 1.2rem !important;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s ease, transform 0.3s var(--san-ease) !important;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.4s var(--san-ease) !important;
 }
 
 @media (hover: hover) {
@@ -1088,28 +1129,42 @@
   }
 }
 
+/* Touch devices have no hover — keep the action reachable */
+@media (hover: none) {
+  .collection .quick-add {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .collection .quick-add__submit {
   font-family: 'Poppins', sans-serif !important;
   font-size: 1.05rem !important;
   font-weight: 600 !important;
-  letter-spacing: 0.12em !important;
+  letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
-  background-color: var(--san-green-dark) !important;
-  color: #ffffff !important;
+  background-color: var(--san-green-light) !important;
+  color: var(--san-green-dark) !important;
   border: none !important;
   border-radius: 0 !important;
-  padding: 1.1rem 2rem !important;
+  padding: 1.2rem 2rem !important;
+  width: 100% !important;
   cursor: pointer !important;
-  transition: background var(--san-dur-fast) ease !important;
+  transition: background var(--san-dur-fast) ease, color var(--san-dur-fast) ease, transform var(--san-dur-fast) ease !important;
 }
 
 .collection .quick-add__submit:hover {
-  background-color: var(--san-green) !important;
+  background-color: #ffffff !important;
+  color: var(--san-green-dark) !important;
+}
+
+.collection .quick-add__submit:active {
+  transform: scale(0.98) !important;
 }
 
 .collection .quick-add__submit[disabled] {
-  background-color: var(--san-ink-20) !important;
-  color: var(--san-ink-35) !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* ================================================================

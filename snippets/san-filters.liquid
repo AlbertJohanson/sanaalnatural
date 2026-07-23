@@ -59,16 +59,16 @@
       <div class="san-filters__header">
         <div class="san-filters__header-top">
           <div class="san-filters__header-left">
-            <h2 class="san-filters__title" id="verticalTitle" tabindex="-1">Filtrar</h2>
+            <h2 class="san-filters__title" id="verticalTitle" tabindex="-1">{{ 'products.facets.filter_button' | t }}</h2>
             <span class="san-filters__count" data-san-live-count>
               {%- if results.products.size == results.products_count -%}
-                {{ results.products.size }} producto{{ results.products.size | pluralize: '', 's' }}
+                {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
               {%- else -%}
-                {{ results.products.size }} de {{ results.products_count }}
+                {{ 'products.facets.product_count' | t: product_count: results.products.size, count: results.products_count }}
               {%- endif -%}
             </span>
           </div>
-          <button type="button" class="san-filters__close" data-san-drawer-close aria-label="Cerrar filtros">
+          <button type="button" class="san-filters__close" data-san-drawer-close aria-label="{{ 'accessibility.close' | t }}">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
@@ -76,7 +76,7 @@
         </div>
         {%- if total_active_values > 0 -%}
           <facet-remove class="san-filters__clear-all js-facet-remove">
-            <a href="{{ results_url }}">Limpiar todo</a>
+            <a href="{{ results_url }}">{{ 'products.facets.clear_all' | t }}</a>
           </facet-remove>
         {%- endif -%}
       </div>
@@ -84,7 +84,7 @@
       {%- comment -%} — Sort — {%- endcomment -%}
       {%- if enable_sorting -%}
         <div class="san-filters__sort sorting">
-          <label class="san-filters__sort-label" for="SanSortBy">Ordenar por</label>
+          <label class="san-filters__sort-label" for="SanSortBy">{{ 'products.facets.sort_by_label' | t }}</label>
           <div class="san-filters__sort-select">
             <select
               name="sort_by"
@@ -280,11 +280,11 @@
       <div class="san-filters__footer">
         {%- if total_active_values > 0 -%}
           <facet-remove class="js-facet-remove">
-            <a href="{{ results_url }}" class="san-filters__footer-clear">Limpiar todo</a>
+            <a href="{{ results_url }}" class="san-filters__footer-clear">{{ 'products.facets.clear_all' | t }}</a>
           </facet-remove>
         {%- endif -%}
         <button type="button" class="san-filters__footer-apply" data-san-drawer-close>
-          Ver {{ results.products_count }} producto{{ results.products_count | pluralize: '', 's' }}
+          {{ 'blogs.collections.view_results' | t: count: results.products_count }}
         </button>
       </div>
 
@@ -317,7 +317,7 @@
   <details class="san-filters-mobile__disclosure disclosure-has-popup">
     <summary class="san-filters-mobile__trigger focus-offset">
       <span class="mobile-facets__open">
-        <span class="mobile-facets__open-label button-label">Filtrar</span>
+        <span class="mobile-facets__open-label button-label">{{ 'products.facets.filter_button' | t }}</span>
       </span>
       <span tabindex="0" class="mobile-facets__close san-filters-mobile__close-icon">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -330,19 +330,19 @@
       <form id="FacetFiltersFormMobile" class="san-filters-mobile__form">
         <div class="san-filters-mobile__inner gradient">
           <div class="san-filters-mobile__header">
-            <h2 class="san-filters-mobile__title">Filtrar</h2>
+            <h2 class="san-filters-mobile__title">{{ 'products.facets.filter_button' | t }}</h2>
             <p class="mobile-facets__count san-filters-mobile__count" data-san-live-count>
               {%- if results.products.size == results.products_count -%}
-                {{ results.products.size }} producto{{ results.products.size | pluralize: '', 's' }}
+                {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
               {%- else -%}
-                {{ results.products.size }} de {{ results.products_count }}
+                {{ 'products.facets.product_count' | t: product_count: results.products.size, count: results.products_count }}
               {%- endif -%}
             </p>
           </div>
 
           {%- if enable_sorting -%}
             <div class="san-filters-mobile__sort sorting">
-              <label class="san-filters-mobile__sort-label" for="SanSortByMobile">Ordenar por</label>
+              <label class="san-filters-mobile__sort-label" for="SanSortByMobile">{{ 'products.facets.sort_by_label' | t }}</label>
               <div class="san-filters-mobile__sort-select">
                 <select
                   name="sort_by"
@@ -517,11 +517,11 @@
           <div class="san-filters-mobile__footer">
             {%- if total_active_values > 0 -%}
               <facet-remove class="js-facet-remove">
-                <a href="{{ results_url }}" class="san-filters-mobile__clear">Limpiar todo</a>
+                <a href="{{ results_url }}" class="san-filters-mobile__clear">{{ 'products.facets.clear_all' | t }}</a>
               </facet-remove>
             {%- endif -%}
             <button type="button" class="san-filters-mobile__apply" onclick="this.closest('details').removeAttribute('open')">
-              Ver {{ results.products_count }} producto{{ results.products_count | pluralize: '', 's' }}
+              {{ 'blogs.collections.view_results' | t: count: results.products_count }}
             </button>
           </div>
 

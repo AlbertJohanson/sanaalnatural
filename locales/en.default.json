@@ -9,6 +9,85 @@
  */
 {
   "san": {
+    "about": {
+      "hero": {
+        "eyebrow": "Since 2013 · A Global Natural Products brand",
+        "heading": "About |us|",
+        "subtitle": "Sana al Natural is a brand devoted to health and wellbeing through natural products.",
+        "scroll": "Discover our story"
+      },
+      "story": {
+        "eyebrow": "Our story",
+        "heading": "How |Sana al Natural| began",
+        "paragraph_1": "Founded in 2013, Global Natural Products built its name distributing quality health and beauty products to stores, markets, pharmacies and distributors.",
+        "paragraph_2": "As more people sought products made with natural ingredients, the company created its own line — Sana al Natural — devoted to health, beauty and everyday wellbeing, combining natural ingredients with reliable formulations."
+      },
+      "mv": {
+        "eyebrow": "What moves us",
+        "heading": "Purpose and |horizon|"
+      },
+      "mission": {
+        "label": "Our Mission",
+        "heading": "Natural care, within everyone's reach",
+        "text": "To offer health, wellness and personal-care products that combine natural ingredients with reliable formulations, providing accessible solutions for everyday care."
+      },
+      "vision": {
+        "label": "Our Vision",
+        "heading": "Growing while caring for what matters",
+        "text": "To keep growing as a trusted company in the development of health and beauty products, expanding our natural brands and product lines to contribute to people's wellbeing."
+      },
+      "values": {
+        "eyebrow": "What defines us",
+        "heading": "Our |values|",
+        "hint": "✦ Hover over each value",
+        "v1": {
+          "title": "Quality",
+          "text": "Carefully selected ingredients and reliable formulations that meet the quality standards our customers expect."
+        },
+        "v2": {
+          "title": "Commitment to nature",
+          "text": "We promote naturally inspired ingredients, offering alternatives that support personal care and wellbeing."
+        },
+        "v3": {
+          "title": "Trust",
+          "text": "We build long-lasting relationships with customers, distributors and partners, based on trust and respect."
+        },
+        "v4": {
+          "title": "Innovation",
+          "text": "We develop new products and improve our formulations to meet the evolving needs of the market."
+        },
+        "v5": {
+          "title": "Customer service",
+          "text": "Attentive support and efficient solutions to help our customers and distributors grow."
+        }
+      },
+      "partners": {
+        "eyebrow": "Trade & partners",
+        "heading": "Grow with |us|",
+        "intro": "We supply stores, markets, pharmacies and distributors with quality products that combine natural ingredients and reliable formulations.",
+        "marquee": "Stores · Markets · Pharmacies · Distributors",
+        "c1": {
+          "title": "Stores",
+          "text": "We stock stores with personal-care and wellness products that sell steadily and move fast."
+        },
+        "c2": {
+          "title": "Markets",
+          "text": "We supply markets and self-service shops with natural lines and shelf-ready OTC products."
+        },
+        "c3": {
+          "title": "Pharmacies",
+          "text": "We provide pharmacies with OTC and natural products backed by reliable formulations and brand support."
+        },
+        "c4": {
+          "title": "Distributors",
+          "text": "We work hand in hand with distributors and trade partners, with close support so we grow together."
+        },
+        "cta_title": "Want to distribute Sana al Natural?",
+        "cta_text": "Let's talk wholesale, pricing and partnerships. We'll reply to you personally.",
+        "cta_whatsapp": "Message us on WhatsApp",
+        "cta_email": "Send an email"
+      }
+    },
     "hero": {
       "eyebrow": "100% Natural · Made with love",
       "heading": "Wellness that |grows from nature|",
@@ -220,6 +299,39 @@
       "share": "Share this article",
       "success": "Your comment was posted successfully! Thank you!",
       "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated."
+    },
+    "header": {
+      "mega_discover": "Discover",
+      "mega_shop_all": "Shop all",
+      "mega_collections": "Collections",
+      "mega_recommended": "Recommended",
+      "mega_view_product": "View product"
+    },
+    "collections": {
+      "home": "Home",
+      "title": "Collections",
+      "eyebrow": "The collection index",
+      "heading": "Our |collections|",
+      "scroll": "Browse the index",
+      "intro": "Explore our families of naturally minded products, each grouped to make finding your ritual effortless.",
+      "count": {
+        "one": "{{ count }} collection",
+        "other": "{{ count }} collections"
+      },
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "explore": "Explore",
+      "empty": "No collections yet",
+      "all_eyebrow": "The full catalog",
+      "all_heading": "Shop |everything|",
+      "all_subtitle": "Every product across every collection, gathered in one place.",
+      "all_browse": "Browse by collection",
+      "view_results": {
+        "one": "View {{ count }} product",
+        "other": "View {{ count }} products"
+      }
     }
   },
   "onboarding": {
