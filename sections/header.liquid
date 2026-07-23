@@ -117,121 +117,186 @@
         </div>
       {%- endif -%}
 
-      <nav class="san-header__nav san-header__nav--left small-hide medium-hide" aria-label="{{ 'general.navigation.menu' | t }}">
-        {%- for link in menu_links -%}
-          {%- if forloop.index <= half -%}
-            {%- if link.links != blank -%}
-              <header-menu>
-                <details id="Details-HeaderMenu-{{ forloop.index }}" class="san-dropdown">
-                  <summary class="san-header__nav-link" aria-haspopup="true">
-                    <span>{{ link.title | escape }}</span>
-                    <svg class="san-dropdown__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
-                      <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </summary>
-                  <div class="san-dropdown__panel">
-                    {%- for childlink in link.links -%}
-                      <a
-                        href="{{ childlink.url }}"
-                        class="san-dropdown__link"
-                        {% if childlink.current %}aria-current="page"{% endif %}
-                      >
-                        {{ childlink.title | escape }}
-                      </a>
-                    {%- endfor -%}
-                  </div>
-                </details>
-              </header-menu>
+      <div class="san-header__brand">
+        {%- if request.page_type == 'index' -%}
+          <h1 class="san-header__heading">
+        {%- endif -%}
+          <a href="{{ routes.root_url }}" class="san-header__logo-link header__heading-link link link--text focus-inset">
+            {%- if settings.logo != blank -%}
+              <div class="san-header__logo-img-wrap header__heading-logo-wrapper">
+                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                {%- capture sizes -%}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{%- endcapture -%}
+                {%- capture widths -%}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{%- endcapture -%}
+                {{ settings.logo | image_url: width: 600 | image_tag: class: 'san-header__logo-img header__heading-logo motion-reduce', widths: widths, height: logo_height, width: settings.logo_width, alt: logo_alt, sizes: sizes, preload: true }}
+              </div>
             {%- else -%}
-              <a
-                href="{{ link.url }}"
-                class="san-header__nav-link"
-                {% if link.current %}aria-current="page"{% endif %}
-              >
-                {{ link.title | escape }}
-              </a>
+              <div class="san-logo-placeholder" aria-label="{{ shop.name }}">
+                <div class="san-logo-placeholder__emblem" aria-hidden="true">
+                  <svg class="san-logo-placeholder__leaf" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 47C18 47 2 35 2 19C2 9.6 9.6 2 18 2C26.4 2 34 9.6 34 19C34 35 18 47 18 47Z" stroke="currentColor" stroke-width="1.4" fill="rgba(85,130,61,0.08)"/>
+                    <line x1="18" y1="2" x2="18" y2="47" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                    <path d="M11 11C13.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                    <path d="M25 11C22.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
+                    <path d="M8 22C12 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+                    <path d="M28 22C24 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
+                  </svg>
+                </div>
+                <div class="san-logo-placeholder__wordmark">
+                  <span class="san-logo-placeholder__name">{{ shop.name }}</span>
+                  <span class="san-logo-placeholder__tagline">productos naturales</span>
+                </div>
+              </div>
             {%- endif -%}
+          </a>
+        {%- if request.page_type == 'index' -%}
+          </h1>
+        {%- endif -%}
+      </div>
+
+      <nav class="san-header__nav small-hide medium-hide" aria-label="{{ 'general.navigation.menu' | t }}">
+        {%- for link in menu_links -%}
+          {%- liquid
+            # Detect the Shop link in a language-independent way. The link
+            # title is translated per locale, but the URL path carries the
+            # resource handle (and link.handle, where available) which stays
+            # the same across languages. We build a single haystack from
+            # handle + title + url so a match in ANY locale flags the mega
+            # menu. An optional admin setting can pin an exact substring.
+            assign ltitle = link.title | downcase
+            assign lhandle = link.handle | downcase
+            assign lurl = link.url | downcase
+            assign mega_haystack = lhandle | append: ' ' | append: ltitle | append: ' ' | append: lurl
+            assign mega_match = section.settings.mega_menu_handle | downcase | strip
+            assign is_mega = false
+            if link.links != blank
+              if mega_match != blank
+                if mega_haystack contains mega_match
+                  assign is_mega = true
+                endif
+              elsif mega_haystack contains 'shop' or mega_haystack contains 'tienda' or mega_haystack contains 'store' or mega_haystack contains 'catalog'
+                assign is_mega = true
+              endif
+            endif
+          -%}
+          {%- if is_mega -%}
+            {%- liquid
+              assign mega_products = link.object.products
+              if mega_products == blank
+                assign mega_products = collections.all.products
+              endif
+            -%}
+            <header-menu class="san-mega">
+              <details id="Details-HeaderMenu-{{ forloop.index }}" class="san-dropdown san-dropdown--mega">
+                <summary class="san-header__nav-link san-nav3d" aria-haspopup="true">
+                  <span class="san-nav3d__inner">
+                    <span class="san-nav3d__face san-nav3d__face--front">{{ link.title | escape }}</span>
+                    <span class="san-nav3d__face san-nav3d__face--back" aria-hidden="true">{{ link.title | escape }}</span>
+                  </span>
+                  <svg class="san-dropdown__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                    <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </summary>
+
+                <div class="san-mega__panel">
+                  <div class="san-mega__inner">
+                    <a href="{{ link.url }}" class="san-mega__feature">
+                      <span class="san-mega__feature-eyebrow">{{ 'blogs.header.mega_discover' | t }}</span>
+                      <span class="san-mega__feature-title">{{ link.title | escape }}</span>
+                      <span class="san-mega__feature-cta">
+                        {{ 'blogs.header.mega_shop_all' | t }}
+                        <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+                          <path d="M1 5h19m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span class="san-mega__feature-leaf" aria-hidden="true">
+                        <svg viewBox="0 0 36 48" fill="none"><path d="M18 47C18 47 2 35 2 19C2 9.6 9.6 2 18 2C26.4 2 34 9.6 34 19C34 35 18 47 18 47Z" stroke="currentColor" stroke-width="1.2"/><line x1="18" y1="6" x2="18" y2="44" stroke="currentColor" stroke-width="0.8"/></svg>
+                      </span>
+                    </a>
+
+                    <div class="san-mega__col san-mega__col--collections">
+                      <span class="san-mega__heading">{{ 'blogs.header.mega_collections' | t }}</span>
+                      <ul class="san-mega__links" role="list">
+                        {%- for childlink in link.links -%}
+                          <li>
+                            <a href="{{ childlink.url }}" class="san-mega__link"{% if childlink.current %} aria-current="page"{% endif %}>
+                              <span class="san-mega__link-text">{{ childlink.title | escape }}</span>
+                              <svg class="san-mega__link-arrow" width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true">
+                                <path d="M1 4h13m0 0l-3-3m3 3l-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+
+                    {%- if mega_products.size > 0 -%}
+                      <div class="san-mega__col san-mega__col--products">
+                        <span class="san-mega__heading">{{ 'blogs.header.mega_recommended' | t }}</span>
+                        <div class="san-mega__products">
+                          {%- for product in mega_products limit: 2 -%}
+                            <a href="{{ product.url }}" class="san-mega__product">
+                              <span class="san-mega__product-media">
+                                {%- if product.featured_media -%}
+                                  {{ product.featured_media | image_url: width: 480 | image_tag: loading: 'lazy', class: 'san-mega__product-img', widths: '240,480', sizes: '20rem', alt: product.featured_media.alt | escape }}
+                                {%- else -%}
+                                  {{ 'product-apparel-1' | placeholder_svg_tag: 'san-mega__product-img placeholder-svg' }}
+                                {%- endif -%}
+                                <span class="san-mega__product-view">{{ 'blogs.header.mega_view_product' | t }}</span>
+                              </span>
+                              <span class="san-mega__product-name">{{ product.title | escape }}</span>
+                              <span class="san-mega__product-price">{{ product.price | money }}</span>
+                            </a>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </details>
+            </header-menu>
+          {%- elsif link.links != blank -%}
+            <header-menu>
+              <details id="Details-HeaderMenu-{{ forloop.index }}" class="san-dropdown">
+                <summary class="san-header__nav-link san-nav3d" aria-haspopup="true">
+                  <span class="san-nav3d__inner">
+                    <span class="san-nav3d__face san-nav3d__face--front">{{ link.title | escape }}</span>
+                    <span class="san-nav3d__face san-nav3d__face--back" aria-hidden="true">{{ link.title | escape }}</span>
+                  </span>
+                  <svg class="san-dropdown__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
+                    <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </summary>
+                <div class="san-dropdown__panel">
+                  {%- for childlink in link.links -%}
+                    <a
+                      href="{{ childlink.url }}"
+                      class="san-dropdown__link"
+                      {% if childlink.current %}aria-current="page"{% endif %}
+                    >
+                      {{ childlink.title | escape }}
+                    </a>
+                  {%- endfor -%}
+                </div>
+              </details>
+            </header-menu>
+          {%- else -%}
+            <a
+              href="{{ link.url }}"
+              class="san-header__nav-link san-nav3d"
+              {% if link.current %}aria-current="page"{% endif %}
+            >
+              <span class="san-nav3d__inner">
+                <span class="san-nav3d__face san-nav3d__face--front">{{ link.title | escape }}</span>
+                <span class="san-nav3d__face san-nav3d__face--back" aria-hidden="true">{{ link.title | escape }}</span>
+              </span>
+            </a>
           {%- endif -%}
         {%- endfor -%}
       </nav>
-    </div>
-
-    <div class="san-header__center">
-      {%- if request.page_type == 'index' -%}
-        <h1 class="san-header__heading">
-      {%- endif -%}
-        <a href="{{ routes.root_url }}" class="san-header__logo-link header__heading-link link link--text focus-inset">
-          {%- if settings.logo != blank -%}
-            <div class="san-header__logo-img-wrap header__heading-logo-wrapper">
-              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-              {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-              {%- capture sizes -%}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{%- endcapture -%}
-              {%- capture widths -%}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{%- endcapture -%}
-              {{ settings.logo | image_url: width: 600 | image_tag: class: 'san-header__logo-img header__heading-logo motion-reduce', widths: widths, height: logo_height, width: settings.logo_width, alt: logo_alt, sizes: sizes, preload: true }}
-            </div>
-          {%- else -%}
-            <div class="san-logo-placeholder" aria-label="{{ shop.name }}">
-              <div class="san-logo-placeholder__emblem" aria-hidden="true">
-                <svg class="san-logo-placeholder__leaf" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 47C18 47 2 35 2 19C2 9.6 9.6 2 18 2C26.4 2 34 9.6 34 19C34 35 18 47 18 47Z" stroke="currentColor" stroke-width="1.4" fill="rgba(85,130,61,0.08)"/>
-                  <line x1="18" y1="2" x2="18" y2="47" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
-                  <path d="M11 11C13.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
-                  <path d="M25 11C22.5 15.5 18 20 18 24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/>
-                  <path d="M8 22C12 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
-                  <path d="M28 22C24 24 18 26 18 30" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.55"/>
-                </svg>
-              </div>
-              <div class="san-logo-placeholder__wordmark">
-                <span class="san-logo-placeholder__name">{{ shop.name }}</span>
-                <span class="san-logo-placeholder__tagline">productos naturales</span>
-              </div>
-            </div>
-          {%- endif -%}
-        </a>
-      {%- if request.page_type == 'index' -%}
-        </h1>
-      {%- endif -%}
     </div>
 
     <div class="san-header__right">
-      <nav class="san-header__nav san-header__nav--right small-hide medium-hide" aria-label="{{ 'general.navigation.menu' | t }}">
-        {%- for link in menu_links -%}
-          {%- if forloop.index > half -%}
-            {%- if link.links != blank -%}
-              <header-menu>
-                <details id="Details-HeaderMenu-{{ forloop.index }}" class="san-dropdown">
-                  <summary class="san-header__nav-link" aria-haspopup="true">
-                    <span>{{ link.title | escape }}</span>
-                    <svg class="san-dropdown__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">
-                      <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </summary>
-                  <div class="san-dropdown__panel">
-                    {%- for childlink in link.links -%}
-                      <a
-                        href="{{ childlink.url }}"
-                        class="san-dropdown__link"
-                        {% if childlink.current %}aria-current="page"{% endif %}
-                      >
-                        {{ childlink.title | escape }}
-                      </a>
-                    {%- endfor -%}
-                  </div>
-                </details>
-              </header-menu>
-            {%- else -%}
-              <a
-                href="{{ link.url }}"
-                class="san-header__nav-link"
-                {% if link.current %}aria-current="page"{% endif %}
-              >
-                {{ link.title | escape }}
-              </a>
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </nav>
-
       <div class="san-header__utils">
         {%- render 'header-search', input_id: 'Search-In-Modal' -%}
 
@@ -515,6 +580,12 @@
       ],
       "default": "dropdown",
       "label": "t:sections.header.settings.menu_type_desktop.label"
+    },
+    {
+      "type": "text",
+      "id": "mega_menu_handle",
+      "label": "Mega menu — menu item",
+      "info": "Handle or name of the menu item that opens the big Shop mega menu (e.g. shop / tienda). Leave blank to auto-detect."
     },
     {
       "type": "select",

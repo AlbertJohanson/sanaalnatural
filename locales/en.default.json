@@ -299,6 +299,39 @@
       "share": "Share this article",
       "success": "Your comment was posted successfully! Thank you!",
       "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated."
+    },
+    "header": {
+      "mega_discover": "Discover",
+      "mega_shop_all": "Shop all",
+      "mega_collections": "Collections",
+      "mega_recommended": "Recommended",
+      "mega_view_product": "View product"
+    },
+    "collections": {
+      "home": "Home",
+      "title": "Collections",
+      "eyebrow": "The collection index",
+      "heading": "Our |collections|",
+      "scroll": "Browse the index",
+      "intro": "Explore our families of naturally minded products, each grouped to make finding your ritual effortless.",
+      "count": {
+        "one": "{{ count }} collection",
+        "other": "{{ count }} collections"
+      },
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "explore": "Explore",
+      "empty": "No collections yet",
+      "all_eyebrow": "The full catalog",
+      "all_heading": "Shop |everything|",
+      "all_subtitle": "Every product across every collection, gathered in one place.",
+      "all_browse": "Browse by collection",
+      "view_results": {
+        "one": "View {{ count }} product",
+        "other": "View {{ count }} products"
+      }
     }
   },
   "onboarding": {
