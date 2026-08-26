@@ -115,7 +115,7 @@
       "description": "Browse by category and find the perfect natural product for you.",
       "view_all": "View all",
       "default_tab": "Collection",
-      "empty": "Add tabs (collections) from the theme editor.",
+      "empty": "Add tabs (Categories) from the theme editor.",
       "panel_empty": "Assign a collection with products to this tab from the theme editor.",
       "tabs": {
         "1": "Featured",
@@ -125,12 +125,27 @@
         "5": "Teas & Infusions"
       }
     },
+    "bestsellers": {
+      "eyebrow": "Best sellers",
+      "heading": "What people |take home|",
+      "description": "The products our customers come back for, ordered by how much they sell.",
+      "view_all": "View all products",
+      "badge_top": "No. 1 in sales",
+      "badge_featured": "Featured",
+      "badge_for_you": "Picked for you",
+      "hero_cta": "View product",
+      "hero_cta_soldout": "Sold out — see details",
+      "personal_eyebrow": "For you",
+      "personal_heading": "Because you looked at |something like this|",
+      "personal_description": "A shortlist based on the products you browsed.",
+      "empty": "Add products to your store to fill this section."
+    },
     "brand_story": {
       "overline": "Our Story",
       "heading": "Over 5 years bringing nature to your table",
       "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p><p>We work directly with certified organic producers, ensuring that what reaches your home is genuinely natural, delicious and powerful for your wellbeing.</p>",
       "value_1": "Certified organic ingredients",
-      "value_2": "Fair trade with small-scale producers",
+      "value_2": "",
       "value_3": "No artificial additives or preservatives",
       "stat_number": "5000+",
       "stat_label": "Families who trust us",
@@ -143,7 +158,7 @@
       "nav_label": "Categories",
       "view": "View {{ name }}",
       "view_all": "View all products in {{ name }}",
-      "empty": "There are no collections with products to show yet."
+      "empty": "There are no categories with products to show yet."
     },
     "testimonials": {
       "heading": "What our customers say",
@@ -303,31 +318,31 @@
     "header": {
       "mega_discover": "Discover",
       "mega_shop_all": "Shop all",
-      "mega_collections": "Collections",
+      "mega_collections": "Categories",
       "mega_recommended": "Recommended",
       "mega_view_product": "View product"
     },
     "collections": {
       "home": "Home",
-      "title": "Collections",
-      "eyebrow": "The collection index",
-      "heading": "Our |collections|",
+      "title": "Categories",
+      "eyebrow": "Our Categories",
+      "heading": "Our |Products|",
       "scroll": "Browse the index",
       "intro": "Explore our families of naturally minded products, each grouped to make finding your ritual effortless.",
       "count": {
-        "one": "{{ count }} collection",
-        "other": "{{ count }} collections"
+        "one": "{{ count }} category",
+        "other": "{{ count }} category"
       },
       "product_count": {
         "one": "{{ count }} product",
         "other": "{{ count }} products"
       },
       "explore": "Explore",
-      "empty": "No collections yet",
+      "empty": "No categories yet",
       "all_eyebrow": "The full catalog",
       "all_heading": "Shop |everything|",
-      "all_subtitle": "Every product across every collection, gathered in one place.",
-      "all_browse": "Browse by collection",
+      "all_subtitle": "Every product across every category, gathered in one place.",
+      "all_browse": "Browse by category",
       "view_results": {
         "one": "View {{ count }} product",
         "other": "View {{ count }} products"

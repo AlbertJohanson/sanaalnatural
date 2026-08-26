@@ -18,60 +18,15 @@
     },
     "form": {
       "type": "san-contact",
-      "blocks": {
-        "subject-general": {
-          "type": "subject",
-          "settings": {
-            "label": "Consulta general",
-            "placeholder": "Cuéntanos en qué podemos ayudarte…"
-          }
-        },
-        "subject-order": {
-          "type": "subject",
-          "settings": {
-            "label": "Problema con mi pedido",
-            "placeholder": "Incluye tu número de pedido y cuéntanos qué sucedió…"
-          }
-        },
-        "subject-wholesale": {
-          "type": "subject",
-          "settings": {
-            "label": "Mayoreo / Distribución",
-            "placeholder": "Cuéntanos sobre tu negocio y qué productos te interesan…"
-          }
-        },
-        "subject-press": {
-          "type": "subject",
-          "settings": {
-            "label": "Colaboración / Prensa",
-            "placeholder": "Cuéntanos sobre tu proyecto o la colaboración que propones…"
-          }
-        },
-        "subject-other": {
-          "type": "subject",
-          "settings": {
-            "label": "Otro",
-            "placeholder": "Cuéntanos de qué se trata…"
-          }
-        }
-      },
-      "block_order": [
-        "subject-general",
-        "subject-order",
-        "subject-wholesale",
-        "subject-press",
-        "subject-other"
-      ],
       "settings": {
-        "eyebrow": "Contacto",
-        "heading": "Hablemos.",
-        "intro": "<p>Estamos aquí para responder cualquier duda sobre nuestros productos, pedidos, mayoreo o colaboraciones. Escríbenos y te responderemos en menos de 24 horas.</p>",
-        "email": "hola@sanaalnatural.com",
-        "whatsapp_number": "50200000000",
-        "whatsapp_display": "+502 0000 0000",
-        "address_line_1": "Ciudad de Guatemala",
-        "address_line_2": "Guatemala",
-        "success_text": "Gracias por escribirnos. Te responderemos pronto.",
+        "email": "info@sanaalnatural.com",
+        "whatsapp_number": "18185321110",
+        "whatsapp_display": "+1 818 532 1110",
+        "address_line_1": "20117 Vanowen St, Winnetka, CA 91306",
+        "address_line_2": "Estados Unidos",
+        "instagram_url": "",
+        "facebook_url": "",
+        "tiktok_url": "",
         "padding_top": 72,
         "padding_bottom": 72
       }

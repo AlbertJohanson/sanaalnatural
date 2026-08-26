@@ -47,7 +47,7 @@
         "heading": "Bienestar que |nace de la naturaleza|",
         "description": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
         "button_label_1": "Comprar ahora",
-        "button_url_1": "/collections/all",
+        "button_url_1": "shopify://collections/all",
         "button_label_2": "Ver colección",
         "button_url_2": "/collections",
         "show_features": true,
@@ -57,61 +57,18 @@
         "min_height": 90
       }
     },
-    "san_featured_tabs": {
-      "type": "san-featured-tabs",
-      "blocks": {
-        "tab_all": {
-          "type": "tab",
-          "settings": {
-            "collection": "all",
-            "label": "Destacados"
-          }
-        },
-        "tab_1": {
-          "type": "tab",
-          "settings": {
-            "collection": "suplementos",
-            "label": "Suplementos"
-          }
-        },
-        "tab_2": {
-          "type": "tab",
-          "settings": {
-            "collection": "superalimentos",
-            "label": "Superalimentos"
-          }
-        },
-        "tab_3": {
-          "type": "tab",
-          "settings": {
-            "collection": "aceites-esenciales",
-            "label": "Aceites Esenciales"
-          }
-        },
-        "tab_4": {
-          "type": "tab",
-          "settings": {
-            "collection": "tes-infusiones",
-            "label": "Tés e Infusiones"
-          }
-        }
-      },
-      "block_order": [
-        "tab_all",
-        "tab_1",
-        "tab_2",
-        "tab_3",
-        "tab_4"
-      ],
+    "san_bestsellers": {
+      "type": "san-bestsellers",
       "settings": {
-        "eyebrow": "Nuestra selección",
-        "heading": "Lo mejor de la |naturaleza|",
-        "description": "Explora por categoría y encuentra el producto natural perfecto para ti.",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "collection": "natural-herbs-herbal-infusions",
+        "hero_product": "arnica-flowers",
+        "rotate_daily": false,
+        "enable_personalization": true,
+        "products_to_show": 6,
+        "columns_desktop": 3,
+        "show_rank": true,
         "show_vendor": false,
         "show_view_all": true,
-        "view_all_label": "Ver todo",
         "padding_top": 108,
         "padding_bottom": 108
       }
@@ -124,10 +81,13 @@
         "overline": "Nuestra Historia",
         "heading": "Más de 13 años llevando la naturaleza a tu mesa",
         "body_text": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
+        "value_1": "Ingredientes orgánicos certificados",
+        "value_2": "Para mantenerte en contacto con la naturaleza",
+        "value_3": "Sin aditivos ni conservantes artificiales",
         "stat_number": "5000+",
         "stat_label": "Familias que confían en nosotros",
         "button_label": "Conoce nuestra historia",
-        "button_url": "/pages/about"
+        "button_url": "shopify://pages/sobre-nosotros"
       }
     },
     "san_categories": {
@@ -219,7 +179,12 @@
           }
         }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4"],
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4"
+      ],
       "settings": {
         "eyebrow": "Resolvemos tus dudas",
         "heading": "Preguntas |frecuentes|",
@@ -235,7 +200,7 @@
   },
   "order": [
     "san_hero",
-    "san_featured_tabs",
+    "san_bestsellers",
     "san_brand_story",
     "san_categories",
     "san_testimonials",

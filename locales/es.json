@@ -115,7 +115,7 @@
       "description": "Explora por categoría y encuentra el producto natural perfecto para ti.",
       "view_all": "Ver todo",
       "default_tab": "Colección",
-      "empty": "Agrega pestañas (colecciones) desde el editor de tema.",
+      "empty": "Agrega pestañas (categorias) desde el editor de tema.",
       "panel_empty": "Asigna una colección con productos a esta pestaña desde el editor de tema.",
       "tabs": {
         "1": "Destacados",
@@ -125,12 +125,86 @@
         "5": "Tés e Infusiones"
       }
     },
+    "product": {
+      "zoom_hint": "Ampliar",
+      "zoom_open": "Ver imagen en pantalla completa",
+      "zoom_close": "Cerrar vista completa",
+      "zoom_in": "Acercar imagen",
+      "zoom_out": "Alejar imagen",
+      "zoom_prev": "Imagen anterior",
+      "zoom_next": "Imagen siguiente",
+      "zoom_counter": "Imagen %{index} de %{total}"
+    },
+    "contact": {
+      "eyebrow": "Contacto",
+      "heading": "|Hablemos|.",
+      "intro": "Dudas sobre nuestros productos, tu pedido, mayoreo o una colaboración — escríbenos y te responderemos en menos de 24 horas.",
+      "letterhead": "Escríbenos",
+      "label_name": "Nombre",
+      "placeholder_name": "Tu nombre",
+      "label_email": "Email",
+      "placeholder_email": "tu@email.com",
+      "label_phone": "Teléfono",
+      "placeholder_phone": "+1 000 000 0000",
+      "label_subject": "Motivo",
+      "label_message": "Mensaje",
+      "submit": "Enviar mensaje",
+      "success_title": "¡Mensaje enviado!",
+      "success_text": "Gracias por escribirnos. Te responderemos pronto.",
+      "follow": "Síguenos",
+      "channel_email": "Email",
+      "channel_whatsapp": "WhatsApp",
+      "channel_location": "Ubicación",
+      "subjects": {
+        "general": {
+          "label": "Consulta general",
+          "placeholder": "Cuéntanos en qué podemos ayudarte…"
+        },
+        "order": {
+          "label": "Problema con mi pedido",
+          "placeholder": "Incluye tu número de pedido y cuéntanos qué sucedió…"
+        },
+        "wholesale": {
+          "label": "Mayoreo / Distribución",
+          "placeholder": "Cuéntanos sobre tu negocio y qué productos te interesan…"
+        },
+        "press": {
+          "label": "Colaboración / Prensa",
+          "placeholder": "Cuéntanos sobre tu proyecto o la colaboración que propones…"
+        },
+        "other": {
+          "label": "Otro",
+          "placeholder": "Cuéntanos de qué se trata…"
+        }
+      }
+    },
+    "recommended": {
+      "eyebrow": "Sigue explorando",
+      "heading": "Parte del mismo |ritual|",
+      "description": "Elegidos por lo bien que acompañan a %{product}.",
+      "view_all": "Ver todos los productos"
+    },
+    "bestsellers": {
+      "eyebrow": "Los más vendidos",
+      "heading": "Lo que más se |lleva la gente|",
+      "description": "Los productos por los que nuestros clientes vuelven, ordenados por cuánto se venden.",
+      "view_all": "Ver todos los productos",
+      "badge_top": "N.º 1 en ventas",
+      "badge_featured": "Destacado",
+      "badge_for_you": "Elegido para ti",
+      "hero_cta": "Ver producto",
+      "hero_cta_soldout": "Agotado — ver ficha",
+      "personal_eyebrow": "Para ti",
+      "personal_heading": "Porque viste |algo parecido|",
+      "personal_description": "Una selección basada en los productos que exploraste.",
+      "empty": "Agrega productos a tu tienda para llenar esta sección."
+    },
     "brand_story": {
       "overline": "Nuestra Historia",
       "heading": "Más de 5 años llevando la naturaleza a tu mesa",
       "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
       "value_1": "Ingredientes orgánicos certificados",
-      "value_2": "Comercio justo con pequeños productores",
+      "value_2": "",
       "value_3": "Sin aditivos ni conservantes artificiales",
       "stat_number": "5000+",
       "stat_label": "Familias que confían en nosotros",
@@ -143,7 +217,7 @@
       "nav_label": "Categorías",
       "view": "Ver {{ name }}",
       "view_all": "Ver todos los productos de {{ name }}",
-      "empty": "No hay colecciones con productos para mostrar todavía."
+      "empty": "No hay categorias con productos para mostrar todavía."
     },
     "testimonials": {
       "heading": "Lo que dicen nuestros clientes",
@@ -304,31 +378,31 @@
     "header": {
       "mega_discover": "Descubre",
       "mega_shop_all": "Ver todo",
-      "mega_collections": "Colecciones",
+      "mega_collections": "Categorias",
       "mega_recommended": "Recomendados",
       "mega_view_product": "Ver producto"
     },
     "collections": {
       "home": "Inicio",
-      "title": "Colecciones",
-      "eyebrow": "El índice de colecciones",
-      "heading": "Nuestras |colecciones|",
+      "title": "Categorias",
+      "eyebrow": "El índice de categorias",
+      "heading": "Nuestros |Productos|",
       "scroll": "Explorar el índice",
       "intro": "Explora nuestras familias de productos naturales, agrupadas para que encontrar tu ritual sea sencillo.",
       "count": {
-        "one": "{{ count }} colección",
-        "other": "{{ count }} colecciones"
+        "one": "{{ count }} categorias",
+        "other": "{{ count }} categorias"
       },
       "product_count": {
         "one": "{{ count }} producto",
         "other": "{{ count }} productos"
       },
       "explore": "Explorar",
-      "empty": "Aún no hay colecciones",
+      "empty": "Aún no hay categorias",
       "all_eyebrow": "Todo el catálogo",
       "all_heading": "Toda la |tienda|",
-      "all_subtitle": "Todos los productos de todas las colecciones, reunidos en un solo lugar.",
-      "all_browse": "Explora por colección",
+      "all_subtitle": "Todos los productos de todas las categorias, reunidos en un solo lugar.",
+      "all_browse": "Explora por categoria",
       "view_results": {
         "one": "Ver {{ count }} producto",
         "other": "Ver {{ count }} productos"

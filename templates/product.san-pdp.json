@@ -1,0 +1,77 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "san-product",
+      "blocks": {
+        "description": {
+          "type": "description",
+          "settings": {
+            "title": "Descripción",
+            "open_by_default": true
+          }
+        },
+        "como-usar": {
+          "type": "accordion",
+          "settings": {
+            "title": "Cómo usar",
+            "content": "<p>Toma dos cápsulas al día con agua, preferiblemente por la mañana o temprano en la tarde. Para mejores resultados, recomendamos un uso continuado durante al menos 8 semanas.</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "description",
+        "como-usar"
+      ],
+      "settings": {
+        "show_badges": true,
+        "subtitle": "",
+        "show_quantity": true,
+        "show_selling_plans": true,
+        "plans_legend": "Opciones de compra",
+        "onetime_label": "Compra única",
+        "atc_label": "Añadir al carrito"
+      }
+    },
+    "ingredient": {
+      "type": "san-brand-story",
+      "settings": {
+        "image": "shopify://shop_images/683795938_18028736423659478_2864624872226640397_n.jpg",
+        "image_position": "right",
+        "overline": "Ingrediente destacado",
+        "heading": "Raíz |pura|, sin hojas",
+        "body_text": "<p>A diferencia de otros suplementos que utilizan hojas de baja calidad, nuestro extracto se obtiene exclusivamente de la raíz de la planta, cultivada de forma orgánica y procesada con métodos tradicionales.</p><p>Este proceso asegura la mayor concentración de compuestos activos, en su forma más pura y biodisponible.</p>",
+        "value_1": "Extracto de espectro completo",
+        "value_2": "Cultivo orgánico certificado",
+        "value_3": "Sin aditivos ni rellenos artificiales",
+        "stat_number": "100%",
+        "stat_label": "extracto de raíz pura",
+        "button_label": "Descubre nuestro proceso",
+        "button_url": "shopify://pages/sobre-nosotros"
+      }
+    },
+    "recommended": {
+      "type": "san-recommended",
+      "settings": {
+        "products_to_show": 3,
+        "intent": "related",
+        "padding_top": 96,
+        "padding_bottom": 108
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ingredient",
+    "recommended"
+  ]
+}

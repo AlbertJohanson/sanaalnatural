@@ -1,0 +1,145 @@
+/* ================================================================
+   SANA AL NATURAL — Beneficios de producto
+   section-san-product-benefits.css
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Section wrapper
+   ---------------------------------------------------------------- */
+.san-product-benefits {
+  padding: 9rem 0;
+  background: var(--color-background-soft, #f0f4ed);
+}
+
+.san-product-benefits__inner {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 4.8rem;
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.san-product-benefits__header {
+  text-align: center;
+  margin-bottom: 5.6rem;
+}
+
+.san-product-benefits__eyebrow {
+  display: block;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.1rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3em !important;
+  text-transform: uppercase !important;
+  color: var(--color-primary, #55823d) !important;
+  margin-bottom: 1.6rem !important;
+}
+
+.san-product-benefits__heading {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  font-size: 3.6rem !important;
+  line-height: 1.25 !important;
+  color: #31591d !important;
+  margin: 0 0 1.6rem !important;
+}
+
+@media (min-width: 990px) {
+  .san-product-benefits__heading {
+    font-size: 4.4rem !important;
+  }
+}
+
+.san-product-benefits__subheading {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 300 !important;
+  line-height: 1.7 !important;
+  color: var(--color-text-muted, rgba(0, 0, 0, 0.65)) !important;
+  max-width: 62rem;
+  margin: 0 auto !important;
+}
+
+/* ----------------------------------------------------------------
+   Cards
+   ---------------------------------------------------------------- */
+.san-product-benefits__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+}
+
+@media (min-width: 750px) {
+  .san-product-benefits__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3.2rem;
+  }
+}
+
+.san-product-benefits__card {
+  background: #ffffff;
+  border: 1px solid var(--color-border-light, rgba(85, 130, 61, 0.1));
+  border-radius: 0.8rem;
+  padding: 4rem 3.2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(49, 89, 29, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.san-product-benefits__card:hover {
+  transform: translateY(-0.4rem);
+  box-shadow: 0 10px 24px rgba(49, 89, 29, 0.12);
+}
+
+.san-product-benefits__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
+  background: #afea90;
+  color: #31591d;
+  margin-bottom: 2.4rem;
+}
+
+.san-product-benefits__icon svg {
+  width: 2.8rem;
+  height: 2.8rem;
+}
+
+.san-product-benefits__card-title {
+  font-family: 'Noto Serif', Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 700 !important;
+  font-size: 2.2rem !important;
+  color: #31591d !important;
+  margin: 0 0 1.2rem !important;
+}
+
+.san-product-benefits__card-text {
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 300 !important;
+  line-height: 1.7 !important;
+  color: var(--color-text-muted, rgba(0, 0, 0, 0.65)) !important;
+  margin: 0 !important;
+}
+
+/* ----------------------------------------------------------------
+   Mobile refinements
+   ---------------------------------------------------------------- */
+@media (max-width: 749px) {
+  .san-product-benefits {
+    padding: 6.4rem 0;
+  }
+  .san-product-benefits__inner {
+    padding: 0 2rem;
+  }
+}

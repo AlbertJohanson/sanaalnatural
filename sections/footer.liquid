@@ -106,7 +106,7 @@
       </div>
 
       {%- if section.settings.newsletter_enable -%}
-        <div class="san-footer__newsletter san-reveal san-reveal-d1">
+        {% comment %} <div class="san-footer__newsletter san-reveal san-reveal-d1">
           <h2 class="san-footer__nl-heading">{{ 'san.footer.newsletter_heading' | t }}</h2>
           <p class="san-footer__nl-text">{{ 'san.footer.newsletter_text' | t }}</p>
 
@@ -166,7 +166,7 @@
               {{ shop | login_button: action: 'follow' }}
             </div>
           {%- endif -%}
-        </div>
+        </div> {% endcomment %}
       {%- endif -%}
 
     </div>

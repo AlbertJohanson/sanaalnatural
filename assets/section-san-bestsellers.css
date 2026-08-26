@@ -1,0 +1,431 @@
+/* ================================================================
+   SANA AL NATURAL — Best sellers
+   section-san-bestsellers.css
+
+   Pale-sage canvas so the product photography carries the section,
+   with one deep-green plinth holding the top seller. The plinth is
+   the only saturated block here — everything else stays hairline
+   quiet so the #1 product reads as the object on display.
+
+   Depends on: .san-pcard (brand-styles.css), .san-reveal (theme.liquid)
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+.san-best {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(90% 70% at 88% -10%, rgba(85, 130, 61, 0.09), transparent 58%),
+    radial-gradient(70% 60% at 0% 100%, rgba(175, 234, 144, 0.18), transparent 55%),
+    #f1f5ea;
+}
+
+.san-best__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 132rem;
+  margin: 0 auto;
+  padding-left: 4.8rem;
+  padding-right: 4.8rem;
+}
+
+/* ----------------------------------------------------------------
+   Header — copy left, context + exit right, split by a hairline
+   ---------------------------------------------------------------- */
+.san-best__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: end;
+  gap: 3.2rem 6rem;
+  padding-bottom: 3.2rem;
+  margin-bottom: 5.6rem;
+  border-bottom: 1px solid rgba(49, 89, 29, 0.14);
+}
+
+.san-best__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #55823d;
+  margin: 0 0 1.8rem;
+}
+
+.san-best__eyebrow::before {
+  content: '';
+  width: 3.2rem;
+  height: 1px;
+  background: rgba(85, 130, 61, 0.5);
+}
+
+.san-best__heading {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(3.2rem, 4.4vw, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: #1f3a13;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.san-best__heading-accent {
+  color: #55823d;
+  font-style: italic;
+}
+
+.san-best__head-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.san-best__desc {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(28, 43, 20, 0.62);
+  margin: 0;
+  max-width: 46ch;
+}
+
+.san-best__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #31591d;
+  text-decoration: none;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(49, 89, 29, 0.3);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.san-best__all svg {
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+.san-best__all:hover {
+  color: #55823d;
+  border-color: #55823d;
+}
+
+.san-best__all:hover svg {
+  transform: translateX(4px);
+}
+
+/* ----------------------------------------------------------------
+   Body — hero plinth + ranked grid
+   ---------------------------------------------------------------- */
+.san-best__body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: 5.2rem;
+  align-items: start;
+}
+
+/* ── Hero: the object on its plinth ── */
+.san-best__hero {
+  position: relative;
+  margin-top: 5.2rem;
+  padding: 0 3.2rem 3.6rem;
+  background: linear-gradient(180deg, #31591d 0%, #26451a 100%);
+  isolation: isolate;
+}
+
+/* Offset hairline frame — reads as a passe-partout around the pedestal */
+.san-best__hero::before {
+  content: '';
+  position: absolute;
+  inset: 1.3rem;
+  border: 1px solid rgba(175, 234, 144, 0.26);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.san-best__hero-media {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: -5.2rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #e6ede0;
+}
+
+.san-best__hero-img,
+.san-best__hero-ph {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.9s var(--ease-out-expo);
+}
+
+.san-best__hero:hover .san-best__hero-img {
+  transform: scale(1.04);
+}
+
+.san-best__hero-info {
+  position: relative;
+  z-index: 1;
+  padding-top: 2.8rem;
+}
+
+.san-best__hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #afea90;
+  margin: 0 0 1.6rem;
+}
+
+.san-best__hero-badge::before {
+  content: '';
+  width: 2.4rem;
+  height: 1px;
+  background: rgba(175, 234, 144, 0.55);
+}
+
+.san-best__hero-title {
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 2.5vw, 3.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.6rem;
+}
+
+.san-best__hero-title a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-best__hero-title a:hover {
+  color: #afea90;
+}
+
+.san-best__hero-excerpt {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+  max-width: 44ch;
+}
+
+.san-best__hero-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.6rem 2.4rem;
+  margin-top: 2.8rem;
+  padding-top: 2.4rem;
+  border-top: 1px solid rgba(175, 234, 144, 0.2);
+}
+
+.san-best__hero-price {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-style: italic;
+  font-size: 2.4rem;
+  color: #afea90;
+  margin: 0;
+}
+
+.san-best__hero-price-compare {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.san-best__hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1f3a13;
+  background: #afea90;
+  padding: 1.5rem 2.6rem;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.san-best__hero-cta svg {
+  transition: transform 0.35s var(--ease-out-expo);
+}
+
+.san-best__hero-cta:hover {
+  background: #ffffff;
+  color: #1f3a13;
+}
+
+.san-best__hero-cta:hover svg {
+  transform: translateX(4px);
+}
+
+/* ── Grid: the rest of the ranking ── */
+.san-best__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--best-cols, 3), minmax(0, 1fr));
+  gap: 3.6rem 2.4rem;
+}
+
+.san-best__cell {
+  display: flex;
+  flex-direction: column;
+  transition-delay: calc(var(--card-i, 0) * 60ms);
+}
+
+/* Rank marker — a chart line above each card, not a decoration */
+.san-best__rank {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(49, 89, 29, 0.42);
+  margin-bottom: 1rem;
+}
+
+.san-best__rank::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(49, 89, 29, 0.15);
+}
+
+.san-best__cell .san-pcard {
+  flex: 1;
+}
+
+.san-best__empty {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: rgba(28, 43, 20, 0.55);
+  text-align: center;
+  padding: 6rem 0;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------
+   Responsive
+   ---------------------------------------------------------------- */
+@media (max-width: 1200px) {
+  .san-best__body {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 4rem;
+  }
+
+  .san-best__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 989px) {
+  .san-best__inner {
+    padding-left: 3.2rem;
+    padding-right: 3.2rem;
+  }
+
+  .san-best__head {
+    grid-template-columns: 1fr;
+    align-items: start;
+    margin-bottom: 4.4rem;
+  }
+
+  .san-best__body {
+    grid-template-columns: 1fr;
+    gap: 5.6rem;
+  }
+
+  .san-best__hero {
+    max-width: 54rem;
+  }
+
+  .san-best__hero-media {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media (max-width: 749px) {
+  .san-best__inner {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .san-best__head {
+    padding-bottom: 2.6rem;
+    margin-bottom: 3.6rem;
+  }
+
+  .san-best__hero {
+    margin-top: 3.6rem;
+    padding: 0 2rem 2.8rem;
+  }
+
+  .san-best__hero::before {
+    inset: 0.9rem;
+  }
+
+  .san-best__hero-media {
+    margin-top: -3.6rem;
+  }
+
+  .san-best__hero-foot {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .san-best__hero-cta {
+    justify-content: center;
+  }
+
+  .san-best__grid {
+    gap: 2.8rem 1.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .san-best__cell {
+    transition-delay: 0s;
+  }
+
+  .san-best__hero-img,
+  .san-best__all svg,
+  .san-best__hero-cta svg {
+    transition: none;
+  }
+
+  .san-best__hero:hover .san-best__hero-img {
+    transform: none;
+  }
+}

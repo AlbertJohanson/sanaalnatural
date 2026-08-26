@@ -9,6 +9,8 @@
     data-zoom-on-hover
   {% endif %}
 >
+  {%- render 'san-recently-viewed', product: product -%}
+
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
   {{ 'component-accordion.css' | asset_url | stylesheet_tag }}
   {{ 'component-price.css' | asset_url | stylesheet_tag }}
