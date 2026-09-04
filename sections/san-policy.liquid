@@ -1,0 +1,189 @@
+{{ 'san-policy.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  SANA AL NATURAL — Página legal (san-policy)
+  Reusable template for legal pages (privacy, terms, shipping…).
+  Deep-green canvas, the policy itself as a white document card.
+
+  - Header: eyebrow + the page title from Admin → Pages.
+  - Sticky index rail (§-marked, Noto Serif italic) built by JS from
+    the h2 headings inside page.content; scrollspy highlights the
+    clause in view. No h2s → the rail hides and the card goes full
+    width. On mobile the index is a collapsible <details>.
+  - Body text is the page content (rich text) from Admin → Pages.
+  - Copy via san.policy.* locale keys (EN default + ES).
+{%- endcomment -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.65 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.65 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="san-policy section-{{ section.id }}-padding" data-san-policy>
+  <div class="san-policy__inner">
+
+    <header class="san-policy__head">
+      <p class="san-policy__eyebrow">{{ 'san.policy.eyebrow' | t }}</p>
+      <h1 class="san-policy__heading">{{ page.title | escape }}</h1>
+    </header>
+
+    <div class="san-policy__body san-policy__body--no-toc" data-policy-body>
+
+      <aside class="san-policy__rail">
+        <details class="san-policy__toc" data-policy-toc>
+          <summary class="san-policy__toc-summary">
+            {{ 'san.policy.toc_title' | t }}
+            <svg class="san-policy__toc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </summary>
+          <ol class="san-policy__toc-list" data-policy-toc-list></ol>
+        </details>
+      </aside>
+
+      <article class="san-policy__card">
+        <div class="san-policy__doc rte" data-policy-doc>
+          {%- if page.content != blank -%}
+            {{ page.content }}
+          {%- elsif request.design_mode -%}
+            <p class="san-policy__empty">{{ 'san.policy.empty_hint' | t }}</p>
+          {%- endif -%}
+        </div>
+      </article>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-san-policy]');
+    if (!root) return;
+
+    var body = root.querySelector('[data-policy-body]');
+    var doc = root.querySelector('[data-policy-doc]');
+    var toc = root.querySelector('[data-policy-toc]');
+    var list = root.querySelector('[data-policy-toc-list]');
+    if (!body || !doc || !toc || !list) return;
+
+    /* Tables from the rich-text editor get a scroll wrapper */
+    doc.querySelectorAll('table').forEach(function (table) {
+      var wrap = document.createElement('div');
+      wrap.className = 'san-policy__table-wrap';
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+    });
+
+    /* Build the index from the document's h2 clauses */
+    var headings = Array.prototype.slice.call(doc.querySelectorAll('h2'));
+    if (headings.length === 0) return;
+
+    var links = headings.map(function (h, i) {
+      if (!h.id) h.id = 'policy-s' + (i + 1);
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.className = 'san-policy__toc-link';
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      li.appendChild(a);
+      list.appendChild(li);
+      return a;
+    });
+
+    body.classList.remove('san-policy__body--no-toc');
+
+    /* Desktop: index always open. Mobile: collapsible, closed. */
+    var mq = window.matchMedia('(min-width: 990px)');
+    function syncOpen() { toc.open = mq.matches; }
+    syncOpen();
+    if (mq.addEventListener) mq.addEventListener('change', syncOpen);
+
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        headings[i].scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+        history.replaceState(null, '', a.getAttribute('href'));
+        if (!mq.matches) toc.open = false;
+      });
+    });
+
+    /* Scrollspy: light up the clause in view */
+    function setCurrent(id) {
+      links.forEach(function (a) {
+        var on = a.getAttribute('href') === '#' + id;
+        if (on) { a.setAttribute('aria-current', 'true'); }
+        else { a.removeAttribute('aria-current'); }
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var current = headings[0].id;
+      var visible = {};
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          visible[entry.target.id] = entry.isIntersecting;
+        });
+        for (var i = headings.length - 1; i >= 0; i--) {
+          if (visible[headings[i].id]) { current = headings[i].id; break; }
+          if (headings[i].getBoundingClientRect().top < 140) { current = headings[i].id; break; }
+        }
+        setCurrent(current);
+      }, { rootMargin: '-30% 0px -55% 0px' });
+      headings.forEach(function (h) { observer.observe(h); });
+      setCurrent(current);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Página legal (Sana)",
+  "tag": "section",
+  "class": "section section--san-policy",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "El título y el contenido provienen de la página (Administrador → Páginas). Usa encabezados H2 para las cláusulas: el índice lateral se genera solo."
+    },
+    { "type": "header", "content": "Espaciado" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Página legal (Sana)"
+    }
+  ]
+}
+{% endschema %}

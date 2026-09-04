@@ -1,0 +1,216 @@
+{{ 'section-san-recommended.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  SANA AL NATURAL — Recomendados (PDP)
+  Closing section of the product page: an editorial rail on the left and
+  Shopify product recommendations on the right, reusing `san-product-card`.
+
+  Two render modes, same file:
+  1. On the product page it renders the shell (rail + empty grid), hidden,
+     with the recommendations URL in data-url.
+  2. Fetched through /recommendations/products?section_id=… the
+     `recommendations` object is populated and only the grid markup matters —
+     the inline script extracts [data-san-reco-grid] and injects the cells,
+     then reveals the section. No products recommended → the section stays
+     hidden, the page simply ends earlier.
+{%- endcomment -%}
+
+{%- liquid
+  assign limit = section.settings.products_to_show
+  assign cols = limit | at_most: 3
+-%}
+
+{%- if recommendations.performed -%}
+
+  <div data-san-reco-grid>
+    {%- for rec in recommendations.products -%}
+      <div class="san-reco__cell san-reveal" style="--card-i: {{ forloop.index }};">
+        {%- render 'san-product-card', product: rec, show_vendor: section.settings.show_vendor, index: forloop.index -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+{%- else -%}
+
+  {%- style -%}
+    #san-reco-{{ section.id }} {
+      --reco-cols: {{ cols }};
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  {%- endstyle -%}
+
+  <section
+    class="san-reco"
+    id="san-reco-{{ section.id }}"
+    hidden
+    data-san-reco
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ limit }}&intent={{ section.settings.intent }}"
+    aria-label="{{ 'san.recommended.eyebrow' | t | escape }}"
+  >
+    <div class="san-reco__inner">
+
+      <div class="san-reco__rail san-reveal">
+        <p class="san-reco__eyebrow">{{ 'san.recommended.eyebrow' | t }}</p>
+
+        <h2 class="san-reco__heading">
+          {%- assign heading = 'san.recommended.heading' | t -%}
+          {%- assign heading_parts = heading | split: '|' -%}
+          {%- for part in heading_parts -%}
+            {%- if forloop.index == 2 -%}
+              <em class="san-reco__heading-accent">{{ part }}</em>
+            {%- else -%}
+              {{ part }}
+            {%- endif -%}
+          {%- endfor -%}
+        </h2>
+
+        <p class="san-reco__desc">{{ 'san.recommended.description' | t: product: product.title }}</p>
+
+        <a href="{{ routes.all_products_collection_url }}" class="san-reco__all">
+          {{ 'san.recommended.view_all' | t }}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="san-reco__grid" data-san-reco-target></div>
+
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      function load(el) {
+        if (el.dataset.sanRecoDone === 'true') return;
+        el.dataset.sanRecoDone = 'true';
+
+        fetch(el.dataset.url)
+          .then(function (res) {
+            if (!res.ok) throw new Error(res.status);
+            return res.text();
+          })
+          .then(function (text) {
+            var grid = new DOMParser().parseFromString(text, 'text/html').querySelector('[data-san-reco-grid]');
+            if (!grid || !grid.children.length) return; // nothing recommended — section stays hidden
+
+            var target = el.querySelector('[data-san-reco-target]');
+            if (!target) return;
+            target.innerHTML = grid.innerHTML;
+            el.hidden = false;
+            target.querySelectorAll('.san-reveal').forEach(function (node) {
+              node.classList.add('is-visible');
+            });
+          })
+          .catch(function () {
+            /* Offline or endpoint unavailable — the page simply ends without this section. */
+          });
+      }
+
+      function init(scope) {
+        (scope || document).querySelectorAll('[data-san-reco]').forEach(function (el) {
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  if (!entry.isIntersecting) return;
+                  io.disconnect();
+                  load(el);
+                });
+              },
+              { rootMargin: '600px 0px' }
+            );
+            io.observe(el);
+          } else {
+            load(el);
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+          init();
+        });
+      } else {
+        init();
+      }
+      document.addEventListener('shopify:section:load', function (e) {
+        init(e.target);
+      });
+    })();
+  </script>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Recomendados (Sana)",
+  "tag": "section",
+  "class": "san-reco-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Los productos los elige Shopify según el producto que se está viendo. Si no hay recomendaciones, la sección no se muestra."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Productos a mostrar",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Tipo de recomendación",
+      "options": [
+        { "value": "related", "label": "Relacionados (parecidos a este)" },
+        { "value": "complementary", "label": "Complementarios (se compran juntos)" }
+      ],
+      "default": "related",
+      "info": "Los complementarios requieren la app Shopify Search & Discovery."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Mostrar marca",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 108
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recomendados (Sana)"
+    }
+  ]
+}
+{% endschema %}

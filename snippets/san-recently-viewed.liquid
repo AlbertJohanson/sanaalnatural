@@ -1,0 +1,29 @@
+{%- comment -%}
+  Records the product being viewed in localStorage so the homepage
+  best-sellers section can switch to a personalised "Para ti" set.
+  Stores ids only — most recent first, capped at 12.
+
+  Params:
+    product {object} required
+{%- endcomment -%}
+
+{%- if product.id -%}
+  <script>
+    (function () {
+      var KEY = 'san:recently-viewed';
+      var MAX = 12;
+      try {
+        var id = {{ product.id | json }};
+        var list = JSON.parse(localStorage.getItem(KEY) || '[]');
+        if (!Array.isArray(list)) list = [];
+        list = list.filter(function (item) {
+          return item !== id;
+        });
+        list.unshift(id);
+        localStorage.setItem(KEY, JSON.stringify(list.slice(0, MAX)));
+      } catch (e) {
+        /* Storage blocked (private mode, cookie settings) — personalisation stays off. */
+      }
+    })();
+  </script>
+{%- endif -%}

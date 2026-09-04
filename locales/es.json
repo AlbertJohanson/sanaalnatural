@@ -104,10 +104,24 @@
         "go_to": "Ir al slide {{ index }}"
       },
       "slides": {
-        "1": { "label": "Nueva colección", "caption": "Naturaleza en cada producto" },
-        "2": { "label": "Bienestar natural", "caption": "Formulado con los mejores ingredientes" },
-        "3": { "label": "100% orgánico", "caption": "Sin conservantes artificiales" }
+        "1": {
+          "label": "Nueva colección",
+          "caption": "Naturaleza en cada producto"
+        },
+        "2": {
+          "label": "Bienestar natural",
+          "caption": "Formulado con los mejores ingredientes"
+        },
+        "3": {
+          "label": "100% orgánico",
+          "caption": "Sin conservantes artificiales"
+        }
       }
+    },
+    "policy": {
+      "eyebrow": "Legal",
+      "toc_title": "Índice",
+      "empty_hint": "Agrega el texto de esta página en Administrador → Páginas. Usa encabezados H2 para cada cláusula: el índice se genera solo."
     },
     "featured_tabs": {
       "eyebrow": "Nuestra selección",
@@ -115,7 +129,7 @@
       "description": "Explora por categoría y encuentra el producto natural perfecto para ti.",
       "view_all": "Ver todo",
       "default_tab": "Colección",
-      "empty": "Agrega pestañas (colecciones) desde el editor de tema.",
+      "empty": "Agrega pestañas (categorias) desde el editor de tema.",
       "panel_empty": "Asigna una colección con productos a esta pestaña desde el editor de tema.",
       "tabs": {
         "1": "Destacados",
@@ -125,16 +139,251 @@
         "5": "Tés e Infusiones"
       }
     },
+    "product": {
+      "zoom_hint": "Ampliar",
+      "zoom_open": "Ver imagen en pantalla completa",
+      "zoom_close": "Cerrar vista completa",
+      "zoom_in": "Acercar imagen",
+      "zoom_out": "Alejar imagen",
+      "zoom_prev": "Imagen anterior",
+      "zoom_next": "Imagen siguiente",
+      "zoom_counter": "Imagen %{index} de %{total}"
+    },
+    "contact": {
+      "eyebrow": "Contacto",
+      "heading": "|Hablemos|.",
+      "intro": "Dudas sobre nuestros productos, tu pedido, mayoreo o una colaboración — escríbenos y te responderemos en menos de 24 horas.",
+      "letterhead": "Escríbenos",
+      "label_name": "Nombre",
+      "placeholder_name": "Tu nombre",
+      "label_email": "Email",
+      "placeholder_email": "tu@email.com",
+      "label_phone": "Teléfono",
+      "placeholder_phone": "+1 000 000 0000",
+      "label_subject": "Motivo",
+      "label_message": "Mensaje",
+      "submit": "Enviar mensaje",
+      "success_title": "¡Mensaje enviado!",
+      "success_text": "Gracias por escribirnos. Te responderemos pronto.",
+      "follow": "Síguenos",
+      "channel_email": "Email",
+      "channel_whatsapp": "WhatsApp",
+      "channel_location": "Ubicación",
+      "subjects": {
+        "general": {
+          "label": "Consulta general",
+          "placeholder": "Cuéntanos en qué podemos ayudarte…"
+        },
+        "order": {
+          "label": "Problema con mi pedido",
+          "placeholder": "Incluye tu número de pedido y cuéntanos qué sucedió…"
+        },
+        "wholesale": {
+          "label": "Mayoreo / Distribución",
+          "placeholder": "Cuéntanos sobre tu negocio y qué productos te interesan…"
+        },
+        "press": {
+          "label": "Colaboración / Prensa",
+          "placeholder": "Cuéntanos sobre tu proyecto o la colaboración que propones…"
+        },
+        "other": {
+          "label": "Otro",
+          "placeholder": "Cuéntanos de qué se trata…"
+        }
+      }
+    },
+    "recommended": {
+      "eyebrow": "Sigue explorando",
+      "heading": "Parte del mismo |ritual|",
+      "description": "Elegidos por lo bien que acompañan a %{product}.",
+      "view_all": "Ver todos los productos"
+    },
+    "bestsellers": {
+      "eyebrow": "Los más vendidos",
+      "heading": "Lo que más se |lleva la gente|",
+      "description": "Los productos por los que nuestros clientes vuelven, ordenados por cuánto se venden.",
+      "view_all": "Ver todos los productos",
+      "badge_top": "N.º 1 en ventas",
+      "badge_featured": "Destacado",
+      "badge_for_you": "Elegido para ti",
+      "hero_cta": "Ver producto",
+      "hero_cta_soldout": "Agotado — ver ficha",
+      "personal_eyebrow": "Para ti",
+      "personal_heading": "Porque viste |algo parecido|",
+      "personal_description": "Una selección basada en los productos que exploraste.",
+      "empty": "Agrega productos a tu tienda para llenar esta sección."
+    },
     "brand_story": {
       "overline": "Nuestra Historia",
       "heading": "Más de 5 años llevando la naturaleza a tu mesa",
       "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
       "value_1": "Ingredientes orgánicos certificados",
-      "value_2": "Comercio justo con pequeños productores",
+      "value_2": "",
       "value_3": "Sin aditivos ni conservantes artificiales",
       "stat_number": "5000+",
       "stat_label": "Familias que confían en nosotros",
       "button": "Conoce nuestra historia"
+    },
+    "cart": {
+      "eyebrow": "Tu selección",
+      "title": "Carrito",
+      "summary_eyebrow": "Resumen del pedido",
+      "items_count": {
+        "one": "{{ count }} producto",
+        "other": "{{ count }} productos"
+      },
+      "remove": "Eliminar",
+      "note_toggle": "Añadir una nota al pedido",
+      "note_placeholder": "Instrucciones especiales, mensaje de regalo…",
+      "empty_sub": "Cada elección cuenta. Empieza a descubrir lo natural.",
+      "error": "No pudimos actualizar el carrito. Intenta de nuevo.",
+      "reassurance": "Pago seguro · Cada producto respaldado por la naturaleza",
+      "subtotal": "Subtotal",
+      "browse_all": "Ver todos los productos",
+      "qty_decrease": "Reducir cantidad",
+      "qty_increase": "Aumentar cantidad",
+      "shipping_note": "Envío y descuentos calculados al finalizar",
+      "shipping_policy": "Política de envío",
+      "drawer_reassurance": "Productos elaborados a mano · Envío en Estados Unidos",
+      "error_add": "No pudimos agregar este producto. Intenta de nuevo."
+    },
+    "legal": {
+      "contact_label": "Contacto",
+      "phone_label": "Teléfono",
+      "privacy": {
+        "title": "Política de privacidad",
+        "intro": "Cómo Sana al Natural recopila, utiliza y protege la información personal que proporcionas al visitar nuestro sitio web.",
+        "c1": {
+          "heading": "Información general",
+          "p1": "Sana al Natural respeta tu privacidad y se compromete a proteger tu información personal. Esta Política de privacidad explica cómo recopilamos, utilizamos y protegemos la información que proporcionas al visitar nuestro sitio web.",
+          "p2": "Podemos recopilar información personal como tu nombre, dirección de correo electrónico, número de teléfono y dirección de envío cuando realizas un pedido, te comunicas con nosotros o te suscribes para recibir novedades.",
+          "p3": "Esta información se utiliza únicamente para procesar pedidos, brindar atención al cliente y mejorar nuestros servicios.",
+          "p4": "No vendemos ni compartimos tu información personal con terceros, salvo cuando sea necesario para completar tu pedido, como procesadores de pago o empresas de transporte.",
+          "p5": "Nuestro sitio web puede utilizar cookies para mejorar la experiencia del usuario y analizar el tráfico del sitio.",
+          "p6": "Si tienes preguntas sobre esta Política de privacidad o deseas solicitar el acceso o la eliminación de tu información personal, comunícate con nosotros.",
+          "contact": "full"
+        },
+        "c2": {
+          "heading": "Cookies y tecnologías de seguimiento",
+          "p1": "Nuestro sitio web puede utilizar cookies y tecnologías de seguimiento similares para mejorar la experiencia del usuario, analizar el rendimiento del sitio y apoyar actividades de marketing. Los usuarios pueden desactivar las cookies desde la configuración de su navegador; sin embargo, es posible que algunas funciones del sitio no funcionen correctamente."
+        },
+        "c3": {
+          "heading": "Tus derechos de privacidad",
+          "p1": "Si resides en California, tienes derecho a solicitar el acceso a la información personal que recopilamos sobre ti y a solicitar que la eliminemos, sujeto a ciertas excepciones legales.",
+          "p2": "Para enviar una solicitud de acceso o eliminación de tu información personal, comunícate con nosotros a través de los siguientes datos:",
+          "contact": "short"
+        }
+      },
+      "terms": {
+        "title": "Términos y condiciones",
+        "intro": "Los términos que aplican al acceder al sitio web de Sana al Natural y al comprar nuestros productos.",
+        "c1": {
+          "heading": "Aceptación de los términos",
+          "p1": "Al acceder y utilizar este sitio web, aceptas cumplir y quedar sujeto a los siguientes términos y condiciones.",
+          "p2": "Todo el contenido de este sitio web, incluidos textos, imágenes, logotipos y descripciones de productos, es propiedad de Sana al Natural y no puede reproducirse sin autorización.",
+          "p3": "Sana al Natural no se hace responsable del uso indebido de los productos o de la información proporcionada en este sitio web.",
+          "p4": "Nos reservamos el derecho de actualizar la información de los productos, los precios y las políticas en cualquier momento y sin previo aviso."
+        },
+        "c2": {
+          "heading": "Requisito de edad",
+          "p1": "Al utilizar este sitio web, confirmas que tienes al menos 18 años de edad.",
+          "p2": "Si eres menor de 18 años, solo puedes utilizar este sitio web con la participación y supervisión de un padre, madre o tutor legal.",
+          "p3": "Al realizar un pedido en este sitio web, declaras que tienes al menos 18 años o que cuentas con el permiso de un padre, madre o tutor legal para comprar y utilizar los productos."
+        },
+        "c3": {
+          "heading": "Limitación de responsabilidad",
+          "p1": "Al comprar y utilizar productos de Sana al Natural, los clientes aceptan que el uso de nuestros productos queda a su propio criterio y responsabilidad.",
+          "p2": "Sana al Natural no será responsable de reacciones adversas, alergias o del uso indebido de los productos adquiridos a través de este sitio web.",
+          "p3": "Los clientes son responsables de revisar los ingredientes de los productos y de asegurarse de no presentar sensibilidad o alergia a ninguno de ellos.",
+          "p4": "En ningún caso Sana al Natural será responsable de daños directos, indirectos, incidentales o consecuentes derivados del uso o uso indebido de nuestros productos.",
+          "p5": "Al utilizar este sitio web y comprar nuestros productos, aceptas estos términos."
+        },
+        "c4": {
+          "heading": "Legislación aplicable",
+          "p1": "Estos Términos y condiciones, así como cualquier disputa derivada del uso de este sitio web o de la compra de productos de Sana al Natural, se regirán e interpretarán conforme a las leyes del Estado de California, Estados Unidos, sin considerar sus disposiciones sobre conflicto de leyes.",
+          "p2": "Al utilizar este sitio web, aceptas que cualquier asunto legal o disputa se resolverá dentro de la jurisdicción del Estado de California."
+        }
+      },
+      "returns": {
+        "title": "Política de devoluciones y reembolsos",
+        "intro": "Información sobre ventas finales, devoluciones, cambios, pedidos dañados y artículos incorrectos.",
+        "opening": {
+          "p1": "Debido a la naturaleza de nuestros productos, todas las ventas son finales.",
+          "p2": "Por razones de salud, seguridad e higiene, no aceptamos devoluciones ni cambios de ningún producto una vez adquirido. Esto incluye tés de hierbas, productos herbales, champús, aceites, cremas y otros artículos de cuidado personal.",
+          "p3": "Muchos de nuestros productos no pueden revenderse una vez que salen de nuestras instalaciones, y no podemos garantizar que no hayan sido abiertos, usados o manipulados.",
+          "note": "Si un pedido llega dañado o recibes un artículo incorrecto, comunícate con nosotros dentro de las 48 horas posteriores a la entrega y envía fotografías del producto y del empaque para que podamos revisar el caso y ayudarte."
+        }
+      },
+      "shipping": {
+        "title": "Política de envío",
+        "intro": "Tiempos de procesamiento, plazos estimados de entrega, responsabilidad sobre las direcciones, seguimiento e información de entrega de paquetes.",
+        "opening": {
+          "p1": "En Sana al Natural procuramos procesar y enviar los pedidos con la mayor rapidez posible."
+        },
+        "c1": {
+          "heading": "Tiempo de procesamiento",
+          "p1": "Los pedidos se procesan normalmente en un plazo de 1 a 2 días hábiles después de recibir el pago. Los pedidos realizados en fines de semana o días festivos se procesarán el siguiente día hábil."
+        },
+        "c2": {
+          "heading": "Envíos dentro de Estados Unidos",
+          "p1": "El envío estándar dentro del territorio continental de Estados Unidos suele tardar de 3 a 7 días hábiles, según la empresa de transporte y el destino."
+        },
+        "c3": {
+          "heading": "Alaska, Hawái y Puerto Rico",
+          "p1": "Los pedidos enviados a Alaska, Hawái y Puerto Rico pueden tardar de 7 a 14 días hábiles debido a los plazos de envío ampliados de las empresas de transporte."
+        },
+        "c4": {
+          "heading": "Retrasos en el envío",
+          "p1": "Los tiempos de entrega son estimados y pueden variar por retrasos de la empresa de transporte, condiciones climáticas, días festivos u otras circunstancias fuera de nuestro control."
+        },
+        "c5": {
+          "heading": "Direcciones incorrectas",
+          "p1": "Los clientes son responsables de proporcionar información de envío correcta. No nos hacemos responsables de pedidos retrasados o perdidos por direcciones incorrectas proporcionadas al finalizar la compra."
+        },
+        "c6": {
+          "heading": "Confirmación de envío",
+          "p1": "Una vez enviado tu pedido, podrás recibir una confirmación de envío con información de seguimiento cuando esté disponible."
+        },
+        "c7": {
+          "heading": "Contacto",
+          "p1": "Si tienes preguntas sobre tu envío, comunícate con nosotros:",
+          "contact": "short"
+        },
+        "c8": {
+          "heading": "Paquetes perdidos o robados",
+          "p1": "Sana al Natural no se hace responsable de los paquetes marcados como entregados por la empresa de transporte pero reportados como perdidos o robados.",
+          "p2": "Una vez que un pedido ha sido enviado y el seguimiento indica que el paquete fue entregado en la dirección proporcionada por el cliente, la responsabilidad sobre el paquete se transfiere al cliente.",
+          "p3": "Si un paquete aparece como entregado pero no se localiza, los clientes deben consultar primero con los miembros del hogar, los vecinos o la oficina local de la empresa de transporte.",
+          "p4": "Los clientes también pueden comunicarse directamente con la empresa de transporte para presentar un reclamo o solicitar ayuda para localizar el paquete.",
+          "p5": "Sana al Natural no es responsable de paquetes perdidos o robados una vez que la entrega ha sido confirmada por la empresa de transporte."
+        }
+      },
+      "medical": {
+        "title": "Aviso médico",
+        "intro": "Información importante sobre el carácter informativo del contenido del sitio web y el uso de los productos de Sana al Natural.",
+        "opening": {
+          "p1": "La información proporcionada en este sitio web tiene únicamente fines informativos y no pretende ser un consejo médico.",
+          "p2": "Los productos vendidos por Sana al Natural no están destinados a diagnosticar, tratar, curar ni prevenir ninguna enfermedad.",
+          "p3": "Los clientes deben consultar a un profesional de la salud calificado antes de utilizar cualquier producto herbal, especialmente si están embarazadas, en período de lactancia, tomando medicamentos o si tienen alguna condición médica.",
+          "p4": "Al comprar y utilizar nuestros productos, los clientes aceptan que lo hacen a su propio criterio y responsabilidad."
+        }
+      },
+      "fda": {
+        "title": "Aviso de la FDA",
+        "intro": "Aviso regulatorio sobre las declaraciones asociadas a los productos de Sana al Natural.",
+        "opening": {
+          "note": "Estas declaraciones no han sido evaluadas por la FDA. Este producto no está destinado a diagnosticar, tratar, curar ni prevenir ninguna enfermedad."
+        }
+      },
+      "accessibility": {
+        "title": "Declaración de accesibilidad",
+        "intro": "Sana al Natural trabaja para mejorar la accesibilidad digital y ofrecer una experiencia web incluyente.",
+        "opening": {
+          "p1": "Sana al Natural se compromete a garantizar la accesibilidad digital para las personas con discapacidad. Trabajamos continuamente para mejorar la experiencia de todos los usuarios y aplicamos los estándares de accesibilidad correspondientes conforme a las Pautas de Accesibilidad para el Contenido Web (WCAG) 2.1 nivel AA.",
+          "p2": "Si tienes dificultades para acceder a cualquier parte de este sitio web, comunícate con nosotros y trabajaremos contigo para brindarte la información que necesitas por un medio alternativo.",
+          "contact": "short"
+        }
+      }
     },
     "categories": {
       "eyebrow": "Explora por categoría",
@@ -143,7 +392,7 @@
       "nav_label": "Categorías",
       "view": "Ver {{ name }}",
       "view_all": "Ver todos los productos de {{ name }}",
-      "empty": "No hay colecciones con productos para mostrar todavía."
+      "empty": "No hay categorias con productos para mostrar todavía."
     },
     "testimonials": {
       "heading": "Lo que dicen nuestros clientes",
@@ -197,7 +446,10 @@
       "blurb": "Productos naturales seleccionados para tu bienestar, del campo a tu mesa.",
       "newsletter_heading": "Únete a la comunidad",
       "newsletter_text": "Recibe novedades, tips de bienestar natural y ofertas exclusivas.",
-      "rights": "Todos los derechos reservados."
+      "rights": "Todos los derechos reservados.",
+      "links_heading": "Explora",
+      "policies_heading": "Políticas",
+      "disclaimers_heading": "Avisos"
     }
   },
   "general": {
@@ -256,6 +508,9 @@
       "next_slide": "Diapositiva a la derecha",
       "previous_slide": "Diapositiva a la izquierda",
       "name": "Carrusel"
+    },
+    "navigation": {
+      "menu": "Menú"
     }
   },
   "newsletter": {
@@ -304,31 +559,31 @@
     "header": {
       "mega_discover": "Descubre",
       "mega_shop_all": "Ver todo",
-      "mega_collections": "Colecciones",
+      "mega_collections": "Categorias",
       "mega_recommended": "Recomendados",
       "mega_view_product": "Ver producto"
     },
     "collections": {
       "home": "Inicio",
-      "title": "Colecciones",
-      "eyebrow": "El índice de colecciones",
-      "heading": "Nuestras |colecciones|",
+      "title": "Categorias",
+      "eyebrow": "El índice de categorias",
+      "heading": "Nuestros |Productos|",
       "scroll": "Explorar el índice",
       "intro": "Explora nuestras familias de productos naturales, agrupadas para que encontrar tu ritual sea sencillo.",
       "count": {
-        "one": "{{ count }} colección",
-        "other": "{{ count }} colecciones"
+        "one": "{{ count }} categorias",
+        "other": "{{ count }} categorias"
       },
       "product_count": {
         "one": "{{ count }} producto",
         "other": "{{ count }} productos"
       },
       "explore": "Explorar",
-      "empty": "Aún no hay colecciones",
+      "empty": "Aún no hay categorias",
       "all_eyebrow": "Todo el catálogo",
       "all_heading": "Toda la |tienda|",
-      "all_subtitle": "Todos los productos de todas las colecciones, reunidos en un solo lugar.",
-      "all_browse": "Explora por colección",
+      "all_subtitle": "Todos los productos de todas las categorias, reunidos en un solo lugar.",
+      "all_browse": "Explora por categoria",
       "view_results": {
         "one": "Ver {{ count }} producto",
         "other": "Ver {{ count }} productos"
@@ -525,7 +780,7 @@
       "remove_title": "Eliminar {{ title }}",
       "note": "Instrucciones especiales del pedido",
       "checkout": "Pagar pedido",
-      "empty": "Tu carrito esta vacío",
+      "empty": "Tu carrito está vacío",
       "cart_error": "Hubo un error al actualizar tu carrito de compra. Inténtalo de nuevo.",
       "cart_quantity_error_html": "Solo puedes agregar {{ quantity }} de este artículo a tu carrito.",
       "headings": {

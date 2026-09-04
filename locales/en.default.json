@@ -104,10 +104,40 @@
         "go_to": "Go to slide {{ index }}"
       },
       "slides": {
-        "1": { "label": "New collection", "caption": "Nature in every product" },
-        "2": { "label": "Natural wellbeing", "caption": "Crafted with the finest ingredients" },
-        "3": { "label": "100% organic", "caption": "No artificial preservatives" }
+        "1": {
+          "label": "New collection",
+          "caption": "Nature in every product"
+        },
+        "2": {
+          "label": "Natural wellbeing",
+          "caption": "Crafted with the finest ingredients"
+        },
+        "3": {
+          "label": "100% organic",
+          "caption": "No artificial preservatives"
+        }
       }
+    },
+    "policy": {
+      "eyebrow": "Legal",
+      "toc_title": "Contents",
+      "empty_hint": "Add this page's text in Admin → Pages. Use H2 headings for each clause — the index builds itself."
+    },
+    "product": {
+      "zoom_open": "View image in full screen",
+      "zoom_hint": "Zoom",
+      "zoom_close": "Close full view",
+      "zoom_counter": "Image %{index} of %{total}",
+      "zoom_in": "Zoom in",
+      "zoom_out": "Zoom out",
+      "zoom_prev": "Previous image",
+      "zoom_next": "Next image"
+    },
+    "recommended": {
+      "eyebrow": "Keep exploring",
+      "heading": "Part of the same |ritual|",
+      "description": "Chosen for how well they pair with %{product}.",
+      "view_all": "View all products"
     },
     "featured_tabs": {
       "eyebrow": "Our selection",
@@ -115,7 +145,7 @@
       "description": "Browse by category and find the perfect natural product for you.",
       "view_all": "View all",
       "default_tab": "Collection",
-      "empty": "Add tabs (collections) from the theme editor.",
+      "empty": "Add tabs (Categories) from the theme editor.",
       "panel_empty": "Assign a collection with products to this tab from the theme editor.",
       "tabs": {
         "1": "Featured",
@@ -125,16 +155,192 @@
         "5": "Teas & Infusions"
       }
     },
+    "bestsellers": {
+      "eyebrow": "Best sellers",
+      "heading": "What people |take home|",
+      "description": "The products our customers come back for, ordered by how much they sell.",
+      "view_all": "View all products",
+      "badge_top": "No. 1 in sales",
+      "badge_featured": "Featured",
+      "badge_for_you": "Picked for you",
+      "hero_cta": "View product",
+      "hero_cta_soldout": "Sold out — see details",
+      "personal_eyebrow": "For you",
+      "personal_heading": "Because you looked at |something like this|",
+      "personal_description": "A shortlist based on the products you browsed.",
+      "empty": "Add products to your store to fill this section."
+    },
     "brand_story": {
       "overline": "Our Story",
       "heading": "Over 5 years bringing nature to your table",
       "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p><p>We work directly with certified organic producers, ensuring that what reaches your home is genuinely natural, delicious and powerful for your wellbeing.</p>",
       "value_1": "Certified organic ingredients",
-      "value_2": "Fair trade with small-scale producers",
+      "value_2": "",
       "value_3": "No artificial additives or preservatives",
       "stat_number": "5000+",
       "stat_label": "Families who trust us",
       "button": "Discover our story"
+    },
+    "cart": {
+      "eyebrow": "Your selection",
+      "title": "Cart",
+      "summary_eyebrow": "Order summary",
+      "items_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "remove": "Remove",
+      "note_toggle": "Add a note to your order",
+      "note_placeholder": "Special instructions, gift message…",
+      "empty_sub": "Every choice counts. Start discovering what's natural.",
+      "error": "We couldn't update your cart. Please try again.",
+      "reassurance": "Secure checkout · Every product backed by nature",
+      "subtotal": "Subtotal",
+      "browse_all": "View all products",
+      "qty_decrease": "Decrease quantity",
+      "qty_increase": "Increase quantity",
+      "shipping_note": "Shipping and discounts calculated at checkout",
+      "shipping_policy": "Shipping policy",
+      "drawer_reassurance": "Handcrafted products · Shipping across the United States",
+      "error_add": "We couldn't add this product. Please try again."
+    },
+    "legal": {
+      "contact_label": "Contact",
+      "phone_label": "Phone",
+      "privacy": {
+        "title": "Privacy Policy",
+        "intro": "How Sana al Natural collects, uses, and safeguards the personal information you provide when visiting our website.",
+        "c1": {
+          "heading": "Overview",
+          "p1": "Sana al Natural respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard the information you provide when visiting our website.",
+          "p2": "We may collect personal information such as your name, email address, phone number, and shipping address when you place an order, contact us, or sign up for updates.",
+          "p3": "This information is used solely for the purpose of processing orders, providing customer support, and improving our services.",
+          "p4": "We do not sell or share your personal information with third parties except as necessary to complete your order, such as payment processors or shipping carriers.",
+          "p5": "Our website may use cookies to improve user experience and analyze website traffic.",
+          "p6": "If you have questions about this Privacy Policy or wish to request access to or deletion of your personal information, please contact us.",
+          "contact": "full"
+        },
+        "c2": {
+          "heading": "Cookies and Tracking Technologies",
+          "p1": "Our website may use cookies and similar tracking technologies to enhance user experience, analyze website performance, and support marketing activities. Users may choose to disable cookies through their browser settings; however, some features of the website may not function properly."
+        },
+        "c3": {
+          "heading": "Your Privacy Rights",
+          "p1": "If you are a resident of California, you have the right to request access to the personal information we collect about you and to request that we delete your personal information, subject to certain legal exceptions.",
+          "p2": "To submit a request to access or delete your personal information, please contact us using the information below:",
+          "contact": "short"
+        }
+      },
+      "terms": {
+        "title": "Terms &amp; Conditions",
+        "intro": "The terms that apply when accessing the Sana al Natural website and purchasing our products.",
+        "c1": {
+          "heading": "Acceptance of Terms",
+          "p1": "By accessing and using this website, you agree to comply with and be bound by the following terms and conditions.",
+          "p2": "All content on this website, including text, images, logos, and product descriptions, is the property of Sana al Natural and may not be reproduced without permission.",
+          "p3": "Sana al Natural is not responsible for any misuse of products or information provided on this website.",
+          "p4": "We reserve the right to update product information, prices, and policies at any time without prior notice."
+        },
+        "c2": {
+          "heading": "Age Requirement",
+          "p1": "By using this website, you confirm that you are at least 18 years of age.",
+          "p2": "If you are under 18, you may use this website only with the involvement and supervision of a parent or legal guardian.",
+          "p3": "By placing an order on this website, you represent that you are at least 18 years old or have permission from a parent or legal guardian to purchase and use the products."
+        },
+        "c3": {
+          "heading": "Limitation of Liability",
+          "p1": "By purchasing and using products from Sana al Natural, customers agree that the use of our products is at their own discretion and responsibility.",
+          "p2": "Sana al Natural shall not be held liable for any adverse reactions, allergies, or misuse of products purchased through this website.",
+          "p3": "Customers are responsible for reviewing product ingredients and ensuring that they do not have sensitivities or allergies to any ingredients.",
+          "p4": "In no event shall Sana al Natural be liable for any direct, indirect, incidental, or consequential damages resulting from the use or misuse of our products.",
+          "p5": "By using this website and purchasing our products, you agree to these terms."
+        },
+        "c4": {
+          "heading": "Governing Law",
+          "p1": "These Terms and Conditions and any disputes arising from the use of this website or the purchase of products from Sana al Natural shall be governed by and interpreted in accordance with the laws of the State of California, United States, without regard to its conflict of law provisions.",
+          "p2": "By using this website, you agree that any legal matters or disputes shall be handled within the jurisdiction of the State of California."
+        }
+      },
+      "returns": {
+        "title": "Return &amp; Refund Policy",
+        "intro": "Information about final sales, returns, exchanges, damaged orders, and incorrect items.",
+        "opening": {
+          "p1": "Due to the nature of our products, all sales are final.",
+          "p2": "For health, safety, and hygiene reasons, we do not accept returns or exchanges on any products once they have been purchased. This includes herbal teas, herbal products, shampoos, oils, creams, and other personal care items.",
+          "p3": "Many of our products cannot be resold once they leave our facility, and we cannot guarantee that items have not been opened, used, or tampered with.",
+          "note": "If an order arrives damaged or if you receive the wrong item, please contact us within 48 hours of delivery and provide photos of the product and packaging so we can review the issue and assist accordingly."
+        }
+      },
+      "shipping": {
+        "title": "Shipping Policy",
+        "intro": "Processing times, estimated delivery windows, address responsibilities, tracking, and package delivery information.",
+        "opening": {
+          "p1": "At Sana al Natural, we strive to process and ship orders as quickly as possible."
+        },
+        "c1": {
+          "heading": "Processing Time",
+          "p1": "Orders are typically processed within 1–2 business days after payment is received. Orders placed on weekends or holidays will be processed on the next business day."
+        },
+        "c2": {
+          "heading": "Shipping Within the United States",
+          "p1": "Standard shipping within the continental United States usually takes 3–7 business days, depending on the carrier and destination."
+        },
+        "c3": {
+          "heading": "Alaska, Hawaii, and Puerto Rico",
+          "p1": "Orders shipped to Alaska, Hawaii, and Puerto Rico may take 7–14 business days due to extended shipping times from carriers."
+        },
+        "c4": {
+          "heading": "Shipping Delays",
+          "p1": "Delivery times are estimates and may vary due to carrier delays, weather conditions, holidays, or other circumstances beyond our control."
+        },
+        "c5": {
+          "heading": "Incorrect Addresses",
+          "p1": "Customers are responsible for providing accurate shipping information. We are not responsible for orders delayed or lost due to incorrect addresses provided at checkout."
+        },
+        "c6": {
+          "heading": "Shipping Confirmation",
+          "p1": "Once your order has shipped, you may receive a shipping confirmation with tracking information when available."
+        },
+        "c7": {
+          "heading": "Contact",
+          "p1": "If you have questions about your shipment, please contact us:",
+          "contact": "short"
+        },
+        "c8": {
+          "heading": "Lost or Stolen Packages",
+          "p1": "Sana al Natural is not responsible for packages that are marked as delivered by the shipping carrier but reported as lost or stolen.",
+          "p2": "Once an order has been shipped and tracking information shows that the package has been delivered to the address provided by the customer, responsibility for the package transfers to the customer.",
+          "p3": "If a package is marked as delivered but cannot be located, customers should first check with household members, neighbors, or the local carrier office.",
+          "p4": "Customers may also contact the shipping carrier directly to file a claim or request assistance in locating the package.",
+          "p5": "Sana al Natural is not liable for lost or stolen packages once delivery has been confirmed by the carrier."
+        }
+      },
+      "medical": {
+        "title": "Medical Disclaimer",
+        "intro": "Important information regarding the informational nature of website content and the use of Sana al Natural products.",
+        "opening": {
+          "p1": "The information provided on this website is for informational purposes only and is not intended as medical advice.",
+          "p2": "The products sold by Sana al Natural are not intended to diagnose, treat, cure, or prevent any disease.",
+          "p3": "Customers should consult a qualified healthcare professional before using any herbal products, especially if they are pregnant, nursing, taking medication, or have a medical condition.",
+          "p4": "By purchasing and using our products, customers agree that they are doing so at their own discretion and responsibility."
+        }
+      },
+      "fda": {
+        "title": "FDA Disclaimer",
+        "intro": "Regulatory disclaimer for statements associated with Sana al Natural products.",
+        "opening": {
+          "note": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease."
+        }
+      },
+      "accessibility": {
+        "title": "Accessibility Statement",
+        "intro": "Sana al Natural is committed to improving digital accessibility and providing an inclusive website experience.",
+        "opening": {
+          "p1": "Sana al Natural is committed to ensuring digital accessibility for people with disabilities. We strive to continually improve the user experience for everyone and apply relevant accessibility standards in accordance with the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.",
+          "p2": "If you experience any difficulty accessing any part of this website, please contact us and we will work with you to provide the information you need through an alternative method.",
+          "contact": "short"
+        }
+      }
     },
     "categories": {
       "eyebrow": "Browse by category",
@@ -143,7 +349,50 @@
       "nav_label": "Categories",
       "view": "View {{ name }}",
       "view_all": "View all products in {{ name }}",
-      "empty": "There are no collections with products to show yet."
+      "empty": "There are no categories with products to show yet."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "heading": "|Let's talk|.",
+      "intro": "Questions about our products, your order, wholesale or a collaboration — write to us and we'll get back to you within 24 hours.",
+      "letterhead": "Write to us",
+      "label_name": "Name",
+      "placeholder_name": "Your name",
+      "label_email": "Email",
+      "placeholder_email": "you@email.com",
+      "label_phone": "Phone",
+      "placeholder_phone": "+1 000 000 0000",
+      "label_subject": "Subject",
+      "label_message": "Message",
+      "submit": "Send message",
+      "success_title": "Message sent!",
+      "success_text": "Thank you for writing to us. We'll get back to you soon.",
+      "follow": "Follow us",
+      "channel_email": "Email",
+      "channel_whatsapp": "WhatsApp",
+      "channel_location": "Location",
+      "subjects": {
+        "general": {
+          "label": "General inquiry",
+          "placeholder": "Tell us how we can help…"
+        },
+        "order": {
+          "label": "Issue with my order",
+          "placeholder": "Include your order number and tell us what happened…"
+        },
+        "wholesale": {
+          "label": "Wholesale / Distribution",
+          "placeholder": "Tell us about your business and the products you're interested in…"
+        },
+        "press": {
+          "label": "Collaboration / Press",
+          "placeholder": "Tell us about your project or the collaboration you have in mind…"
+        },
+        "other": {
+          "label": "Other",
+          "placeholder": "Tell us what it's about…"
+        }
+      }
     },
     "testimonials": {
       "heading": "What our customers say",
@@ -197,7 +446,10 @@
       "blurb": "Carefully selected natural products for your wellbeing — from the field to your table.",
       "newsletter_heading": "Join the community",
       "newsletter_text": "Get news, natural-wellness tips and exclusive offers.",
-      "rights": "All rights reserved."
+      "rights": "All rights reserved.",
+      "links_heading": "Explore",
+      "policies_heading": "Policies",
+      "disclaimers_heading": "Disclaimers"
     }
   },
   "general": {
@@ -256,6 +508,9 @@
       "next_slide": "Slide right",
       "previous_slide": "Slide left",
       "name": "Slider"
+    },
+    "navigation": {
+      "menu": "Menu"
     }
   },
   "newsletter": {
@@ -303,31 +558,31 @@
     "header": {
       "mega_discover": "Discover",
       "mega_shop_all": "Shop all",
-      "mega_collections": "Collections",
+      "mega_collections": "Categories",
       "mega_recommended": "Recommended",
       "mega_view_product": "View product"
     },
     "collections": {
       "home": "Home",
-      "title": "Collections",
-      "eyebrow": "The collection index",
-      "heading": "Our |collections|",
+      "title": "Categories",
+      "eyebrow": "Our Categories",
+      "heading": "Our |Products|",
       "scroll": "Browse the index",
       "intro": "Explore our families of naturally minded products, each grouped to make finding your ritual effortless.",
       "count": {
-        "one": "{{ count }} collection",
-        "other": "{{ count }} collections"
+        "one": "{{ count }} category",
+        "other": "{{ count }} category"
       },
       "product_count": {
         "one": "{{ count }} product",
         "other": "{{ count }} products"
       },
       "explore": "Explore",
-      "empty": "No collections yet",
+      "empty": "No categories yet",
       "all_eyebrow": "The full catalog",
       "all_heading": "Shop |everything|",
-      "all_subtitle": "Every product across every collection, gathered in one place.",
-      "all_browse": "Browse by collection",
+      "all_subtitle": "Every product across every category, gathered in one place.",
+      "all_browse": "Browse by category",
       "view_results": {
         "one": "View {{ count }} product",
         "other": "View {{ count }} products"
@@ -508,7 +763,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",

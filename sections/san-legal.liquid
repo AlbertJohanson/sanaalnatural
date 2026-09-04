@@ -1,0 +1,301 @@
+{{ 'san-policy.css' | asset_url | stylesheet_tag }}
+{{ 'san-legal.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  SANA AL NATURAL — Legal document, theme-owned copy (san-legal)
+
+  Sibling of `san-policy`. The difference is where the words live:
+    - san-policy → merchant writes the copy in Admin → Pages (page.content)
+    - san-legal  → copy lives in the theme's locale files, so it can be
+                   translated per language instead of being one fixed block
+                   of text typed into Admin.
+
+  Pick the document with the `policy` setting; the section then reads:
+    san.legal.<policy>.title
+    san.legal.<policy>.intro
+    san.legal.<policy>.opening.*     — copy before the first clause (optional)
+    san.legal.<policy>.c<n>.heading  — clause n, numbered from 1
+    san.legal.<policy>.c<n>.*        — that clause's copy
+
+  Copy is stored ONE PARAGRAPH PER KEY (p1, p2, …) with the markup here in
+  Liquid, not in the locale file. Shopify enforces a server-side cap on the
+  length of any single translation value — `theme check` does not catch it and
+  a push only reports the first key over the line, so storing a whole document
+  (or even a whole clause) in one value fails. Paragraph-sized values stay far
+  under the cap and are what a translator can actually review. See
+  snippets/san-legal-block.liquid for the paragraph/note/contact rendering.
+
+  Clauses are counted by walking c1, c2, … until a heading stops resolving, so
+  clause numbering must stay contiguous — a gap silently truncates the document.
+
+  The index is built here in Liquid, so it works without JavaScript; the script
+  below only adds smooth scrolling, scrollspy, and table scroll wrappers. A
+  document with fewer than two clauses gets no index at all.
+
+  Shares the whole visual system of san-policy (deep-green canvas, white
+  document card, sticky §-marked index); san-legal.css only adds the intro line
+  plus the note and contact blocks these documents use.
+{%- endcomment -%}
+
+{%- liquid
+  assign policy = section.settings.policy | default: 'privacy'
+  assign base = 'san.legal.' | append: policy
+
+  assign title = base | append: '.title' | t
+  assign intro = base | append: '.intro' | t
+
+  assign contact_label = 'san.legal.contact_label' | t
+  assign phone_label = 'san.legal.phone_label' | t
+
+  comment
+    Walk the clause keys until one stops resolving. 12 is a ceiling, not a
+    count — the longest document today has 8.
+  endcomment
+  assign clause_count = 0
+  for i in (1..12)
+    assign probe = base | append: '.c' | append: i | append: '.heading' | t | downcase
+    if probe == blank or probe contains 'translation missing'
+      break
+    endif
+    assign clause_count = i
+  endfor
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.65 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.65 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="san-policy section-{{ section.id }}-padding" id="SanLegal-{{ section.id }}">
+  <div class="san-policy__inner">
+
+    <header class="san-policy__head">
+      <p class="san-policy__eyebrow">{{ 'san.policy.eyebrow' | t }}</p>
+      <h1 class="san-policy__heading">{{ title }}</h1>
+      {%- if intro != blank -%}
+        <p class="san-policy__intro">{{ intro }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="san-policy__body{% if clause_count < 2 %} san-policy__body--no-toc{% endif %}" data-policy-body>
+
+      {%- if clause_count >= 2 -%}
+        <aside class="san-policy__rail">
+          <details class="san-policy__toc" data-policy-toc>
+            <summary class="san-policy__toc-summary">
+              {{ 'san.policy.toc_title' | t }}
+              <svg class="san-policy__toc-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <ol class="san-policy__toc-list">
+              {%- for i in (1..clause_count) -%}
+                {%- assign heading = base | append: '.c' | append: i | append: '.heading' | t -%}
+                <li>
+                  <a class="san-policy__toc-link" href="#clause-{{ section.id }}-{{ i }}">{{ heading }}</a>
+                </li>
+              {%- endfor -%}
+            </ol>
+          </details>
+        </aside>
+      {%- endif -%}
+
+      <article class="san-policy__card">
+        <div class="san-policy__doc rte" data-policy-doc>
+          {%- assign opening_prefix = base | append: '.opening' -%}
+          {%- render 'san-legal-block',
+            prefix: opening_prefix,
+            contact_label: contact_label,
+            phone_label: phone_label,
+            contact_name: section.settings.contact_name,
+            contact_address: section.settings.contact_address,
+            contact_phone: section.settings.contact_phone,
+            contact_phone_e164: section.settings.contact_phone_e164
+          -%}
+
+          {%- if clause_count > 0 -%}
+            {%- for i in (1..clause_count) -%}
+              {%- assign heading = base | append: '.c' | append: i | append: '.heading' | t -%}
+              <h2 id="clause-{{ section.id }}-{{ i }}">{{ heading }}</h2>
+              {%- assign clause_prefix = base | append: '.c' | append: i -%}
+              {%- render 'san-legal-block',
+                prefix: clause_prefix,
+                contact_label: contact_label,
+                phone_label: phone_label,
+                contact_name: section.settings.contact_name,
+                contact_address: section.settings.contact_address,
+                contact_phone: section.settings.contact_phone,
+                contact_phone_e164: section.settings.contact_phone_e164
+              -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </article>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('SanLegal-{{ section.id }}');
+    if (!root) return;
+
+    var doc = root.querySelector('[data-policy-doc]');
+    if (doc) {
+      doc.querySelectorAll('table').forEach(function (table) {
+        var wrap = document.createElement('div');
+        wrap.className = 'san-policy__table-wrap';
+        table.parentNode.insertBefore(wrap, table);
+        wrap.appendChild(table);
+      });
+    }
+
+    /* The index is rendered by Liquid — enhance it, don't build it */
+    var toc = root.querySelector('[data-policy-toc]');
+    if (!toc) return;
+
+    var links = Array.prototype.slice.call(toc.querySelectorAll('.san-policy__toc-link'));
+    var headings = links.map(function (a) {
+      return document.getElementById(a.getAttribute('href').slice(1));
+    }).filter(Boolean);
+    if (headings.length !== links.length) return;
+
+    /* Desktop: index always open. Mobile: collapsible, closed. */
+    var mq = window.matchMedia('(min-width: 990px)');
+    function syncOpen() { toc.open = mq.matches; }
+    syncOpen();
+    if (mq.addEventListener) mq.addEventListener('change', syncOpen);
+
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        headings[i].scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+        history.replaceState(null, '', a.getAttribute('href'));
+        if (!mq.matches) toc.open = false;
+      });
+    });
+
+    function setCurrent(id) {
+      links.forEach(function (a) {
+        if (a.getAttribute('href') === '#' + id) { a.setAttribute('aria-current', 'true'); }
+        else { a.removeAttribute('aria-current'); }
+      });
+    }
+
+    if ('IntersectionObserver' in window) {
+      var current = headings[0].id;
+      var visible = {};
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          visible[entry.target.id] = entry.isIntersecting;
+        });
+        for (var i = headings.length - 1; i >= 0; i--) {
+          if (visible[headings[i].id]) { current = headings[i].id; break; }
+          if (headings[i].getBoundingClientRect().top < 140) { current = headings[i].id; break; }
+        }
+        setCurrent(current);
+      }, { rootMargin: '-30% 0px -55% 0px' });
+      headings.forEach(function (h) { observer.observe(h); });
+      setCurrent(current);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Documento legal (Sana)",
+  "tag": "section",
+  "class": "section section--san-policy",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "El texto de cada documento vive en los archivos de idioma (san.legal.*), así que se traduce en Administrador → Contenido → Idiomas. El título de la página en Admin no se usa aquí."
+    },
+    {
+      "type": "select",
+      "id": "policy",
+      "label": "Documento",
+      "default": "privacy",
+      "options": [
+        { "value": "privacy", "label": "Política de privacidad" },
+        { "value": "terms", "label": "Términos y condiciones" },
+        { "value": "returns", "label": "Devoluciones y reembolsos" },
+        { "value": "shipping", "label": "Política de envío" },
+        { "value": "medical", "label": "Aviso médico" },
+        { "value": "fda", "label": "Aviso FDA" },
+        { "value": "accessibility", "label": "Declaración de accesibilidad" }
+      ]
+    },
+    { "type": "header", "content": "Datos de contacto" },
+    {
+      "type": "paragraph",
+      "content": "Se usan en los bloques de contacto dentro de los documentos. Son iguales en todos los idiomas, por eso viven aquí y no en los archivos de idioma."
+    },
+    {
+      "type": "text",
+      "id": "contact_name",
+      "label": "Nombre",
+      "default": "Sana al Natural"
+    },
+    {
+      "type": "text",
+      "id": "contact_address",
+      "label": "Dirección",
+      "default": "20117 Vanowen St, Winnetka, CA 91306"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone",
+      "label": "Teléfono (como se muestra)",
+      "default": "818-532-1110"
+    },
+    {
+      "type": "text",
+      "id": "contact_phone_e164",
+      "label": "Teléfono (para el enlace)",
+      "default": "+18185321110",
+      "info": "Solo dígitos con prefijo internacional. Se usa en el enlace tel:."
+    },
+    { "type": "header", "content": "Espaciado" },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno superior",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Relleno inferior",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Documento legal (Sana)"
+    }
+  ]
+}
+{% endschema %}

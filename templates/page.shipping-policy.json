@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "san-legal",
+      "settings": {
+        "policy": "shipping",
+        "padding_top": 72,
+        "padding_bottom": 96
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

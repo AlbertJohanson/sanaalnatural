@@ -14,34 +14,31 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu_1": {
-          "type": "link_list",
+        "legal_docs": {
+          "type": "legal",
           "settings": {
-            "heading": "Tienda",
-            "menu": "footer"
-          }
-        },
-        "menu_2": {
-          "type": "link_list",
-          "settings": {
-            "heading": "Ayuda",
-            "menu": "footer"
+            "url_privacy": "shopify://pages/privacy-policy",
+            "url_terms": "shopify://pages/terms-conditions",
+            "url_returns": "shopify://pages/return-refund-policy",
+            "url_shipping": "shopify://pages/shipping-policy",
+            "url_medical": "shopify://pages/medical-disclaimer",
+            "url_fda": "shopify://pages/fda-disclaimer",
+            "url_accessibility": "shopify://pages/accessibility-statement"
           }
         }
       },
       "block_order": [
-        "menu_1",
-        "menu_2"
+        "legal_docs"
       ],
       "settings": {
         "footer_logo": "shopify://shop_images/1._SANA_AL_NATURAL.png",
         "newsletter_enable": true,
         "enable_follow_on_shop": false,
         "show_social": true,
-        "enable_country_selector": true,
+        "enable_country_selector": false,
         "enable_language_selector": true,
         "payment_enable": true,
-        "show_policy": true,
+        "show_policy": false,
         "margin_top": 0,
         "padding_top": 0,
         "padding_bottom": 0
