@@ -14,16 +14,21 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "link_list_VkxCHV": {
-          "type": "link_list",
+        "legal_docs": {
+          "type": "legal",
           "settings": {
-            "heading": "",
-            "menu": "footer"
+            "url_privacy": "shopify://pages/privacy-policy",
+            "url_terms": "shopify://pages/terms-conditions",
+            "url_returns": "shopify://pages/return-refund-policy",
+            "url_shipping": "shopify://pages/shipping-policy",
+            "url_medical": "shopify://pages/medical-disclaimer",
+            "url_fda": "shopify://pages/fda-disclaimer",
+            "url_accessibility": "shopify://pages/accessibility-statement"
           }
         }
       },
       "block_order": [
-        "link_list_VkxCHV"
+        "legal_docs"
       ],
       "settings": {
         "footer_logo": "shopify://shop_images/1._SANA_AL_NATURAL.png",

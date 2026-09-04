@@ -25,7 +25,11 @@
 
   <div class="san-footer__inner">
 
-    {%- comment -%} ======= TOP: brand statement + newsletter ======= {%- endcomment -%}
+    {%- comment -%}
+      ======= MASTHEAD: brand statement beside the link columns =======
+      The brand block and the link columns share one row, so the footer reads
+      as a single masthead rather than a stack of full-width bands.
+    {%- endcomment -%}
     <div class="san-footer__top">
 
       <div class="san-footer__intro san-reveal">
@@ -169,17 +173,7 @@
         </div> {% endcomment %}
       {%- endif -%}
 
-    </div>
-
     {%- comment -%} ======= LINK COLUMNS (menu / text / app blocks) ======= {%- endcomment -%}
-    {%- liquid
-      assign link_list_count = 0
-      for b in section.blocks
-        if b.type == 'link_list'
-          assign link_list_count = link_list_count | plus: 1
-        endif
-      endfor
-    -%}
     {%- if section.blocks.size > 0 -%}
       <div class="san-footer__cols san-reveal san-reveal-d2">
         {%- for block in section.blocks -%}
@@ -230,32 +224,18 @@
                   {%- endfor -%}
                 </div>
 
-              {%- elsif link_list_count == 1 -%}
-                {%- comment -%}
-                  A single flat menu is an index, not a column — lay it out as
-                  one line across the footer instead of a stretched column.
-                {%- endcomment -%}
-                <div class="san-footer__menu-band" {{ block.shopify_attributes }}>
-                  {%- if block.settings.heading != blank -%}
-                    <h3 class="san-footer__col-heading">{{ block.settings.heading }}</h3>
-                  {%- endif -%}
-                  <ul class="san-footer__menu-row" role="list">
-                    {%- for link in fmenu.links -%}
-                      <li>
-                        <a
-                          href="{{ link.url }}"
-                          class="san-footer__menu-link{% if link.active %} san-footer__menu-link--active{% endif %}"
-                          {% if link.active %}aria-current="page"{% endif %}
-                        >{{ link.title | escape }}</a>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                </div>
-
               {%- else -%}
+                {%- comment -%}
+                  Heading falls back to a locale key so the column is titled in
+                  every language without the merchant typing it per language.
+                {%- endcomment -%}
+                {%- assign col_heading = block.settings.heading -%}
+                {%- if col_heading == blank -%}
+                  {%- assign col_heading = 'san.footer.links_heading' | t -%}
+                {%- endif -%}
                 <div class="san-footer__col" {{ block.shopify_attributes }}>
-                  {%- if block.settings.heading != blank -%}
-                    <h3 class="san-footer__col-heading">{{ block.settings.heading }}</h3>
+                  {%- if col_heading != blank -%}
+                    <h3 class="san-footer__col-heading">{{ col_heading }}</h3>
                   {%- endif -%}
                   <ul class="san-footer__col-list" role="list">
                     {%- for link in fmenu.links -%}
@@ -267,6 +247,86 @@
                       </li>
                     {%- endfor -%}
                   </ul>
+                </div>
+              {%- endif -%}
+
+            {%- when 'legal' -%}
+              {%- comment -%}
+                The legal documents, as two columns rather than one long list.
+                The split is the one already present in the documents themselves
+                — four policies the customer transacts under, three disclaimers
+                about the products — so the grouping carries meaning and the two
+                columns come out close to the same height.
+
+                Labels come from the same san.legal.*.title keys the pages
+                render, so a footer link can never drift from its document or
+                its language. Each URL is picked in the editor; a document with
+                no URL yet is left out, so the columns fill in as pages are made.
+              {%- endcomment -%}
+              {%- liquid
+                assign legal_groups = 'policies,disclaimers' | split: ','
+                assign policies_slugs = 'privacy,terms,returns,shipping'
+                assign disclaimers_slugs = 'medical,fda,accessibility'
+
+                assign legal_links = 0
+                assign all_slugs = 'privacy,terms,returns,shipping,medical,fda,accessibility' | split: ','
+                for slug in all_slugs
+                  assign url_key = 'url_' | append: slug
+                  if block.settings[url_key] != blank
+                    assign legal_links = legal_links | plus: 1
+                  endif
+                endfor
+              -%}
+
+              {%- if legal_links > 0 -%}
+                {%- for group in legal_groups -%}
+                  {%- liquid
+                    if group == 'policies'
+                      assign group_slugs = policies_slugs | split: ','
+                    else
+                      assign group_slugs = disclaimers_slugs | split: ','
+                    endif
+
+                    assign heading_key = 'san.footer.' | append: group | append: '_heading'
+                    assign group_heading = heading_key | t
+
+                    assign group_links = 0
+                    for slug in group_slugs
+                      assign url_key = 'url_' | append: slug
+                      if block.settings[url_key] != blank
+                        assign group_links = group_links | plus: 1
+                      endif
+                    endfor
+                  -%}
+
+                  {%- if group_links > 0 -%}
+                    <div class="san-footer__col" {% if forloop.first %}{{ block.shopify_attributes }}{% endif %}>
+                      <h3 class="san-footer__col-heading">{{ group_heading }}</h3>
+                      <ul class="san-footer__col-list" role="list">
+                        {%- for slug in group_slugs -%}
+                          {%- assign url_key = 'url_' | append: slug -%}
+                          {%- assign legal_url = block.settings[url_key] -%}
+                          {%- if legal_url != blank -%}
+                            {%- assign legal_title_key = 'san.legal.' | append: slug | append: '.title' -%}
+                            {%- assign legal_title = legal_title_key | t -%}
+                            <li>
+                              <a
+                                href="{{ legal_url }}"
+                                {% if request.path == legal_url %}class="list-menu__item--active" aria-current="page"{% endif %}
+                              >{{ legal_title }}</a>
+                            </li>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- elsif request.design_mode -%}
+                <div class="san-footer__col" {{ block.shopify_attributes }}>
+                  <h3 class="san-footer__col-heading">{{ 'san.footer.policies_heading' | t }}</h3>
+                  <p class="san-footer__col-text">
+                    Elige la página de cada documento en los ajustes de este bloque. Los que no tengan página aún no se muestran.
+                  </p>
                 </div>
               {%- endif -%}
 
@@ -286,6 +346,8 @@
         {%- endfor -%}
       </div>
     {%- endif -%}
+
+    </div>
 
     {%- comment -%} ======= DIVIDER ======= {%- endcomment -%}
     <div class="san-footer__divider">
@@ -372,6 +434,26 @@
           "default": "footer",
           "label": "t:sections.footer.blocks.link_list.settings.menu.label"
         }
+      ]
+    },
+    {
+      "type": "legal",
+      "name": "Documentos legales (Sana)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Se muestran en dos columnas: Políticas y Avisos. Los nombres se toman de los archivos de idioma (san.legal.*), así que ya están traducidos — aquí solo eliges a qué página apunta cada uno. Los documentos sin página no se muestran."
+        },
+        { "type": "header", "content": "Políticas" },
+        { "type": "url", "id": "url_privacy", "label": "Política de privacidad" },
+        { "type": "url", "id": "url_terms", "label": "Términos y condiciones" },
+        { "type": "url", "id": "url_returns", "label": "Devoluciones y reembolsos" },
+        { "type": "url", "id": "url_shipping", "label": "Política de envío" },
+        { "type": "header", "content": "Avisos" },
+        { "type": "url", "id": "url_medical", "label": "Aviso médico" },
+        { "type": "url", "id": "url_fda", "label": "Aviso FDA" },
+        { "type": "url", "id": "url_accessibility", "label": "Declaración de accesibilidad" }
       ]
     },
     {
