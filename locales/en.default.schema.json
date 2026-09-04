@@ -614,7 +614,7 @@
       "name": "Collection list",
       "settings": {
         "title": {
-          "default": "Collections",
+          "default": "Categories",
           "label": "Heading"
         },
          "header_layout": {
@@ -637,7 +637,7 @@
         },
         "show_view_all": {
           "label": "\"View all\" button",
-          "info": "Visible if list has more collections than shown"
+          "info": "Visible if list has more categories than shown"
         },
         "header_mobile": {
           "content": "Mobile layout"
@@ -1851,14 +1851,14 @@
       }
     },
     "main-list-collections": {
-      "name": "Collections list page",
+      "name": "Categories list page",
       "settings": {
         "title": {
           "label": "Heading",
-          "default": "Collections"
+          "default": "Categories"
         },
         "sort": {
-          "label": "Sort collections",
+          "label": "Sort Categories",
           "options__1": {
             "label": "Alphabetically, A-Z"
           },
@@ -2620,7 +2620,7 @@
           "settings": {
             "paragraph": {
               "label": "Text",
-              "default": "<p>Be the first to know about new collections and exclusive offers.</p>"
+              "default": "<p>Be the first to know about new categories and exclusive offers.</p>"
             }
           }
         },

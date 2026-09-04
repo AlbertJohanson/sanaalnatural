@@ -22,6 +22,8 @@
   class="san-cart-drawer"
   aria-hidden="true"
   data-cart='{{ cart | json | escape }}'
+  data-error-add="{{ 'san.cart.error_add' | t | escape }}"
+  data-error-update="{{ 'san.cart.error' | t | escape }}"
 >
   <div class="san-cart-drawer__overlay" data-overlay aria-hidden="true"></div>
 
@@ -70,17 +72,17 @@
           </svg>
         </div>
 
-        <p class="san-cart-drawer__eyebrow">Tu selección</p>
-        <h2 class="san-cart-drawer__empty-title">Tu carrito está vacío</h2>
+        <p class="san-cart-drawer__eyebrow">{{ 'san.cart.eyebrow' | t }}</p>
+        <h2 class="san-cart-drawer__empty-title">{{ 'sections.cart.empty' | t }}</h2>
         <p class="san-cart-drawer__empty-sub">
-          Cada elección cuenta. Empieza a descubrir lo natural.
+          {{ 'san.cart.empty_sub' | t }}
         </p>
         <a
           href="{{ routes.all_products_collection_url }}"
           class="san-cart-drawer__cta"
           data-cta
         >
-          Ver todos los productos
+          {{ 'san.cart.browse_all' | t }}
         </a>
 
         {%- if shop.customer_accounts_enabled and customer == null -%}
@@ -94,9 +96,10 @@
     {%- comment -%} Items state {%- endcomment -%}
     <header class="san-cart-drawer__header" data-header>
       <div class="san-cart-drawer__header-text">
-        <p class="san-cart-drawer__eyebrow">Tu selección</p>
+        <p class="san-cart-drawer__eyebrow">{{ 'san.cart.eyebrow' | t }}</p>
         <h2 class="san-cart-drawer__title">
-          Carrito <span class="san-cart-drawer__count" data-count>({{ cart.item_count }})</span>
+          {{ 'san.cart.title' | t }}
+          <span class="san-cart-drawer__count" data-count>({{ cart.item_count }})</span>
         </h2>
       </div>
       <button
@@ -121,28 +124,27 @@
 
       <div class="san-cart-drawer__footer">
         <div class="san-cart-drawer__totals">
-          <span class="san-cart-drawer__totals-label">Subtotal</span>
+          <span class="san-cart-drawer__totals-label">{{ 'san.cart.subtotal' | t }}</span>
           <span class="san-cart-drawer__totals-value" data-subtotal>{{ cart.total_price | money }}</span>
         </div>
 
         <p class="san-cart-drawer__tax-note">
+          {{- 'san.cart.shipping_note' | t -}}
           {%- if shop.shipping_policy.body != blank -%}
-            Envío y descuentos calculados al finalizar · <a href="{{ shop.shipping_policy.url }}">Política de envío</a>
-          {%- else -%}
-            Envío y descuentos calculados al finalizar
+            · <a href="{{ shop.shipping_policy.url }}">{{ 'san.cart.shipping_policy' | t }}</a>
           {%- endif -%}
         </p>
 
         <div class="san-cart-drawer__ctas">
           <a
-            href="/checkout"
+            href="{{ routes.cart_url }}/checkout"
             class="san-cart-drawer__checkout"
             data-checkout
           >
-            Finalizar compra
+            {{ 'sections.cart.checkout' | t }}
           </a>
           <p class="san-cart-drawer__reassurance">
-            Productos elaborados a mano · Envío en Guatemala
+            {{ 'san.cart.drawer_reassurance' | t }}
           </p>
         </div>
       </div>
@@ -170,12 +172,12 @@
 
         <div class="san-cart-drawer__item-foot">
           <div class="san-cart-drawer__qty-row">
-            <div class="san-cart-drawer__qty" role="group" aria-label="Cantidad">
+            <div class="san-cart-drawer__qty" role="group" aria-label="{{ 'products.product.quantity.label' | t }}">
               <button
                 type="button"
                 class="san-cart-drawer__qty-btn"
                 data-action="qty-minus"
-                aria-label="Disminuir cantidad"
+                aria-label="{{ 'san.cart.qty_decrease' | t }}"
               >
                 <svg viewBox="0 0 14 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
                   <path d="M1 1 L13 1" />
@@ -186,7 +188,7 @@
                 type="button"
                 class="san-cart-drawer__qty-btn"
                 data-action="qty-plus"
-                aria-label="Aumentar cantidad"
+                aria-label="{{ 'san.cart.qty_increase' | t }}"
               >
                 <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
                   <path d="M1 7 L13 7 M7 1 L7 13" />
@@ -205,7 +207,7 @@
               class="san-cart-drawer__remove"
               data-action="remove"
             >
-              Eliminar
+              {{ 'san.cart.remove' | t }}
             </button>
           </div>
         </div>

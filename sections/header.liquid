@@ -43,6 +43,34 @@
   assign menu_links = section.settings.menu.links
   assign total_links = menu_links.size
   assign half = total_links | plus: 1 | divided_by: 2
+
+  # Mega menu collections. In 'auto' mode the column lists every collection in
+  # the store (skipping all/frontpage and empty ones), so new collections show
+  # up without anyone editing the navigation menu. Built once here rather than
+  # per nav link. Same skip rules as san-categories.liquid.
+  assign mega_auto = true
+  if section.settings.mega_collections_source == 'menu'
+    assign mega_auto = false
+  endif
+  assign mega_limit = section.settings.mega_collections_limit | default: 10
+  assign mega_handles = ''
+  assign mega_shown = 0
+  if mega_auto
+    for collection in collections
+      if collection.handle == 'all' or collection.handle == 'frontpage'
+        continue
+      endif
+      if collection.all_products_count == 0
+        continue
+      endif
+      if mega_shown >= mega_limit
+        break
+      endif
+      assign mega_handles = mega_handles | append: collection.handle | append: ','
+      assign mega_shown = mega_shown | plus: 1
+    endfor
+  endif
+  assign mega_collections = mega_handles | split: ','
 -%}
 
 <{{ header_tag }}
@@ -169,7 +197,15 @@
             assign mega_haystack = lhandle | append: ' ' | append: ltitle | append: ' ' | append: lurl
             assign mega_match = section.settings.mega_menu_handle | downcase | strip
             assign is_mega = false
+            # In auto mode the store's collections fill the panel, so the Shop
+            # link no longer needs sub-links in the navigation menu to qualify.
+            assign mega_eligible = false
             if link.links != blank
+              assign mega_eligible = true
+            elsif mega_auto and mega_collections.size > 0
+              assign mega_eligible = true
+            endif
+            if mega_eligible
               if mega_match != blank
                 if mega_haystack contains mega_match
                   assign is_mega = true
@@ -217,16 +253,30 @@
                     <div class="san-mega__col san-mega__col--collections">
                       <span class="san-mega__heading">{{ 'blogs.header.mega_collections' | t }}</span>
                       <ul class="san-mega__links" role="list">
-                        {%- for childlink in link.links -%}
-                          <li>
-                            <a href="{{ childlink.url }}" class="san-mega__link"{% if childlink.current %} aria-current="page"{% endif %}>
-                              <span class="san-mega__link-text">{{ childlink.title | escape }}</span>
-                              <svg class="san-mega__link-arrow" width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true">
-                                <path d="M1 4h13m0 0l-3-3m3 3l-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>
-                            </a>
-                          </li>
-                        {%- endfor -%}
+                        {%- if mega_auto and mega_collections.size > 0 -%}
+                          {%- for mega_handle in mega_collections -%}
+                            {%- assign mega_collection = collections[mega_handle] -%}
+                            <li>
+                              <a href="{{ mega_collection.url }}" class="san-mega__link"{% if request.path == mega_collection.url %} aria-current="page"{% endif %}>
+                                <span class="san-mega__link-text">{{ mega_collection.title | escape }}</span>
+                                <svg class="san-mega__link-arrow" width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true">
+                                  <path d="M1 4h13m0 0l-3-3m3 3l-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        {%- else -%}
+                          {%- for childlink in link.links -%}
+                            <li>
+                              <a href="{{ childlink.url }}" class="san-mega__link"{% if childlink.current %} aria-current="page"{% endif %}>
+                                <span class="san-mega__link-text">{{ childlink.title | escape }}</span>
+                                <svg class="san-mega__link-arrow" width="16" height="8" viewBox="0 0 16 8" fill="none" aria-hidden="true">
+                                  <path d="M1 4h13m0 0l-3-3m3 3l-3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        {%- endif -%}
                       </ul>
                     </div>
 
@@ -586,6 +636,33 @@
       "id": "mega_menu_handle",
       "label": "Mega menu — menu item",
       "info": "Handle or name of the menu item that opens the big Shop mega menu (e.g. shop / tienda). Leave blank to auto-detect."
+    },
+    {
+      "type": "select",
+      "id": "mega_collections_source",
+      "label": "Mega menu — collections column",
+      "info": "Automático muestra cada colección nueva sin tocar el menú de navegación.",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Automático — todas las colecciones de la tienda"
+        },
+        {
+          "value": "menu",
+          "label": "Manual — solo los enlaces del menú"
+        }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "range",
+      "id": "mega_collections_limit",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "label": "Mega menu — máximo de colecciones",
+      "info": "Solo aplica en modo automático.",
+      "default": 10
     },
     {
       "type": "select",

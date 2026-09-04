@@ -9,7 +9,10 @@
 
 {%- assign story_blocks = section.blocks | where: 'type', 'story' -%}
 
-<section class="san-about" id="san-about-{{ section.id }}" data-san-about>
+  <section
+  class="san-about"
+  id="san-about-{{ section.id }}"
+  data-san-about>
 
   {%- comment -%} ═══════ 1 · HERO (Editorial Masthead) ═══════ {%- endcomment -%}
   <div class="sa-hero">
@@ -23,13 +26,17 @@
     {%- comment -%} Ambient drifting leaves {%- endcomment -%}
     <div class="sa-hero__ambient" aria-hidden="true">
       <span class="sa-hero__leaf sa-hero__leaf--1">
-        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/><path d="M30 6 C30 6 28 32 18 46" stroke="#31591d" stroke-width="0.8" opacity="0.4"/></svg>
+        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor" /><path
+            d="M30 6 C30 6 28 32 18 46"
+            stroke="#31591d"
+            stroke-width="0.8"
+            opacity="0.4" /></svg>
       </span>
       <span class="sa-hero__leaf sa-hero__leaf--2">
-        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor" /></svg>
       </span>
       <span class="sa-hero__leaf sa-hero__leaf--3">
-        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/></svg>
+        <svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor" /></svg>
       </span>
     </div>
 
@@ -47,7 +54,10 @@
             <h1 class="sa-hero__heading">
               {%- assign h_parts = hero_heading | split: '|' -%}
               {%- for part in h_parts -%}
-                {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
+                {%- if forloop.index == 2 -%}
+                  <em>{{ part }}</em>
+                {%- else -%}
+                  {{ part }}{%- endif -%}
               {%- endfor -%}
             </h1>
           </div>
@@ -59,10 +69,12 @@
       {%- comment -%} Scroll invitation (replaces CTA buttons) {%- endcomment -%}
       <a class="sa-hero__scroll" href="#sa-story">
         <span class="sa-hero__scroll-label">{{ 'san.about.hero.scroll' | t }}</span>
-        <span class="sa-hero__scroll-track"><span class="sa-hero__scroll-dot"></span></span>
+        <span class="sa-hero__scroll-track">
+          <span class="sa-hero__scroll-dot"></span>
+        </span>
       </a>
     </div>
-  </div>
+</div>
 
 
   {%- comment -%} ═══════ 2 · STORY / HISTORIA ═══════ {%- endcomment -%}
@@ -74,12 +86,7 @@
 
         <div class="sa-story__img-wrap sa-story__img-wrap--main">
           {%- if story.settings.image != blank -%}
-            {{ story.settings.image
-              | image_url: width: 1000
-              | image_tag:
-                loading: 'lazy',
-                sizes: '(min-width: 990px) 50vw, 100vw',
-                alt: 'Sana al Natural'
+            {{ story.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 50vw, 100vw', alt: 'Sana al Natural'
             }}
           {%- else -%}
             {{ 'lifestyle-1' | placeholder_svg_tag }}
@@ -89,12 +96,7 @@
         {%- comment -%} Secondary stacked photo {%- endcomment -%}
         <div class="sa-story__img-float">
           {%- if story.settings.image_2 != blank -%}
-            {{ story.settings.image_2
-              | image_url: width: 600
-              | image_tag:
-                loading: 'lazy',
-                sizes: '(min-width: 990px) 18vw, 40vw',
-                alt: 'Sana al Natural'
+            {{ story.settings.image_2 | image_url: width: 600 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 18vw, 40vw', alt: 'Sana al Natural'
             }}
           {%- else -%}
             {{ 'lifestyle-2' | placeholder_svg_tag }}
@@ -102,19 +104,56 @@
         </div>
 
         {%- comment -%} Floating leaf {%- endcomment -%}
-        <svg class="sa-story__leaf" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-          <path d="M40 10 C20 25 10 45 15 65 C20 75 35 78 45 70 C55 62 65 40 40 10Z" fill="#55823d" opacity="0.12"/>
-          <path d="M40 10 C40 10 38 35 30 55" stroke="#55823d" stroke-width="0.8" fill="none" opacity="0.15"/>
+        <svg
+          class="sa-story__leaf"
+          viewBox="0 0 80 80"
+          fill="none"
+          aria-hidden="true">
+          <path
+            d="M40 10 C20 25 10 45 15 65 C20 75 35 78 45 70 C55 62 65 40 40 10Z"
+            fill="#55823d"
+            opacity="0.12" />
+          <path
+            d="M40 10 C40 10 38 35 30 55"
+            stroke="#55823d"
+            stroke-width="0.8"
+            fill="none"
+            opacity="0.15" />
         </svg>
       </div>
 
       <div class="sa-story__content" data-reveal>
         {%- comment -%} Growing botanical vine — natural-identity motion {%- endcomment -%}
-        <svg class="sa-story__vine" viewBox="0 0 64 260" fill="none" aria-hidden="true">
-          <path class="sa-story__vine-stem" pathLength="1" d="M32 252 C32 214 27 192 32 160 C37 128 28 104 33 72 C35 50 33 28 32 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-          <path class="sa-story__vine-leaf sa-story__vine-leaf--1" pathLength="1" d="M31 168 C15 162 8 147 11 130 C26 136 34 151 31 168Z" stroke="currentColor" stroke-width="1.2"/>
-          <path class="sa-story__vine-leaf sa-story__vine-leaf--2" pathLength="1" d="M33 112 C49 106 56 91 53 74 C38 80 30 95 33 112Z" stroke="currentColor" stroke-width="1.2"/>
-          <circle class="sa-story__vine-bud" cx="32" cy="12" r="4.5" fill="currentColor"/>
+        <svg
+          class="sa-story__vine"
+          viewBox="0 0 64 260"
+          fill="none"
+          aria-hidden="true">
+          <path
+            class="sa-story__vine-stem"
+            pathLength="1"
+            d="M32 252 C32 214 27 192 32 160 C37 128 28 104 33 72 C35 50 33 28 32 12"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="round" />
+          <path
+            class="sa-story__vine-leaf sa-story__vine-leaf--1"
+            pathLength="1"
+            d="M31 168 C15 162 8 147 11 130 C26 136 34 151 31 168Z"
+            stroke="currentColor"
+            stroke-width="1.2" />
+          <path
+            class="sa-story__vine-leaf sa-story__vine-leaf--2"
+            pathLength="1"
+            d="M33 112 C49 106 56 91 53 74 C38 80 30 95 33 112Z"
+            stroke="currentColor"
+            stroke-width="1.2" />
+          <circle
+            class="sa-story__vine-bud"
+            cx="32"
+            cy="12"
+            r="4.5"
+            fill="currentColor" />
         </svg>
 
         <p class="sa-story__eyebrow">{{ 'san.about.story.eyebrow' | t }}</p>
@@ -124,11 +163,14 @@
           {%- assign hp = story_heading | split: '|' -%}
           {%- for seg in hp -%}
             {%- assign is_accent = false -%}
-            {%- if forloop.index == 2 -%}{%- assign is_accent = true -%}{%- endif -%}
+            {%- if forloop.index == 2 -%}
+              {%- assign is_accent = true -%}{%- endif -%}
             {%- assign words = seg | strip | split: ' ' -%}
             {%- for w in words -%}
               {%- if w != blank -%}
-                <span class="sa-story__word{% if is_accent %} is-accent{% endif %}" aria-hidden="true"><span>{{ w }}</span></span>
+                <span class="sa-story__word{% if is_accent %} is-accent{% endif %}" aria-hidden="true">
+                  <span>{{ w }}</span>
+                </span>
               {%- endif -%}
             {%- endfor -%}
           {%- endfor -%}
@@ -150,7 +192,8 @@
 
   {%- comment -%} ═══════ 3 · MISSION & VISION (deep-green diptych) ═══════ {%- endcomment -%}
   <div class="sa-mv">
-    {%- render 'san-organic-bg', uid: section.id -%}
+    {%- render 'san-organic-bg'
+      , uid: section.id -%}
 
     <div class="sa-mv__inner">
       <div class="sa-mv__intro" data-reveal>
@@ -159,7 +202,10 @@
         <h2 class="sa-mv__heading">
           {%- assign mvp = mv_heading | split: '|' -%}
           {%- for part in mvp -%}
-            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
+            {%- if forloop.index == 2 -%}
+              <em>{{ part }}</em>
+            {%- else -%}
+              {{ part }}{%- endif -%}
           {%- endfor -%}
         </h2>
       </div>
@@ -171,8 +217,19 @@
           <span class="sa-mv__num" aria-hidden="true">01</span>
           <div class="sa-mv__icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <path class="sa-mv__icon-draw" pathLength="1" d="M24 4 C15 15 8 25 8 32 C8 40.8 15.2 44 24 44 C32.8 44 40 40.8 40 32 C40 25 33 15 24 4Z" stroke="currentColor" stroke-width="1.4"/>
-              <path class="sa-mv__icon-draw" pathLength="1" d="M24 14 C24 14 18 22 18 28 C18 32 20.7 34 24 34 C27.3 34 30 32 30 28 C30 22 24 14 24 14Z" stroke="currentColor" stroke-width="0.9" opacity="0.6"/>
+              <path
+                class="sa-mv__icon-draw"
+                pathLength="1"
+                d="M24 4 C15 15 8 25 8 32 C8 40.8 15.2 44 24 44 C32.8 44 40 40.8 40 32 C40 25 33 15 24 4Z"
+                stroke="currentColor"
+                stroke-width="1.4" />
+              <path
+                class="sa-mv__icon-draw"
+                pathLength="1"
+                d="M24 14 C24 14 18 22 18 28 C18 32 20.7 34 24 34 C27.3 34 30 32 30 28 C30 22 24 14 24 14Z"
+                stroke="currentColor"
+                stroke-width="0.9"
+                opacity="0.6" />
             </svg>
           </div>
           <p class="sa-mv__label">{{ 'san.about.mission.label' | t }}</p>
@@ -182,11 +239,36 @@
 
         {%- comment -%} ── central drawn vine divider ── {%- endcomment -%}
         <div class="sa-mv__divider" aria-hidden="true">
-          <svg class="sa-mv__vine" viewBox="0 0 40 320" fill="none" preserveAspectRatio="xMidYMid meet">
-            <path class="sa-mv__vine-stem" pathLength="1" d="M20 312 C20 260 15 232 20 188 C25 144 16 104 21 64 C23 40 20 20 20 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path class="sa-mv__vine-leaf sa-mv__vine-leaf--1" pathLength="1" d="M19 196 C5 190 0 176 3 162 C17 168 22 182 19 196Z" stroke="currentColor" stroke-width="1.1"/>
-            <path class="sa-mv__vine-leaf sa-mv__vine-leaf--2" pathLength="1" d="M21 128 C35 122 40 108 37 94 C23 100 18 114 21 128Z" stroke="currentColor" stroke-width="1.1"/>
-            <circle class="sa-mv__vine-bud" cx="20" cy="8" r="4" fill="currentColor"/>
+          <svg
+            class="sa-mv__vine"
+            viewBox="0 0 40 320"
+            fill="none"
+            preserveAspectRatio="xMidYMid meet">
+            <path
+              class="sa-mv__vine-stem"
+              pathLength="1"
+              d="M20 312 C20 260 15 232 20 188 C25 144 16 104 21 64 C23 40 20 20 20 8"
+              stroke="currentColor"
+              stroke-width="1.4"
+              stroke-linecap="round" />
+            <path
+              class="sa-mv__vine-leaf sa-mv__vine-leaf--1"
+              pathLength="1"
+              d="M19 196 C5 190 0 176 3 162 C17 168 22 182 19 196Z"
+              stroke="currentColor"
+              stroke-width="1.1" />
+            <path
+              class="sa-mv__vine-leaf sa-mv__vine-leaf--2"
+              pathLength="1"
+              d="M21 128 C35 122 40 108 37 94 C23 100 18 114 21 128Z"
+              stroke="currentColor"
+              stroke-width="1.1" />
+            <circle
+              class="sa-mv__vine-bud"
+              cx="20"
+              cy="8"
+              r="4"
+              fill="currentColor" />
           </svg>
         </div>
 
@@ -196,13 +278,55 @@
           <span class="sa-mv__num" aria-hidden="true">02</span>
           <div class="sa-mv__icon" aria-hidden="true">
             <svg viewBox="0 0 48 48" fill="none">
-              <circle class="sa-mv__icon-draw" pathLength="1" cx="24" cy="24" r="17" stroke="currentColor" stroke-width="1.4"/>
-              <circle class="sa-mv__icon-draw" pathLength="1" cx="24" cy="24" r="7.5" stroke="currentColor" stroke-width="1.2"/>
-              <circle cx="24" cy="24" r="2.4" fill="currentColor"/>
-              <line x1="24" y1="3" x2="24" y2="9" stroke="currentColor" stroke-width="0.9"/>
-              <line x1="24" y1="39" x2="24" y2="45" stroke="currentColor" stroke-width="0.9"/>
-              <line x1="3" y1="24" x2="9" y2="24" stroke="currentColor" stroke-width="0.9"/>
-              <line x1="39" y1="24" x2="45" y2="24" stroke="currentColor" stroke-width="0.9"/>
+              <circle
+                class="sa-mv__icon-draw"
+                pathLength="1"
+                cx="24"
+                cy="24"
+                r="17"
+                stroke="currentColor"
+                stroke-width="1.4" />
+              <circle
+                class="sa-mv__icon-draw"
+                pathLength="1"
+                cx="24"
+                cy="24"
+                r="7.5"
+                stroke="currentColor"
+                stroke-width="1.2" />
+              <circle
+                cx="24"
+                cy="24"
+                r="2.4"
+                fill="currentColor" />
+              <line
+                x1="24"
+                y1="3"
+                x2="24"
+                y2="9"
+                stroke="currentColor"
+                stroke-width="0.9" />
+              <line
+                x1="24"
+                y1="39"
+                x2="24"
+                y2="45"
+                stroke="currentColor"
+                stroke-width="0.9" />
+              <line
+                x1="3"
+                y1="24"
+                x2="9"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="0.9" />
+              <line
+                x1="39"
+                y1="24"
+                x2="45"
+                y2="24"
+                stroke="currentColor"
+                stroke-width="0.9" />
             </svg>
           </div>
           <p class="sa-mv__label">{{ 'san.about.vision.label' | t }}</p>
@@ -221,239 +345,225 @@
       <span class="sa-vbento__blob sa-vbento__blob--1"></span>
       <span class="sa-vbento__blob sa-vbento__blob--2"></span>
       <span class="sa-vbento__blob sa-vbento__blob--3"></span>
-      <svg class="sa-vbento__ring" viewBox="0 0 400 400" fill="none">
-        <g stroke="#55823d" fill="none" stroke-linecap="round">
-          <circle cx="200" cy="200" r="150" stroke-width="1"/>
-          {%- for i in (0..11) -%}
-            {%- assign rot = forloop.index0 | times: 30 -%}
-            <g transform="rotate({{ rot }} 200 200)">
-              <path d="M200 50 C188 66 182 80 186 94 C190 102 200 104 206 98 C212 92 214 76 200 50Z" stroke-width="0.9" opacity="0.5"/>
-            </g>
-          {%- endfor -%}
-        </g>
-      </svg>
-    </div>
-
-    <div class="sa-vbento__inner">
-      <div class="sa-vbento__header" data-reveal>
-        <p class="sa-vbento__eyebrow">{{ 'san.about.values.eyebrow' | t }}</p>
-        {%- assign v_heading = 'san.about.values.heading' | t -%}
-        <h2 class="sa-vbento__heading">
-          {%- assign vhp = v_heading | split: '|' -%}
-          {%- for part in vhp -%}
-            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
-          {%- endfor -%}
-        </h2>
-        <p class="sa-vbento__hint">{{ 'san.about.values.hint' | t }}</p>
-      </div>
-
-      <div class="sa-vbento__grid" data-reveal>
-
-        {%- comment -%} ── 01 · Calidad (featured / large) ── {%- endcomment -%}
-        <article class="sa-vtile sa-vtile--a sa-vtile--lg" data-vtile style="--i: 0;">
-          <span class="sa-vtile__spot" aria-hidden="true"></span>
-          <span class="sa-vtile__num" aria-hidden="true">01</span>
-          <div class="sa-vtile__inner">
-            <div class="sa-vtile__icon" aria-hidden="true">
-              <svg viewBox="0 0 56 56" fill="none">
-                <circle class="sa-vtile__icon-draw" pathLength="1" cx="28" cy="23" r="14" stroke="currentColor" stroke-width="1.4"/>
-                <path class="sa-vtile__icon-draw" pathLength="1" d="M22 23 l4 4 l8 -9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M20 35 l-3 13 l11 -6 l11 6 l-3 -13" stroke="currentColor" stroke-width="1.2" opacity="0.55"/>
-              </svg>
-            </div>
-            <div class="sa-vtile__body">
-              <h3 class="sa-vtile__title">{{ 'san.about.values.v1.title' | t }}</h3>
-              <p class="sa-vtile__text">{{ 'san.about.values.v1.text' | t }}</p>
-            </div>
-          </div>
-        </article>
-
-        {%- comment -%} ── 02 · Compromiso con lo natural ── {%- endcomment -%}
-        <article class="sa-vtile sa-vtile--b" data-vtile style="--i: 1;">
-          <span class="sa-vtile__spot" aria-hidden="true"></span>
-          <span class="sa-vtile__num" aria-hidden="true">02</span>
-          <div class="sa-vtile__inner">
-            <div class="sa-vtile__icon" aria-hidden="true">
-              <svg viewBox="0 0 56 56" fill="none">
-                <path class="sa-vtile__icon-draw" pathLength="1" d="M28 46 C28 36 28 30 28 22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-                <path d="M28 30 C20 30 14 24 14 16 C24 16 28 22 28 30Z" stroke="currentColor" stroke-width="1.3"/>
-                <path d="M28 26 C36 26 42 20 42 12 C32 12 28 18 28 26Z" stroke="currentColor" stroke-width="1.3"/>
-              </svg>
-            </div>
-            <div class="sa-vtile__body">
-              <h3 class="sa-vtile__title">{{ 'san.about.values.v2.title' | t }}</h3>
-              <p class="sa-vtile__text">{{ 'san.about.values.v2.text' | t }}</p>
-            </div>
-          </div>
-        </article>
-
-        {%- comment -%} ── 03 · Confianza ── {%- endcomment -%}
-        <article class="sa-vtile sa-vtile--c" data-vtile style="--i: 2;">
-          <span class="sa-vtile__spot" aria-hidden="true"></span>
-          <span class="sa-vtile__num" aria-hidden="true">03</span>
-          <div class="sa-vtile__inner">
-            <div class="sa-vtile__icon" aria-hidden="true">
-              <svg viewBox="0 0 56 56" fill="none">
-                <path class="sa-vtile__icon-draw" pathLength="1" d="M28 8 L44 14 V28 C44 38 37 45 28 48 C19 45 12 38 12 28 V14 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                <path d="M28 34 C28 34 21 29 21 24 C21 21 24 20 26 22 C27 23 28 24 28 24 C28 24 29 23 30 22 C32 20 35 21 35 24 C35 29 28 34 28 34Z" stroke="currentColor" stroke-width="1.2"/>
-              </svg>
-            </div>
-            <div class="sa-vtile__body">
-              <h3 class="sa-vtile__title">{{ 'san.about.values.v3.title' | t }}</h3>
-              <p class="sa-vtile__text">{{ 'san.about.values.v3.text' | t }}</p>
-            </div>
-          </div>
-        </article>
-
-        {%- comment -%} ── 04 · Innovación ── {%- endcomment -%}
-        <article class="sa-vtile sa-vtile--d" data-vtile style="--i: 3;">
-          <span class="sa-vtile__spot" aria-hidden="true"></span>
-          <span class="sa-vtile__num" aria-hidden="true">04</span>
-          <div class="sa-vtile__inner">
-            <div class="sa-vtile__icon" aria-hidden="true">
-              <svg viewBox="0 0 56 56" fill="none">
-                <path class="sa-vtile__icon-draw" pathLength="1" d="M28 14 C30 22 34 26 42 28 C34 30 30 34 28 42 C26 34 22 30 14 28 C22 26 26 22 28 14Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                <circle cx="44" cy="14" r="2" fill="currentColor" opacity="0.6"/>
-                <circle cx="13" cy="44" r="1.6" fill="currentColor" opacity="0.45"/>
-              </svg>
-            </div>
-            <div class="sa-vtile__body">
-              <h3 class="sa-vtile__title">{{ 'san.about.values.v4.title' | t }}</h3>
-              <p class="sa-vtile__text">{{ 'san.about.values.v4.text' | t }}</p>
-            </div>
-          </div>
-        </article>
-
-        {%- comment -%} ── 05 · Servicio al cliente ── {%- endcomment -%}
-        <article class="sa-vtile sa-vtile--e" data-vtile style="--i: 4;">
-          <span class="sa-vtile__spot" aria-hidden="true"></span>
-          <span class="sa-vtile__num" aria-hidden="true">05</span>
-          <div class="sa-vtile__inner">
-            <div class="sa-vtile__icon" aria-hidden="true">
-              <svg viewBox="0 0 56 56" fill="none">
-                <path class="sa-vtile__icon-draw" pathLength="1" d="M12 16 H44 V36 H26 L18 44 V36 H12 Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                <path d="M28 31 C28 31 23 28 23 24.5 C23 22.5 25 22 26.4 23.2 C27.2 23.9 28 24.7 28 24.7 C28 24.7 28.8 23.9 29.6 23.2 C31 22 33 22.5 33 24.5 C33 28 28 31 28 31Z" stroke="currentColor" stroke-width="1.1"/>
-              </svg>
-            </div>
-            <div class="sa-vtile__body">
-              <h3 class="sa-vtile__title">{{ 'san.about.values.v5.title' | t }}</h3>
-              <p class="sa-vtile__text">{{ 'san.about.values.v5.text' | t }}</p>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </div>
-
-
-  {%- comment -%} ═══════ 5 · DISTRIBUIDORES / ALIADOS (deep-green · marquee · tabs · 3D) ═══════ {%- endcomment -%}
-  {%- assign wa_digits = section.settings.partners_whatsapp | remove: '+' | remove: '-' | remove: '(' | remove: ')' | remove: ' ' | remove: '.' -%}
-  <div class="sa-partners">
-    {%- render 'san-organic-bg', uid: section.id | append: '-p' -%}
-
-    {%- comment -%} Kinetic marquee — reach & distribution {%- endcomment -%}
-    {%- assign mq = 'san.about.partners.marquee' | t -%}
-    <div class="sa-partners__marquee" aria-hidden="true">
-      <div class="sa-partners__marquee-track">
-        {%- for n in (1..8) -%}
-          <span class="sa-partners__marquee-word">{{ mq }}</span>
-          <span class="sa-partners__marquee-star">✦</span>
+      <svg
+        class="sa-vbento__ring"
+        viewBox="0 0 400 400"
+        fill="none">
+        <g
+          stroke="#55823d"
+          fill="none"
+          stroke-linecap="round">
+        <circle
+          cx="200"
+          cy="200"
+          r="150"
+          stroke-width="1" />
+        {%- for i in (0..11) -%}
+          {%- assign rot = forloop.index0 | times: 30 -%}
+          <g transform="rotate({{ rot }} 200 200)">
+            <path
+              d="M200 50 C188 66 182 80 186 94 C190 102 200 104 206 98 C212 92 214 76 200 50Z"
+              stroke-width="0.9"
+              opacity="0.5" />
+          </g>
         {%- endfor -%}
-      </div>
-    </div>
-
-    <div class="sa-partners__inner">
-      <div class="sa-partners__header" data-reveal>
-        <p class="sa-partners__eyebrow">{{ 'san.about.partners.eyebrow' | t }}</p>
-        {%- assign p_heading = 'san.about.partners.heading' | t -%}
-        <h2 class="sa-partners__heading">
-          {%- assign php = p_heading | split: '|' -%}
-          {%- for part in php -%}
-            {%- if forloop.index == 2 -%}<em>{{ part }}</em>{%- else -%}{{ part }}{%- endif -%}
-          {%- endfor -%}
-        </h2>
-        <p class="sa-partners__intro">{{ 'san.about.partners.intro' | t }}</p>
-      </div>
-
-      {%- comment -%} Tabbed channel explorer with 3D panels {%- endcomment -%}
-      <div class="sa-partners__tabs" data-partner-tabs data-reveal>
-        <div class="sa-partners__tablist" role="tablist" aria-label="{{ 'san.about.partners.eyebrow' | t | escape }}">
-          {%- for i in (1..4) -%}
-            {%- assign t_key = 'san.about.partners.c' | append: i | append: '.title' -%}
-            <button class="sa-partners__tab{% if forloop.first %} is-active{% endif %}"
-                    type="button"
-                    role="tab"
-                    id="ptab-{{ section.id }}-{{ i }}"
-                    aria-controls="ppanel-{{ section.id }}-{{ i }}"
-                    aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                    tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
-                    data-partner-tab="{{ forloop.index0 }}">
-              <span class="sa-partners__tab-ico" aria-hidden="true">
-                {%- case i -%}
-                  {%- when 1 -%}<svg viewBox="0 0 48 48" fill="none"><path d="M6 20 L9 10 H39 L42 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 20 V40 H39 V20" stroke="currentColor" stroke-width="1.5"/><rect x="20" y="29" width="9" height="11" stroke="currentColor" stroke-width="1.3"/></svg>
-                  {%- when 2 -%}<svg viewBox="0 0 48 48" fill="none"><path d="M10 18 H38 L35 40 H13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M18 18 L23 9 M30 18 L25 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M19 24 V34 M24 24 V34 M29 24 V34" stroke="currentColor" stroke-width="1.1"/></svg>
-                  {%- when 3 -%}<svg viewBox="0 0 48 48" fill="none"><rect x="8" y="8" width="32" height="32" rx="5" stroke="currentColor" stroke-width="1.5"/><path d="M24 16 V32 M16 24 H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                  {%- when 4 -%}<svg viewBox="0 0 48 48" fill="none"><rect x="5" y="15" width="22" height="17" stroke="currentColor" stroke-width="1.5"/><path d="M27 20 H36 L42 26 V32 H27Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="14" cy="36" r="3.4" stroke="currentColor" stroke-width="1.4"/><circle cx="34" cy="36" r="3.4" stroke="currentColor" stroke-width="1.4"/></svg>
-                {%- endcase -%}
-              </span>
-              <span class="sa-partners__tab-label">{{ t_key | t }}</span>
-            </button>
-          {%- endfor -%}
-        </div>
-
-        <div class="sa-partners__stage" data-partner-stage>
-          {%- for i in (1..4) -%}
-            {%- assign p_title = 'san.about.partners.c' | append: i | append: '.title' -%}
-            {%- assign p_text = 'san.about.partners.c' | append: i | append: '.text' -%}
-            <div class="sa-partners__panel{% if forloop.first %} is-active{% endif %}"
-                 role="tabpanel"
-                 id="ppanel-{{ section.id }}-{{ i }}"
-                 aria-labelledby="ptab-{{ section.id }}-{{ i }}"
-                 data-partner-panel="{{ forloop.index0 }}"
-                 {% unless forloop.first %}hidden{% endunless %}>
-              <div class="sa-partners__panel-3d">
-                <div class="sa-partners__panel-ico" aria-hidden="true">
-                  {%- case i -%}
-                    {%- when 1 -%}<svg viewBox="0 0 48 48" fill="none"><path class="sa-partners__ico-draw" pathLength="1" d="M6 20 L9 10 H39 L42 20Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path class="sa-partners__ico-draw" pathLength="1" d="M9 20 V40 H39 V20" stroke="currentColor" stroke-width="1.5"/><rect x="20" y="29" width="9" height="11" stroke="currentColor" stroke-width="1.3"/></svg>
-                    {%- when 2 -%}<svg viewBox="0 0 48 48" fill="none"><path class="sa-partners__ico-draw" pathLength="1" d="M10 18 H38 L35 40 H13Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M18 18 L23 9 M30 18 L25 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M19 24 V34 M24 24 V34 M29 24 V34" stroke="currentColor" stroke-width="1.1"/></svg>
-                    {%- when 3 -%}<svg viewBox="0 0 48 48" fill="none"><rect class="sa-partners__ico-draw" pathLength="1" x="8" y="8" width="32" height="32" rx="5" stroke="currentColor" stroke-width="1.5"/><path d="M24 16 V32 M16 24 H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                    {%- when 4 -%}<svg viewBox="0 0 48 48" fill="none"><rect class="sa-partners__ico-draw" pathLength="1" x="5" y="15" width="22" height="17" stroke="currentColor" stroke-width="1.5"/><path d="M27 20 H36 L42 26 V32 H27Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="14" cy="36" r="3.4" stroke="currentColor" stroke-width="1.4"/><circle cx="34" cy="36" r="3.4" stroke="currentColor" stroke-width="1.4"/></svg>
-                  {%- endcase -%}
-                </div>
-                <span class="sa-partners__panel-num" aria-hidden="true">0{{ i }}</span>
-                <h3 class="sa-partners__panel-title">{{ p_title | t }}</h3>
-                <p class="sa-partners__panel-text">{{ p_text | t }}</p>
-              </div>
-            </div>
-          {%- endfor -%}
-        </div>
-      </div>
-
-      {%- comment -%} Wholesale CTA — real WhatsApp + email from the PDF {%- endcomment -%}
-      <div class="sa-partners__cta" data-reveal>
-        <p class="sa-partners__cta-title">{{ 'san.about.partners.cta_title' | t }}</p>
-        <p class="sa-partners__cta-text">{{ 'san.about.partners.cta_text' | t }}</p>
-        <div class="sa-partners__cta-actions">
-          {%- if wa_digits != blank -%}
-            <a class="sa-partners__btn sa-partners__btn--primary"
-               href="https://wa.me/{{ wa_digits }}" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.45-.15-.64.15-.19.29-.74.93-.9 1.12-.17.19-.33.21-.62.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.04-.17-.29-.02-.45.13-.6.13-.13.3-.34.44-.5.15-.17.2-.29.3-.48.1-.19.05-.36-.02-.5-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38s1.02 2.76 1.17 2.95c.15.19 2.01 3.06 4.87 4.29.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34z"/><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.18-3 .94.95-2.92-.2-.31A8.2 8.2 0 1 1 12 20.2z"/></svg>
-              {{ 'san.about.partners.cta_whatsapp' | t }}
-            </a>
-          {%- endif -%}
-          {%- if section.settings.partners_email != blank -%}
-            <a class="sa-partners__btn sa-partners__btn--ghost"
-               href="mailto:{{ section.settings.partners_email }}">
-              {{ 'san.about.partners.cta_email' | t }}
-            </a>
-          {%- endif -%}
-        </div>
-      </div>
-    </div>
+      </g>
+    </svg>
   </div>
 
-</section>
+  <div class="sa-vbento__inner">
+    <div class="sa-vbento__header" data-reveal>
+      <p class="sa-vbento__eyebrow">{{ 'san.about.values.eyebrow' | t }}</p>
+      {%- assign v_heading = 'san.about.values.heading' | t -%}
+      <h2 class="sa-vbento__heading">
+        {%- assign vhp = v_heading | split: '|' -%}
+        {%- for part in vhp -%}
+          {%- if forloop.index == 2 -%}
+            <em>{{ part }}</em>
+          {%- else -%}
+            {{ part }}{%- endif -%}
+        {%- endfor -%}
+      </h2>
+      <p class="sa-vbento__hint">{{ 'san.about.values.hint' | t }}</p>
+    </div>
+
+    <div class="sa-vbento__grid" data-reveal>
+
+      {%- comment -%} ── 01 · Calidad (featured / large) ── {%- endcomment -%}
+      <article
+        class="sa-vtile sa-vtile--a sa-vtile--lg"
+        data-vtile
+        style="--i: 0;">
+        <span class="sa-vtile__spot" aria-hidden="true"></span>
+        <span class="sa-vtile__num" aria-hidden="true">01</span>
+        <div class="sa-vtile__inner">
+          <div class="sa-vtile__icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" fill="none">
+              <circle
+                class="sa-vtile__icon-draw"
+                pathLength="1"
+                cx="28"
+                cy="23"
+                r="14"
+                stroke="currentColor"
+                stroke-width="1.4" />
+              <path
+                class="sa-vtile__icon-draw"
+                pathLength="1"
+                d="M22 23 l4 4 l8 -9"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M20 35 l-3 13 l11 -6 l11 6 l-3 -13"
+                stroke="currentColor"
+                stroke-width="1.2"
+                opacity="0.55" />
+            </svg>
+          </div>
+          <div class="sa-vtile__body">
+            <h3 class="sa-vtile__title">{{ 'san.about.values.v1.title' | t }}</h3>
+            <p class="sa-vtile__text">{{ 'san.about.values.v1.text' | t }}</p>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ── 02 · Compromiso con lo natural ── {%- endcomment -%}
+      <article
+        class="sa-vtile sa-vtile--b"
+        data-vtile
+        style="--i: 1;">
+        <span class="sa-vtile__spot" aria-hidden="true"></span>
+        <span class="sa-vtile__num" aria-hidden="true">02</span>
+        <div class="sa-vtile__inner">
+          <div class="sa-vtile__icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" fill="none">
+              <path
+                class="sa-vtile__icon-draw"
+                pathLength="1"
+                d="M28 46 C28 36 28 30 28 22"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round" />
+              <path
+                d="M28 30 C20 30 14 24 14 16 C24 16 28 22 28 30Z"
+                stroke="currentColor"
+                stroke-width="1.3" />
+              <path
+                d="M28 26 C36 26 42 20 42 12 C32 12 28 18 28 26Z"
+                stroke="currentColor"
+                stroke-width="1.3" />
+            </svg>
+          </div>
+          <div class="sa-vtile__body">
+            <h3 class="sa-vtile__title">{{ 'san.about.values.v2.title' | t }}</h3>
+            <p class="sa-vtile__text">{{ 'san.about.values.v2.text' | t }}</p>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ── 03 · Confianza ── {%- endcomment -%}
+      <article
+        class="sa-vtile sa-vtile--c"
+        data-vtile
+        style="--i: 2;">
+        <span class="sa-vtile__spot" aria-hidden="true"></span>
+        <span class="sa-vtile__num" aria-hidden="true">03</span>
+        <div class="sa-vtile__inner">
+          <div class="sa-vtile__icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" fill="none">
+              <path
+                class="sa-vtile__icon-draw"
+                pathLength="1"
+                d="M28 8 L44 14 V28 C44 38 37 45 28 48 C19 45 12 38 12 28 V14 Z"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linejoin="round" />
+              <path
+                d="M28 34 C28 34 21 29 21 24 C21 21 24 20 26 22 C27 23 28 24 28 24 C28 24 29 23 30 22 C32 20 35 21 35 24 C35 29 28 34 28 34Z"
+                stroke="currentColor"
+                stroke-width="1.2" />
+            </svg>
+          </div>
+          <div class="sa-vtile__body">
+            <h3 class="sa-vtile__title">{{ 'san.about.values.v3.title' | t }}</h3>
+            <p class="sa-vtile__text">{{ 'san.about.values.v3.text' | t }}</p>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ── 04 · Innovación ── {%- endcomment -%}
+      <article
+        class="sa-vtile sa-vtile--d"
+        data-vtile
+        style="--i: 3;">
+        <span class="sa-vtile__spot" aria-hidden="true"></span>
+        <span class="sa-vtile__num" aria-hidden="true">04</span>
+        <div class="sa-vtile__inner">
+          <div class="sa-vtile__icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" fill="none">
+              <path
+                class="sa-vtile__icon-draw"
+                pathLength="1"
+                d="M28 14 C30 22 34 26 42 28 C34 30 30 34 28 42 C26 34 22 30 14 28 C22 26 26 22 28 14Z"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linejoin="round" />
+              <circle
+                cx="44"
+                cy="14"
+                r="2"
+                fill="currentColor"
+                opacity="0.6" />
+              <circle
+                cx="13"
+                cy="44"
+                r="1.6"
+                fill="currentColor"
+                opacity="0.45" />
+            </svg>
+          </div>
+          <div class="sa-vtile__body">
+            <h3 class="sa-vtile__title">{{ 'san.about.values.v4.title' | t }}</h3>
+            <p class="sa-vtile__text">{{ 'san.about.values.v4.text' | t }}</p>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ── 05 · Servicio al cliente ── {%- endcomment -%}
+      <article
+        class="sa-vtile sa-vtile--e"
+        data-vtile
+        style="--i: 4;">
+        <span class="sa-vtile__spot" aria-hidden="true"></span>
+        <span class="sa-vtile__num" aria-hidden="true">05</span>
+        <div class="sa-vtile__inner">
+          <div class="sa-vtile__icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" fill="none">
+              <path
+                class="sa-vtile__icon-draw"
+                pathLength="1"
+                d="M12 16 H44 V36 H26 L18 44 V36 H12 Z"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linejoin="round" />
+              <path
+                d="M28 31 C28 31 23 28 23 24.5 C23 22.5 25 22 26.4 23.2 C27.2 23.9 28 24.7 28 24.7 C28 24.7 28.8 23.9 29.6 23.2 C31 22 33 22.5 33 24.5 C33 28 28 31 28 31Z"
+                stroke="currentColor"
+                stroke-width="1.1" />
+            </svg>
+          </div>
+          <div class="sa-vtile__body">
+            <h3 class="sa-vtile__title">{{ 'san.about.values.v5.title' | t }}</h3>
+            <p class="sa-vtile__text">{{ 'san.about.values.v5.text' | t }}</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</div>
 
 
 {%- comment -%} ═══════ JAVASCRIPT ═══════ {%- endcomment -%}
@@ -587,59 +697,61 @@
 
 
 {% schema %}
-{
-  "name": "Sobre Nosotros",
-  "tag": "section",
-  "class": "san-about-section",
-  "settings": [
-    {
-      "type": "paragraph",
-      "content": "Los textos de esta página se editan en Configuración del tema → Idiomas (claves san.about.*). Las imágenes y los datos de contacto se editan aquí."
-    },
-    {
-      "type": "header",
-      "content": "Distribuidores / Aliados"
-    },
-    {
-      "type": "text",
-      "id": "partners_whatsapp",
-      "label": "WhatsApp (número)",
-      "info": "Se usa para el botón de mayoreo. Ej: +1 818 532 1110",
-      "default": "+1 818 532 1110"
-    },
-    {
-      "type": "text",
-      "id": "partners_email",
-      "label": "Correo electrónico",
-      "default": "info@sanaalnatural.com"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "story",
-      "name": "Historia (imágenes)",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Imagen principal"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_2",
-          "label": "Imagen secundaria (pequeña)"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Sobre Nosotros",
-      "blocks": [
-        { "type": "story" }
-      ]
-    }
-  ]
-}
+  {
+    "name": "Sobre Nosotros",
+    "tag": "section",
+    "class": "san-about-section",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Los textos de esta página se editan en Configuración del tema → Idiomas (claves san.about.*). Las imágenes y los datos de contacto se editan aquí."
+      },
+      {
+        "type": "header",
+        "content": "Distribuidores / Aliados"
+      },
+      {
+        "type": "text",
+        "id": "partners_whatsapp",
+        "label": "WhatsApp (número)",
+        "info": "Se usa para el botón de mayoreo. Ej: +1 818 532 1110",
+        "default": "+1 818 532 1110"
+      },
+      {
+        "type": "text",
+        "id": "partners_email",
+        "label": "Correo electrónico",
+        "default": "info@sanaalnatural.com"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "story",
+        "name": "Historia (imágenes)",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Imagen principal"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_2",
+            "label": "Imagen secundaria (pequeña)"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Sobre Nosotros",
+        "blocks": [
+          {
+            "type": "story"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}

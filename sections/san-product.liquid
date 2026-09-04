@@ -1,0 +1,611 @@
+{{ 'section-san-product.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign product_form_id = 'san-product-form-' | append: section.id
+  assign has_plans = false
+  if section.settings.show_selling_plans and product.selling_plan_groups.size > 0
+    assign has_plans = true
+  endif
+-%}
+
+<san-product class="san-product" id="san-product-{{ section.id }}">
+  <div class="san-product__inner">
+    <div class="san-product__grid">
+
+      <!-- ============================== Gallery ============================== -->
+      <div class="san-product__gallery san-reveal san-reveal--up">
+        {%- if product.media.size > 0 -%}
+          {%- assign featured = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+          {%- assign featured_index = featured.position | default: 1 | minus: 1 -%}
+          <div
+            class="san-product__stage san-product__stage--zoomable"
+            data-zoom-open
+            role="button"
+            tabindex="0"
+            aria-haspopup="dialog"
+            aria-label="{{ 'san.product.zoom_open' | t }}"
+          >
+            <img
+              class="san-product__stage-img"
+              src="{{ featured.preview_image | image_url: width: 900 }}"
+              srcset="
+                {{ featured.preview_image | image_url: width: 600 }} 600w,
+                {{ featured.preview_image | image_url: width: 900 }} 900w,
+                {{ featured.preview_image | image_url: width: 1400 }} 1400w
+              "
+              sizes="(min-width: 990px) 50vw, 100vw"
+              width="{{ featured.preview_image.width }}"
+              height="{{ featured.preview_image.height }}"
+              alt="{{ featured.preview_image.alt | default: product.title | escape }}"
+              data-media-index="{{ featured_index }}"
+            >
+            <span class="san-product__zoom-hint" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16" y2="16"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              {{ 'san.product.zoom_hint' | t }}
+            </span>
+          </div>
+        {%- else -%}
+          <div class="san-product__stage">
+            {{ 'product-1' | placeholder_svg_tag: 'san-product__placeholder' }}
+          </div>
+        {%- endif -%}
+
+        {%- if product.media.size > 1 -%}
+          <div class="san-product__thumbs" role="list">
+            {%- for media in product.media limit: 8 -%}
+              <button
+                type="button"
+                class="san-product__thumb{% if media.id == featured.id %} is-active{% endif %}"
+                data-media-index="{{ forloop.index0 }}"
+                data-full="{{ media.preview_image | image_url: width: 900 }}"
+                data-srcset="
+                  {{ media.preview_image | image_url: width: 600 }} 600w,
+                  {{ media.preview_image | image_url: width: 900 }} 900w,
+                  {{ media.preview_image | image_url: width: 1400 }} 1400w
+                "
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: media.preview_image.alt | escape }}"
+              >
+                <img
+                  src="{{ media.preview_image | image_url: width: 200 }}"
+                  width="200"
+                  height="200"
+                  loading="lazy"
+                  alt="{{ media.preview_image.alt | escape }}"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- ============================== Info ============================== -->
+      <div class="san-product__info san-reveal san-reveal--up" style="transition-delay: 0.1s;">
+
+        {%- if section.settings.show_badges and product.tags.size > 0 -%}
+          <div class="san-product__badges">
+            {%- for tag in product.tags limit: 3 -%}
+              <span class="san-product__badge">{{ tag }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="san-product__heading">
+          <h1 class="san-product__title">{{ product.title }}</h1>
+
+          {%- assign subtitle = product.metafields.descriptors.subtitle | default: product.metafields.custom.subtitle -%}
+          {%- if subtitle != blank -%}
+            <p class="san-product__subtitle">{{ subtitle }}</p>
+          {%- elsif section.settings.subtitle != blank -%}
+            <p class="san-product__subtitle">{{ section.settings.subtitle }}</p>
+          {%- endif -%}
+
+          <div class="san-product__price" data-price>
+            <span class="san-product__price-current">{{ current_variant.price | money }}</span>
+            {%- if current_variant.compare_at_price > current_variant.price -%}
+              <s class="san-product__price-compare">{{ current_variant.compare_at_price | money }}</s>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <hr class="san-product__divider">
+
+        {%- form 'product', product, id: product_form_id, class: 'san-product__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+          <input
+            type="hidden"
+            name="id"
+            value="{{ current_variant.id }}"
+            data-variant-id
+            {% if current_variant.available == false %}disabled{% endif %}
+          >
+
+          {%- if has_plans -%}
+            <input type="hidden" name="selling_plan" value="" data-selling-plan disabled>
+
+            <fieldset class="san-product__plans">
+              <legend class="visually-hidden">{{ section.settings.plans_legend | default: 'Opciones de compra' }}</legend>
+
+              <label class="san-product__plan is-selected">
+                <input type="radio" name="san-purchase-option" value="" checked data-plan-radio>
+                <span class="san-product__plan-body">
+                  <span class="san-product__plan-name">{{ section.settings.onetime_label | default: 'Compra única' }}</span>
+                  <span class="san-product__plan-note">{{ current_variant.price | money }}</span>
+                </span>
+              </label>
+
+              {%- for allocation in current_variant.selling_plan_allocations -%}
+                <label class="san-product__plan">
+                  <input type="radio" name="san-purchase-option" value="{{ allocation.selling_plan.id }}" data-plan-radio>
+                  <span class="san-product__plan-body">
+                    <span class="san-product__plan-name">{{ allocation.selling_plan.name }}</span>
+                    {%- if allocation.selling_plan.description != blank -%}
+                      <span class="san-product__plan-note">{{ allocation.selling_plan.description }}</span>
+                    {%- endif -%}
+                  </span>
+                  <span class="san-product__plan-price">{{ allocation.price | money }}</span>
+                </label>
+              {%- endfor -%}
+            </fieldset>
+          {%- endif -%}
+
+          {%- unless product.has_only_default_variant -%}
+            <div class="san-product__field">
+              <label class="san-product__label" for="san-variant-{{ section.id }}">
+                {{ product.options | join: ' / ' | default: 'Presentación' }}
+              </label>
+              <div class="san-product__select-wrap">
+                <select id="san-variant-{{ section.id }}" class="san-product__select" data-variant-select>
+                  {%- for variant in product.variants -%}
+                    <option
+                      value="{{ variant.id }}"
+                      data-price="{{ variant.price | money }}"
+                      data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
+                      {% if variant.available == false %}data-unavailable{% endif %}
+                      {% if variant.id == current_variant.id %}selected{% endif %}
+                    >
+                      {{ variant.title }}{% if variant.available == false %} — Agotado{% endif %}
+                    </option>
+                  {%- endfor -%}
+                </select>
+                <svg class="san-product__select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+          {%- endunless -%}
+
+          <div class="san-product__row">
+            {%- if section.settings.show_quantity -%}
+              <div class="san-product__qty">
+                <button type="button" class="san-product__qty-btn" data-qty-minus aria-label="Reducir cantidad">&minus;</button>
+                <input
+                  type="number"
+                  class="san-product__qty-input"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  inputmode="numeric"
+                  aria-label="Cantidad"
+                  data-qty-input
+                >
+                <button type="button" class="san-product__qty-btn" data-qty-plus aria-label="Aumentar cantidad">+</button>
+              </div>
+            {%- endif -%}
+
+            <button
+              type="submit"
+              name="add"
+              class="san-product__atc"
+              data-atc
+              {% if current_variant.available == false %}disabled{% endif %}
+            >
+              <span data-atc-label>
+                {%- if current_variant.available -%}
+                  {{ section.settings.atc_label | default: 'Añadir al carrito' }}
+                {%- else -%}
+                  Agotado
+                {%- endif -%}
+              </span>
+              <svg class="san-product__atc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        {%- endform -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="san-product__accordions">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'description' -%}
+                  {%- if product.description != blank -%}
+                    <details class="san-product__acc" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+                      <summary class="san-product__acc-summary">
+                        {{ block.settings.title | default: 'Descripción' }}
+                        <svg class="san-product__acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                      </summary>
+                      <div class="san-product__acc-content">{{ product.description }}</div>
+                    </details>
+                  {%- endif -%}
+                {%- when 'accordion' -%}
+                  {%- if block.settings.content != blank -%}
+                    <details class="san-product__acc" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+                      <summary class="san-product__acc-summary">
+                        {{ block.settings.title }}
+                        <svg class="san-product__acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                      </summary>
+                      <div class="san-product__acc-content">{{ block.settings.content }}</div>
+                    </details>
+                  {%- endif -%}
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+  {%- if product.media.size > 0 -%}
+    <script type="application/json" data-zoom-media>
+      [
+        {%- for media in product.media -%}
+          {
+            "src": {{ media.preview_image | image_url: width: 1800 | json }},
+            "alt": {{ media.preview_image.alt | default: product.title | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    </script>
+
+    <div
+      class="san-zoom"
+      data-zoom
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-label="{{ product.title | escape }}"
+      data-counter-template="{{ 'san.product.zoom_counter' | t: index: '§i', total: '§t' }}"
+    >
+      <div class="san-zoom__backdrop" data-zoom-close></div>
+
+      <div class="san-zoom__viewport" data-zoom-viewport>
+        <img class="san-zoom__img" data-zoom-img src="" alt="" aria-label="{{ 'san.product.zoom_in' | t }}">
+      </div>
+
+      <button type="button" class="san-zoom__close" data-zoom-close-btn aria-label="{{ 'san.product.zoom_close' | t }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      </button>
+
+      {%- if product.media.size > 1 -%}
+        <button type="button" class="san-zoom__nav san-zoom__nav--prev" data-zoom-prev aria-label="{{ 'san.product.zoom_prev' | t }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14 5 7 12 14 19"/></svg>
+        </button>
+        <button type="button" class="san-zoom__nav san-zoom__nav--next" data-zoom-next aria-label="{{ 'san.product.zoom_next' | t }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 5 17 12 10 19"/></svg>
+        </button>
+      {%- endif -%}
+
+      <p class="san-zoom__caption">
+        <span class="san-zoom__caption-title">{{ product.title }}</span>
+        {%- if product.media.size > 1 -%}
+          <span class="san-zoom__counter" data-zoom-counter aria-hidden="true"></span>
+          <span class="visually-hidden" data-zoom-counter-sr aria-live="polite"></span>
+        {%- endif -%}
+      </p>
+    </div>
+  {%- endif -%}
+</san-product>
+
+{%- render 'san-recently-viewed', product: product -%}
+
+<script>
+  if (!customElements.get('san-product')) {
+    class SanProduct extends HTMLElement {
+      connectedCallback() {
+        this.stageImg = this.querySelector('.san-product__stage-img');
+        this.idInput = this.querySelector('[data-variant-id]');
+        this.planInput = this.querySelector('[data-selling-plan]');
+        this.priceEl = this.querySelector('[data-price]');
+        this.atcBtn = this.querySelector('[data-atc]');
+        this.atcLabel = this.querySelector('[data-atc-label]');
+
+        // Thumbnails → swap main image
+        this.querySelectorAll('.san-product__thumb').forEach((thumb) => {
+          thumb.addEventListener('click', () => {
+            if (!this.stageImg) return;
+            this.stageImg.src = thumb.dataset.full;
+            this.stageImg.srcset = thumb.dataset.srcset || '';
+            this.stageImg.dataset.mediaIndex = thumb.dataset.mediaIndex || '0';
+            const img = thumb.querySelector('img');
+            if (img) this.stageImg.alt = img.alt;
+            this.querySelectorAll('.san-product__thumb').forEach((t) => t.classList.remove('is-active'));
+            thumb.classList.add('is-active');
+          });
+        });
+
+        this.initZoom();
+
+        // Selling-plan radios → hidden selling_plan input
+        this.querySelectorAll('[data-plan-radio]').forEach((radio) => {
+          radio.addEventListener('change', () => {
+            this.querySelectorAll('.san-product__plan').forEach((card) => {
+              card.classList.toggle('is-selected', card.contains(radio) && radio.checked);
+            });
+            if (!this.planInput) return;
+            if (radio.value) {
+              this.planInput.value = radio.value;
+              this.planInput.disabled = false;
+            } else {
+              this.planInput.value = '';
+              this.planInput.disabled = true;
+            }
+          });
+        });
+
+        // Variant select → id input, price, availability
+        const select = this.querySelector('[data-variant-select]');
+        if (select) {
+          select.addEventListener('change', () => {
+            const opt = select.selectedOptions[0];
+            if (!opt) return;
+            this.idInput.value = opt.value;
+            const unavailable = opt.hasAttribute('data-unavailable');
+            this.idInput.disabled = unavailable;
+            if (this.atcBtn) this.atcBtn.disabled = unavailable;
+            if (this.atcLabel) {
+              this.atcLabel.textContent = unavailable ? 'Agotado' : (this.atcLabel.dataset.default || this.atcLabel.textContent);
+            }
+            if (this.priceEl) {
+              let html = '<span class="san-product__price-current">' + opt.dataset.price + '</span>';
+              if (opt.dataset.compare) {
+                html += ' <s class="san-product__price-compare">' + opt.dataset.compare + '</s>';
+              }
+              this.priceEl.innerHTML = html;
+            }
+          });
+          if (this.atcLabel) this.atcLabel.dataset.default = this.atcLabel.textContent.trim();
+        }
+
+        // Quantity stepper
+        const qty = this.querySelector('[data-qty-input]');
+        const step = (delta) => {
+          if (!qty) return;
+          const next = Math.max(1, (parseInt(qty.value, 10) || 1) + delta);
+          qty.value = next;
+        };
+        const minus = this.querySelector('[data-qty-minus]');
+        const plus = this.querySelector('[data-qty-plus]');
+        if (minus) minus.addEventListener('click', () => step(-1));
+        if (plus) plus.addEventListener('click', () => step(1));
+      }
+
+      // ---------------- Zoom: hover magnify + fullscreen lightbox ----------------
+      initZoom() {
+        const stage = this.querySelector('[data-zoom-open]');
+        const modal = this.querySelector('[data-zoom]');
+        if (!stage || !modal) return;
+
+        let media = [];
+        try {
+          media = JSON.parse(this.querySelector('[data-zoom-media]').textContent);
+        } catch (e) {
+          return;
+        }
+        if (!media.length) return;
+
+        const viewport = modal.querySelector('[data-zoom-viewport]');
+        const zoomImg = modal.querySelector('[data-zoom-img]');
+        const closeBtn = modal.querySelector('[data-zoom-close-btn]');
+        const counter = modal.querySelector('[data-zoom-counter]');
+        const counterSr = modal.querySelector('[data-zoom-counter-sr]');
+        const counterTpl = modal.dataset.counterTemplate || '';
+        let index = 0;
+        let lastFocus = null;
+
+        // --- Hover magnify (desktop pointers only, respects reduced motion) ---
+        const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const motionOk = window.matchMedia('(prefers-reduced-motion: no-preference)');
+        if (finePointer.matches && motionOk.matches && this.stageImg) {
+          stage.addEventListener('mousemove', (e) => {
+            const rect = stage.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            this.stageImg.style.transformOrigin = x + '% ' + y + '%';
+          });
+          stage.addEventListener('mouseenter', () => stage.classList.add('is-magnifying'));
+          stage.addEventListener('mouseleave', () => {
+            stage.classList.remove('is-magnifying');
+            this.stageImg.style.transformOrigin = 'center center';
+          });
+        }
+
+        // --- Lightbox ---
+        const show = (i) => {
+          index = (i + media.length) % media.length;
+          viewport.classList.remove('is-zoomed');
+          viewport.scrollTo(0, 0);
+          zoomImg.src = media[index].src;
+          zoomImg.alt = media[index].alt;
+          if (counter) counter.textContent = (index + 1) + ' / ' + media.length;
+          if (counterSr && counterTpl) {
+            counterSr.textContent = counterTpl.replace('§i', index + 1).replace('§t', media.length);
+          }
+        };
+
+        const onKeydown = (e) => {
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowLeft') show(index - 1);
+          if (e.key === 'ArrowRight') show(index + 1);
+        };
+
+        const open = (i) => {
+          lastFocus = document.activeElement;
+          show(i);
+          modal.hidden = false;
+          document.documentElement.classList.add('san-zoom-lock');
+          requestAnimationFrame(() => modal.classList.add('is-open'));
+          document.addEventListener('keydown', onKeydown);
+          if (closeBtn) closeBtn.focus();
+        };
+
+        const close = () => {
+          modal.classList.remove('is-open');
+          document.documentElement.classList.remove('san-zoom-lock');
+          document.removeEventListener('keydown', onKeydown);
+          const done = () => {
+            modal.hidden = true;
+            if (lastFocus) lastFocus.focus();
+          };
+          if (motionOk.matches) {
+            modal.addEventListener('transitionend', done, { once: true });
+            setTimeout(done, 450); // safety net if transitionend never fires
+          } else {
+            done();
+          }
+        };
+
+        stage.addEventListener('click', () => {
+          open(parseInt(this.stageImg && this.stageImg.dataset.mediaIndex, 10) || 0);
+        });
+        stage.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(parseInt(this.stageImg && this.stageImg.dataset.mediaIndex, 10) || 0);
+          }
+        });
+
+        modal.querySelectorAll('[data-zoom-close]').forEach((el) => el.addEventListener('click', close));
+        if (closeBtn) closeBtn.addEventListener('click', close);
+        const prev = modal.querySelector('[data-zoom-prev]');
+        const next = modal.querySelector('[data-zoom-next]');
+        if (prev) prev.addEventListener('click', () => show(index - 1));
+        if (next) next.addEventListener('click', () => show(index + 1));
+
+        // Tap the image → toggle close-up; scroll centers on the tapped point.
+        zoomImg.addEventListener('click', (e) => {
+          const zoomed = viewport.classList.toggle('is-zoomed');
+          if (zoomed) {
+            const relX = e.offsetX / zoomImg.offsetWidth || 0.5;
+            const relY = e.offsetY / zoomImg.offsetHeight || 0.5;
+            requestAnimationFrame(() => {
+              viewport.scrollLeft = zoomImg.offsetWidth * relX - viewport.clientWidth / 2;
+              viewport.scrollTop = zoomImg.offsetHeight * relY - viewport.clientHeight / 2;
+            });
+          } else {
+            viewport.scrollTo(0, 0);
+          }
+        });
+      }
+    }
+    customElements.define('san-product', SanProduct);
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Producto (Sana)",
+  "tag": "section",
+  "class": "san-product-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "label": "Mostrar etiquetas del producto como badges",
+      "info": "Usa las primeras 3 etiquetas (tags) del producto.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo por defecto",
+      "info": "Se usa si el producto no tiene el metafield descriptors.subtitle o custom.subtitle."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity",
+      "label": "Mostrar selector de cantidad",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Opciones de compra"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_selling_plans",
+      "label": "Mostrar planes de suscripción",
+      "info": "Requiere una app de suscripciones con selling plans configurados.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "plans_legend",
+      "label": "Título de las opciones de compra",
+      "default": "Opciones de compra"
+    },
+    {
+      "type": "text",
+      "id": "onetime_label",
+      "label": "Etiqueta de compra única",
+      "default": "Compra única"
+    },
+    {
+      "type": "text",
+      "id": "atc_label",
+      "label": "Texto del botón",
+      "default": "Añadir al carrito"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Descripción del producto",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Descripción"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Abierto por defecto",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Acordeón",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título",
+          "default": "Cómo usar"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Contenido",
+          "default": "<p>Toma dos cápsulas al día con agua, preferiblemente por la mañana. Para mejores resultados, recomendamos un uso continuado durante al menos 8 semanas.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Abierto por defecto",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Producto (Sana)",
+      "blocks": [
+        { "type": "description" },
+        { "type": "accordion" }
+      ]
+    }
+  ]
+}
+{% endschema %}

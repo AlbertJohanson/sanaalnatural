@@ -63,10 +63,12 @@
    TOP — statement + newsletter
    ================================================================ */
 
+/* Masthead: the brand block holds the left third, the link columns the rest,
+   so the footer reads as one row instead of a stack of full-width bands. */
 .san-footer__top {
   display: grid;
-  grid-template-columns: 1.35fr 1fr;
-  gap: 5rem;
+  grid-template-columns: minmax(26rem, 1fr) minmax(0, 2.1fr);
+  gap: 5rem 6.5rem;
   align-items: start;
 }
 
@@ -255,11 +257,13 @@
    LINK COLUMNS
    ================================================================ */
 
+/* Sits in the masthead's right cell. auto-fit keeps it honest as blocks are
+   added or removed: Explore + Policies + Disclaimers lands on three. */
 .san-footer__cols {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: 3rem 4rem;
-  margin-top: 5.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 3.5rem 3.5rem;
+  margin-top: 0;
 }
 
 .san-footer__col-heading {
@@ -322,6 +326,34 @@
 
 .san-footer__col-text a {
   color: #afea90;
+}
+
+.san-footer__col-list a:focus-visible {
+  outline: 2px solid #afea90;
+  outline-offset: 4px;
+}
+
+/* ---- Nested menu: one block laid out as several columns ---- */
+.san-footer__col-group {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 3rem 4rem;
+}
+
+.san-footer__col-heading a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-footer__col-heading a:hover {
+  color: #ffffff;
+}
+
+.san-footer__col-heading a:focus-visible {
+  outline: 2px solid #afea90;
+  outline-offset: 4px;
 }
 
 /* ================================================================
@@ -473,8 +505,10 @@
     max-width: 48rem;
   }
 
+  /* Brand stacks above the links here — the grid gap already spaces them,
+     so the columns must not add a margin of their own. */
   .san-footer__cols {
-    margin-top: 4.5rem;
+    margin-top: 0;
   }
 }
 
@@ -491,10 +525,24 @@
     padding: 2.6rem 2rem;
   }
 
+  /* Two columns still fit; document names wrap to a second line rather than
+     being cut, which is why the list gets more room between items here. */
   .san-footer__cols {
     grid-template-columns: 1fr 1fr;
     gap: 3rem 2rem;
-    margin-top: 4rem;
+  }
+
+  .san-footer__col-group {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2rem;
+  }
+
+  .san-footer__col-list li {
+    margin-bottom: 1.3rem;
+  }
+
+  .san-footer__col-list a {
+    font-size: 1.4rem;
   }
 
   .san-footer__divider {
@@ -514,7 +562,8 @@
 }
 
 @media screen and (max-width: 479px) {
-  .san-footer__cols {
+  .san-footer__cols,
+  .san-footer__col-group {
     grid-template-columns: 1fr;
   }
 }
@@ -524,7 +573,10 @@
    ================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .san-footer__social-link {
+  .san-footer__social-link,
+  .san-footer__col-list a,
+  .san-footer__col-list a::before,
+  .san-footer__col-heading a {
     transition: none;
   }
 }

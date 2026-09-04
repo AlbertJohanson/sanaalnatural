@@ -26,7 +26,7 @@
     if (fmt && /\{\{\s*amount_no_decimals\s*\}\}/.test(fmt)) {
       return fmt.replace(/\{\{\s*amount_no_decimals\s*\}\}/, withCommas.split('.')[0]);
     }
-    return 'Q' + withCommas;
+    return '$' + withCommas;
   }
 
   // Resize a Shopify CDN image URL by adding a width param
@@ -63,6 +63,12 @@
       this.countEl = this.querySelector('[data-count]');
       this.errorsEl = this.querySelector('[data-errors]');
       this.cartDiscountsEl = this.querySelector('[data-cart-discounts]');
+
+      // Localized strings — supplied by the Liquid snippet via data attributes
+      this.strings = {
+        errorAdd: this.getAttribute('data-error-add') || '',
+        errorUpdate: this.getAttribute('data-error-update') || '',
+      };
 
       // Parse initial cart state passed in via data-cart attribute
       try {
@@ -180,7 +186,7 @@
         });
         const addData = await addRes.json();
         if (addData.status && addData.status >= 400) {
-          this.showError(addData.description || addData.message || 'No pudimos agregar este producto.');
+          this.showError(addData.description || addData.message || this.strings.errorAdd);
           return;
         }
 
@@ -202,7 +208,7 @@
         );
       } catch (e) {
         console.error('[san-cart-drawer] add failed', e);
-        this.showError('No pudimos agregar este producto. Intenta de nuevo.');
+        this.showError(this.strings.errorAdd);
       } finally {
         if (submitBtn) {
           submitBtn.classList.remove('loading');
@@ -239,7 +245,7 @@
         );
       } catch (e) {
         console.error('[san-cart-drawer] change failed', e);
-        this.showError('No pudimos actualizar el carrito.');
+        this.showError(this.strings.errorUpdate);
         if (itemEl) itemEl.removeAttribute('data-loading');
       }
     }

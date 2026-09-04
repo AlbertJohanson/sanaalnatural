@@ -1,0 +1,432 @@
+{{ 'section-san-bestsellers.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  SANA AL NATURAL — Best sellers
+  Replaces the old tabbed section (categories are covered by `san-categories`).
+
+  Source of truth for "most sold": `collections.all` is sorted best-selling by
+  default in Shopify, so with no collection picked the list *is* the sales rank.
+  A merchant can override with any collection, pin the hero product, or rotate
+  the selection daily while the store has no sales history yet.
+
+  Personalised state: when this section is fetched through
+  /recommendations/products?...&section_id=… the `recommendations` object is
+  populated and the section renders a "Para ti" variant instead. The inline
+  script below performs that swap when the visitor has viewed products before.
+{%- endcomment -%}
+
+{%- liquid
+  assign is_personal = false
+  if recommendations.performed and recommendations.products_count > 0
+    assign is_personal = true
+  endif
+
+  assign grid_count = section.settings.products_to_show
+  assign need = grid_count | plus: 1
+  assign start_at = 0
+  assign hero_manual = false
+
+  if is_personal
+    assign pool = recommendations.products
+  else
+    assign source = section.settings.collection
+    if source.products.size == 0
+      assign source = collections.all
+    endif
+    assign pool = source.products
+
+    if section.settings.hero_product != blank
+      assign hero_product = section.settings.hero_product
+      assign hero_manual = true
+    endif
+
+    if section.settings.rotate_daily
+      assign total = pool.size
+      if total > 50
+        assign total = 50
+      endif
+      if total > need
+        assign span = total | minus: need | plus: 1
+        assign day_of_year = 'now' | date: '%j' | times: 1
+        assign start_at = day_of_year | modulo: span
+      endif
+    endif
+  endif
+
+  comment
+    Rank numbers only mean something when the pool is a real, untouched order.
+  endcomment
+  assign show_ranks = section.settings.show_rank
+  if is_personal or hero_manual or section.settings.rotate_daily
+    assign show_ranks = false
+  endif
+
+  if is_personal
+    assign eyebrow = 'san.bestsellers.personal_eyebrow' | t
+    assign heading = 'san.bestsellers.personal_heading' | t
+    assign description = 'san.bestsellers.personal_description' | t
+    assign hero_badge = 'san.bestsellers.badge_for_you' | t
+  else
+    assign eyebrow = 'san.bestsellers.eyebrow' | t
+    assign heading = 'san.bestsellers.heading' | t
+    assign description = 'san.bestsellers.description' | t
+    if hero_manual or section.settings.rotate_daily
+      assign hero_badge = 'san.bestsellers.badge_featured' | t
+    else
+      assign hero_badge = 'san.bestsellers.badge_top' | t
+    endif
+  endif
+
+  assign fetch_limit = need
+  if fetch_limit > 10
+    assign fetch_limit = 10
+  endif
+-%}
+
+{%- comment -%} Resolve the hero: the pinned product, otherwise the top of the pool. {%- endcomment -%}
+{%- unless hero_manual -%}
+  {%- for product in pool offset: start_at limit: 1 -%}
+    {%- assign hero_product = product -%}
+  {%- endfor -%}
+{%- endunless -%}
+
+{%- style -%}
+  #san-best-{{ section.id }} {
+    --best-cols: {{ section.settings.columns_desktop }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section
+  class="san-best{% if is_personal %} is-personalized{% endif %}"
+  id="san-best-{{ section.id }}"
+  data-san-best
+  data-section-id="{{ section.id }}"
+  data-personalized="{{ is_personal }}"
+  data-personalize="{{ section.settings.enable_personalization }}"
+  data-limit="{{ fetch_limit }}"
+  aria-label="{{ heading | replace: '|', '' | escape }}"
+>
+  <div class="san-best__inner">
+
+    {%- comment -%} ─── Header ─── {%- endcomment -%}
+    <div class="san-best__head san-reveal">
+      <div class="san-best__head-copy">
+        {%- if eyebrow != blank -%}
+          <p class="san-best__eyebrow">{{ eyebrow }}</p>
+        {%- endif -%}
+
+        {%- if heading != blank -%}
+          <h2 class="san-best__heading">
+            {%- assign heading_parts = heading | split: '|' -%}
+            {%- for part in heading_parts -%}
+              {%- if forloop.index == 2 -%}
+                <em class="san-best__heading-accent">{{ part }}</em>
+              {%- else -%}
+                {{ part }}
+              {%- endif -%}
+            {%- endfor -%}
+          </h2>
+        {%- endif -%}
+      </div>
+
+      <div class="san-best__head-aside">
+        {%- if description != blank -%}
+          <p class="san-best__desc">{{ description }}</p>
+        {%- endif -%}
+
+        {%- if section.settings.show_view_all -%}
+          <a href="{{ routes.all_products_collection_url }}" class="san-best__all">
+            {{ 'san.bestsellers.view_all' | t }}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if hero_product != blank -%}
+      <div class="san-best__body">
+
+        {%- comment -%} ─── Hero: the product on its plinth ─── {%- endcomment -%}
+        {%- liquid
+          assign hero_on_sale = false
+          if hero_product.compare_at_price > hero_product.price
+            assign hero_on_sale = true
+          endif
+          assign hero_excerpt = hero_product.description | strip_html | truncatewords: 24
+        -%}
+        <article class="san-best__hero san-reveal san-reveal--left">
+          <a class="san-best__hero-media" href="{{ hero_product.url }}" tabindex="-1" aria-hidden="true">
+            {%- if hero_product.featured_media -%}
+              {{
+                hero_product.featured_media
+                | image_url: width: 1100
+                | image_tag:
+                  class: 'san-best__hero-img',
+                  loading: 'lazy',
+                  widths: '400, 600, 800, 1100',
+                  sizes: '(max-width: 989px) 92vw, 42vw',
+                  alt: hero_product.featured_media.alt | default: hero_product.title | escape
+              }}
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'san-best__hero-ph' }}
+            {%- endif -%}
+          </a>
+
+          <div class="san-best__hero-info">
+            <p class="san-best__hero-badge">{{ hero_badge }}</p>
+
+            <h3 class="san-best__hero-title">
+              <a href="{{ hero_product.url }}">{{ hero_product.title }}</a>
+            </h3>
+
+            {%- if hero_excerpt != blank -%}
+              <p class="san-best__hero-excerpt">{{ hero_excerpt }}</p>
+            {%- endif -%}
+
+            <div class="san-best__hero-foot">
+              <p class="san-best__hero-price">
+                {%- if hero_on_sale -%}
+                  <span class="san-best__hero-price-sale">{{ hero_product.price | money }}</span>
+                  <s class="san-best__hero-price-compare">{{ hero_product.compare_at_price | money }}</s>
+                {%- else -%}
+                  <span>{{ hero_product.price | money }}</span>
+                {%- endif -%}
+              </p>
+
+              <a href="{{ hero_product.url }}" class="san-best__hero-cta">
+                {%- if hero_product.available -%}
+                  {{ 'san.bestsellers.hero_cta' | t }}
+                {%- else -%}
+                  {{ 'san.bestsellers.hero_cta_soldout' | t }}
+                {%- endif -%}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        {%- comment -%} ─── Grid: the rest of the ranking ─── {%- endcomment -%}
+        {%- assign grid_limit = grid_count | plus: 1 -%}
+        {%- assign rendered = 0 -%}
+        <div class="san-best__grid">
+          {%- for product in pool offset: start_at limit: grid_limit -%}
+            {%- if product.id == hero_product.id -%}
+              {%- continue -%}
+            {%- endif -%}
+            {%- if rendered >= grid_count -%}
+              {%- break -%}
+            {%- endif -%}
+            {%- assign rendered = rendered | plus: 1 -%}
+            {%- assign rank = rendered | plus: 1 -%}
+            <div class="san-best__cell san-reveal" style="--card-i: {{ rendered }};">
+              {%- if show_ranks -%}
+                <span class="san-best__rank" aria-hidden="true">
+                  {%- if rank < 10 -%}0{%- endif -%}{{ rank }}
+                </span>
+              {%- endif -%}
+              {%- render 'san-product-card',
+                product: product,
+                show_vendor: section.settings.show_vendor,
+                index: rendered
+              -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+      </div>
+    {%- else -%}
+      <p class="san-best__empty">{{ 'san.bestsellers.empty' | t }}</p>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    var KEY = 'san:recently-viewed';
+
+    function personalize(el) {
+      if (el.dataset.personalize !== 'true') return;
+      if (el.dataset.personalized === 'true') return;
+      if (el.dataset.sanBestDone === 'true') return;
+      el.dataset.sanBestDone = 'true';
+
+      var ids;
+      try {
+        ids = JSON.parse(localStorage.getItem(KEY) || '[]');
+      } catch (e) {
+        return;
+      }
+      if (!Array.isArray(ids) || ids.length === 0) return;
+
+      var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+      var url =
+        root +
+        'recommendations/products?product_id=' +
+        encodeURIComponent(ids[0]) +
+        '&intent=related&limit=' +
+        encodeURIComponent(el.dataset.limit) +
+        '&section_id=' +
+        encodeURIComponent(el.dataset.sectionId);
+
+      fetch(url)
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.status);
+          return res.text();
+        })
+        .then(function (text) {
+          var next = new DOMParser().parseFromString(text, 'text/html').querySelector('[data-san-best]');
+          // Nothing related came back — the best sellers already on screen stay.
+          if (!next || next.dataset.personalized !== 'true') return;
+
+          el.innerHTML = next.innerHTML;
+          el.classList.add('is-personalized');
+          el.dataset.personalized = 'true';
+          el.querySelectorAll('.san-reveal').forEach(function (node) {
+            node.classList.add('is-visible');
+          });
+        })
+        .catch(function () {
+          /* Offline or endpoint unavailable — best sellers remain. */
+        });
+    }
+
+    function init(scope) {
+      (scope || document).querySelectorAll('[data-san-best]').forEach(personalize);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        init();
+      });
+    } else {
+      init();
+    }
+    document.addEventListener('shopify:section:load', function (e) {
+      init(e.target);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Más vendidos",
+  "tag": "section",
+  "class": "san-best-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Origen de los productos"
+    },
+    {
+      "type": "paragraph",
+      "content": "Si dejas la colección vacía se usan todos los productos de la tienda, que Shopify ordena por más vendidos. Ese orden es el ranking que muestra la sección."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección"
+    },
+    {
+      "type": "product",
+      "id": "hero_product",
+      "label": "Producto destacado",
+      "info": "Opcional. Fija el producto grande; si lo dejas vacío se usa el más vendido."
+    },
+    {
+      "type": "checkbox",
+      "id": "rotate_daily",
+      "label": "Rotar la selección cada día",
+      "info": "Muestra un tramo distinto de la lista cada día. Útil mientras la tienda no tiene historial de ventas.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Personalización"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_personalization",
+      "label": "Mostrar 'Para ti' a quien ya vio productos",
+      "info": "Si la persona visitó productos antes, la sección se cambia por recomendaciones relacionadas. Quien llega por primera vez ve los más vendidos.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 9,
+      "step": 1,
+      "label": "Productos junto al destacado",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columnas (escritorio)",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rank",
+      "label": "Mostrar número de ranking",
+      "info": "Se oculta solo cuando el orden deja de ser un ranking real (producto fijado, rotación diaria o 'Para ti').",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Mostrar marca",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Mostrar enlace 'Ver todos los productos'",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Espaciado"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado superior",
+      "default": 108
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Espaciado inferior",
+      "default": 108
+    }
+  ],
+  "presets": [
+    {
+      "name": "Más vendidos"
+    }
+  ]
+}
+{% endschema %}
