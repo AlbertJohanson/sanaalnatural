@@ -1,0 +1,52 @@
+{%- comment -%}
+  Renders one group of legal copy from locale keys under `prefix`:
+
+    <prefix>.p1 … .pN   paragraphs, walked until one stops resolving
+    <prefix>.note       optional callout (the clause that must not be skimmed)
+    <prefix>.contact    optional contact block — "full" adds the street address
+
+  Locale values are plain prose, one paragraph each; the markup lives here.
+  That keeps every translation value a few hundred characters, well under the
+  server-side length cap a push enforces on any single value.
+
+  Accepts:
+    prefix        - key path, e.g. 'san.legal.privacy.c1'
+    contact_*     - address details, passed down from the section settings
+    contact_label / phone_label - localized labels
+
+  Usage:
+  {% render 'san-legal-block', prefix: p, contact_name: n, ... %}
+{%- endcomment -%}
+
+{%- for i in (1..12) -%}
+  {%- assign text = prefix | append: '.p' | append: i | t -%}
+  {%- assign probe = text | downcase -%}
+  {%- if probe == blank or probe contains 'translation missing' -%}
+    {%- break -%}
+  {%- endif -%}
+  <p>{{ text }}</p>
+{%- endfor -%}
+
+{%- assign note = prefix | append: '.note' | t -%}
+{%- assign probe = note | downcase -%}
+{%- unless probe == blank or probe contains 'translation missing' -%}
+  <div class="san-policy__note">
+    <p>{{ note }}</p>
+  </div>
+{%- endunless -%}
+
+{%- assign contact = prefix | append: '.contact' | t -%}
+{%- assign probe = contact | downcase -%}
+{%- unless probe == blank or probe contains 'translation missing' -%}
+  <div class="san-policy__contact">
+    <strong>{{ contact_label }}</strong>
+    {{- contact_name -}}
+    {%- if probe == 'full' and contact_address != blank -%}
+      <br>{{ contact_address }}
+    {%- endif -%}
+    {%- if contact_phone != blank -%}
+      <br>{{ phone_label }}:
+      <a href="tel:{{ contact_phone_e164 | default: contact_phone }}">{{ contact_phone }}</a>
+    {%- endif -%}
+  </div>
+{%- endunless -%}
