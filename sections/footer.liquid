@@ -172,27 +172,103 @@
     </div>
 
     {%- comment -%} ======= LINK COLUMNS (menu / text / app blocks) ======= {%- endcomment -%}
+    {%- liquid
+      assign link_list_count = 0
+      for b in section.blocks
+        if b.type == 'link_list'
+          assign link_list_count = link_list_count | plus: 1
+        endif
+      endfor
+    -%}
     {%- if section.blocks.size > 0 -%}
       <div class="san-footer__cols san-reveal san-reveal-d2">
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'link_list' -%}
-              <div class="san-footer__col" {{ block.shopify_attributes }}>
-                {%- if block.settings.heading != blank -%}
-                  <h3 class="san-footer__col-heading">{{ block.settings.heading }}</h3>
-                {%- endif -%}
-                {%- if block.settings.menu != blank -%}
-                  <ul class="san-footer__col-list" role="list">
-                    {%- for link in block.settings.menu.links -%}
+              {%- liquid
+                assign fmenu = block.settings.menu
+                assign has_children = false
+                for parent in fmenu.links
+                  if parent.links.size > 0
+                    assign has_children = true
+                    break
+                  endif
+                endfor
+              -%}
+
+              {%- if fmenu == blank -%}
+                {%- comment -%} No menu chosen yet — render nothing. {%- endcomment -%}
+
+              {%- elsif has_children -%}
+                {%- comment -%}
+                  Nested menu: every top-level link becomes its own column,
+                  its children the list beneath it.
+                {%- endcomment -%}
+                <div class="san-footer__col-group" {{ block.shopify_attributes }}>
+                  {%- for parent in fmenu.links -%}
+                    <div class="san-footer__col">
+                      <h3 class="san-footer__col-heading">
+                        {%- if parent.url != blank -%}
+                          <a href="{{ parent.url }}">{{ parent.title | escape }}</a>
+                        {%- else -%}
+                          {{ parent.title | escape }}
+                        {%- endif -%}
+                      </h3>
+                      {%- if parent.links.size > 0 -%}
+                        <ul class="san-footer__col-list" role="list">
+                          {%- for link in parent.links -%}
+                            <li>
+                              <a
+                                href="{{ link.url }}"
+                                {% if link.active %}class="list-menu__item--active" aria-current="page"{% endif %}
+                              >{{ link.title | escape }}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                </div>
+
+              {%- elsif link_list_count == 1 -%}
+                {%- comment -%}
+                  A single flat menu is an index, not a column — lay it out as
+                  one line across the footer instead of a stretched column.
+                {%- endcomment -%}
+                <div class="san-footer__menu-band" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h3 class="san-footer__col-heading">{{ block.settings.heading }}</h3>
+                  {%- endif -%}
+                  <ul class="san-footer__menu-row" role="list">
+                    {%- for link in fmenu.links -%}
                       <li>
-                        <a href="{{ link.url }}" class="{% if link.active %}list-menu__item--active{% endif %}">
-                          {{ link.title | escape }}
-                        </a>
+                        <a
+                          href="{{ link.url }}"
+                          class="san-footer__menu-link{% if link.active %} san-footer__menu-link--active{% endif %}"
+                          {% if link.active %}aria-current="page"{% endif %}
+                        >{{ link.title | escape }}</a>
                       </li>
                     {%- endfor -%}
                   </ul>
-                {%- endif -%}
-              </div>
+                </div>
+
+              {%- else -%}
+                <div class="san-footer__col" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h3 class="san-footer__col-heading">{{ block.settings.heading }}</h3>
+                  {%- endif -%}
+                  <ul class="san-footer__col-list" role="list">
+                    {%- for link in fmenu.links -%}
+                      <li>
+                        <a
+                          href="{{ link.url }}"
+                          {% if link.active %}class="list-menu__item--active" aria-current="page"{% endif %}
+                        >{{ link.title | escape }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              {%- endif -%}
 
             {%- when 'text' -%}
               <div class="san-footer__col" {{ block.shopify_attributes }}>

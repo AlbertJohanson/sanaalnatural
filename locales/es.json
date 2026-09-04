@@ -104,10 +104,24 @@
         "go_to": "Ir al slide {{ index }}"
       },
       "slides": {
-        "1": { "label": "Nueva colección", "caption": "Naturaleza en cada producto" },
-        "2": { "label": "Bienestar natural", "caption": "Formulado con los mejores ingredientes" },
-        "3": { "label": "100% orgánico", "caption": "Sin conservantes artificiales" }
+        "1": {
+          "label": "Nueva colección",
+          "caption": "Naturaleza en cada producto"
+        },
+        "2": {
+          "label": "Bienestar natural",
+          "caption": "Formulado con los mejores ingredientes"
+        },
+        "3": {
+          "label": "100% orgánico",
+          "caption": "Sin conservantes artificiales"
+        }
       }
+    },
+    "policy": {
+      "eyebrow": "Legal",
+      "toc_title": "Índice",
+      "empty_hint": "Agrega el texto de esta página en Administrador → Páginas. Usa encabezados H2 para cada cláusula: el índice se genera solo."
     },
     "featured_tabs": {
       "eyebrow": "Nuestra selección",
@@ -330,6 +344,9 @@
       "next_slide": "Diapositiva a la derecha",
       "previous_slide": "Diapositiva a la izquierda",
       "name": "Carrusel"
+    },
+    "navigation": {
+      "menu": "Menú"
     }
   },
   "newsletter": {

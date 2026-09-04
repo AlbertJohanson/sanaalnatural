@@ -324,6 +324,103 @@
   color: #afea90;
 }
 
+.san-footer__col-list a:focus-visible {
+  outline: 2px solid #afea90;
+  outline-offset: 4px;
+}
+
+/* ---- Nested menu: one block laid out as several columns ---- */
+.san-footer__col-group {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 3rem 4rem;
+}
+
+.san-footer__col-heading a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-footer__col-heading a:hover {
+  color: #ffffff;
+}
+
+.san-footer__col-heading a:focus-visible {
+  outline: 2px solid #afea90;
+  outline-offset: 4px;
+}
+
+/* ================================================================
+   THE INDEX LINE — a single flat menu, set as one line
+   ================================================================ */
+
+.san-footer__menu-band {
+  grid-column: 1 / -1;
+}
+
+.san-footer__menu-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.san-footer__menu-row li {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+/* Echoes the · already separating the copyright line below */
+.san-footer__menu-row li:not(:last-child)::after {
+  content: '·';
+  color: rgba(255, 255, 255, 0.28);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.san-footer__menu-link {
+  position: relative;
+  display: inline-block;
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-footer__menu-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: #afea90;
+  transition: width 0.3s ease;
+}
+
+.san-footer__menu-link:hover {
+  color: #ffffff;
+}
+
+.san-footer__menu-link:hover::before {
+  width: 100%;
+}
+
+.san-footer__menu-link:focus-visible {
+  outline: 2px solid #afea90;
+  outline-offset: 4px;
+}
+
+.san-footer__menu-link--active {
+  color: #afea90;
+}
+
 /* ================================================================
    DIVIDER
    ================================================================ */
@@ -497,6 +594,32 @@
     margin-top: 4rem;
   }
 
+  .san-footer__col-group {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2rem;
+  }
+
+  /* Separators stop earning their keep once the line wraps — grid instead */
+  .san-footer__menu-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.2rem 2rem;
+  }
+
+  .san-footer__menu-row li {
+    display: block;
+  }
+
+  .san-footer__menu-row li:not(:last-child)::after {
+    content: none;
+  }
+
+  .san-footer__menu-link {
+    display: block;
+    padding: 0.7rem 0;
+    font-size: 1.4rem;
+  }
+
   .san-footer__divider {
     margin-top: 4rem;
   }
@@ -514,7 +637,9 @@
 }
 
 @media screen and (max-width: 479px) {
-  .san-footer__cols {
+  .san-footer__cols,
+  .san-footer__col-group,
+  .san-footer__menu-row {
     grid-template-columns: 1fr;
   }
 }
@@ -524,7 +649,12 @@
    ================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
-  .san-footer__social-link {
+  .san-footer__social-link,
+  .san-footer__menu-link,
+  .san-footer__menu-link::before,
+  .san-footer__col-list a,
+  .san-footer__col-list a::before,
+  .san-footer__col-heading a {
     transition: none;
   }
 }

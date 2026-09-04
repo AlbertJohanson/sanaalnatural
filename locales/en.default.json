@@ -104,10 +104,40 @@
         "go_to": "Go to slide {{ index }}"
       },
       "slides": {
-        "1": { "label": "New collection", "caption": "Nature in every product" },
-        "2": { "label": "Natural wellbeing", "caption": "Crafted with the finest ingredients" },
-        "3": { "label": "100% organic", "caption": "No artificial preservatives" }
+        "1": {
+          "label": "New collection",
+          "caption": "Nature in every product"
+        },
+        "2": {
+          "label": "Natural wellbeing",
+          "caption": "Crafted with the finest ingredients"
+        },
+        "3": {
+          "label": "100% organic",
+          "caption": "No artificial preservatives"
+        }
       }
+    },
+    "policy": {
+      "eyebrow": "Legal",
+      "toc_title": "Contents",
+      "empty_hint": "Add this page's text in Admin → Pages. Use H2 headings for each clause — the index builds itself."
+    },
+    "product": {
+      "zoom_open": "View image in full screen",
+      "zoom_hint": "Zoom",
+      "zoom_close": "Close full view",
+      "zoom_counter": "Image %{index} of %{total}",
+      "zoom_in": "Zoom in",
+      "zoom_out": "Zoom out",
+      "zoom_prev": "Previous image",
+      "zoom_next": "Next image"
+    },
+    "recommended": {
+      "eyebrow": "Keep exploring",
+      "heading": "Part of the same |ritual|",
+      "description": "Chosen for how well they pair with %{product}.",
+      "view_all": "View all products"
     },
     "featured_tabs": {
       "eyebrow": "Our selection",
@@ -159,6 +189,49 @@
       "view": "View {{ name }}",
       "view_all": "View all products in {{ name }}",
       "empty": "There are no categories with products to show yet."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "heading": "|Let's talk|.",
+      "intro": "Questions about our products, your order, wholesale or a collaboration — write to us and we'll get back to you within 24 hours.",
+      "letterhead": "Write to us",
+      "label_name": "Name",
+      "placeholder_name": "Your name",
+      "label_email": "Email",
+      "placeholder_email": "you@email.com",
+      "label_phone": "Phone",
+      "placeholder_phone": "+1 000 000 0000",
+      "label_subject": "Subject",
+      "label_message": "Message",
+      "submit": "Send message",
+      "success_title": "Message sent!",
+      "success_text": "Thank you for writing to us. We'll get back to you soon.",
+      "follow": "Follow us",
+      "channel_email": "Email",
+      "channel_whatsapp": "WhatsApp",
+      "channel_location": "Location",
+      "subjects": {
+        "general": {
+          "label": "General inquiry",
+          "placeholder": "Tell us how we can help…"
+        },
+        "order": {
+          "label": "Issue with my order",
+          "placeholder": "Include your order number and tell us what happened…"
+        },
+        "wholesale": {
+          "label": "Wholesale / Distribution",
+          "placeholder": "Tell us about your business and the products you're interested in…"
+        },
+        "press": {
+          "label": "Collaboration / Press",
+          "placeholder": "Tell us about your project or the collaboration you have in mind…"
+        },
+        "other": {
+          "label": "Other",
+          "placeholder": "Tell us what it's about…"
+        }
+      }
     },
     "testimonials": {
       "heading": "What our customers say",
@@ -271,6 +344,9 @@
       "next_slide": "Slide right",
       "previous_slide": "Slide left",
       "name": "Slider"
+    },
+    "navigation": {
+      "menu": "Menu"
     }
   },
   "newsletter": {
@@ -523,7 +599,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",

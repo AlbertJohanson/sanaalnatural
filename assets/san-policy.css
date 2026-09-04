@@ -1,0 +1,409 @@
+/* ================================================================
+   SANA AL NATURAL — Página legal (san-policy)
+   Deep-green canvas; the policy is a white document card. Sticky
+   index rail with § marks + scrollspy. Print-friendly.
+   Dawn base: 62.5% html → 1rem = 10px
+   ================================================================ */
+
+.san-policy {
+  background: var(--color-primary-dark, #31591d);
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+.san-policy__inner {
+  max-width: 116rem;
+  margin: 0 auto;
+  padding: 0 4.8rem;
+}
+
+/* ----------------------------------------------------------------
+   Header
+   ---------------------------------------------------------------- */
+.san-policy__head {
+  max-width: 76rem;
+  margin-bottom: 5.6rem;
+}
+
+.san-policy__eyebrow {
+  margin: 0 0 1.6rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-primary-light, #afea90);
+}
+
+.san-policy__heading {
+  margin: 0 0 2rem;
+  font-family: 'Noto Serif', serif;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 5.5vw, 5.6rem);
+  line-height: 1.08;
+  color: #ffffff;
+}
+
+/* ----------------------------------------------------------------
+   Body: index rail + document
+   ---------------------------------------------------------------- */
+.san-policy__body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+@media (min-width: 990px) {
+  .san-policy__body {
+    grid-template-columns: minmax(20rem, 26rem) minmax(0, 1fr);
+    gap: 6.4rem;
+  }
+}
+
+/* Rail hidden entirely when the content has no h2 sections */
+.san-policy__body--no-toc {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.san-policy__body--no-toc .san-policy__rail {
+  display: none;
+}
+
+/* ----------------------------------------------------------------
+   Index (TOC): old-book italic entries with § marks
+   ---------------------------------------------------------------- */
+@media (min-width: 990px) {
+  .san-policy__rail {
+    position: sticky;
+    top: 12rem;
+  }
+}
+
+.san-policy__toc {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.san-policy__toc-summary {
+  list-style: none;
+  cursor: default;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  padding-bottom: 1.8rem;
+}
+
+.san-policy__toc-summary::-webkit-details-marker {
+  display: none;
+}
+
+.san-policy__toc-summary::marker {
+  content: '';
+}
+
+/* Mobile: the summary becomes a real toggle */
+@media (max-width: 989px) {
+  .san-policy__toc {
+    border: 1px solid rgba(175, 234, 144, 0.25);
+    padding: 1.6rem 2rem;
+  }
+  .san-policy__toc-summary {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0;
+  }
+  .san-policy__toc[open] .san-policy__toc-summary {
+    padding-bottom: 1.6rem;
+  }
+  .san-policy__toc-caret {
+    transition: transform 0.25s ease;
+    color: var(--color-primary-light, #afea90);
+  }
+  .san-policy__toc[open] .san-policy__toc-caret {
+    transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 990px) {
+  .san-policy__toc-caret {
+    display: none;
+  }
+}
+
+.san-policy__toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
+.san-policy__toc-link {
+  display: flex;
+  gap: 0.9rem;
+  align-items: baseline;
+  font-family: 'Noto Serif', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.san-policy__toc-link::before {
+  content: '§';
+  font-style: normal;
+  font-size: 1.2rem;
+  color: rgba(175, 234, 144, 0.4);
+  transition: color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.san-policy__toc-link:hover {
+  color: #ffffff;
+}
+
+.san-policy__toc-link:focus-visible {
+  outline: 2px solid var(--color-primary-light, #afea90);
+  outline-offset: 3px;
+}
+
+.san-policy__toc-link[aria-current='true'] {
+  color: var(--color-primary-light, #afea90);
+}
+
+.san-policy__toc-link[aria-current='true']::before {
+  color: var(--color-primary-light, #afea90);
+}
+
+/* ----------------------------------------------------------------
+   The document: white card
+   ---------------------------------------------------------------- */
+.san-policy__card {
+  background: #ffffff;
+  color: #1e1e1e;
+  padding: 5.6rem 6.4rem;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+}
+
+/* Rich-text content from the merchant */
+.san-policy__doc {
+  font-size: 1.5rem;
+  line-height: 1.85;
+  color: #333333;
+}
+
+.san-policy__doc > :first-child {
+  margin-top: 0;
+}
+
+.san-policy__doc > :last-child {
+  margin-bottom: 0;
+}
+
+.san-policy__doc h2 {
+  position: relative;
+  margin: 5.6rem 0 2rem;
+  padding-top: 4rem;
+  border-top: 1px solid rgba(49, 89, 29, 0.14);
+  font-family: 'Noto Serif', serif;
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 1.25;
+  color: var(--color-primary-dark, #31591d);
+  scroll-margin-top: 12rem;
+}
+
+.san-policy__doc h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* The § mark in the margin, echoing the index */
+@media (min-width: 990px) {
+  .san-policy__doc h2::before {
+    content: '§';
+    position: absolute;
+    left: -3.4rem;
+    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: rgba(85, 130, 61, 0.4);
+  }
+  .san-policy__doc h2:first-child::before {
+    top: 0.6rem;
+  }
+}
+
+.san-policy__doc h3 {
+  margin: 3.6rem 0 1.4rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary, #55823d);
+  scroll-margin-top: 12rem;
+}
+
+.san-policy__doc p {
+  margin: 0 0 1.8rem;
+}
+
+.san-policy__doc a {
+  color: var(--color-primary, #55823d);
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+  transition: color 0.25s ease;
+}
+
+.san-policy__doc a:hover {
+  color: var(--color-primary-dark, #31591d);
+}
+
+.san-policy__doc ul,
+.san-policy__doc ol {
+  margin: 0 0 2rem;
+  padding-left: 2.2rem;
+}
+
+.san-policy__doc li {
+  margin-bottom: 0.8rem;
+}
+
+.san-policy__doc li::marker {
+  color: var(--color-primary, #55823d);
+}
+
+.san-policy__doc strong {
+  color: #1e1e1e;
+  font-weight: 600;
+}
+
+.san-policy__doc blockquote {
+  margin: 2.4rem 0;
+  padding: 0.4rem 0 0.4rem 2rem;
+  border-left: 3px solid var(--color-primary-light, #afea90);
+  font-family: 'Noto Serif', serif;
+  font-style: italic;
+  color: #555555;
+}
+
+/* Tables (data-sharing grids are common in privacy policies) */
+.san-policy__table-wrap {
+  overflow-x: auto;
+  margin: 0 0 2.4rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.san-policy__doc table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.35rem;
+  line-height: 1.6;
+}
+
+.san-policy__doc th,
+.san-policy__doc td {
+  padding: 1.2rem 1.6rem;
+  border: 1px solid rgba(49, 89, 29, 0.16);
+  text-align: left;
+  vertical-align: top;
+}
+
+.san-policy__doc th {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark, #31591d);
+  background: rgba(85, 130, 61, 0.06);
+}
+
+/* Theme-editor hint when the page has no content yet */
+.san-policy__empty {
+  font-family: 'Noto Serif', serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  color: #777777;
+}
+
+/* ----------------------------------------------------------------
+   Mobile refinements
+   ---------------------------------------------------------------- */
+@media (max-width: 989px) {
+  .san-policy__inner {
+    padding: 0 2rem;
+  }
+  .san-policy__head {
+    margin-bottom: 4rem;
+  }
+  .san-policy__card {
+    padding: 3.2rem 2.4rem 4rem;
+    margin: 0 -0.4rem;
+  }
+  .san-policy__doc h2 {
+    font-size: 2.1rem;
+    margin-top: 4.4rem;
+    padding-top: 3.2rem;
+    scroll-margin-top: 9rem;
+  }
+  .san-policy__doc h3 {
+    scroll-margin-top: 9rem;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Reduced motion
+   ---------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .san-policy__toc-link,
+  .san-policy__toc-link::before,
+  .san-policy__toc-caret,
+  .san-policy__doc a {
+    transition: none;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Print: a policy is a record — let it print as one
+   ---------------------------------------------------------------- */
+@media print {
+  .san-policy {
+    background: #ffffff;
+    color: #000000;
+  }
+  .san-policy__rail {
+    display: none;
+  }
+  .san-policy__card {
+    box-shadow: none;
+    padding: 0;
+  }
+  .san-policy__heading,
+  .san-policy__eyebrow {
+    color: #000000;
+  }
+  .san-policy__doc,
+  .san-policy__doc h2,
+  .san-policy__doc h3,
+  .san-policy__doc a {
+    color: #000000;
+  }
+  .san-policy__doc h2::before {
+    display: none;
+  }
+  .san-policy__body {
+    display: block;
+  }
+}

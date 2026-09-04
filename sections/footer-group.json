@@ -13,6 +13,18 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "link_list_VkxCHV": {
+          "type": "link_list",
+          "settings": {
+            "heading": "",
+            "menu": "footer"
+          }
+        }
+      },
+      "block_order": [
+        "link_list_VkxCHV"
+      ],
       "settings": {
         "footer_logo": "shopify://shop_images/1._SANA_AL_NATURAL.png",
         "newsletter_enable": true,
