@@ -20,14 +20,6 @@
             "caption": "Naturaleza en cada producto"
           }
         },
-        "slide_2": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/carousel_2.jpg",
-            "label": "Bienestar natural",
-            "caption": "Formulado con los mejores ingredientes"
-          }
-        },
         "slide_3": {
           "type": "slide",
           "settings": {
@@ -39,7 +31,6 @@
       },
       "block_order": [
         "slide_1",
-        "slide_2",
         "slide_3"
       ],
       "settings": {
