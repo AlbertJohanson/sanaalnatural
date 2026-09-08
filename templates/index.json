@@ -141,40 +141,80 @@
     "san_faq": {
       "type": "san-faq",
       "blocks": {
+        "faq_Cfjw6e": {
+          "type": "faq",
+          "settings": {
+            "question": "What types of products does Sana Al Natural offer?",
+            "answer": "<p>We offer a variety of natural products for wellness and personal care, including teas, herbal products, oils, hair care products, and other carefully selected items for everyday care.</p>"
+          }
+        },
+        "faq_9xnEtN": {
+          "type": "faq",
+          "settings": {
+            "question": "Are the products 100% natural?",
+            "answer": "<p>We select products made with naturally derived ingredients whenever possible. The ingredients and characteristics of each product are listed in its description and on its label.</p>"
+          }
+        },
+        "faq_Cnr7Wf": {
+          "type": "faq",
+          "settings": {
+            "question": "How can I find out what ingredients each product contains?",
+            "answer": "<p>Each product includes information about its ingredients, characteristics, and directions for use in its description and/or on its label.</p>"
+          }
+        },
+        "faq_dFRWmU": {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer shipping?",
+            "answer": "<p>Yes. We ship within the United States. Shipping costs and delivery times are calculated based on the destination and selected shipping method.</p>"
+          }
+        },
         "faq_1": {
           "type": "faq",
           "settings": {
-            "question": "¿Sus productos son 100% naturales?",
-            "answer": "<p>Sí. Todos nuestros productos están formulados con ingredientes naturales seleccionados, sin aditivos ni conservantes artificiales.</p>"
+            "question": "How long will it take for my order to arrive?",
+            "answer": "<p>Delivery times may vary depending on your location and the shipping method. Available delivery information will be displayed at checkout.</p>"
           }
         },
         "faq_2": {
           "type": "faq",
           "settings": {
-            "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Los pedidos se procesan en 24–48 horas y llegan en 3 a 5 días hábiles. El envío es gratis en compras superiores a $500.</p>"
+            "question": "Can I return a product or request a refund?",
+            "answer": "<p>Due to the nature of our products and for health, safety, and hygiene reasons, all sales are final, and we do not accept returns or exchanges once products have been purchased.</p><p>If your order arrives damaged or you receive an incorrect item, please contact us within 48 hours of delivery and provide photographs of the product and its packaging. We will review your case and let you know how to proceed.</p>"
           }
         },
         "faq_3": {
           "type": "faq",
           "settings": {
-            "question": "¿Cuentan con certificación orgánica?",
-            "answer": "<p>Trabajamos con productores certificados que garantizan procesos agrícolas sostenibles y responsables.</p>"
+            "question": "How can I contact Sana Al Natural?",
+            "answer": "<p>You can reach us through the contact methods available on our website. We are here to help with questions about our products and orders.</p>"
           }
         },
         "faq_4": {
           "type": "faq",
           "settings": {
-            "question": "¿Puedo devolver un producto?",
-            "answer": "<p>Aceptamos devoluciones dentro de los 30 días posteriores a la compra. Escríbenos y te ayudamos con el proceso.</p>"
+            "question": "Do the products replace medical treatment?",
+            "answer": "<p>Our products are intended for wellness and personal care and are not a substitute for diagnosis or treatment recommended by a healthcare professional. If you have a medical condition or take medication, consult a healthcare professional before using a product.</p>"
+          }
+        },
+        "faq_xQXBiV": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I choose the right product for me?",
+            "answer": "<p>Each product includes information about its ingredients, characteristics, and directions for use. If you have questions about a specific product, feel free to contact us, and we will be happy to guide you.</p>"
           }
         }
       },
       "block_order": [
+        "faq_Cfjw6e",
+        "faq_9xnEtN",
+        "faq_Cnr7Wf",
+        "faq_dFRWmU",
         "faq_1",
         "faq_2",
         "faq_3",
-        "faq_4"
+        "faq_4",
+        "faq_xQXBiV"
       ],
       "settings": {
         "eyebrow": "Resolvemos tus dudas",
