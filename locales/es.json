@@ -147,7 +147,16 @@
       "zoom_out": "Alejar imagen",
       "zoom_prev": "Imagen anterior",
       "zoom_next": "Imagen siguiente",
-      "zoom_counter": "Imagen %{index} de %{total}"
+      "zoom_counter": "Imagen %{index} de %{total}",
+      "purchase_options": "Opciones de compra",
+      "one_time_purchase": "Compra única",
+      "variant_label": "Presentación",
+      "sold_out": "Agotado",
+      "add_to_cart": "Añadir al carrito",
+      "quantity": "Cantidad",
+      "quantity_decrease": "Reducir cantidad",
+      "quantity_increase": "Aumentar cantidad",
+      "description_title": "Descripción"
     },
     "contact": {
       "eyebrow": "Contacto",
@@ -215,11 +224,11 @@
     },
     "brand_story": {
       "overline": "Nuestra Historia",
-      "heading": "Más de 5 años llevando la naturaleza a tu mesa",
-      "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
-      "value_1": "Ingredientes orgánicos certificados",
+      "heading": "Más de 12 años llevando la naturaleza a tu mesa",
+      "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p>",
+      "value_1": "",
       "value_2": "",
-      "value_3": "Sin aditivos ni conservantes artificiales",
+      "value_3": "",
       "stat_number": "5000+",
       "stat_label": "Familias que confían en nosotros",
       "button": "Conoce nuestra historia"
@@ -463,7 +472,7 @@
     },
     "footer": {
       "statement": "Bienestar que |nace de la naturaleza|",
-      "blurb": "Productos naturales seleccionados para tu bienestar, del campo a tu mesa.",
+      "blurb": "Productos naturales cuidadosamente seleccionados para tu bienestar.",
       "newsletter_heading": "Únete a la comunidad",
       "newsletter_text": "Recibe novedades, tips de bienestar natural y ofertas exclusivas.",
       "rights": "Todos los derechos reservados.",

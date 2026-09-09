@@ -131,7 +131,16 @@
       "zoom_in": "Zoom in",
       "zoom_out": "Zoom out",
       "zoom_prev": "Previous image",
-      "zoom_next": "Next image"
+      "zoom_next": "Next image",
+      "purchase_options": "Purchase options",
+      "one_time_purchase": "One-time purchase",
+      "variant_label": "Presentation",
+      "sold_out": "Sold out",
+      "add_to_cart": "Add to cart",
+      "quantity": "Quantity",
+      "quantity_decrease": "Decrease quantity",
+      "quantity_increase": "Increase quantity",
+      "description_title": "Description"
     },
     "recommended": {
       "eyebrow": "Keep exploring",
@@ -172,11 +181,11 @@
     },
     "brand_story": {
       "overline": "Our Story",
-      "heading": "Over 5 years bringing nature to your table",
-      "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p><p>We work directly with certified organic producers, ensuring that what reaches your home is genuinely natural, delicious and powerful for your wellbeing.</p>",
-      "value_1": "Certified organic ingredients",
+      "heading": "Over 12 years bringing nature to your table",
+      "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p>",
+      "value_1": "",
       "value_2": "",
-      "value_3": "No artificial additives or preservatives",
+      "value_3": "",
       "stat_number": "5000+",
       "stat_label": "Families who trust us",
       "button": "Discover our story"
@@ -463,7 +472,7 @@
     },
     "footer": {
       "statement": "Wellness that |grows from nature|",
-      "blurb": "Carefully selected natural products for your wellbeing — from the field to your table.",
+      "blurb": "Natural products carefully selected for your well-being.",
       "newsletter_heading": "Join the community",
       "newsletter_text": "Get news, natural-wellness tips and exclusive offers.",
       "rights": "All rights reserved.",

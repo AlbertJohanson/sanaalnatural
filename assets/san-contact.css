@@ -29,7 +29,7 @@
 
 .san-contact__eyebrow {
   margin: 0 0 1.6rem;
-  font-size: 1.1rem;
+  font-size: var(--san-label);
   font-weight: 500;
   letter-spacing: 0.24em;
   text-transform: uppercase;

@@ -15,31 +15,18 @@
         "description": {
           "type": "description",
           "settings": {
-            "title": "Descripción",
             "open_by_default": true
-          }
-        },
-        "como-usar": {
-          "type": "accordion",
-          "settings": {
-            "title": "Cómo usar",
-            "content": "<p>Toma dos cápsulas al día con agua, preferiblemente por la mañana o temprano en la tarde. Para mejores resultados, recomendamos un uso continuado durante al menos 8 semanas.</p>",
-            "open_by_default": false
           }
         }
       },
       "block_order": [
-        "description",
-        "como-usar"
+        "description"
       ],
       "settings": {
         "show_badges": true,
         "subtitle": "",
         "show_quantity": true,
-        "show_selling_plans": true,
-        "plans_legend": "Opciones de compra",
-        "onetime_label": "Compra única",
-        "atc_label": "Añadir al carrito"
+        "show_selling_plans": true
       }
     },
     "ingredient": {
@@ -64,6 +51,7 @@
       "settings": {
         "products_to_show": 3,
         "intent": "related",
+        "show_vendor": false,
         "padding_top": 96,
         "padding_bottom": 108
       }

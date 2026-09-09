@@ -1,14 +1,30 @@
 {{ 'section-san-hero.css' | asset_url | stylesheet_tag }}
 
+{%- liquid
+  comment
+    Desktop hero height follows the photo instead of the viewport, so the
+    media column is never cropped. Take the shape from the first slide
+    (all slides share one column, so one aspect has to win); fall back to
+    the single-image setting, then to 4/5 when the merchant set neither.
+  endcomment
+  assign slide_blocks = section.blocks | where: 'type', 'slide'
+  assign hero_aspect = 0.8
+  if slide_blocks.first.settings.image != blank
+    assign hero_aspect = slide_blocks.first.settings.image.aspect_ratio
+  elsif section.settings.image != blank
+    assign hero_aspect = section.settings.image.aspect_ratio
+  endif
+-%}
+
 {%- style -%}
   #san-hero-{{ section.id }} {
     --hero-min-height: {{ section.settings.min_height }}vh;
     --carousel-interval: {{ section.settings.carousel_interval | times: 1000 }}ms;
+    --hero-media-aspect: {{ hero_aspect }};
   }
 {%- endstyle -%}
 
 {%- liquid
-  assign slide_blocks = section.blocks | where: 'type', 'slide'
   assign hero_eyebrow = 'san.hero.eyebrow' | t
   assign hero_heading = 'san.hero.heading' | t
   assign hero_description = 'san.hero.description' | t
@@ -56,9 +72,6 @@
     {%- comment -%} ─── TEXT COLUMN ─── {%- endcomment -%}
     <div class="san-hero__content">
 
-      {%- if hero_eyebrow != blank -%}
-        <p class="san-hero__eyebrow">{{ hero_eyebrow }}</p>
-      {%- endif -%}
 
       {%- if hero_heading != blank -%}
         <h1 class="san-hero__heading">
@@ -320,10 +333,12 @@
 
     init() {
       if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.navigate(-1)) 
+
+        if (this.nextBtn) 
+          this.nextBtn.addEventListener('click', () => this.navigate(1));
+        
       
-      if (this.nextBtn) 
-        this.nextBtn.addEventListener('click', () => this.navigate(1));
-      
+
 
       this.dots.forEach((dot, i) => {
         dot.addEventListener('click', () => this.goTo(i));
@@ -357,12 +372,16 @@
     navigate(dir) {
       if (this.isTransitioning) return;
       
+
+
       this.goTo((this.current + dir + this.total) % this.total);
     }
 
     goTo(index) {
       if (index === this.current || this.isTransitioning) return;
       
+
+
       this.isTransitioning = true;
 
       const prev = this.current;
@@ -390,6 +409,8 @@
       if (!this.isHovered) 
         this.play();
       
+
+
     }
 
     play() {
@@ -410,6 +431,8 @@
     resetProgress() {
       if (!this.progressBar) return;
       
+
+
       this.progressBar.style.transition = 'none';
       this.progressBar.style.width = '0%';
       requestAnimationFrame(() => {
@@ -436,6 +459,8 @@
       this.el.addEventListener('touchend', (e) => {
         if (! isDragging) return;
         
+
+
         const diffX = startX - e.changedTouches[0].clientX;
         const diffY = startY - e.changedTouches[0].clientY;
         if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {

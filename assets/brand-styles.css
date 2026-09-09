@@ -57,6 +57,14 @@
   --text-4xl: 2.25rem;
   --text-5xl: 3rem;
 
+  /* Micro-textos de heros y cabeceras de página.
+     1rem ≈ 10px (theme.liquid fija html a 62.5%), así que estos
+     tokens suben los eyebrows / scroll labels / contadores de 6–12px
+     a 12–15px y escalan con el ancho de pantalla. */
+  --san-label: clamp(1.2rem, 0.9vw, 1.5rem);
+  --san-label-lg: clamp(1.35rem, 1vw, 1.6rem);
+  --san-hero-lede: clamp(1.5rem, 1.4vw, 1.9rem);
+
   /* Pesos de fuente */
   --weight-light: 300;
   --weight-normal: 400;

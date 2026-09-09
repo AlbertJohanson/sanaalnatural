@@ -75,7 +75,7 @@ san-cart-page {
 .san-cart__eyebrow {
   margin: 0 0 1.2rem;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: var(--san-label);
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
