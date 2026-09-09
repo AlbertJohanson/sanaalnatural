@@ -7,8 +7,25 @@
     <meta name="theme-color" content="#55823d">
     <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- comment -%}
+      Site icon. The favicon theme setting is empty, so nothing was emitted at
+      all and the tab showed the browser's blank page icon; fall back to the
+      shop logo so there is always an icon, and serve the larger sizes that
+      mobile home-screen shortcuts and high-DPI tabs ask for.
+
+      Upload a square image under Theme settings > Logo > Favicon to override
+      this — the wordmark logo scales down to a very small strip.
+    {%- endcomment -%}
+    {%- liquid
+      assign site_icon = settings.favicon
+      if site_icon == blank
+        assign site_icon = settings.logo
+      endif
+    -%}
+    {%- if site_icon != blank -%}
+      <link rel="icon" type="image/png" sizes="32x32" href="{{ site_icon | image_url: width: 32, height: 32 }}">
+      <link rel="icon" type="image/png" sizes="192x192" href="{{ site_icon | image_url: width: 192, height: 192 }}">
+      <link rel="apple-touch-icon" sizes="180x180" href="{{ site_icon | image_url: width: 180, height: 180 }}">
     {%- endif -%}
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
