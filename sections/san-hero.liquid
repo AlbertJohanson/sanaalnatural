@@ -141,13 +141,16 @@
                 {%- endunless -%}
                 {{ block.shopify_attributes }}>
                 {%- if block.settings.image != blank -%}
+                  {%- liquid
+                    assign slide_alt = block.settings.image.alt | default: shop.name | escape
+                  -%}
                   {%- if forloop.first -%}
                     {{
-                      block.settings.image | image_url: width: 1400 | image_tag: class: 'san-carousel__img', loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', alt: block.settings.image.alt | default: shop.name | escape
+                      block.settings.image | image_url: width: 1400 | image_tag: class: 'san-carousel__img', loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', alt: slide_alt
                     }}
                   {%- else -%}
                     {{
-                      block.settings.image | image_url: width: 1400 | image_tag: class: 'san-carousel__img', loading: 'lazy', sizes: '(min-width: 990px) 55vw, 100vw', alt: block.settings.image.alt | default: shop.name | escape
+                      block.settings.image | image_url: width: 1400 | image_tag: class: 'san-carousel__img', loading: 'lazy', sizes: '(min-width: 990px) 55vw, 100vw', alt: slide_alt
                     }}
                   {%- endif -%}
                 {%- else -%}
@@ -254,8 +257,9 @@
 
         {%- comment -%} Fallback: single image setting {%- endcomment -%}
         {%- if section.settings.image != blank -%}
+          {%- assign hero_alt = section.settings.image.alt | default: shop.name | escape -%}
           {{
-            section.settings.image | image_url: width: 1400 | image_tag: class: 'san-hero__image', loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', alt: section.settings.image.alt | default: shop.name | escape
+            section.settings.image | image_url: width: 1400 | image_tag: class: 'san-hero__image', loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', alt: hero_alt
           }}
         {%- else -%}
           <div class="san-hero__placeholder">

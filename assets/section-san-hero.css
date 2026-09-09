@@ -785,25 +785,37 @@
   z-index: 10;
 }
 
+/* The button is a 24px target (WCAG 2.5.8 / Lighthouse target-size); the
+   6px dot people actually see is drawn with ::before, so the hit area grew
+   without the indicator changing size. */
 .san-carousel__dot {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.san-carousel__dot::before {
+  content: '';
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.4);
-  border: none;
-  cursor: pointer;
-  padding: 0;
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  flex-shrink: 0;
 }
 
-.san-carousel__dot.is-active {
+.san-carousel__dot.is-active::before {
   background-color: #ffffff;
   transform: scale(1.5);
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }
 
-.san-carousel__dot:hover:not(.is-active) {
+.san-carousel__dot:hover:not(.is-active)::before {
   background-color: rgba(255, 255, 255, 0.7);
   transform: scale(1.2);
 }

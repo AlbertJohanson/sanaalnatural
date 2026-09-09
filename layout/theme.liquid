@@ -27,8 +27,22 @@
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {%- comment -%}
+      Always emit a description. The home page has none set in the admin, which
+      is why Lighthouse reported "Document does not have a meta description";
+      fall back to the shop description, then to a translated default.
+    {%- endcomment -%}
+    {%- liquid
+      assign meta_description = page_description
+      if meta_description == blank
+        assign meta_description = shop.description
+      endif
+      if meta_description == blank
+        assign meta_description = 'san.seo.meta_description' | t
+      endif
+    -%}
+    {% if meta_description != blank %}
+      <meta name="description" content="{{ meta_description | strip_html | escape }}">
     {% endif %}
 
     {% render 'meta-tags' %}
