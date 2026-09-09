@@ -7,6 +7,8 @@
   if section.settings.show_selling_plans and product.selling_plan_groups.size > 0
     assign has_plans = true
   endif
+  assign variant_label = 'san.product.variant_label' | t
+  assign sold_out_label = 'san.product.sold_out' | t
 -%}
 
 <san-product class="san-product" id="san-product-{{ section.id }}">
@@ -24,8 +26,7 @@
             role="button"
             tabindex="0"
             aria-haspopup="dialog"
-            aria-label="{{ 'san.product.zoom_open' | t }}"
-          >
+            aria-label="{{ 'san.product.zoom_open' | t }}">
             <img
               class="san-product__stage-img"
               src="{{ featured.preview_image | image_url: width: 900 }}"
@@ -38,10 +39,32 @@
               width="{{ featured.preview_image.width }}"
               height="{{ featured.preview_image.height }}"
               alt="{{ featured.preview_image.alt | default: product.title | escape }}"
-              data-media-index="{{ featured_index }}"
-            >
+              data-media-index="{{ featured_index }}">
             <span class="san-product__zoom-hint" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16" y2="16"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"><circle
+                  cx="11"
+                  cy="11"
+                  r="7" /><line
+                  x1="21"
+                  y1="21"
+                  x2="16"
+                  y2="16" /><line
+                  x1="11"
+                  y1="8"
+                  x2="11"
+                  y2="14" /><line
+                  x1="8"
+                  y1="11"
+                  x2="14"
+                  y2="11" /></svg>
               {{ 'san.product.zoom_hint' | t }}
             </span>
           </div>
@@ -64,15 +87,13 @@
                   {{ media.preview_image | image_url: width: 900 }} 900w,
                   {{ media.preview_image | image_url: width: 1400 }} 1400w
                 "
-                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: media.preview_image.alt | escape }}"
-              >
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: media.preview_image.alt | escape }}">
                 <img
                   src="{{ media.preview_image | image_url: width: 200 }}"
                   width="200"
                   height="200"
                   loading="lazy"
-                  alt="{{ media.preview_image.alt | escape }}"
-                >
+                  alt="{{ media.preview_image.alt | escape }}">
               </button>
             {%- endfor -%}
           </div>
@@ -110,32 +131,51 @@
 
         <hr class="san-product__divider">
 
-        {%- form 'product', product, id: product_form_id, class: 'san-product__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+        {%- form 'product'
+          , product
+          , id: product_form_id
+          , class: 'san-product__form'
+          , novalidate: 'novalidate'
+          , data-type: 'add-to-cart-form' -%}
           <input
             type="hidden"
             name="id"
             value="{{ current_variant.id }}"
             data-variant-id
-            {% if current_variant.available == false %}disabled{% endif %}
-          >
+            {% if current_variant.available == false %}
+            disabled{% endif %}>
 
           {%- if has_plans -%}
-            <input type="hidden" name="selling_plan" value="" data-selling-plan disabled>
+            <input
+              type="hidden"
+              name="selling_plan"
+              value=""
+              data-selling-plan
+              disabled>
 
             <fieldset class="san-product__plans">
-              <legend class="visually-hidden">{{ section.settings.plans_legend | default: 'Opciones de compra' }}</legend>
+              <legend class="visually-hidden">{{ 'san.product.purchase_options' | t }}</legend>
 
               <label class="san-product__plan is-selected">
-                <input type="radio" name="san-purchase-option" value="" checked data-plan-radio>
+                <input
+                  type="radio"
+                  name="san-purchase-option"
+                  value=""
+                  checked
+                  data-plan-radio>
                 <span class="san-product__plan-body">
-                  <span class="san-product__plan-name">{{ section.settings.onetime_label | default: 'Compra única' }}</span>
+                  <span class="san-product__plan-name">{{ 'san.product.one_time_purchase' | t }}</span>
                   <span class="san-product__plan-note">{{ current_variant.price | money }}</span>
                 </span>
               </label>
 
               {%- for allocation in current_variant.selling_plan_allocations -%}
                 <label class="san-product__plan">
-                  <input type="radio" name="san-purchase-option" value="{{ allocation.selling_plan.id }}" data-plan-radio>
+                  <input
+                    type="radio"
+                    name="san-purchase-option"
+                    value="{{ allocation.selling_plan.id }}"
+                    data-plan-radio>
                   <span class="san-product__plan-body">
                     <span class="san-product__plan-name">{{ allocation.selling_plan.name }}</span>
                     {%- if allocation.selling_plan.description != blank -%}
@@ -151,23 +191,36 @@
           {%- unless product.has_only_default_variant -%}
             <div class="san-product__field">
               <label class="san-product__label" for="san-variant-{{ section.id }}">
-                {{ product.options | join: ' / ' | default: 'Presentación' }}
+                {{ product.options | join: ' / ' | default: variant_label }}
               </label>
               <div class="san-product__select-wrap">
-                <select id="san-variant-{{ section.id }}" class="san-product__select" data-variant-select>
+                <select
+                  id="san-variant-{{ section.id }}"
+                  class="san-product__select"
+                  data-variant-select>
                   {%- for variant in product.variants -%}
                     <option
                       value="{{ variant.id }}"
                       data-price="{{ variant.price | money }}"
                       data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money }}{% endif %}"
-                      {% if variant.available == false %}data-unavailable{% endif %}
-                      {% if variant.id == current_variant.id %}selected{% endif %}
-                    >
-                      {{ variant.title }}{% if variant.available == false %} — Agotado{% endif %}
+                      {% if variant.available == false %}
+                      data-unavailable{% endif %}
+                      {% if variant.id == current_variant.id %}
+                      selected{% endif %}>
+                      {{ variant.title }}{% if variant.available == false %}
+                        — {{ sold_out_label }}{% endif %}
                     </option>
                   {%- endfor -%}
                 </select>
-                <svg class="san-product__select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                <svg
+                  class="san-product__select-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
               </div>
             </div>
           {%- endunless -%}
@@ -175,7 +228,11 @@
           <div class="san-product__row">
             {%- if section.settings.show_quantity -%}
               <div class="san-product__qty">
-                <button type="button" class="san-product__qty-btn" data-qty-minus aria-label="Reducir cantidad">&minus;</button>
+                <button
+                  type="button"
+                  class="san-product__qty-btn"
+                  data-qty-minus
+                  aria-label="{{ 'san.product.quantity_decrease' | t | escape }}">&minus;</button>
                 <input
                   type="number"
                   class="san-product__qty-input"
@@ -183,10 +240,13 @@
                   value="1"
                   min="1"
                   inputmode="numeric"
-                  aria-label="Cantidad"
-                  data-qty-input
-                >
-                <button type="button" class="san-product__qty-btn" data-qty-plus aria-label="Aumentar cantidad">+</button>
+                  aria-label="{{ 'san.product.quantity' | t | escape }}"
+                  data-qty-input>
+                <button
+                  type="button"
+                  class="san-product__qty-btn"
+                  data-qty-plus
+                  aria-label="{{ 'san.product.quantity_increase' | t | escape }}">+</button>
               </div>
             {%- endif -%}
 
@@ -195,16 +255,29 @@
               name="add"
               class="san-product__atc"
               data-atc
-              {% if current_variant.available == false %}disabled{% endif %}
-            >
+              data-sold-out-label="{{ sold_out_label | escape }}"
+              {% if current_variant.available == false %}
+              disabled{% endif %}>
               <span data-atc-label>
                 {%- if current_variant.available -%}
-                  {{ section.settings.atc_label | default: 'Añadir al carrito' }}
+                  {{ 'san.product.add_to_cart' | t }}
                 {%- else -%}
-                  Agotado
+                  {{ sold_out_label }}
                 {%- endif -%}
               </span>
-              <svg class="san-product__atc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              <svg
+                class="san-product__atc-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"><line
+                  x1="5"
+                  y1="12"
+                  x2="19"
+                  y2="12" /><polyline points="12 5 19 12 12 19" /></svg>
             </button>
           </div>
         {%- endform -%}
@@ -215,20 +288,44 @@
               {%- case block.type -%}
                 {%- when 'description' -%}
                   {%- if product.description != blank -%}
-                    <details class="san-product__acc" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+                    <details
+                      class="san-product__acc"
+                      {% if block.settings.open_by_default %}
+                      open{% endif %}
+                      {{ block.shopify_attributes }}>
                       <summary class="san-product__acc-summary">
-                        {{ block.settings.title | default: 'Descripción' }}
-                        <svg class="san-product__acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        {{ 'san.product.description_title' | t }}
+                        <svg
+                          class="san-product__acc-icon"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
                       </summary>
                       <div class="san-product__acc-content">{{ product.description }}</div>
                     </details>
                   {%- endif -%}
                 {%- when 'accordion' -%}
                   {%- if block.settings.content != blank -%}
-                    <details class="san-product__acc" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+                    <details
+                      class="san-product__acc"
+                      {% if block.settings.open_by_default %}
+                      open{% endif %}
+                      {{ block.shopify_attributes }}>
                       <summary class="san-product__acc-summary">
                         {{ block.settings.title }}
-                        <svg class="san-product__acc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                        <svg
+                          class="san-product__acc-icon"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
                       </summary>
                       <div class="san-product__acc-content">{{ block.settings.content }}</div>
                     </details>
@@ -261,39 +358,96 @@
       role="dialog"
       aria-modal="true"
       aria-label="{{ product.title | escape }}"
-      data-counter-template="{{ 'san.product.zoom_counter' | t: index: '§i', total: '§t' }}"
-    >
+      data-counter-template="{{ 'san.product.zoom_counter' | t: index: '§i', total: '§t' }}">
       <div class="san-zoom__backdrop" data-zoom-close></div>
 
       <div class="san-zoom__viewport" data-zoom-viewport>
-        <img class="san-zoom__img" data-zoom-img src="" alt="" aria-label="{{ 'san.product.zoom_in' | t }}">
+        <img
+          class="san-zoom__img"
+          data-zoom-img
+          src=""
+          alt=""
+          aria-label="{{ 'san.product.zoom_in' | t }}">
       </div>
 
-      <button type="button" class="san-zoom__close" data-zoom-close-btn aria-label="{{ 'san.product.zoom_close' | t }}">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>
+      <button
+        type="button"
+        class="san-zoom__close"
+        data-zoom-close-btn
+        aria-label="{{ 'san.product.zoom_close' | t }}">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          aria-hidden="true"><line
+            x1="4"
+            y1="4"
+            x2="20"
+            y2="20" /><line
+            x1="20"
+            y1="4"
+            x2="4"
+            y2="20" /></svg>
       </button>
 
       {%- if product.media.size > 1 -%}
-        <button type="button" class="san-zoom__nav san-zoom__nav--prev" data-zoom-prev aria-label="{{ 'san.product.zoom_prev' | t }}">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14 5 7 12 14 19"/></svg>
+        <button
+          type="button"
+          class="san-zoom__nav san-zoom__nav--prev"
+          data-zoom-prev
+          aria-label="{{ 'san.product.zoom_prev' | t }}">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"><polyline points="14 5 7 12 14 19" /></svg>
         </button>
-        <button type="button" class="san-zoom__nav san-zoom__nav--next" data-zoom-next aria-label="{{ 'san.product.zoom_next' | t }}">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 5 17 12 10 19"/></svg>
+        <button
+          type="button"
+          class="san-zoom__nav san-zoom__nav--next"
+          data-zoom-next
+          aria-label="{{ 'san.product.zoom_next' | t }}">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"><polyline points="10 5 17 12 10 19" /></svg>
         </button>
       {%- endif -%}
 
       <p class="san-zoom__caption">
         <span class="san-zoom__caption-title">{{ product.title }}</span>
         {%- if product.media.size > 1 -%}
-          <span class="san-zoom__counter" data-zoom-counter aria-hidden="true"></span>
-          <span class="visually-hidden" data-zoom-counter-sr aria-live="polite"></span>
+          <span
+            class="san-zoom__counter"
+            data-zoom-counter
+            aria-hidden="true"></span>
+          <span
+            class="visually-hidden"
+            data-zoom-counter-sr
+            aria-live="polite"></span>
         {%- endif -%}
       </p>
     </div>
   {%- endif -%}
 </san-product>
 
-{%- render 'san-recently-viewed', product: product -%}
+{%- render 'san-recently-viewed'
+  , product: product -%}
 
 <script>
   if (!customElements.get('san-product')) {
@@ -350,7 +504,8 @@
             this.idInput.disabled = unavailable;
             if (this.atcBtn) this.atcBtn.disabled = unavailable;
             if (this.atcLabel) {
-              this.atcLabel.textContent = unavailable ? 'Agotado' : (this.atcLabel.dataset.default || this.atcLabel.textContent);
+              const soldOut = (this.atcBtn && this.atcBtn.dataset.soldOutLabel) || '';
+              this.atcLabel.textContent = unavailable ? soldOut : (this.atcLabel.dataset.default || this.atcLabel.textContent);
             }
             if (this.priceEl) {
               let html = '<span class="san-product__price-current">' + opt.dataset.price + '</span>';
@@ -499,113 +654,97 @@
 </script>
 
 {% schema %}
-{
-  "name": "Producto (Sana)",
-  "tag": "section",
-  "class": "san-product-section",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_badges",
-      "label": "Mostrar etiquetas del producto como badges",
-      "info": "Usa las primeras 3 etiquetas (tags) del producto.",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "subtitle",
-      "label": "Subtítulo por defecto",
-      "info": "Se usa si el producto no tiene el metafield descriptors.subtitle o custom.subtitle."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_quantity",
-      "label": "Mostrar selector de cantidad",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Opciones de compra"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_selling_plans",
-      "label": "Mostrar planes de suscripción",
-      "info": "Requiere una app de suscripciones con selling plans configurados.",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "plans_legend",
-      "label": "Título de las opciones de compra",
-      "default": "Opciones de compra"
-    },
-    {
-      "type": "text",
-      "id": "onetime_label",
-      "label": "Etiqueta de compra única",
-      "default": "Compra única"
-    },
-    {
-      "type": "text",
-      "id": "atc_label",
-      "label": "Texto del botón",
-      "default": "Añadir al carrito"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "description",
-      "name": "Descripción del producto",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Título",
-          "default": "Descripción"
-        },
-        {
-          "type": "checkbox",
-          "id": "open_by_default",
-          "label": "Abierto por defecto",
-          "default": true
-        }
-      ]
-    },
-    {
-      "type": "accordion",
-      "name": "Acordeón",
-      "settings": [
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Título",
-          "default": "Cómo usar"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "Contenido",
-          "default": "<p>Toma dos cápsulas al día con agua, preferiblemente por la mañana. Para mejores resultados, recomendamos un uso continuado durante al menos 8 semanas.</p>"
-        },
-        {
-          "type": "checkbox",
-          "id": "open_by_default",
-          "label": "Abierto por defecto",
-          "default": false
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Producto (Sana)",
-      "blocks": [
-        { "type": "description" },
-        { "type": "accordion" }
-      ]
-    }
-  ]
-}
+  {
+    "name": "Producto (Sana)",
+    "tag": "section",
+    "class": "san-product-section",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_badges",
+        "label": "Mostrar etiquetas del producto como badges",
+        "info": "Usa las primeras 3 etiquetas (tags) del producto.",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtítulo por defecto",
+        "info": "Se usa si el producto no tiene el metafield descriptors.subtitle o custom.subtitle."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity",
+        "label": "Mostrar selector de cantidad",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Opciones de compra"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_selling_plans",
+        "label": "Mostrar planes de suscripción",
+        "info": "Requiere una app de suscripciones con selling plans configurados.",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "Los textos del botón, las opciones de compra y el acordeón de descripción se traducen automáticamente (san.product.* en los archivos de idioma)."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "description",
+        "name": "Product Description",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "open_by_default",
+            "label": "Abierto por defecto",
+            "default": true
+          }
+        ]
+      },
+      {
+        "type": "accordion",
+        "name": "Acordeón",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Título",
+            "default": "Cómo usar"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Contenido",
+            "default": "<p>Toma dos cápsulas al día con agua, preferiblemente por la mañana. Para mejores resultados, recomendamos un uso continuado durante al menos 8 semanas.</p>"
+          },
+          {
+            "type": "checkbox",
+            "id": "open_by_default",
+            "label": "Abierto por defecto",
+            "default": false
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Producto (Sana)",
+        "blocks": [
+          {
+            "type": "description"
+          },
+          {
+            "type": "accordion"
+          }
+        ]
+      }
+    ]
+  }
 {% endschema %}

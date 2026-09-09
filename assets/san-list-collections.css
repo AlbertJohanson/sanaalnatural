@@ -129,7 +129,7 @@
 .sa-hero__eyebrow {
   margin: 0;
   font-family: var(--font-body, 'Poppins', sans-serif);
-  font-size: clamp(0.62rem, 0.9vw, 0.76rem);
+  font-size: var(--san-label);
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
@@ -195,7 +195,7 @@
   margin: clamp(1.6rem, 3vw, 2.4rem) 0 0;
   max-width: 52ch;
   font-family: var(--font-body, 'Poppins', sans-serif);
-  font-size: clamp(0.98rem, 1.4vw, 1.18rem);
+  font-size: var(--san-hero-lede);
   font-weight: 300;
   line-height: 1.75;
   color: rgba(255, 255, 255, 0.82);
@@ -213,7 +213,7 @@
   text-decoration: none;
   color: rgba(255, 255, 255, 0.65);
   font-family: var(--font-body, 'Poppins', sans-serif);
-  font-size: 0.64rem;
+  font-size: var(--san-label);
   font-weight: 500;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -281,7 +281,7 @@
 .sanc-board__count {
   flex-shrink: 0;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: var(--san-label);
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -486,7 +486,7 @@
 
 .sanc-card__qty {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.15rem;
+  font-size: var(--san-label);
   font-weight: 400;
   letter-spacing: 0.06em;
   color: rgba(175, 234, 144, 0.85);
@@ -498,7 +498,7 @@
   align-items: center;
   gap: 0.7rem;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.05rem;
+  font-size: var(--san-label);
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -559,12 +559,11 @@
   .sanc-grid { gap: 1.8rem; }
 
   .sanc-card__name { font-size: 1.7rem; }
-  .sanc-card__index { font-size: 1.3rem; top: 1.1rem; left: 1.2rem; }
+  .sanc-card__index { font-size: var(--san-label-lg); top: 1.1rem; left: 1.2rem; }
   .sanc-card__content { padding: 1.4rem; gap: 0.7rem; }
 
   /* on touch: show the CTA, drop hover-only effects */
-  .sanc-card__cta { opacity: 1; transform: none; font-size: 0.95rem; }
-  .sanc-card__qty { font-size: 1.05rem; }
+  .sanc-card__cta { opacity: 1; transform: none; }
   .sanc-card__frame { inset: 0.9rem; border-color: rgba(175, 234, 144, 0.4); }
 }
 

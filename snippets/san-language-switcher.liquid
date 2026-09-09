@@ -28,7 +28,14 @@
     <h2 class="visually-hidden" id="{{ position }}LangLabel">{{ 'localization.language_label' | t }}</h2>
 
     <details class="san-lang__switcher san-lang__switcher--{{ placement }}" data-san-lang>
-      <summary class="san-lang__current" aria-label="{{ 'localization.language_label' | t }}">
+      {%- comment -%}
+        No aria-label here: it replaced the accessible name with "Language",
+        which no longer contained the visible "EN" / "ES" text (WCAG 2.5.3
+        Label in Name). A visually-hidden prefix keeps the context and makes
+        the accessible name "Language EN", which does contain the visible text.
+      {%- endcomment -%}
+      <summary class="san-lang__current">
+        <span class="visually-hidden">{{ 'localization.language_label' | t }}</span>
         {%- render 'san-flag', code: localization.language.iso_code -%}
         <span class="san-lang__code">{{ localization.language.iso_code | upcase }}</span>
         <svg class="san-lang__caret" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true">

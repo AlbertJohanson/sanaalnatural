@@ -147,7 +147,16 @@
       "zoom_out": "Alejar imagen",
       "zoom_prev": "Imagen anterior",
       "zoom_next": "Imagen siguiente",
-      "zoom_counter": "Imagen %{index} de %{total}"
+      "zoom_counter": "Imagen %{index} de %{total}",
+      "purchase_options": "Opciones de compra",
+      "one_time_purchase": "Compra única",
+      "variant_label": "Presentación",
+      "sold_out": "Agotado",
+      "add_to_cart": "Añadir al carrito",
+      "quantity": "Cantidad",
+      "quantity_decrease": "Reducir cantidad",
+      "quantity_increase": "Aumentar cantidad",
+      "description_title": "Descripción"
     },
     "contact": {
       "eyebrow": "Contacto",
@@ -215,11 +224,11 @@
     },
     "brand_story": {
       "overline": "Nuestra Historia",
-      "heading": "Más de 5 años llevando la naturaleza a tu mesa",
-      "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p><p>Trabajamos directamente con productores orgánicos certificados, garantizando que lo que llega a tu hogar sea genuinamente natural, delicioso y poderoso para tu bienestar.</p>",
-      "value_1": "Ingredientes orgánicos certificados",
+      "heading": "Más de 12 años llevando la naturaleza a tu mesa",
+      "body_html": "<p>Sana Al Natural nació de una convicción simple: que la naturaleza tiene todo lo que necesitamos para vivir bien. Desde ingredientes cuidadosamente seleccionados hasta procesos que preservan cada nutriente, cada producto que creamos es una promesa de calidad sin compromiso.</p>",
+      "value_1": "",
       "value_2": "",
-      "value_3": "Sin aditivos ni conservantes artificiales",
+      "value_3": "",
       "stat_number": "5000+",
       "stat_label": "Familias que confían en nosotros",
       "button": "Conoce nuestra historia"
@@ -402,19 +411,22 @@
         "1": {
           "quote": "Los suplementos de Sana Al Natural cambiaron completamente mi rutina de bienestar. Noto la diferencia desde la primera semana. La calidad es incomparable y el sabor es increíble.",
           "author": "María González",
-          "location": "Ciudad de México"
+          "location": "Los Ángeles, CA"
         },
         "2": {
           "quote": "Por fin encontré productos naturales que realmente funcionan y saben deliciosos. Los tés de infusión son mis favoritos, los tomo cada mañana y me dan una energía increíble.",
           "author": "Carlos Ruiz",
-          "location": "Guadalajara, Jalisco"
+          "location": "San Diego, CA"
         },
         "3": {
           "quote": "La calidad es incomparable. Soy muy exigente con lo que compro para mi familia y Sana Al Natural nunca me decepciona. Los aceites esenciales son simplemente perfectos.",
           "author": "Ana Morales",
-          "location": "Monterrey, N.L."
+          "location": "Phoenix, AZ"
         }
       }
+    },
+    "seo": {
+      "meta_description": "Tés, productos herbales, aceites y esenciales de cuidado personal de origen natural, seleccionados para tu bienestar diario. Envíos en Estados Unidos."
     },
     "faq": {
       "eyebrow": "Resolvemos tus dudas",
@@ -424,26 +436,46 @@
       "empty": "Agrega preguntas desde el editor de tema.",
       "items": {
         "1": {
-          "question": "¿Sus productos son 100% naturales?",
-          "answer_html": "<p>Sí. Todos nuestros productos están formulados con ingredientes naturales seleccionados, sin aditivos ni conservantes artificiales.</p>"
+          "question": "¿Qué tipos de productos ofrece Sana Al Natural?",
+          "answer_html": "<p>Ofrecemos una variedad de productos naturales para el bienestar y el cuidado personal, incluyendo tés, productos herbales, aceites, productos para el cabello y otros artículos cuidadosamente seleccionados para el cuidado diario.</p>"
         },
         "2": {
-          "question": "¿Cuánto tarda el envío?",
-          "answer_html": "<p>Los pedidos se procesan en 24–48 horas y llegan en 3 a 5 días hábiles. El envío es gratis en compras superiores a $500.</p>"
+          "question": "¿Los productos son 100% naturales?",
+          "answer_html": "<p>Seleccionamos productos elaborados con ingredientes de origen natural siempre que es posible. Los ingredientes y las características de cada producto se indican en su descripción y en su etiqueta.</p>"
         },
         "3": {
-          "question": "¿Cuentan con certificación orgánica?",
-          "answer_html": "<p>Trabajamos con productores certificados que garantizan procesos agrícolas sostenibles y responsables.</p>"
+          "question": "¿Cómo puedo saber qué ingredientes contiene cada producto?",
+          "answer_html": "<p>Cada producto incluye información sobre sus ingredientes, características e instrucciones de uso en su descripción y/o en su etiqueta.</p>"
         },
         "4": {
-          "question": "¿Puedo devolver un producto?",
-          "answer_html": "<p>Aceptamos devoluciones dentro de los 30 días posteriores a la compra. Escríbenos y te ayudamos con el proceso.</p>"
+          "question": "¿Realizan envíos?",
+          "answer_html": "<p>Sí. Realizamos envíos dentro de los Estados Unidos. Los costos de envío y los tiempos de entrega se calculan según el destino y el método de envío seleccionado.</p>"
+        },
+        "5": {
+          "question": "¿Cuánto tardará en llegar mi pedido?",
+          "answer_html": "<p>Los tiempos de entrega pueden variar según tu ubicación y el método de envío. La información de entrega disponible se mostrará al finalizar la compra.</p>"
+        },
+        "6": {
+          "question": "¿Puedo devolver un producto o solicitar un reembolso?",
+          "answer_html": "<p>Debido a la naturaleza de nuestros productos y por razones de salud, seguridad e higiene, todas las ventas son finales y no aceptamos devoluciones ni cambios una vez realizada la compra.</p><p>Si tu pedido llega dañado o recibes un artículo incorrecto, contáctanos dentro de las 48 horas posteriores a la entrega y envíanos fotografías del producto y su empaque. Revisaremos tu caso y te indicaremos cómo proceder.</p>"
+        },
+        "7": {
+          "question": "¿Cómo puedo contactar a Sana Al Natural?",
+          "answer_html": "<p>Puedes comunicarte con nosotros a través de los medios de contacto disponibles en nuestro sitio web. Estamos aquí para ayudarte con preguntas sobre nuestros productos y pedidos.</p>"
+        },
+        "8": {
+          "question": "¿Los productos sustituyen un tratamiento médico?",
+          "answer_html": "<p>Nuestros productos están destinados al bienestar y al cuidado personal, y no sustituyen el diagnóstico ni el tratamiento recomendado por un profesional de la salud. Si tienes alguna condición médica o tomas medicamentos, consulta a un profesional de la salud antes de usar un producto.</p>"
+        },
+        "9": {
+          "question": "¿Cómo elijo el producto adecuado para mí?",
+          "answer_html": "<p>Cada producto incluye información sobre sus ingredientes, características e instrucciones de uso. Si tienes dudas sobre un producto en específico, contáctanos y con gusto te orientamos.</p>"
         }
       }
     },
     "footer": {
       "statement": "Bienestar que |nace de la naturaleza|",
-      "blurb": "Productos naturales seleccionados para tu bienestar, del campo a tu mesa.",
+      "blurb": "Productos naturales cuidadosamente seleccionados para tu bienestar.",
       "newsletter_heading": "Únete a la comunidad",
       "newsletter_text": "Recibe novedades, tips de bienestar natural y ofertas exclusivas.",
       "rights": "Todos los derechos reservados.",

@@ -131,7 +131,16 @@
       "zoom_in": "Zoom in",
       "zoom_out": "Zoom out",
       "zoom_prev": "Previous image",
-      "zoom_next": "Next image"
+      "zoom_next": "Next image",
+      "purchase_options": "Purchase options",
+      "one_time_purchase": "One-time purchase",
+      "variant_label": "Presentation",
+      "sold_out": "Sold out",
+      "add_to_cart": "Add to cart",
+      "quantity": "Quantity",
+      "quantity_decrease": "Decrease quantity",
+      "quantity_increase": "Increase quantity",
+      "description_title": "Description"
     },
     "recommended": {
       "eyebrow": "Keep exploring",
@@ -172,11 +181,11 @@
     },
     "brand_story": {
       "overline": "Our Story",
-      "heading": "Over 5 years bringing nature to your table",
-      "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p><p>We work directly with certified organic producers, ensuring that what reaches your home is genuinely natural, delicious and powerful for your wellbeing.</p>",
-      "value_1": "Certified organic ingredients",
+      "heading": "Over 12 years bringing nature to your table",
+      "body_html": "<p>Sana Al Natural was born from a simple conviction: that nature holds everything we need to live well. From carefully selected ingredients to processes that preserve every nutrient, each product we create is a promise of quality without compromise.</p>",
+      "value_1": "",
       "value_2": "",
-      "value_3": "No artificial additives or preservatives",
+      "value_3": "",
       "stat_number": "5000+",
       "stat_label": "Families who trust us",
       "button": "Discover our story"
@@ -402,19 +411,22 @@
         "1": {
           "quote": "Sana Al Natural's supplements completely transformed my wellness routine. I noticed the difference from the very first week. The quality is unmatched and the taste is incredible.",
           "author": "María González",
-          "location": "Mexico City"
+          "location": "Los Angeles, CA"
         },
         "2": {
           "quote": "I finally found natural products that truly work and taste delicious. The infusion teas are my favorite — I drink them every morning and they give me amazing energy.",
           "author": "Carlos Ruiz",
-          "location": "Guadalajara, Jalisco"
+          "location": "San Diego, CA"
         },
         "3": {
           "quote": "The quality is unmatched. I'm very demanding about what I buy for my family, and Sana Al Natural never lets me down. The essential oils are simply perfect.",
           "author": "Ana Morales",
-          "location": "Monterrey, N.L."
+          "location": "Phoenix, AZ"
         }
       }
+    },
+    "seo": {
+      "meta_description": "Naturally derived teas, herbal products, oils and personal care essentials, carefully selected for everyday wellbeing. Shipping across the United States."
     },
     "faq": {
       "eyebrow": "We answer your questions",
@@ -424,26 +436,46 @@
       "empty": "Add questions from the theme editor.",
       "items": {
         "1": {
-          "question": "Are your products 100% natural?",
-          "answer_html": "<p>Yes. All our products are formulated with selected natural ingredients, free from artificial additives and preservatives.</p>"
+          "question": "What types of products does Sana Al Natural offer?",
+          "answer_html": "<p>We offer a variety of natural products for wellness and personal care, including teas, herbal products, oils, hair care products, and other carefully selected items for everyday care.</p>"
         },
         "2": {
-          "question": "How long does shipping take?",
-          "answer_html": "<p>Orders are processed within 24–48 hours and arrive in 3 to 5 business days. Shipping is free on purchases over $500.</p>"
+          "question": "Are the products 100% natural?",
+          "answer_html": "<p>We select products made with naturally derived ingredients whenever possible. The ingredients and characteristics of each product are listed in its description and on its label.</p>"
         },
         "3": {
-          "question": "Are you organically certified?",
-          "answer_html": "<p>We work with certified producers that guarantee sustainable and responsible farming processes.</p>"
+          "question": "How can I find out what ingredients each product contains?",
+          "answer_html": "<p>Each product includes information about its ingredients, characteristics, and directions for use in its description and/or on its label.</p>"
         },
         "4": {
-          "question": "Can I return a product?",
-          "answer_html": "<p>We accept returns within 30 days of purchase. Write to us and we'll help you with the process.</p>"
+          "question": "Do you offer shipping?",
+          "answer_html": "<p>Yes. We ship within the United States. Shipping costs and delivery times are calculated based on the destination and selected shipping method.</p>"
+        },
+        "5": {
+          "question": "How long will it take for my order to arrive?",
+          "answer_html": "<p>Delivery times may vary depending on your location and the shipping method. Available delivery information will be displayed at checkout.</p>"
+        },
+        "6": {
+          "question": "Can I return a product or request a refund?",
+          "answer_html": "<p>Due to the nature of our products and for health, safety, and hygiene reasons, all sales are final, and we do not accept returns or exchanges once products have been purchased.</p><p>If your order arrives damaged or you receive an incorrect item, please contact us within 48 hours of delivery and provide photographs of the product and its packaging. We will review your case and let you know how to proceed.</p>"
+        },
+        "7": {
+          "question": "How can I contact Sana Al Natural?",
+          "answer_html": "<p>You can reach us through the contact methods available on our website. We are here to help with questions about our products and orders.</p>"
+        },
+        "8": {
+          "question": "Do the products replace medical treatment?",
+          "answer_html": "<p>Our products are intended for wellness and personal care and are not a substitute for diagnosis or treatment recommended by a healthcare professional. If you have a medical condition or take medication, consult a healthcare professional before using a product.</p>"
+        },
+        "9": {
+          "question": "How do I choose the right product for me?",
+          "answer_html": "<p>Each product includes information about its ingredients, characteristics, and directions for use. If you have questions about a specific product, feel free to contact us, and we will be happy to guide you.</p>"
         }
       }
     },
     "footer": {
       "statement": "Wellness that |grows from nature|",
-      "blurb": "Carefully selected natural products for your wellbeing — from the field to your table.",
+      "blurb": "Natural products carefully selected for your well-being.",
       "newsletter_heading": "Join the community",
       "newsletter_text": "Get news, natural-wellness tips and exclusive offers.",
       "rights": "All rights reserved.",

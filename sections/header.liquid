@@ -288,7 +288,8 @@
                             <a href="{{ product.url }}" class="san-mega__product">
                               <span class="san-mega__product-media">
                                 {%- if product.featured_media -%}
-                                  {{ product.featured_media | image_url: width: 480 | image_tag: loading: 'lazy', class: 'san-mega__product-img', widths: '240,480', sizes: '20rem', alt: product.featured_media.alt | escape }}
+                                  {%- assign mega_alt = product.featured_media.alt | default: product.title | escape -%}
+                                  {{ product.featured_media | image_url: width: 480 | image_tag: loading: 'lazy', class: 'san-mega__product-img', widths: '240,480', sizes: '20rem', alt: mega_alt }}
                                 {%- else -%}
                                   {{ 'product-apparel-1' | placeholder_svg_tag: 'san-mega__product-img placeholder-svg' }}
                                 {%- endif -%}
@@ -396,6 +397,27 @@
 
   </header>
 </{{ header_tag }}>
+
+{%- comment -%}
+  Publish --header-height synchronously, before the browser paints the hero.
+
+  The sticky-header custom element also sets this, but {% javascript %} is
+  bundled into a deferred asset, so it only lands after first paint. The hero
+  sizes itself with calc(100svh - var(--header-height, 88px)), so until then it
+  used the 88px fallback and then resized — that single reflow was the source of
+  the two large layout shifts in the CLS report (~0.18 combined).
+{%- endcomment -%}
+<script>
+  (function () {
+    var header = document.querySelector('#shopify-section-{{ section.id }} .header');
+    if (!header) return;
+    var set = function () {
+      document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+    };
+    set();
+    window.addEventListener('resize', set);
+  })();
+</script>
 
 {%- if settings.cart_type == 'notification' -%}
   {%- render 'cart-notification',
