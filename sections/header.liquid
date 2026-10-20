@@ -401,8 +401,10 @@
 {%- comment -%}
   Publish --header-height synchronously, before the browser paints the hero.
 
-  The sticky-header custom element also sets this, but {% javascript %} is
-  bundled into a deferred asset, so it only lands after first paint. The hero
+  The sticky-header custom element also sets this, but a section's javascript
+  tag is bundled into a deferred asset, so it only lands after first paint.
+  (Don't write that tag literally in this comment: the CLI's local bundler for
+  `shopify theme dev` takes it for the real one and breaks every section script.) The hero
   sizes itself with calc(100svh - var(--header-height, 88px)), so until then it
   used the 88px fallback and then resized — that single reflow was the source of
   the two large layout shifts in the CLS report (~0.18 combined).

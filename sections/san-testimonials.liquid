@@ -104,12 +104,24 @@
 
           <!-- Author info -->
           <div class="san-testi__author">
-            <div class="san-testi__avatar" aria-hidden="true">
-              {%- assign initial = block.settings.avatar_initial -%}
-              {%- if initial == blank -%}
-                {%- assign initial = t_author | slice: 0 -%}
+            {%- comment -%}
+              A real photo of the customer when the merchant has one (client
+              asked for photos so reviews feel genuine); the initial otherwise.
+            {%- endcomment -%}
+            <div class="san-testi__avatar{% if block.settings.photo != blank %} san-testi__avatar--photo{% endif %}" aria-hidden="true">
+              {%- if block.settings.photo != blank -%}
+                {{
+                  block.settings.photo
+                  | image_url: width: 160
+                  | image_tag: class: 'san-testi__avatar-img', widths: '80, 160', sizes: '56px', loading: 'lazy', alt: ''
+                }}
+              {%- else -%}
+                {%- assign initial = block.settings.avatar_initial -%}
+                {%- if initial == blank -%}
+                  {%- assign initial = t_author | slice: 0 -%}
+                {%- endif -%}
+                {{ initial | upcase }}
               {%- endif -%}
-              {{ initial | upcase }}
             </div>
             <div class="san-testi__author-info">
               <span class="san-testi__author-name">{{ t_author }}</span>
@@ -194,6 +206,12 @@
             { "value": "1", "label": "1 estrella" }
           ],
           "default": "5"
+        },
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Foto del cliente (opcional)",
+          "info": "Solo una foto real de esta persona y con su permiso. Si la dejas vacía, se muestra la inicial."
         },
         {
           "type": "text",

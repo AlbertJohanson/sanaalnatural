@@ -578,6 +578,10 @@
   background-image: linear-gradient(165deg, #35601f 0%, #2a4d16 55%, #21400f 100%);
   color: #fff;
   padding: clamp(9rem, 16vh, 14rem) clamp(1.8rem, 5vw, 6rem) clamp(4rem, 7vw, 6.5rem);
+  /* Photo backdrop (snippets/san-photo-bg.liquid): darkest behind the
+     centred breadcrumb and title. */
+  --photo-scrim:
+    radial-gradient(60% 80% at 50% 55%, rgba(14, 26, 10, 0.52), rgba(14, 26, 10, 0.2) 100%);
 }
 
 .san-catalog__grain {
@@ -605,26 +609,6 @@
 @keyframes sanCatBreathe {
   0%, 100% { opacity: 0.85; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.04); }
-}
-
-.san-catalog__watermark {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.18em;
-  z-index: 0;
-  text-align: center;
-  font-family: 'Noto Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 700;
-  font-size: clamp(6rem, 18vw, 22rem);
-  line-height: 0.8;
-  letter-spacing: -0.03em;
-  color: #fff;
-  opacity: 0.05;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
 }
 
 .san-catalog__ambient { position: absolute; inset: 0; z-index: 1; pointer-events: none; }

@@ -34,6 +34,15 @@
 -%}
 
 <div class="san-contact section-{{ section.id }}-padding" data-san-contact>
+  {%- comment -%}
+    A photo to set the page apart from the flat green (client correction,
+    CAMBIOS WEB p. 13). Eager: it is the first thing on the page.
+  {%- endcomment -%}
+  {%- render 'san-photo-bg',
+    name: section.settings.background_photo,
+    image: section.settings.background_image,
+    eager: true
+  -%}
   <div class="san-contact__inner">
 
     <header class="san-contact__head">
@@ -342,6 +351,24 @@
       "type": "image_picker",
       "id": "brand_image",
       "label": "Foto editorial (columna lateral)"
+    },
+    {
+      "type": "select",
+      "id": "background_photo",
+      "label": "Foto de fondo",
+      "options": [
+        { "value": "selva", "label": "Selva con rayos de luz" },
+        { "value": "hojas", "label": "Pared verde con sombras de hojas" },
+        { "value": "niebla", "label": "Montañas con niebla" },
+        { "value": "none", "label": "Sin foto (verde liso)" }
+      ],
+      "default": "selva"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Foto de fondo propia (opcional)",
+      "info": "Reemplaza la foto elegida arriba. Usa una foto oscura: el texto es blanco."
     },
     { "type": "header", "content": "Canales de contacto" },
     {
