@@ -1,0 +1,74 @@
+{%- comment -%}
+  Photographic backdrop for the deep-green sections.
+
+  The client asked to replace the flat green with the brand's leaf
+  photography (CAMBIOS WEB, p. 4). Three photos ship as theme assets,
+  san-bg-<name>-1400.webp and -2560.webp:
+    selva  — jungle with light rays: dark, bright rays at the top centre
+    hojas  — green wall with leaf shadows: calm, dark to mid everywhere
+    niebla — misty mountains: bright mist across the top quarter
+
+  The parent section must be `position: relative; isolation: isolate` —
+  the backdrop sits at z-index -1 inside it. Each section darkens the
+  photo for its own text layout with --photo-scrim (and can move it with
+  --photo-position); see .san-photo-bg in brand-styles.css.
+
+  Accepts:
+    name  {string} 'selva' | 'hojas' | 'niebla'; 'none' or blank renders nothing
+    image {image}  optional merchant photo from an image_picker; replaces name
+    eager {bool}   true only for a section at the top of the page (LCP)
+
+  Usage:
+    {%- render 'san-photo-bg', name: section.settings.background_photo, image: section.settings.background_image -%}
+{%- endcomment -%}
+
+{%- liquid
+  assign has_photo = false
+  if image != blank
+    assign has_photo = true
+  elsif name != blank and name != 'none'
+    assign has_photo = true
+  endif
+
+  if eager
+    assign photo_loading = 'eager'
+    assign photo_priority = 'high'
+  else
+    assign photo_loading = 'lazy'
+    assign photo_priority = 'auto'
+  endif
+-%}
+
+{%- if has_photo -%}
+  <div class="san-photo-bg{% if image == blank %} san-photo-bg--{{ name }}{% endif %}" aria-hidden="true">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 2560
+        | image_tag:
+          class: 'san-photo-bg__img',
+          widths: '1100, 1600, 2560',
+          sizes: '100vw',
+          loading: photo_loading,
+          fetchpriority: photo_priority,
+          alt: ''
+      }}
+    {%- else -%}
+      {%- liquid
+        assign photo_small = 'san-bg-' | append: name | append: '-1400.webp' | asset_url
+        assign photo_large = 'san-bg-' | append: name | append: '-2560.webp' | asset_url
+      -%}
+      <img
+        class="san-photo-bg__img"
+        src="{{ photo_small }}"
+        srcset="{{ photo_small }} 1400w, {{ photo_large }} 2560w"
+        sizes="100vw"
+        width="2560"
+        height="1429"
+        alt=""
+        loading="{{ photo_loading }}"
+        fetchpriority="{{ photo_priority }}"
+        decoding="async">
+    {%- endif -%}
+  </div>
+{%- endif -%}

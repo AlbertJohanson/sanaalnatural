@@ -13,6 +13,11 @@
     linear-gradient(180deg, #31591d 0%, #244016 55%, #1c350f 100%);
   overflow: hidden;
   isolation: isolate;
+  /* Photo backdrop (snippets/san-photo-bg.liquid): a little darker behind
+     the text column, and fading at the bottom into the categories section. */
+  --photo-scrim:
+    linear-gradient(90deg, rgba(16, 28, 12, 0.1) 35%, rgba(16, 28, 12, 0.42) 100%),
+    linear-gradient(180deg, rgba(16, 28, 12, 0.2) 0%, rgba(16, 28, 12, 0) 25%, rgba(16, 28, 12, 0) 72%, #142210 100%);
 }
 
 /* Ambient backdrop leaf */
@@ -137,12 +142,12 @@
   50% { transform: translateY(-10px); }
 }
 
-/* Floating stat */
+/* Floating stat — white box (client correction) */
 .san-story__stat {
   position: absolute;
   top: -3rem;
   right: -3rem;
-  background: #afea90;
+  background: #ffffff;
   color: #1c350f;
   padding: 2.4rem 3rem;
   min-width: 17rem;
@@ -291,7 +296,7 @@
   line-height: 1.4;
 }
 
-/* CTA */
+/* CTA — white box like the stat (client correction); light green on hover */
 .san-story__btn {
   display: inline-flex;
   align-items: center;
@@ -302,7 +307,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #1c350f;
-  background: #afea90;
+  background: #ffffff;
   padding: 1.6rem 3.4rem;
   text-decoration: none;
   position: relative;
@@ -314,7 +319,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: #ffffff;
+  background: #afea90;
   transform: translateX(-101%);
   transition: transform 0.4s var(--ease-out-expo);
   z-index: 0;

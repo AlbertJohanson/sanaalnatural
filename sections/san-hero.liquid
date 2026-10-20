@@ -2,646 +2,742 @@
 
 {%- liquid
   comment
-    Desktop hero height follows the photo instead of the viewport, so the
-    media column is never cropped. Take the shape from the first slide
-    (all slides share one column, so one aspect has to win); fall back to
-    the single-image setting, then to 4/5 when the merchant set neither.
+    Banner carousel. Every slide is one wide product photo with its own
+    copy, button and "in the photo" product chips. From 990px the copy sits
+    on the photo's empty wall; below that the photo is cropped around the
+    products and the copy moves into a panel tinted with the wall colour.
+
+    The hero takes its shape from the first slide's banner (all slides share
+    one box, so one aspect has to win).
   endcomment
-  assign slide_blocks = section.blocks | where: 'type', 'slide'
-  assign hero_aspect = 0.8
-  if slide_blocks.first.settings.image != blank
-    assign hero_aspect = slide_blocks.first.settings.image.aspect_ratio
-  elsif section.settings.image != blank
-    assign hero_aspect = section.settings.image.aspect_ratio
+  assign slides = section.blocks | where: 'type', 'slide'
+  assign first_slide = slides.first
+
+  assign hero_ratio = 2.357
+  if first_slide.settings.image != blank
+    assign hero_ratio = first_slide.settings.image.aspect_ratio
   endif
+
+  comment
+    Phones crop the banner to 6:5 around the products, or follow the first
+    slide's own mobile image when one is set.
+  endcomment
+  assign hero_ratio_mobile = 1.2
+  if first_slide.settings.image_mobile != blank
+    assign hero_ratio_mobile = first_slide.settings.image_mobile.aspect_ratio
+  endif
+
+  assign autoplay = section.settings.autoplay
+  if slides.size < 2
+    assign autoplay = false
+  endif
+
+  comment
+    Shopify localises resource links (shopify://collections/…) but not plain
+    paths such as /search?q=arnicol, so those get the visitor's locale prefix
+    here — otherwise a Spanish visitor would land on the English page.
+  endcomment
+  assign locale_root = routes.root_url
+  assign locale_prefix = locale_root | append: '/'
+
+  assign copy_root = 'san.hero.slides.'
+  assign mobile_widths = '375,550,750,1100,1500,2000' | split: ','
+  assign tabs_html = ''
 -%}
 
 {%- style -%}
-  #san-hero-{{ section.id }} {
-    --hero-min-height: {{ section.settings.min_height }}vh;
-    --carousel-interval: {{ section.settings.carousel_interval | times: 1000 }}ms;
-    --hero-media-aspect: {{ hero_aspect }};
+  #SanHomeHero-{{ section.id }} {
+    --hero-ratio: {{ hero_ratio }};
+    --hero-ratio-mobile: {{ hero_ratio_mobile }};
+    --hero-interval: {{ section.settings.carousel_interval | times: 1000 }}ms;
   }
 {%- endstyle -%}
 
-{%- liquid
-  assign hero_eyebrow = 'san.hero.eyebrow' | t
-  assign hero_heading = 'san.hero.heading' | t
-  assign hero_description = 'san.hero.description' | t
-  assign hero_button_1 = 'san.hero.button_1' | t
-  assign hero_button_2 = 'san.hero.button_2' | t
--%}
+{%- capture slides_html -%}
+  {%- for block in slides -%}
+    {%- liquid
+      assign s = block.settings
+      assign slide_index = forloop.index
+      assign is_first = forloop.first
 
-<section
-  class="san-hero"
-  id="san-hero-{{ section.id }}"
-  aria-label="{{ hero_heading | replace: '|', '' | escape }}">
+      comment
+        Everything here leaves this block HTML-escaped exactly once: `t`
+        already escapes translations, so only the merchant's own text is
+        escaped, here, and nothing is escaped again on output.
+      endcomment
+      assign nav_label = s.nav_label | escape
+      assign title = s.heading | escape
+      assign text = s.description | escape
+      assign cta_label = s.button_label | escape
+      assign alt = s.image.alt | escape
 
-  {%- comment -%} Decorative botanical SVG {%- endcomment -%}
-  <div class="san-hero__decor" aria-hidden="true">
-    <svg
-      viewBox="0 0 400 600"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      class="san-hero__decor-svg">
-      <path
-        d="M200 580 C200 580 80 480 60 360 C40 240 100 160 200 140 C300 120 380 200 360 320 C340 440 240 520 200 580Z"
-        stroke="#55823d"
-        stroke-width="1"
-        fill="none"
-        opacity="0.12" />
-      <path
-        d="M200 500 C200 500 120 430 110 340 C100 250 150 200 200 190 C250 180 310 230 300 320 C290 410 230 470 200 500Z"
-        stroke="#55823d"
-        stroke-width="0.8"
-        fill="none"
-        opacity="0.08" />
-      <line
-        x1="200"
-        y1="580"
-        x2="200"
-        y2="140"
-        stroke="#55823d"
-        stroke-width="0.6"
-        opacity="0.1" />
-    </svg>
-  </div>
+      comment
+        A slide set to one of the translated copies reads its words from
+        san.hero.slides.<key> in the locale files (EN/ES). The fields below
+        only fill in whatever that key doesn't define.
+      endcomment
+      if s.copy != 'custom'
+        assign copy_key = copy_root | append: s.copy
+        assign t_nav = copy_key | append: '.nav' | t
+        assign t_title = copy_key | append: '.heading' | t
+        assign t_text = copy_key | append: '.description' | t
+        assign t_cta = copy_key | append: '.button' | t
+        assign t_alt = copy_key | append: '.alt' | t
+        unless t_nav contains 'translation missing'
+          assign nav_label = t_nav
+        endunless
+        unless t_title contains 'translation missing'
+          assign title = t_title
+        endunless
+        unless t_text contains 'translation missing'
+          assign text = t_text
+        endunless
+        unless t_cta contains 'translation missing'
+          assign cta_label = t_cta
+        endunless
+        unless t_alt contains 'translation missing'
+          assign alt = t_alt
+        endunless
+      endif
 
-  <div class="san-hero__inner">
+      if nav_label == blank
+        assign nav_label = 'san.hero.nav_fallback' | t: index: slide_index
+      endif
+      if alt == blank
+        assign alt = title | remove: '|'
+      endif
+      assign alt = alt | strip
 
-    {%- comment -%} ─── TEXT COLUMN ─── {%- endcomment -%}
-    <div class="san-hero__content">
+      assign cta_url = s.button_link | default: routes.all_products_collection_url
+      if locale_root != '/'
+        assign url_first = cta_url | slice: 0
+        assign url_head = cta_url | slice: 0, locale_prefix.size
+        if url_first == '/' and url_head != locale_prefix and cta_url != locale_root
+          assign cta_url = locale_root | append: cta_url
+        endif
+      endif
 
+      comment
+        Below 990px the banner is cropped (1.6:1 on tablets, the mobile ratio
+        on phones), so it is drawn wider than the screen — sizes says by how much.
+      endcomment
+      assign vw_tablet = 100
+      assign vw_mobile = 100
+      if s.image != blank
+        assign vw_tablet = s.image.aspect_ratio | divided_by: 1.6 | times: 100 | ceil
+        assign vw_mobile = s.image.aspect_ratio | divided_by: hero_ratio_mobile | times: 100 | ceil
+        if vw_tablet < 100
+          assign vw_tablet = 100
+        endif
+        if vw_mobile < 100
+          assign vw_mobile = 100
+        endif
+      endif
+      if s.image_mobile != blank
+        assign img_sizes = '(min-width: 990px) 100vw, ' | append: vw_tablet | append: 'vw'
+      else
+        assign img_sizes = '(min-width: 990px) 100vw, (min-width: 750px) ' | append: vw_tablet | append: 'vw, ' | append: vw_mobile | append: 'vw'
+      endif
 
-      {%- if hero_heading != blank -%}
-        <h1 class="san-hero__heading">
-          {%- assign heading_parts = hero_heading | split: '|' -%}
-          {%- for part in heading_parts -%}
-            {%- if forloop.index == 2 -%}
-              <em class="san-hero__heading-accent">{{ part }}</em>
-            {%- else -%}
-              {{ part }}
+      if is_first
+        assign img_loading = 'eager'
+        assign img_priority = 'high'
+      else
+        assign img_loading = 'lazy'
+        assign img_priority = 'low'
+      endif
+    -%}
+
+    <div
+      class="san-home-hero__slide{% if s.image_mobile != blank %} san-home-hero__slide--art{% endif %}{% if is_first %} is-active{% endif %}"
+      id="SanHomeHeroSlide-{{ section.id }}-{{ slide_index }}"
+      {%- if slides.size > 1 %}
+        role="tabpanel"
+        aria-roledescription="slide"
+        aria-label="{{ 'san.hero.a11y.slide_count' | t: index: slide_index, total: slides.size }}"
+      {%- endif %}
+      data-hero-slide
+      data-bg="{{ s.background }}"
+      data-tone="{{ s.tone }}"
+      data-side="{{ s.content_position }}"
+      style="--slide-bg: {{ s.background }}; --focus-x: {{ s.mobile_focus }}%;"
+      {%- unless is_first %} inert aria-hidden="true"{% endunless %}
+      {{ block.shopify_attributes }}>
+      <div class="san-home-hero__media">
+        {%- if s.image != blank -%}
+          <picture>
+            {%- if s.image_mobile != blank -%}
+              {%- liquid
+                assign m_vw = s.image_mobile.aspect_ratio | divided_by: hero_ratio_mobile | times: 100 | ceil
+                if m_vw < 100
+                  assign m_vw = 100
+                endif
+              -%}
+              <source
+                media="(max-width: 749px)"
+                srcset="
+                  {%- for w in mobile_widths -%}
+                    {%- assign w_num = w | plus: 0 -%}
+                    {%- if w_num < s.image_mobile.width -%}
+                      {{- s.image_mobile | image_url: width: w_num }} {{ w_num }}w, {% endif -%}
+                  {%- endfor -%}
+                  {{- s.image_mobile | image_url: width: s.image_mobile.width }} {{ s.image_mobile.width }}w"
+                sizes="{{ m_vw }}vw"
+                width="{{ s.image_mobile.width }}"
+                height="{{ s.image_mobile.height }}">
             {%- endif -%}
-          {%- endfor -%}
-        </h1>
-      {%- endif -%}
-
-      {%- if hero_description != blank -%}
-        <p class="san-hero__description">{{ hero_description }}</p>
-      {%- endif -%}
-
-      <div class="san-hero__cta-group">
-        {%- if hero_button_1 != blank -%}
-          <a href="{{ section.settings.button_url_1 | default: routes.all_products_collection_url }}" class="san-hero__btn san-hero__btn--primary">
-            <span>{{ hero_button_1 }}</span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden="true">
-              <path
-                d="M3 8h10M9 4l4 4-4 4"
-                stroke="currentColor"
-                stroke-width="1.4"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </a>
+            {{
+              s.image
+              | image_url: width: 3840
+              | image_tag:
+                class: 'san-home-hero__img',
+                widths: '750, 1100, 1500, 1920, 2400, 3000, 3840',
+                sizes: img_sizes,
+                loading: img_loading,
+                fetchpriority: img_priority,
+                alt: alt
+            }}
+          </picture>
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'san-home-hero__img san-home-hero__placeholder' }}
         {%- endif -%}
       </div>
 
-    </div>
-
-    {%- comment -%} ─── MEDIA / CAROUSEL COLUMN ─── {%- endcomment -%}
-    <div class="san-hero__media">
-
-      {%- if slide_blocks.size > 0 -%}
-
-        {%- comment -%} ── Carousel ── {%- endcomment -%}
-        <div
-          class="san-carousel"
-          data-carousel
-          data-interval="{{ section.settings.carousel_interval | times: 1000 }}"
-          id="carousel-{{ section.id }}"
-          role="region"
-          aria-label="{{ 'san.hero.a11y.gallery' | t }}"
-          aria-roledescription="carousel">
-
-          {%- comment -%} Track — all slides stacked via CSS grid {%- endcomment -%}
-          <div class="san-carousel__track">
-            {%- for block in slide_blocks -%}
-              <div
-                class="san-carousel__slide{% if forloop.first %} is-active{% endif %}"
-                role="group"
-                aria-roledescription="slide"
-                aria-label="{{ 'san.hero.a11y.slide_count' | t: index: forloop.index, total: slide_blocks.size }}"
-                {%- unless forloop.first -%}
-                aria-hidden="true"
-                {%- endunless -%}
-                {{ block.shopify_attributes }}>
-                {%- if block.settings.image != blank -%}
-                  {%- liquid
-                    assign slide_alt = block.settings.image.alt | default: shop.name | escape
-                  -%}
-                  {%- if forloop.first -%}
-                    {{
-                      block.settings.image | image_url: width: 1400 | image_tag: class: 'san-carousel__img', loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', alt: slide_alt
-                    }}
-                  {%- else -%}
-                    {{
-                      block.settings.image | image_url: width: 1400 | image_tag: class: 'san-carousel__img', loading: 'lazy', sizes: '(min-width: 990px) 55vw, 100vw', alt: slide_alt
-                    }}
-                  {%- endif -%}
-                {%- else -%}
-                  <div class="san-carousel__placeholder">
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'san-carousel__placeholder-svg' }}
-                  </div>
-                {%- endif -%}
-
-                {%- liquid
-                  assign slide_label = 'san.hero.slides.' | append: forloop.index | append: '.label' | t
-                  if slide_label contains 'translation missing'
-                    assign slide_label = block.settings.label
-                  endif
-                  assign slide_caption = 'san.hero.slides.' | append: forloop.index | append: '.caption' | t
-                  if slide_caption contains 'translation missing'
-                    assign slide_caption = block.settings.caption
-                  endif
-                -%}
-                {%- if slide_caption != blank or slide_label != blank -%}
-                  <div class="san-carousel__slide-info">
-                    {%- if slide_label != blank -%}
-                      <span class="san-carousel__slide-label">{{ slide_label }}</span>
-                    {%- endif -%}
-                    {%- if slide_caption != blank -%}
-                      <span class="san-carousel__slide-caption">{{ slide_caption }}</span>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
-
-              </div>
-            {%- endfor -%}
-          </div>
-
-          {%- if slide_blocks.size > 1 -%}
-
-            {%- comment -%} Arrows {%- endcomment -%}
-            <button
-              class="san-carousel__arrow san-carousel__arrow--prev"
-              type="button"
-              aria-label="{{ 'san.hero.a11y.previous' | t }}"
-              aria-controls="carousel-{{ section.id }}">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                aria-hidden="true">
-                <path
-                  d="M11 4L6 9l5 5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </button>
-
-            <button
-              class="san-carousel__arrow san-carousel__arrow--next"
-              type="button"
-              aria-label="{{ 'san.hero.a11y.next' | t }}"
-              aria-controls="carousel-{{ section.id }}">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                aria-hidden="true">
-                <path
-                  d="M7 4l5 5-5 5"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </button>
-
-            {%- comment -%} Dot indicators {%- endcomment -%}
-            <div
-              class="san-carousel__dots"
-              role="tablist"
-              aria-label="{{ 'san.hero.a11y.slides' | t }}">
-              {%- for block in slide_blocks -%}
-                <button
-                  class="san-carousel__dot{% if forloop.first %} is-active{% endif %}"
-                  type="button"
-                  role="tab"
-                  aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-                  data-index="{{ forloop.index0 }}"
-                  aria-label="{{ 'san.hero.a11y.go_to' | t: index: forloop.index }}"
-                  aria-controls="carousel-{{ section.id }}"></button>
+      <div class="san-home-hero__copy">
+        <div class="san-home-hero__copy-inner">
+          {%- if title != blank -%}
+            {%- comment -%}
+              Each | starts a new line. Every word gets its own mask so the
+              headline can rise line by line when the slide arrives.
+              The spaces between words are output as {{ ' ' }}: a block
+              whose body is only whitespace is "blank" in Liquid and renders
+              nothing, which had glued the words together.
+            {%- endcomment -%}
+            {%- assign title_lines = title | split: '|' -%}
+            {%- assign word_index = 0 -%}
+            <h2 class="san-home-hero__title">
+              {%- for line in title_lines -%}
+                {%- assign words = line | strip | split: ' ' -%}
+                <span class="san-home-hero__line">
+                  {%- for word in words -%}
+                    <span class="san-home-hero__word"><span style="--i: {{ word_index }}">{{ word }}</span></span>
+                    {%- unless forloop.last -%}{{ ' ' }}{%- endunless -%}
+                    {%- assign word_index = word_index | plus: 1 -%}
+                  {%- endfor -%}
+                </span>
+                {%- unless forloop.last -%}{{ ' ' }}{%- endunless -%}
               {%- endfor -%}
-            </div>
-
-            {%- comment -%} Progress bar {%- endcomment -%}
-            <div class="san-carousel__progress" aria-hidden="true">
-              <div class="san-carousel__progress-bar"></div>
-            </div>
-
+            </h2>
           {%- endif -%}
 
-        </div>
+          {%- if text != blank -%}
+            <p class="san-home-hero__text">{{ text }}</p>
+          {%- endif -%}
 
-      {%- else -%}
+          {%- if cta_label != blank or s.products != blank -%}
+            <div class="san-home-hero__actions">
+              {%- if cta_label != blank -%}
+                <a class="san-home-hero__cta" href="{{ cta_url }}">{{ cta_label }}</a>
+              {%- endif -%}
 
-        {%- comment -%} Fallback: single image setting {%- endcomment -%}
-        {%- if section.settings.image != blank -%}
-          {%- assign hero_alt = section.settings.image.alt | default: shop.name | escape -%}
-          {{
-            section.settings.image | image_url: width: 1400 | image_tag: class: 'san-hero__image', loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 55vw, 100vw', alt: hero_alt
-          }}
-        {%- else -%}
-          <div class="san-hero__placeholder">
-            <div class="san-hero__placeholder-inner">
-              {{ 'lifestyle-1' | placeholder_svg_tag: 'san-hero__placeholder-svg' }}
+              {%- if s.products != blank -%}
+                {%- comment -%}
+                  The products standing in the photo, so a visitor can go
+                  straight to one. Pointing at a chip swaps the label for
+                  that product's name and price.
+                {%- endcomment -%}
+                <div class="san-home-hero__scene" style="--chips: {{ s.products.size }};">
+                  <ul class="san-home-hero__chips" role="list" aria-labelledby="SanHomeHeroScene-{{ block.id }}">
+                    {%- for product in s.products -%}
+                      {%- liquid
+                        if settings.currency_code_enabled
+                          assign chip_price = product.price | money_with_currency
+                        else
+                          assign chip_price = product.price | money
+                        endif
+                        if product.price_varies
+                          assign chip_price = 'products.product.price.from_price_html' | t: price: chip_price
+                        endif
+                      -%}
+                      <li>
+                        <a class="san-home-hero__chip" href="{{ product.url }}">
+                          <span class="san-home-hero__chip-media">
+                            {%- if product.featured_image != blank -%}
+                              {{
+                                product.featured_image
+                                | image_url: width: 160
+                                | image_tag: widths: '80, 160', sizes: '46px', loading: 'lazy', alt: ''
+                              }}
+                            {%- endif -%}
+                          </span>
+                          <span class="san-home-hero__chip-caption">
+                            {{- product.title | escape -}}
+                            <span class="san-home-hero__chip-price">{{ chip_price }}</span>
+                          </span>
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <span class="san-home-hero__scene-label" id="SanHomeHeroScene-{{ block.id }}">
+                    {{- 'san.hero.in_photo' | t -}}
+                  </span>
+                </div>
+              {%- endif -%}
             </div>
-          </div>
-        {%- endif -%}
-
-      {%- endif -%}
-
-      {%- comment -%} Spinning badge {%- endcomment -%}
-      {%- if section.settings.show_badge -%}
-        <div class="san-hero__badge" aria-hidden="true">
-          <svg class="san-hero__badge-ring" viewBox="0 0 120 120">
-            <defs>
-              <path id="badge-path-{{ section.id }}" d="M60,60 m-42,0 a42,42 0 1,1 84,0 a42,42 0 1,1 -84,0" />
-            </defs>
-            <text>
-              <textPath href="#badge-path-{{ section.id }}" startOffset="0%">
-                {{ 'san.hero.badge' | t }}&nbsp;
-              </textPath>
-            </text>
-          </svg>
-          <div class="san-hero__badge-center">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true">
-              <path
-                d="M12 3C8 3 4 7 4 11c0 5 5 9 8 10 3-1 8-5 8-10 0-4-4-8-8-8z"
-                stroke="currentColor"
-                stroke-width="1.5"
-                fill="none" />
-              <path
-                d="M12 3v18M8 7c2 1 4 4 4 6M16 7c-2 1-4 4-4 6"
-                stroke="currentColor"
-                stroke-width="1.2"
-                stroke-linecap="round" />
-            </svg>
-          </div>
+          {%- endif -%}
         </div>
-      {%- endif -%}
-
-      <div class="san-hero__media-overlay" aria-hidden="true"></div>
-
+      </div>
     </div>
 
-  </div>
+    {%- capture tab_html -%}
+      <button
+        class="san-home-hero__tab{% if is_first %} is-active{% endif %}"
+        type="button"
+        role="tab"
+        id="SanHomeHeroTab-{{ section.id }}-{{ slide_index }}"
+        aria-controls="SanHomeHeroSlide-{{ section.id }}-{{ slide_index }}"
+        aria-selected="{{ is_first }}"
+        tabindex="{% if is_first %}0{% else %}-1{% endif %}"
+        data-hero-tab>
+        <span class="san-home-hero__tab-track" aria-hidden="true"><span class="san-home-hero__tab-fill"></span></span>
+        <span class="san-home-hero__tab-label">{{ nav_label }}</span>
+      </button>
+    {%- endcapture -%}
+    {%- assign tabs_html = tabs_html | append: tab_html -%}
+  {%- endfor -%}
+{%- endcapture -%}
 
-</section>
+<san-home-hero
+  class="san-home-hero{% if slides.size < 2 %} san-home-hero--single{% endif %}"
+  id="SanHomeHero-{{ section.id }}"
+  role="region"
+  {%- if slides.size > 1 %} aria-roledescription="carousel"{% endif %}
+  aria-label="{{ 'san.hero.a11y.carousel' | t }}"
+  data-autoplay="{{ autoplay }}"
+  data-tone="{{ first_slide.settings.tone | default: 'dark' }}"
+  data-side="{{ first_slide.settings.content_position | default: 'right' }}"
+  style="--hero-bg: {{ first_slide.settings.background | default: '#ebebde' }};">
+  <h1 class="visually-hidden">{{ 'san.hero.heading' | t | remove: '|' }}</h1>
+
+  {%- if slides.size > 1 -%}
+    {%- comment -%}
+      Controls come first in the DOM so the pause button is the first stop
+      for keyboard and screen-reader users (WAI-ARIA carousel pattern).
+    {%- endcomment -%}
+    <div class="san-home-hero__nav">
+      {%- if autoplay -%}
+        {%- liquid
+          assign label_pause = 'san.hero.a11y.pause' | t
+          assign label_play = 'san.hero.a11y.play' | t
+        -%}
+        <button
+          class="san-home-hero__toggle"
+          type="button"
+          aria-label="{{ label_pause }}"
+          data-label-pause="{{ label_pause }}"
+          data-label-play="{{ label_play }}"
+          data-hero-toggle>
+          <svg class="san-home-hero__icon-pause" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+            <path d="M3.5 1.5v9M8.5 1.5v9" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+          <svg class="san-home-hero__icon-play" viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+            <path d="M3 1.5v9l7.5-4.5z" fill="currentColor" />
+          </svg>
+        </button>
+      {%- endif -%}
+      <div class="san-home-hero__tabs" role="tablist" aria-label="{{ 'san.hero.a11y.slides' | t }}">
+        {{- tabs_html -}}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="san-home-hero__slides" data-hero-track aria-live="{% if autoplay %}off{% else %}polite{% endif %}">
+    {%- if slides.size > 0 -%}
+      {{- slides_html -}}
+    {%- else -%}
+      <div class="san-home-hero__slide is-active">
+        <div class="san-home-hero__media">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'san-home-hero__img san-home-hero__placeholder' }}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</san-home-hero>
 
 {% javascript %}
-  class SanHeroCarousel {
-    constructor(element) {
-      this.el = element;
-      this.slides = [...element.querySelectorAll('.san-carousel__slide')];
-      this.dots = [...element.querySelectorAll('.san-carousel__dot')];
-      this.prevBtn = element.querySelector('.san-carousel__arrow--prev');
-      this.nextBtn = element.querySelector('.san-carousel__arrow--next');
-      this.progressBar = element.querySelector('.san-carousel__progress-bar');
-      this.current = 0;
-      this.total = this.slides.length;
-      this.interval = parseInt(element.dataset.interval || 5000, 10);
-      this.timer = null;
-      this.progressTimer = null;
-      this.isHovered = false;
-      this.isTransitioning = false;
+  if (!customElements.get('san-home-hero')) {
+    // How long a slide that just left stays stacked under the new one.
+    // Matches --hero-fade in section-san-hero.css, plus a little headroom.
+    const PREV_HOLD_MS = 1400;
 
-      if (this.total<= 1) return;
-      this.init();
-    }
-
-    init() {
-      if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.navigate(-1)) 
-
-        if (this.nextBtn) 
-          this.nextBtn.addEventListener('click', () => this.navigate(1));
-        
-      
-
-
-      this.dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => this.goTo(i));
-      });
-
-      this.el.addEventListener('mouseenter', () => {
-        this.isHovered = true;
-        this.pause();
-      });
-
-      this.el.addEventListener('mouseleave', () => {
-        this.isHovered = false;
-        this.play();
-      });
-
-      this.el.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-          e.preventDefault();
-          this.navigate(-1);
-        }
-        if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          this.navigate(1);
-        }
-      });
-
-      this.setupTouch();
-      this.play();
-    }
-
-    navigate(dir) {
-      if (this.isTransitioning) return;
-      
-
-
-      this.goTo((this.current + dir + this.total) % this.total);
-    }
-
-    goTo(index) {
-      if (index === this.current || this.isTransitioning) return;
-      
-
-
-      this.isTransitioning = true;
-
-      const prev = this.current;
-      this.current = index;
-
-      this.slides[prev].classList.remove('is-active');
-      this.slides[prev].setAttribute('aria-hidden', 'true');
-      this.slides[this.current].classList.add('is-active');
-      this.slides[this.current].removeAttribute('aria-hidden');
-
-      if (this.dots[prev]) {
-        this.dots[prev].classList.remove('is-active');
-        this.dots[prev].setAttribute('aria-selected', 'false');
-      }
-      if (this.dots[this.current]) {
-        this.dots[this.current].classList.add('is-active');
-        this.dots[this.current].setAttribute('aria-selected', 'true');
+    class SanHomeHero extends HTMLElement {
+      connectedCallback() {
+        if (!this.slides) this.setup();
+        if (this.slides.length < 2) return;
+        document.addEventListener('visibilitychange', this.onVisibility);
+        if (this.observer) this.observer.observe(this);
       }
 
-      setTimeout(() => {
-        this.isTransitioning = false;
-      }, 700);
-
-      this.pause();
-      if (!this.isHovered) 
-        this.play();
-      
-
-
-    }
-
-    play() {
-      this.pause();
-      this.resetProgress();
-      this.timer = setInterval(() => this.navigate(1), this.interval);
-    }
-
-    pause() {
-      clearInterval(this.timer);
-      clearTimeout(this.progressTimer);
-      if (this.progressBar) {
-        this.progressBar.style.transition = 'none';
-        this.progressBar.style.width = '0%';
+      disconnectedCallback() {
+        document.removeEventListener('visibilitychange', this.onVisibility);
+        if (this.observer) this.observer.disconnect();
+        clearTimeout(this.prevTimer);
       }
-    }
 
-    resetProgress() {
-      if (!this.progressBar) return;
-      
+      setup() {
+        this.slides = Array.from(this.querySelectorAll('[data-hero-slide]'));
+        if (this.slides.length < 2) return;
 
+        this.tabs = Array.from(this.querySelectorAll('[data-hero-tab]'));
+        this.track = this.querySelector('[data-hero-track]');
+        this.toggle = this.querySelector('[data-hero-toggle]');
+        this.index = Math.max(0, this.slides.findIndex((slide) => slide.classList.contains('is-active')));
+        this.autoplay = this.dataset.autoplay === 'true';
+        this.userPaused = false;
+        this.holds = new Set();
 
-      this.progressBar.style.transition = 'none';
-      this.progressBar.style.width = '0%';
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          this.progressBar.style.transition = `width ${
-            this.interval
-          }ms linear`;
-          this.progressBar.style.width = '100%';
+        this.classList.toggle('is-autoplay', this.autoplay);
+
+        this.tabs.forEach((tab, i) => {
+          tab.addEventListener('click', () => this.goTo(i));
+          tab.addEventListener('keydown', (event) => this.onTabKey(event, i));
         });
-      });
-    }
+        if (this.toggle) this.toggle.addEventListener('click', () => this.setUserPaused(!this.userPaused));
 
-    setupTouch() {
-      let startX = 0;
-      let startY = 0;
-      let isDragging = false;
+        // The active tab's progress line is the timer: when it fills, move on.
+        // Pausing just pauses that animation, so it resumes where it stopped.
+        this.addEventListener('animationend', (event) => {
+          if (event.animationName === 'san-home-hero-progress' && event.target.closest('.is-active')) {
+            this.goTo(this.index + 1);
+          }
+        });
 
-      this.el.addEventListener('touchstart', (e) => {
-        startX = e.changedTouches[0].clientX;
-        startY = e.changedTouches[0].clientY;
-        isDragging = true;
-      }, {passive: true});
+        // Hold still while someone reads the copy or reaches for a control,
+        // so the button never changes under the cursor.
+        this.querySelectorAll('.san-home-hero__copy-inner, .san-home-hero__nav').forEach((zone) => {
+          zone.addEventListener('pointerenter', (event) => {
+            if (event.pointerType === 'mouse') this.hold('hover');
+          });
+          zone.addEventListener('pointerleave', (event) => {
+            if (event.pointerType === 'mouse') this.release('hover');
+          });
+        });
 
-      this.el.addEventListener('touchend', (e) => {
-        if (! isDragging) return;
-        
+        // Keyboard focus inside the carousel stops rotation until it leaves.
+        this.addEventListener('focusin', (event) => {
+          if (event.target.matches(':focus-visible')) this.hold('focus');
+        });
+        this.addEventListener('focusout', (event) => {
+          if (!this.contains(event.relatedTarget)) this.release('focus');
+        });
 
+        this.setupSwipe();
 
-        const diffX = startX - e.changedTouches[0].clientX;
-        const diffY = startY - e.changedTouches[0].clientY;
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
-          this.navigate(
-            diffX > 0
-              ? 1
-              : -1
+        this.onVisibility = () => (document.hidden ? this.hold('hidden') : this.release('hidden'));
+        if ('IntersectionObserver' in window) {
+          this.observer = new IntersectionObserver(
+            ([entry]) => (entry.isIntersecting ? this.release('offscreen') : this.hold('offscreen')),
+            { threshold: 0.2 }
           );
         }
-        isDragging = false;
-      }, {passive: true});
-    }
-  }
 
-  function initSanCarousels() {
-    document.querySelectorAll('[data-carousel]').forEach((el) => {
-      if (!el._sanCarousel) {
-        el._sanCarousel = new SanHeroCarousel(el);
+        // Theme editor: show the slide being edited and keep it there.
+        this.addEventListener('shopify:block:select', (event) => {
+          const i = this.slides.indexOf(event.target);
+          if (i === -1) return;
+          this.goTo(i);
+          this.hold('editor');
+        });
+        this.addEventListener('shopify:block:deselect', () => this.release('editor'));
+
+        this.sync();
       }
-    });
-  }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSanCarousels);
-  } else {
-    initSanCarousels();
-  }
+      setupSwipe() {
+        let startX = 0;
+        let startY = 0;
+        this.track.addEventListener(
+          'touchstart',
+          (event) => {
+            startX = event.touches[0].clientX;
+            startY = event.touches[0].clientY;
+          },
+          { passive: true }
+        );
+        this.track.addEventListener(
+          'touchend',
+          (event) => {
+            const dx = event.changedTouches[0].clientX - startX;
+            const dy = event.changedTouches[0].clientY - startY;
+            if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) this.goTo(this.index + (dx < 0 ? 1 : -1));
+          },
+          { passive: true }
+        );
+      }
 
-  document.addEventListener('shopify:section:load', initSanCarousels);
-  document.addEventListener('shopify:section:reorder', initSanCarousels);
+      goTo(target, { focus = false } = {}) {
+        const total = this.slides.length;
+        const next = (target + total) % total;
+        if (next === this.index) {
+          if (focus) this.tabs[next].focus();
+          return;
+        }
+        const prev = this.index;
+        this.index = next;
+
+        // The slide that just left stays opaque under the new one (is-prev)
+        // until the fade is over; see the crossfade notes in the CSS.
+        this.slides.forEach((slide, i) => {
+          const active = i === next;
+          slide.classList.toggle('is-active', active);
+          slide.classList.toggle('is-prev', i === prev);
+          slide.toggleAttribute('inert', !active);
+          if (active) slide.removeAttribute('aria-hidden');
+          else slide.setAttribute('aria-hidden', 'true');
+        });
+        this.tabs.forEach((tab, i) => {
+          const active = i === next;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', String(active));
+          tab.tabIndex = active ? 0 : -1;
+        });
+        if (focus) this.tabs[next].focus();
+
+        const slide = this.slides[next];
+        this.style.setProperty('--hero-bg', slide.dataset.bg);
+        this.dataset.tone = slide.dataset.tone;
+        this.dataset.side = slide.dataset.side;
+
+        clearTimeout(this.prevTimer);
+        this.prevTimer = setTimeout(() => this.slides[prev].classList.remove('is-prev'), PREV_HOLD_MS);
+      }
+
+      onTabKey(event, i) {
+        const targets = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: this.tabs.length - 1 };
+        if (!(event.key in targets)) return;
+        event.preventDefault();
+        this.goTo(targets[event.key], { focus: true });
+      }
+
+      hold(reason) {
+        this.holds.add(reason);
+        this.sync();
+      }
+
+      release(reason) {
+        this.holds.delete(reason);
+        this.sync();
+      }
+
+      setUserPaused(paused) {
+        this.userPaused = paused;
+        // Pressing play is an explicit request to rotate, even with focus inside.
+        if (!paused) this.holds.delete('focus');
+        this.sync();
+      }
+
+      sync() {
+        const paused = this.userPaused || this.holds.size > 0;
+        this.classList.toggle('is-paused', paused);
+        this.classList.toggle('is-user-paused', this.userPaused);
+        if (this.toggle) {
+          this.toggle.setAttribute(
+            'aria-label',
+            this.userPaused ? this.toggle.dataset.labelPlay : this.toggle.dataset.labelPause
+          );
+        }
+        // Announce slide changes only when they aren't happening on their own.
+        this.track.setAttribute('aria-live', this.autoplay && !paused ? 'off' : 'polite');
+      }
+    }
+
+    customElements.define('san-home-hero', SanHomeHero);
+  }
 {% endjavascript %}
 
 {% schema %}
-  {
-    "name": "Hero Principal",
-    "tag": "section",
-    "class": "san-hero-section",
-    "max_blocks": 6,
-    "blocks": [
-      {
-        "type": "slide",
-        "name": "Slide del carousel",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "image",
-            "label": "Imagen del slide"
-          },
-          {
-            "type": "text",
-            "id": "label",
-            "label": "Etiqueta (opcional)",
-            "info": "Texto pequeño sobre la imagen, ej: 'Nueva colección'"
-          },
-          {
-            "type": "text",
-            "id": "caption",
-            "label": "Caption (opcional)",
-            "info": "Texto descriptivo sobre la imagen"
-          }
-        ]
-      }
-    ],
-    "settings": [
-      {
-        "type": "header",
-        "content": "Contenido"
-      },
-      {
-        "type": "text",
-        "id": "eyebrow",
-        "label": "Texto eyebrow",
-        "default": "100% Natural"
-      },
-      {
-        "type": "textarea",
-        "id": "heading",
-        "label": "Título principal",
-        "info": "Usa | para resaltar en verde: 'Bienestar que |nace de la naturaleza|'",
-        "default": "Bienestar que |nace de la naturaleza|"
-      },
-      {
-        "type": "textarea",
-        "id": "description",
-        "label": "Descripción",
-        "default": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales."
-      },
-      {
-        "type": "header",
-        "content": "Botones"
-      },
-      {
-        "type": "text",
-        "id": "button_label_1",
-        "label": "Botón primario — texto",
-        "default": "Comprar ahora"
-      },
-      {
-        "type": "url",
-        "id": "button_url_1",
-        "label": "Botón primario — enlace"
-      },
-      {
-        "type": "text",
-        "id": "button_label_2",
-        "label": "Botón secundario — texto",
-        "default": "Ver colección"
-      },
-      {
-        "type": "url",
-        "id": "button_url_2",
-        "label": "Botón secundario — enlace"
-      },
-      {
-        "type": "header",
-        "content": "Características"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_features",
-        "label": "Mostrar características",
-        "default": true
-      },
-      {
-        "type": "header",
-        "content": "Carousel"
-      },
-      {
-        "type": "range",
-        "id": "carousel_interval",
-        "min": 3,
-        "max": 10,
-        "step": 1,
-        "unit": "s",
-        "label": "Intervalo entre slides",
-        "default": 5
-      },
-      {
-        "type": "header",
-        "content": "Imagen de respaldo"
-      },
-      {
-        "type": "image_picker",
-        "id": "image",
-        "label": "Imagen hero (si no hay slides)"
-      },
-      {
-        "type": "header",
-        "content": "Extras"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_badge",
-        "label": "Mostrar badge giratorio",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "show_scroll_indicator",
-        "label": "Mostrar indicador de scroll",
-        "default": true
-      },
-      {
-        "type": "range",
-        "id": "min_height",
-        "min": 60,
-        "max": 100,
-        "step": 5,
-        "unit": "vh",
-        "label": "Altura mínima",
-        "default": 90
-      }
-    ],
-    "presets": [
-      {
-        "name": "Hero Principal"
-      }
-    ]
-  }
+{
+  "name": "Hero Principal",
+  "tag": "section",
+  "class": "san-hero-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Carrusel"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Cambiar de slide automáticamente",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "carousel_interval",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "label": "Tiempo por slide",
+      "default": 7
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Imagen"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner",
+          "info": "Foto panorámica (aprox. 2.4:1, p. ej. 3168 × 1344 px) con espacio libre a un lado para el texto."
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Imagen para móvil (opcional)",
+          "info": "Vertical (4:5) con pared libre arriba: el título se coloca ahí. Úsala en todos los slides o en ninguno. Si la dejas vacía, el banner se recorta alrededor de los productos."
+        },
+        {
+          "type": "range",
+          "id": "mobile_focus",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Encuadre del recorte en móvil",
+          "info": "0 % muestra el borde izquierdo del banner; 100 %, el derecho.",
+          "default": 15
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Color de fondo",
+          "info": "Usa el tono de la pared de la foto: rellena el panel del texto en el móvil.",
+          "default": "#ebebde"
+        },
+        {
+          "type": "header",
+          "content": "Textos"
+        },
+        {
+          "type": "select",
+          "id": "copy",
+          "label": "Textos del slide",
+          "options": [
+            {
+              "value": "oils",
+              "label": "Aceites (EN/ES)"
+            },
+            {
+              "value": "honey_tea",
+              "label": "Miel y té (EN/ES)"
+            },
+            {
+              "value": "arnica",
+              "label": "Árnica (EN/ES)"
+            },
+            {
+              "value": "custom",
+              "label": "Personalizados (campos de abajo)"
+            }
+          ],
+          "default": "custom",
+          "info": "Las opciones EN/ES usan los textos traducidos de los archivos de idioma (san.hero.slides). «Personalizados» usa los campos de abajo."
+        },
+        {
+          "type": "text",
+          "id": "nav_label",
+          "label": "Nombre en la navegación"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título",
+          "info": "Usa | para partir la línea, p. ej.: Raíces fuertes, | brillo natural."
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Texto del botón"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Enlace del botón"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Productos en la foto",
+          "limit": 4,
+          "info": "Se muestran como miniaturas debajo del botón, con su nombre y precio."
+        },
+        {
+          "type": "header",
+          "content": "Diseño"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Lado del texto en escritorio",
+          "options": [
+            {
+              "value": "right",
+              "label": "Derecha"
+            },
+            {
+              "value": "left",
+              "label": "Izquierda"
+            }
+          ],
+          "default": "right"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Color del texto",
+          "options": [
+            {
+              "value": "dark",
+              "label": "Verde oscuro (fotos claras)"
+            },
+            {
+              "value": "light",
+              "label": "Blanco (fotos oscuras)"
+            }
+          ],
+          "default": "dark"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Principal",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}

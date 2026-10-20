@@ -1,871 +1,652 @@
 /* ================================================================
-   SAN HERO — Sección hero principal
-   Sana Al Natural · Editorial organic e-commerce aesthetic
-   ================================================================ */
-
-/* ---- Animations ---- */
-
-@keyframes san-fade-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes san-fade-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes badge-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-@keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50%       { transform: translateY(8px); opacity: 0.4; }
-}
-
-/* ================================================================
-   ROOT SECTION
-   ================================================================ */
-
-.san-hero {
-  position: relative;
-  /* Fill the screen exactly — viewport minus the sticky header — so the
-     bottom of the image (caption + badge) is never cut off. */
-  min-height: calc(100vh - var(--header-height, 88px));
-  min-height: calc(100svh - var(--header-height, 88px));
-  overflow: hidden;
-  background-color: #1f3a13;
-  background-image:
-    radial-gradient(120% 120% at 12% 8%, rgba(85, 130, 61, 0.55), transparent 55%),
-    radial-gradient(90% 90% at 100% 100%, rgba(175, 234, 144, 0.1), transparent 60%),
-    linear-gradient(150deg, #31591d 0%, #244016 55%, #1c350f 100%);
-  margin: 0;
-}
-
-.san-hero__inner {
-  display: grid;
-  grid-template-columns: 45fr 55fr;
-  min-height: calc(100vh - var(--header-height, 88px));
-  min-height: calc(100svh - var(--header-height, 88px));
-}
-
-/* ================================================================
-   DECORATIVE BOTANICAL BACKGROUND
-   ================================================================ */
-
-.san-hero__decor {
-  position: absolute;
-  top: -5%;
-  left: -2%;
-  width: 42%;
-  height: 110%;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-
-.san-hero__decor-svg {
-  width: 100%;
-  height: 100%;
-}
-
-/* Brighten the botanical line-art so it reads on the dark canvas */
-.san-hero__decor-svg path,
-.san-hero__decor-svg line {
-  stroke: #afea90 !important;
-}
-
-/* ================================================================
-   TEXT / CONTENT COLUMN
-   ================================================================ */
-
-.san-hero__content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 7rem 4.5rem 7rem 5rem;
-  position: relative;
-  z-index: 2;
-  background-color: transparent;
-}
-
-/* Staggered entrance animations */
-.san-hero__eyebrow {
-  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 0.05s;
-}
-
-.san-hero__heading {
-  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 0.2s;
-}
-
-.san-hero__description {
-  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 0.35s;
-}
-
-.san-hero__cta-group {
-  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 0.5s;
-}
-
-.san-hero__features {
-  animation: san-fade-up 0.65s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 0.65s;
-}
-
-/* ---- Eyebrow ---- */
-
-.san-hero__eyebrow {
-  font-family: 'Poppins', sans-serif;
-  font-size: var(--san-label);
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #afea90;
-  margin: 0 0 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  line-height: 1;
-}
-
-.san-hero__eyebrow::before {
-  content: '';
-  display: inline-block;
-  width: 36px;
-  height: 1px;
-  background-color: #afea90;
-  flex-shrink: 0;
-}
-
-/* ---- Main heading ---- */
-
-.san-hero__heading {
-  font-family: 'Noto Serif', Georgia, serif;
-  font-size: clamp(4rem, 5.5vw, 7.5rem);
-  font-weight: 700;
-  font-style: italic;
-  color: #ffffff;
-  line-height: 1.04;
-  letter-spacing: -0.025em;
-  margin: 0 0 2.5rem;
-}
-
-.san-hero__heading-accent {
-  font-style: italic;
-  color: #afea90;
-  position: relative;
-}
-
-/* ---- Description ---- */
-
-.san-hero__description {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.72);
-  margin: 0 0 3.5rem;
-  max-width: 38ch;
-}
-
-/* ---- CTA Buttons ---- */
-
-.san-hero__cta-group {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 4rem;
-}
-
-.san-hero__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.8rem 3.6rem;
-  font-family: 'Poppins', sans-serif;
-  font-size: var(--san-label-lg);
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.22s ease,
-              color 0.22s ease,
-              transform 0.22s ease,
-              box-shadow 0.22s ease;
-  white-space: nowrap;
-  line-height: 1;
-}
-
-.san-hero__btn--primary {
-  background-color: #afea90;
-  color: #1f3a13 !important;
-}
-
-.san-hero__btn--primary:hover {
-  background-color: #ffffff;
-  color: #1f3a13 !important;
-  transform: translateY(-2px);
-  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.35);
-}
-
-.san-hero__btn--primary svg {
-  transition: transform 0.22s ease;
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-}
-
-.san-hero__btn--primary:hover svg {
-  transform: translateX(4px);
-}
-
-.san-hero__btn--outline {
-  background-color: transparent;
-  color: #ffffff !important;
-  border: 1.5px solid rgba(175, 234, 144, 0.5);
-}
-
-.san-hero__btn--outline:hover {
-  background-color: rgba(175, 234, 144, 0.12);
-  border-color: #afea90;
-  color: #afea90 !important;
-}
-
-/* ---- Feature pills ---- */
-
-.san-hero__features {
-  display: flex;
-  gap: 2.5rem;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.san-hero__feature {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: 'Poppins', sans-serif;
-  font-size: var(--san-label);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.82);
-}
-
-.san-hero__feature svg {
-  flex-shrink: 0;
-  color: #afea90;
-  width: 14px;
-  height: 14px;
-}
-
-/* ================================================================
-   IMAGE / MEDIA COLUMN
-   ================================================================ */
-
-.san-hero__media {
-  position: relative;
-  overflow: hidden;
-  background-color: #e2f0d9;
-  animation: san-fade-in-right 0.85s cubic-bezier(0.22, 0.61, 0.36, 1) both;
-  animation-delay: 0.1s;
-}
-
-.san-hero__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transition: transform 7s ease;
-}
-
-.san-hero__media:hover .san-hero__image {
-  transform: scale(1.04);
-}
-
-/* Image placeholder (no image set) */
-.san-hero__placeholder {
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  background: linear-gradient(
-    148deg,
-    #afea90 0%,
-    #7cc45c 35%,
-    #55823d 68%,
-    #31591d 100%
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.san-hero__placeholder-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.san-hero__placeholder-svg {
-  width: 55%;
-  height: auto;
-  opacity: 0.18;
-  color: #ffffff;
-}
-
-/* Gradient overlay on image */
-.san-hero__media-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(49, 89, 29, 0.04) 0%,
-    transparent 40%,
-    rgba(49, 89, 29, 0.18) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ================================================================
-   SPINNING BADGE
-   ================================================================ */
-
-.san-hero__badge {
-  position: absolute;
-  bottom: 2.25rem;
-  right: 2.25rem;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-}
-
-.san-hero__badge-ring {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  animation: badge-spin 20s linear infinite;
-}
-
-.san-hero__badge-ring text {
-  font-family: 'Poppins', sans-serif;
-  font-size: 8px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  fill: rgba(255, 255, 255, 0.9);
-  text-transform: uppercase;
-}
-
-.san-hero__badge-center {
-  position: relative;
-  z-index: 1;
-  color: rgba(255, 255, 255, 0.9);
-  background-color: rgba(49, 89, 29, 0.3);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* ================================================================
-   SCROLL INDICATOR
-   ================================================================ */
-
-.san-hero__scroll {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.san-hero__scroll-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, #55823d, transparent);
-  animation: scroll-bounce 2s ease infinite;
-}
-
-.san-hero__scroll-label {
-  font-family: 'Poppins', sans-serif;
-  font-size: var(--san-label);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #55823d;
-  opacity: 0.6;
-}
-
-/* ================================================================
-   RESPONSIVE — Tablet
-   ================================================================ */
-
-@media screen and (max-width: 989px) {
-  .san-hero {
-    min-height: auto;
-  }
-
-  .san-hero__inner {
-    grid-template-columns: 1fr;
-    grid-template-rows: 58vw auto;
-    min-height: auto;
-  }
-
-  .san-hero__media {
-    order: 1;
-    height: 58vw;
-  }
-
-  .san-hero__content {
-    order: 2;
-    padding: 5rem 4rem 6rem;
-  }
-
-  .san-hero__decor {
-    display: none;
-  }
-
-  .san-hero__badge {
-    width: 80px;
-    height: 80px;
-    bottom: 1.5rem;
-    right: 1.5rem;
-  }
-
-  .san-hero__scroll {
-    display: none;
-  }
-}
-
-/* ================================================================
-   RESPONSIVE — Mobile
-   ================================================================ */
-
-@media screen and (max-width: 749px) {
-  .san-hero__inner {
-    grid-template-rows: 72vw auto;
-  }
-
-  .san-hero__media {
-    height: 72vw;
-  }
-
-  .san-hero__content {
-    padding: 4rem 2.5rem 5rem;
-  }
-
-  .san-hero__heading {
-    font-size: 3.5rem;
-  }
-
-  .san-hero__description {
-    font-size: 1.5rem;
-    max-width: none;
-  }
-
-  .san-hero__cta-group {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .san-hero__btn {
-    justify-content: center;
-    padding: 1.8rem 3rem;
-  }
-
-  .san-hero__features {
-    gap: 1.5rem;
-  }
-
-  .san-hero__btn {
-    padding: 1.6rem 3rem;
-  }
-
-  .san-hero__badge {
-    width: 70px;
-    height: 70px;
-    bottom: 1rem;
-    right: 1rem;
-  }
-
-  .san-hero__badge-center {
-    width: 36px;
-    height: 36px;
-  }
-}
-
-/* ================================================================
-   REDUCED MOTION
-   ================================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  .san-hero__eyebrow,
-  .san-hero__heading,
-  .san-hero__description,
-  .san-hero__cta-group,
-  .san-hero__features,
-  .san-hero__media {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-
-  .san-hero__badge-ring {
-    animation: none;
-  }
-
-  .san-hero__scroll-line {
-    animation: none;
-  }
-
-  .san-hero__image,
-  .san-hero__media:hover .san-hero__image {
-    transform: none;
-    transition: none;
-  }
-}
-
-/* ================================================================
-   CAROUSEL — San Hero
-   Crossfade carousel with progress, dots, and arrows
-   ================================================================ */
-
-/* ── Container ── */
-.san-carousel {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  cursor: grab;
-}
-
-.san-carousel:active {
-  cursor: grabbing;
-}
-
-/* ── Track: CSS grid stacking ── */
-.san-carousel__track {
-  display: grid;
-  width: 100%;
-  height: 100%;
-}
-
-/* ── Slides: all stacked in the same grid cell ── */
-.san-carousel__slide {
-  grid-area: 1 / 1;
-  opacity: 0;
-  transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  position: relative;
-}
-
-.san-carousel__slide.is-active {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 1;
-}
-
-/* ── Slide image ── */
-.san-carousel__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transition: transform 6s ease;
-}
-
-.san-carousel__slide.is-active .san-carousel__img {
-  transform: scale(1.03);
-}
-
-/* ================================================================
-   DESKTOP FIT — whole photo, exactly one screen
+   SAN HOME HERO — banner carousel
+   Sana Al Natural · full-bleed product banners, one story per slide
+   Dawn base: 1rem = 10px (html 62.5%)
    ================================================================
 
-   The media column used to be stretched to the full width of its grid
-   track AND the full viewport height, which on a 1080p screen made it
-   roughly square. A 4:5 photo covering that box lost about a quarter of
-   its height, and `object-position: center top` took all of it off the
-   bottom.
+   Each slide is a wide product photo plus its own copy. From 990px the
+   copy is set on the photo's empty wall — 55–84% of the width by
+   default, the calm zone the three launch banners share (the blurred
+   leaves in the honey banner darken past ~84%). Props reach into that
+   column only near its bottom-left (a cut sapote, a monstera leaf), so
+   the nav sits at the top and the copy stays above 72% of the height.
+   Below 990px the photo is cropped around the products and the copy
+   drops into a panel tinted with that photo's wall colour (--slide-bg).
 
-   From 990px up the hero is pinned to exactly the viewport height (min
-   and max together), so the whole section is visible without scrolling.
-   The media column keeps the photo's own shape via --hero-media-aspect
-   (written by the section from the image's real aspect_ratio) and, with
-   `justify-self: end`, stops stretching horizontally — its width becomes
-   height x aspect instead of the full track. `cover` is then filling a
-   box the same shape as the photo, so nothing is cropped.
+   Slides share one grid cell. The incoming slide fades in on top while
+   the outgoing one (.is-prev) stays opaque underneath and only hides
+   once the fade is over, so the crossfade never dips to the background.
 
-   The leftover width in the track is hero gradient, and the image sits
-   flush against the right edge.                                      */
+   Namespaced san-home-hero because san-collection-hero.css already owns
+   .san-hero* for the collection banner.                               */
 
-@media screen and (min-width: 990px) {
-  .san-hero,
-  .san-hero__inner {
-    min-height: calc(100vh - var(--header-height, 88px));
-    min-height: calc(100svh - var(--header-height, 88px));
-    max-height: calc(100vh - var(--header-height, 88px));
-    max-height: calc(100svh - var(--header-height, 88px));
-  }
+/* ---- Motion ---- */
 
-  /* The media track is now exactly as wide as the photo needs, and the
-     text column absorbs whatever is left, instead of leaving a gap
-     between the copy and the image. */
-  .san-hero__inner {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-
-  .san-hero__media {
-    aspect-ratio: var(--hero-media-aspect, 4 / 5);
-    justify-self: end;
-    width: auto;
-    max-width: 100%;
-  }
-
-  .san-hero__image,
-  .san-carousel__img {
-    object-position: center;
-  }
+@keyframes san-home-hero-progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
 }
 
-/* ── Placeholder (no image set) ── */
-.san-carousel__placeholder {
+/* The incoming photo settles from a slight zoom while it fades in. */
+@keyframes san-home-hero-settle {
+  from { transform: scale(1.04); }
+  to   { transform: none; }
+}
+
+/* Headline words rise out of their own mask, one after another. */
+@keyframes san-home-hero-word {
+  from { transform: translate3d(0, 110%, 0); }
+  to   { transform: none; }
+}
+
+@keyframes san-home-hero-rise {
+  from { opacity: 0; transform: translate3d(0, 1.6rem, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes san-home-hero-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ================================================================
+   ROOT
+   ================================================================ */
+
+.san-home-hero {
+  --hero-fade: 1.2s;
+  --hero-enter: 0.35s;          /* copy waits for its photo to arrive */
+  --hero-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-ink: #1f3a13;
+  --nav-height: 4.4rem;
+  --hero-radius: 0.8rem;       /* CTA + pause button */
+  --nav-top: clamp(2rem, 2.8vw, 5.2rem);
+  --copy-left: 55%;
+  --copy-width: min(29%, 60rem);
+
+  position: relative;
+  /* Own stacking context: the z-indexes below only order things inside the
+     hero. Without it the nav (z-index 3) tied with Dawn's header section
+     (z-index 3) and, coming later in the page, painted over the header's
+     menus, search and drawers. */
+  isolation: isolate;
+  display: block;
+  overflow: hidden;
+  background-color: var(--hero-bg, #ebebde);
+  transition: background-color var(--hero-fade) ease;
+}
+
+/* The nav follows the active slide's side and tone (set by the script). */
+.san-home-hero[data-side='left'] { --copy-left: 6%; }
+.san-home-hero[data-tone='light'] { --nav-ink: #ffffff; }
+
+/* ================================================================
+   SLIDES
+   ================================================================ */
+
+.san-home-hero__slides {
+  display: grid;
+}
+
+.san-home-hero__slide {
+  --ink: #1f3a13;
+  --ink-soft: rgba(31, 58, 19, 0.82);
+  --cta-bg: #31591d;
+  --cta-fg: #ffffff;
+  --cta-hover: #1f3a13;
+  --copy-left: 55%;
+
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 0;
+  visibility: hidden;
+  color: var(--ink);
+  transition: visibility 0s linear var(--hero-fade);
+}
+
+.san-home-hero__slide[data-side='left'] { --copy-left: 6%; }
+
+.san-home-hero__slide[data-tone='light'] {
+  --ink: #ffffff;
+  --ink-soft: rgba(255, 255, 255, 0.86);
+  --cta-bg: #afea90;
+  --cta-fg: #1f3a13;
+  --cta-hover: #ffffff;
+}
+
+.san-home-hero__slide.is-active,
+.san-home-hero__slide.is-prev {
+  visibility: visible;
+  transition: none;
+}
+
+.san-home-hero__slide.is-active { z-index: 2; }
+.san-home-hero__slide.is-prev { z-index: 1; }
+
+/* ---- Photo ---- */
+
+.san-home-hero__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--hero-ratio, 2.357);
+  background-color: var(--slide-bg);
+  opacity: 0;
+  /* Leaving: stay opaque under the incoming slide, then drop out. */
+  transition: opacity 0s linear var(--hero-fade);
+}
+
+.san-home-hero__slide.is-active .san-home-hero__media {
+  opacity: 1;
+  transition: opacity var(--hero-fade) cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.san-home-hero__img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(148deg, #afea90 0%, #7cc45c 35%, #55823d 68%, #31591d 100%);
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+/* Kept on .is-prev too, so a photo that leaves mid-settle doesn't jump. */
+.san-home-hero__slide.is-active .san-home-hero__img,
+.san-home-hero__slide.is-prev .san-home-hero__img {
+  animation: san-home-hero-settle 2.4s var(--hero-ease) both;
+}
+
+.san-home-hero__placeholder {
+  background-color: var(--slide-bg, #ebebde);
+  color: rgba(31, 58, 19, 0.22);
+}
+
+/* ---- Copy ---- */
+
+.san-home-hero__copy {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+}
+
+.san-home-hero__slide.is-active .san-home-hero__copy { opacity: 1; }
+
+.san-home-hero__slide.is-prev .san-home-hero__copy {
+  opacity: 0;
+  transform: translate3d(0, -1rem, 0);
+  transition: opacity 0.4s ease, transform 0.6s var(--hero-ease);
+}
+
+.san-home-hero__title {
+  margin: 0;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: clamp(3.6rem, 3.5vw, 6.4rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.san-home-hero__line { display: block; }
+
+.san-home-hero__word {
+  display: inline-block;
+  overflow: clip;
+  /* Room inside the mask for italic overhang, accents and descenders. */
+  padding: 0.12em 0.1em 0.18em;
+  margin: -0.12em -0.1em -0.18em;
+  vertical-align: top;
+}
+
+.san-home-hero__word > span { display: inline-block; }
+
+.san-home-hero__slide.is-active .san-home-hero__word > span {
+  animation: san-home-hero-word 1.15s var(--hero-ease) both;
+  animation-delay: calc(var(--hero-enter) + var(--i, 0) * 70ms);
+}
+
+.san-home-hero__text {
+  max-width: 36ch;
+  margin: 2rem 0 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.5rem, 1.12vw, 1.8rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink-soft);
+}
+
+.san-home-hero__slide.is-active .san-home-hero__text {
+  animation: san-home-hero-rise 0.9s var(--hero-ease) both;
+  animation-delay: calc(var(--hero-enter) + 0.42s);
+}
+
+.san-home-hero__actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: clamp(2rem, 2vw, 3.2rem);
 }
 
-.san-carousel__placeholder-svg {
-  width: 50%;
-  height: auto;
-  opacity: 0.18;
-  color: #ffffff;
+.san-home-hero__slide.is-active .san-home-hero__actions {
+  animation: san-home-hero-rise 0.9s var(--hero-ease) both;
+  animation-delay: calc(var(--hero-enter) + 0.56s);
 }
 
-/* ── Slide info / caption overlay ── */
-.san-carousel__slide-info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 6rem 4.5rem 4.5rem;
-  background: linear-gradient(
-    to top,
-    rgba(15, 28, 8, 0.88) 0%,
-    rgba(15, 28, 8, 0.55) 38%,
-    rgba(15, 28, 8, 0.12) 70%,
-    transparent 100%
-  );
-  z-index: 3;
-  pointer-events: none;
-}
+/* ---- Button ---- */
 
-.san-carousel__slide-label {
+.san-home-hero__cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
-  gap: 1.2rem;
+  justify-content: center;
+  min-height: 5.6rem;
+  border-radius: var(--hero-radius);
+  padding: 0 3.8rem;
+  background-color: var(--cta-bg);
+  color: var(--cta-fg);
   font-family: 'Poppins', sans-serif;
   font-size: 1.4rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
+  line-height: 1;
   text-transform: uppercase;
-  color: #afea90;
-  margin-bottom: 1.4rem;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.san-carousel__slide-label::before {
+/* A deeper green sweeps in from the left, and leaves to the right. */
+.san-home-hero__cta::before {
   content: '';
-  width: 3.2rem;
-  height: 2px;
-  background: #afea90;
-  flex-shrink: 0;
-}
-
-.san-carousel__slide-caption {
-  display: block;
-  font-family: 'Noto Serif', Georgia, serif;
-  font-size: clamp(2.6rem, 3vw, 4rem);
-  font-style: italic;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.12;
-  letter-spacing: -0.01em;
-  max-width: 24ch;
-  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* ── Navigation Arrows ── */
-.san-carousel__arrow {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  cursor: pointer;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--cta-hover);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.55s var(--hero-ease);
+}
+
+@media (hover: hover) {
+  .san-home-hero__cta:hover::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+.san-home-hero__cta:focus-visible,
+.san-home-hero__chip:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---- Products in the photo ---- */
+
+.san-home-hero__scene {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: 0;
-  pointer-events: none;
+  gap: 1.4rem;
 }
 
-.san-carousel:hover .san-carousel__arrow {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.san-carousel__arrow:hover {
-  background-color: rgba(85, 130, 61, 0.85);
-  border-color: transparent;
-  transform: translateY(-50%) scale(1.08);
-}
-
-.san-carousel__arrow--prev { left: 1.75rem; }
-.san-carousel__arrow--next { right: 1.75rem; }
-
-/* ── Dot indicators ── */
-.san-carousel__dots {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+.san-home-hero__chips {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  z-index: 10;
-}
-
-/* The button is a 24px target (WCAG 2.5.8 / Lighthouse target-size); the
-   6px dot people actually see is drawn with ::before, so the hit area grew
-   without the indicator changing size. */
-.san-carousel__dot {
-  width: 24px;
-  height: 24px;
-  display: grid;
-  place-items: center;
-  background: none;
-  border: none;
-  cursor: pointer;
+  margin: 0;
   padding: 0;
-  flex-shrink: 0;
+  list-style: none;
 }
 
-.san-carousel__dot::before {
-  content: '';
-  width: 6px;
-  height: 6px;
+.san-home-hero__chips > li + li { margin-left: -1rem; }
+
+.san-home-hero__chips > li:hover,
+.san-home-hero__chips > li:focus-within { z-index: 1; }
+
+.san-home-hero__chip {
+  display: block;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.4);
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: inherit;
+  text-decoration: none;
 }
 
-.san-carousel__dot.is-active::before {
-  background-color: #ffffff;
-  transform: scale(1.5);
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+.san-home-hero__chip-media {
+  display: block;
+  width: 4.6rem;
+  height: 4.6rem;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: #ececec;
+  box-shadow: 0 0 0 0.2rem var(--slide-bg);
+  transition: transform 0.4s var(--hero-ease);
 }
 
-.san-carousel__dot:hover:not(.is-active)::before {
-  background-color: rgba(255, 255, 255, 0.7);
+.san-home-hero__chip-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* The product shots are padded; bring the bottle closer. */
   transform: scale(1.2);
 }
 
-/* ── Progress bar ── */
-.san-carousel__progress {
+/* The chip's name and price take the label's place while it is pointed
+   at. Positioned against .san-home-hero__scene, just past the stack:
+   n chips of 4.6rem overlapping by 1rem, plus the 1.4rem gap (from
+   990px both hang under the chips instead — see DESKTOP). */
+.san-home-hero__chip-caption {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 50%;
+  left: calc(var(--chips, 1) * 3.6rem + 2.4rem);
+  transform: translateY(-50%);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.san-home-hero__chip-price {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.san-home-hero__scene-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  transition: opacity 0.25s ease;
+}
+
+@media (hover: hover) {
+  .san-home-hero__chip:hover .san-home-hero__chip-media { transform: translateY(-0.3rem); }
+  .san-home-hero__chip:hover .san-home-hero__chip-caption { opacity: 1; }
+  .san-home-hero__scene:has(.san-home-hero__chip:hover) .san-home-hero__scene-label { opacity: 0; }
+}
+
+.san-home-hero__chip:focus-visible .san-home-hero__chip-caption { opacity: 1; }
+.san-home-hero__scene:has(.san-home-hero__chip:focus-visible) .san-home-hero__scene-label { opacity: 0; }
+
+/* ================================================================
+   NAV — one tab per product line; the active tab's line is the timer
+   ================================================================ */
+
+.san-home-hero__nav {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.6rem;
+  color: var(--nav-ink);
+  transition: color var(--hero-fade) ease;
+}
+
+.san-home-hero__toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--nav-height);
+  border-radius: var(--hero-radius);
+  height: var(--nav-height);
+  padding: 0;
+  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+
+.san-home-hero__toggle svg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+@media (hover: hover) {
+  .san-home-hero__toggle:hover { border-color: currentColor; }
+}
+
+.san-home-hero__icon-play,
+.san-home-hero.is-user-paused .san-home-hero__icon-pause { display: none; }
+
+.san-home-hero.is-user-paused .san-home-hero__icon-play { display: block; }
+
+.san-home-hero__tabs {
+  flex: 1;
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: 1.6rem;
+}
+
+.san-home-hero__tab {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.1rem;
+  min-height: var(--nav-height);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.san-home-hero__tab-track {
+  position: relative;
+  display: block;
   height: 2px;
-  background-color: rgba(255, 255, 255, 0.15);
-  z-index: 10;
+  overflow: hidden;
+  background-color: color-mix(in srgb, currentColor 22%, transparent);
 }
 
-.san-carousel__progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(to right, rgba(175, 234, 144, 0.6), rgba(175, 234, 144, 0.9));
-  transition: width 0s linear;
+.san-home-hero__tab-fill {
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
-/* ── Slide caption — mobile ── */
-@media screen and (max-width: 749px) {
-  .san-carousel__slide-info {
-    padding: 4rem 2.4rem 3rem;
-  }
+.san-home-hero__tab.is-active .san-home-hero__tab-fill { transform: none; }
 
-  .san-carousel__slide-label {
-    font-size: var(--san-label);
-    letter-spacing: 0.18em;
-    margin-bottom: 1rem;
-  }
-
-  .san-carousel__slide-label::before {
-    width: 2.4rem;
-  }
+.san-home-hero.is-autoplay .san-home-hero__tab.is-active .san-home-hero__tab-fill {
+  animation: san-home-hero-progress var(--hero-interval, 7s) linear both;
 }
 
-/* ── Reduced motion ── */
-@media (prefers-reduced-motion: reduce) {
-  .san-carousel__slide {
-    transition: opacity 0.2s ease;
+.san-home-hero.is-paused .san-home-hero__tab.is-active .san-home-hero__tab-fill {
+  animation-play-state: paused;
+}
+
+.san-home-hero__tab-label {
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: color-mix(in srgb, currentColor 74%, transparent);
+  transition: color 0.3s ease;
+}
+
+.san-home-hero__tab.is-active .san-home-hero__tab-label,
+.san-home-hero__tab:hover .san-home-hero__tab-label { color: currentColor; }
+
+.san-home-hero__tab:focus-visible,
+.san-home-hero__toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* ================================================================
+   DESKTOP — copy on the photo's empty wall
+   ================================================================ */
+
+@media screen and (min-width: 990px) {
+  .san-home-hero__nav {
+    position: absolute;
+    top: var(--nav-top);
+    left: var(--copy-left);
+    width: max(var(--copy-width), 38rem);
+    transition: color var(--hero-fade) ease, left 0.8s var(--hero-ease);
   }
 
-  .san-carousel__slide.is-active .san-carousel__img {
+  /* Between the nav and 72% of the height: below that the props reach in. */
+  .san-home-hero__copy {
+    position: absolute;
+    top: calc(var(--nav-top) + var(--nav-height) + clamp(1.6rem, 1.6vw, 3.2rem));
+    bottom: 28%;
+    left: var(--copy-left);
+    width: var(--copy-width);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-content: safe center;
+    /* Only the words and controls count as "reading" (hover pause). */
+    pointer-events: none;
+  }
+
+  .san-home-hero__copy-inner { pointer-events: auto; }
+
+  .san-home-hero--single .san-home-hero__copy { top: var(--nav-top); }
+
+  .san-home-hero__actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 2.4rem;
+  }
+
+  /* On the wall the label hangs under the chips, like a caption. */
+  .san-home-hero__chip-caption,
+  .san-home-hero__scene-label {
+    position: absolute;
+    top: calc(100% + 0.8rem);
+    left: 0;
     transform: none;
   }
+}
 
-  .san-carousel__img {
+/* Small laptops: not enough wall for three lines of description. */
+@media screen and (min-width: 990px) and (max-width: 1279px) {
+  .san-home-hero__text { display: none; }
+}
+
+/* ================================================================
+   TABLET + MOBILE — cropped photo, copy in a tinted panel below
+   ================================================================ */
+
+@media screen and (max-width: 989px) {
+  .san-home-hero {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .san-home-hero__slides { order: 1; }
+
+  .san-home-hero__nav {
+    order: 2;
+    padding: 0 4rem 3.2rem;
+  }
+
+  .san-home-hero__media { aspect-ratio: 1.6; }
+
+  .san-home-hero__img { object-position: var(--focus-x, 15%) 50%; }
+
+  /* Let the photo melt into its panel instead of ending on a hard edge. */
+  .san-home-hero__media::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 14%;
+    background: linear-gradient(to bottom, transparent, var(--slide-bg));
+    pointer-events: none;
+  }
+
+  .san-home-hero__copy { padding: 3.2rem 4rem; }
+
+  .san-home-hero__title { font-size: clamp(3.4rem, 5.6vw, 4.8rem); }
+
+  .san-home-hero__text { font-size: 1.6rem; }
+}
+
+@media screen and (max-width: 749px) {
+  .san-home-hero__media { aspect-ratio: var(--hero-ratio-mobile, 1.2); }
+
+  .san-home-hero__copy { padding: 2.4rem 2rem 2.8rem; }
+
+  .san-home-hero__title { font-size: clamp(2.8rem, 8.2vw, 3.6rem); }
+
+  .san-home-hero__text { margin-top: 1.6rem; }
+
+  .san-home-hero__actions {
+    align-items: stretch;
+    gap: 1.8rem;
+    margin-top: 2.4rem;
+  }
+
+  .san-home-hero__nav {
+    gap: 1.2rem;
+    padding: 0 2rem 2.4rem;
+  }
+
+  .san-home-hero__tabs { gap: 1rem; }
+
+  .san-home-hero__tab-label { font-size: 1.2rem; }
+
+  /* Slides with their own portrait image (4:5): it leaves an empty wall
+     across the top ~22% (a monstera leaf starts at 23% in the oils one),
+     enough for the headline, so it moves onto the photo as on desktop.
+     With .copy static, the title positions against the slide; the leave
+     transform is dropped so that containing block never changes. */
+  .san-home-hero__slide--art .san-home-hero__copy { position: static; }
+
+  .san-home-hero__slide--art.is-prev .san-home-hero__copy { transform: none; }
+
+  /* Same footprint as before the extra leading (top moved up to pay for
+     it), so the headline still clears the leaf. */
+  .san-home-hero__slide--art .san-home-hero__title {
+    position: absolute;
+    z-index: 2;
+    top: 2rem;
+    right: 2rem;
+    left: 2rem;
+    line-height: 1.14;
+  }
+
+  .san-home-hero__slide--art .san-home-hero__text { margin-top: 0; }
+}
+
+/* ================================================================
+   REDUCED MOTION — crossfades only
+   ================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .san-home-hero__slide.is-active .san-home-hero__img,
+  .san-home-hero__slide.is-prev .san-home-hero__img,
+  .san-home-hero__slide.is-active .san-home-hero__word > span {
+    animation: none;
+  }
+
+  .san-home-hero__slide.is-active .san-home-hero__title,
+  .san-home-hero__slide.is-active .san-home-hero__text,
+  .san-home-hero__slide.is-active .san-home-hero__actions {
+    animation: san-home-hero-fade 0.6s ease both;
+    animation-delay: 0.2s;
+  }
+
+  .san-home-hero__slide.is-prev .san-home-hero__copy { transform: none; }
+
+  .san-home-hero__cta::before,
+  .san-home-hero__chip-media,
+  .san-home-hero__nav {
     transition: none;
   }
 }

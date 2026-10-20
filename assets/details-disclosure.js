@@ -6,11 +6,29 @@ class DetailsDisclosure extends HTMLElement {
 
     this.mainDetailsToggle.addEventListener('focusout', this.onFocusOut.bind(this));
     this.mainDetailsToggle.addEventListener('toggle', this.onToggle.bind(this));
+
+    // Safari focuses <summary> on click but never focuses a plain link, so
+    // pressing a link inside the open panel drops focus to <body>. onFocusOut
+    // then closed the panel while the button was still down, and the click
+    // never reached the link — every link in the menu was dead in Safari.
+    // A press that starts inside is tracked until the button comes back up.
+    this.addEventListener('pointerdown', () => {
+      this.pressedInside = true;
+      const release = () => setTimeout(() => (this.pressedInside = false));
+      window.addEventListener('pointerup', release, { once: true });
+      window.addEventListener('pointercancel', release, { once: true });
+    });
   }
 
   onFocusOut() {
     setTimeout(() => {
-      if (!this.contains(document.activeElement)) this.close();
+      if (this.contains(document.activeElement)) return;
+      if (this.pressedInside) {
+        // Keep focus inside, so a later click outside still closes the panel.
+        this.mainDetailsToggle.querySelector('summary').focus({ preventScroll: true });
+        return;
+      }
+      this.close();
     });
   }
 

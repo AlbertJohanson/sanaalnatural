@@ -12,40 +12,80 @@
     "san_hero": {
       "type": "san-hero",
       "blocks": {
-        "slide_1": {
+        "slide_oils": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/carousel_1.jpg",
-            "label": "Nueva colección",
-            "caption": "Naturaleza en cada producto"
+            "image": "shopify://shop_images/hero-1-aceites-spa.png",
+            "image_mobile": "shopify://shop_images/hero-1-aceites-spa-movil-v2.png",
+            "mobile_focus": 14,
+            "background": "#ebebde",
+            "copy": "oils",
+            "nav_label": "",
+            "heading": "",
+            "description": "",
+            "button_label": "",
+            "button_link": "shopify://collections/natural-oils",
+            "products": [
+              "sapuyulo-hair-oil",
+              "coconut-oil-with-vitamin-e"
+            ],
+            "content_position": "right",
+            "tone": "dark"
           }
         },
-        "slide_3": {
+        "slide_honey_tea": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/683795938_18028736423659478_2864624872226640397_n.jpg",
-            "label": "100% orgánico",
-            "caption": "Sin conservantes artificiales"
+            "image": "shopify://shop_images/hero-2-miel-te-botanico.png",
+            "image_mobile": "shopify://shop_images/hero-2-miel-te-botanico-movil.png",
+            "mobile_focus": 14,
+            "background": "#eae3cc",
+            "copy": "honey_tea",
+            "nav_label": "",
+            "heading": "",
+            "description": "",
+            "button_label": "",
+            "button_link": "shopify://collections/honey",
+            "products": [
+              "honey",
+              "honey-with-eucalyptus-extract",
+              "calm-anxiety-tea"
+            ],
+            "content_position": "right",
+            "tone": "dark"
+          }
+        },
+        "slide_arnica": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/hero-3-arnicol-estudio.png",
+            "image_mobile": "shopify://shop_images/hero-3-arnicol-estudio-movil.png",
+            "mobile_focus": 10,
+            "background": "#dfd3c3",
+            "copy": "arnica",
+            "nav_label": "",
+            "heading": "",
+            "description": "",
+            "button_label": "",
+            "button_link": "/search?q=arnicol&type=product&options%5Bprefix%5D=last",
+            "products": [
+              "arnicol-cream",
+              "arnicol-spray",
+              "arnica-flowers"
+            ],
+            "content_position": "right",
+            "tone": "dark"
           }
         }
       },
       "block_order": [
-        "slide_1",
-        "slide_3"
+        "slide_oils",
+        "slide_honey_tea",
+        "slide_arnica"
       ],
       "settings": {
-        "eyebrow": "100% Natural · Hecho con amor",
-        "heading": "Bienestar que |nace de la naturaleza|",
-        "description": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
-        "button_label_1": "Comprar ahora",
-        "button_url_1": "shopify://collections/all",
-        "button_label_2": "Ver colección",
-        "button_url_2": "/collections",
-        "show_features": true,
-        "carousel_interval": 5,
-        "show_badge": true,
-        "show_scroll_indicator": true,
-        "min_height": 90
+        "autoplay": true,
+        "carousel_interval": 7
       }
     },
     "san_bestsellers": {

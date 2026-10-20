@@ -256,6 +256,22 @@
   background: #3d6b28;
 }
 
+/* Customer photo in place of the initial — a little larger, so a face reads. */
+.san-testi__avatar--photo {
+  width: 5.6rem;
+  height: 5.6rem;
+  overflow: hidden;
+  background: #e6ede0;
+  box-shadow: 0 0 0 0.3rem #ffffff, 0 0 0 0.4rem rgba(49, 89, 29, 0.25);
+}
+
+.san-testi__avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .san-testi__author-info {
   display: flex;
   flex-direction: column;

@@ -10,9 +10,18 @@
 
 {%- comment -%} ═══════ CATALOG MASTHEAD — shared by /collections/all and /collections/[handle] ═══════ {%- endcomment -%}
 <section class="san-catalog{% if is_catalog %} san-catalog--all{% endif %}" aria-label="{{ collection.title | escape }}">
+  {%- comment -%}
+    Leaf photography instead of flat green, and no "Sana al Natural"
+    watermark — the same correction the client asked for on the About
+    header ("cambiar algunos titulares como este"). Eager: top of the page.
+  {%- endcomment -%}
+  {%- render 'san-photo-bg',
+    name: section.settings.background_photo,
+    image: section.settings.background_image,
+    eager: true
+  -%}
   <div class="san-catalog__grain" aria-hidden="true"></div>
   <div class="san-catalog__glow" aria-hidden="true"></div>
-  <div class="san-catalog__watermark" aria-hidden="true"><span>Sana al Natural</span></div>
 
   <div class="san-catalog__ambient" aria-hidden="true">
     <span class="san-catalog__leaf san-catalog__leaf--1"><svg viewBox="0 0 60 60" fill="none"><path d="M30 6 C14 20 6 36 12 50 C16 58 30 60 38 52 C46 44 52 28 30 6Z" fill="currentColor"/></svg></span>
@@ -96,6 +105,24 @@
         { "value": "large",  "label": "Grande" }
       ],
       "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "background_photo",
+      "label": "Foto de fondo",
+      "options": [
+        { "value": "hojas", "label": "Pared verde con sombras de hojas" },
+        { "value": "selva", "label": "Selva con rayos de luz" },
+        { "value": "niebla", "label": "Montañas con niebla" },
+        { "value": "none", "label": "Sin foto (verde liso)" }
+      ],
+      "default": "hojas"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Foto de fondo propia (opcional)",
+      "info": "Reemplaza la foto elegida arriba. Usa una foto oscura: el texto es blanco."
     },
     {
       "type": "checkbox",

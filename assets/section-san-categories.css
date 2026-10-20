@@ -13,6 +13,21 @@
     radial-gradient(60% 60% at 0% 100%, rgba(175, 234, 144, 0.06), transparent 55%),
     linear-gradient(180deg, #1c350f 0%, #18300d 55%, #142808 100%);
   overflow: hidden;
+  isolation: isolate;
+  /* Photo backdrop (snippets/san-photo-bg.liquid): starts from the colour
+     the brand story fades into, so the two photos join without a seam;
+     the jungle's light rays then fall behind the heading. */
+  --photo-position: center top;
+  --photo-scrim:
+    linear-gradient(180deg, #142210 0%, rgba(20, 34, 16, 0.82) 5%, rgba(20, 34, 16, 0.5) 12%, rgba(20, 34, 16, 0.3) 22%, rgba(16, 28, 12, 0.22) 55%, rgba(16, 28, 12, 0.5) 100%);
+}
+
+/* A tall, narrow phone crop lands on the light rays themselves; darken more. */
+@media screen and (max-width: 749px) {
+  .san-catx {
+    --photo-scrim:
+      linear-gradient(180deg, #142210 0%, rgba(20, 34, 16, 0.75) 8%, rgba(16, 28, 12, 0.6) 30%, rgba(16, 28, 12, 0.42) 60%, rgba(16, 28, 12, 0.55) 100%);
+  }
 }
 
 .san-catx__inner {
