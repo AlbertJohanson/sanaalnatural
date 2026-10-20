@@ -89,32 +89,37 @@
       }
     },
     "hero": {
-      "eyebrow": "100% Natural · Made with love",
       "heading": "Wellness that |grows from nature|",
-      "description": "Sana al Natural is a brand devoted to health and wellbeing through natural products.",
-      "button_1": "Shop now",
-      "button_2": "View collection",
-      "badge": "NATURAL · ORGANIC · HEALTHY · WELLBEING ·",
+      "in_photo": "In the photo",
+      "nav_fallback": "Slide {{ index }}",
       "a11y": {
-        "gallery": "Image gallery",
-        "previous": "Previous slide",
-        "next": "Next slide",
+        "carousel": "Featured products",
         "slides": "Slides",
         "slide_count": "{{ index }} of {{ total }}",
-        "go_to": "Go to slide {{ index }}"
+        "pause": "Pause slideshow",
+        "play": "Play slideshow"
       },
       "slides": {
-        "1": {
-          "label": "Check our products",
-          "caption": "Nature in every product"
+        "oils": {
+          "nav": "Oils",
+          "heading": "Strong roots, | natural shine.",
+          "description": "Sapuyulo oil to nourish your hair, and coconut oil with vitamin E to moisturize hair and skin.",
+          "button": "Shop the oils",
+          "alt": "Sapuyulo hair oil and coconut oil with vitamin E on a stone pedestal by the water"
         },
-        "2": {
-          "label": "Natural wellbeing",
-          "caption": "Crafted with the finest ingredients"
+        "honey_tea": {
+          "nav": "Honey & tea",
+          "heading": "Sweet calm, | naturally.",
+          "description": "100% natural honey, honey with eucalyptus extract and Calm Anxiety tea for the quiet moments in your day.",
+          "button": "Shop honey",
+          "alt": "Honey, honey with eucalyptus extract and Calm Anxiety tea on a wooden board with honeycomb and chamomile"
         },
-        "3": {
-          "label": "100% organic",
-          "caption": "No artificial preservatives"
+        "arnica": {
+          "nav": "Arnica",
+          "heading": "Relief born | from a flower.",
+          "description": "Arnicol cream and spray for muscles and joints, plus arnica flowers for your herbal preparations.",
+          "button": "Shop arnica",
+          "alt": "Arnicol cream, Arnicol spray and a bag of arnica flowers on stone pedestals"
         }
       }
     },
@@ -353,8 +358,8 @@
     },
     "categories": {
       "eyebrow": "Browse by category",
-      "heading": "Find what your |body needs|",
-      "description": "Every category brings together the best of nature, curated for your wellbeing.",
+      "heading": "Natural wellness |for everyday life|",
+      "description": "Oils, honey, teas and herbs, chosen to support you every day.",
       "nav_label": "Categories",
       "view": "View {{ name }}",
       "view_all": "View all products in {{ name }}",
@@ -363,7 +368,7 @@
     "contact": {
       "eyebrow": "Contact",
       "heading": "|Let's talk|.",
-      "intro": "Questions about our products, your order, wholesale or a collaboration — write to us and we'll get back to you within 24 hours.",
+      "intro": "Want to know more about our products, wholesale orders or becoming a distributor? Leave us your details and we'll be in touch soon.",
       "letterhead": "Write to us",
       "label_name": "Name",
       "placeholder_name": "Your name",

@@ -16,12 +16,17 @@
 
   {%- comment -%} ═══════ 1 · HERO (Editorial Masthead) ═══════ {%- endcomment -%}
   <div class="sa-hero">
+    {%- comment -%}
+      Leaf photography instead of flat green (client correction); the
+      oversized "Sana al Natural" watermark was removed at their request.
+      Eager: this is the first thing on the page.
+    {%- endcomment -%}
+    {%- render 'san-photo-bg',
+      name: section.settings.hero_background,
+      image: section.settings.hero_background_image,
+      eager: true
+    -%}
     <div class="sa-hero__grain" aria-hidden="true"></div>
-    <div class="sa-hero__watermark" aria-hidden="true">
-      <span>Sana</span>
-      <span>al</span>
-      <span>Natural</span>
-    </div>
 
     {%- comment -%} Ambient drifting leaves {%- endcomment -%}
     <div class="sa-hero__ambient" aria-hidden="true">
@@ -388,12 +393,17 @@
     </div>
 
     <div class="sa-vbento__grid" data-reveal>
+      {%- comment -%}
+        Each value gets its own leaf photo (client: give every item a
+        background so this differs from the green section above). Set per
+        tile as --tile-photo; the scrim lives in san-about.css (.sa-vtile).
+      {%- endcomment -%}
 
       {%- comment -%} ── 01 · Calidad (featured / large) ── {%- endcomment -%}
       <article
         class="sa-vtile sa-vtile--a sa-vtile--lg"
         data-vtile
-        style="--i: 0;">
+        style="--i: 0; --tile-photo: url({{ 'san-bg-niebla-1400.webp' | asset_url }}); --tile-photo-position: center 35%;">
         <span class="sa-vtile__spot" aria-hidden="true"></span>
         <span class="sa-vtile__num" aria-hidden="true">01</span>
         <div class="sa-vtile__inner">
@@ -433,7 +443,7 @@
       <article
         class="sa-vtile sa-vtile--b"
         data-vtile
-        style="--i: 1;">
+        style="--i: 1; --tile-photo: url({{ 'san-bg-hojas-1400.webp' | asset_url }}); --tile-photo-position: left top;">
         <span class="sa-vtile__spot" aria-hidden="true"></span>
         <span class="sa-vtile__num" aria-hidden="true">02</span>
         <div class="sa-vtile__inner">
@@ -467,7 +477,7 @@
       <article
         class="sa-vtile sa-vtile--c"
         data-vtile
-        style="--i: 2;">
+        style="--i: 2; --tile-photo: url({{ 'san-bg-selva-1400.webp' | asset_url }}); --tile-photo-position: 50% 20%;">
         <span class="sa-vtile__spot" aria-hidden="true"></span>
         <span class="sa-vtile__num" aria-hidden="true">03</span>
         <div class="sa-vtile__inner">
@@ -497,7 +507,7 @@
       <article
         class="sa-vtile sa-vtile--d"
         data-vtile
-        style="--i: 3;">
+        style="--i: 3; --tile-photo: url({{ 'san-bg-selva-1400.webp' | asset_url }}); --tile-photo-position: left bottom;">
         <span class="sa-vtile__spot" aria-hidden="true"></span>
         <span class="sa-vtile__num" aria-hidden="true">04</span>
         <div class="sa-vtile__inner">
@@ -535,7 +545,7 @@
       <article
         class="sa-vtile sa-vtile--e"
         data-vtile
-        style="--i: 4;">
+        style="--i: 4; --tile-photo: url({{ 'san-bg-hojas-1400.webp' | asset_url }}); --tile-photo-position: right bottom;">
         <span class="sa-vtile__spot" aria-hidden="true"></span>
         <span class="sa-vtile__num" aria-hidden="true">05</span>
         <div class="sa-vtile__inner">
@@ -664,7 +674,6 @@
     var hero = section.querySelector('.sa-hero');
     if (hero) {
       var heroMedia = hero.querySelector('.sa-hero__col--media');
-      var heroMark = hero.querySelector('.sa-hero__watermark');
       var ticking = false;
 
       window.addEventListener('scroll', function() {
@@ -674,7 +683,6 @@
             if (rect.bottom > 0 && rect.top < window.innerHeight) {
               var scrolled = -rect.top;
               if (heroMedia) heroMedia.style.transform = 'translateY(' + (scrolled * 0.12) + 'px)';
-              if (heroMark) heroMark.style.transform = 'translateY(' + (scrolled * 0.05) + 'px)';
             }
             ticking = false;
           });
@@ -705,6 +713,40 @@
       {
         "type": "paragraph",
         "content": "Los textos de esta página se editan en Configuración del tema → Idiomas (claves san.about.*). Las imágenes y los datos de contacto se editan aquí."
+      },
+      {
+        "type": "header",
+        "content": "Portada"
+      },
+      {
+        "type": "select",
+        "id": "hero_background",
+        "label": "Foto de fondo",
+        "options": [
+          {
+            "value": "hojas",
+            "label": "Pared verde con sombras de hojas"
+          },
+          {
+            "value": "selva",
+            "label": "Selva con rayos de luz"
+          },
+          {
+            "value": "niebla",
+            "label": "Montañas con niebla"
+          },
+          {
+            "value": "none",
+            "label": "Sin foto (verde liso)"
+          }
+        ],
+        "default": "hojas"
+      },
+      {
+        "type": "image_picker",
+        "id": "hero_background_image",
+        "label": "Foto de fondo propia (opcional)",
+        "info": "Reemplaza la foto elegida arriba. Usa una foto oscura: el texto es blanco."
       },
       {
         "type": "header",

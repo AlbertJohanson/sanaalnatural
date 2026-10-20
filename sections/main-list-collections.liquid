@@ -39,12 +39,17 @@
 
   {%- comment -%} ═══════ HERO — Editorial Masthead (matches Sobre Nosotros) ═══════ {%- endcomment -%}
   <div class="sa-hero">
+    {%- comment -%}
+      Leaf photography instead of flat green, and no "Sana al Natural"
+      watermark — the same correction as the About header. Eager: top of
+      the page.
+    {%- endcomment -%}
+    {%- render 'san-photo-bg',
+      name: section.settings.background_photo,
+      image: section.settings.background_image,
+      eager: true
+    -%}
     <div class="sa-hero__grain" aria-hidden="true"></div>
-    <div class="sa-hero__watermark" aria-hidden="true">
-      <span>Sana</span>
-      <span>al</span>
-      <span>Natural</span>
-    </div>
 
     <div class="sa-hero__ambient" aria-hidden="true">
       <span class="sa-hero__leaf sa-hero__leaf--1">
@@ -231,6 +236,24 @@
       "id": "intro",
       "label": "Intro override",
       "info": "Leave blank to use the translated default."
+    },
+    {
+      "type": "select",
+      "id": "background_photo",
+      "label": "Foto de fondo",
+      "options": [
+        { "value": "hojas", "label": "Pared verde con sombras de hojas" },
+        { "value": "selva", "label": "Selva con rayos de luz" },
+        { "value": "niebla", "label": "Montañas con niebla" },
+        { "value": "none", "label": "Sin foto (verde liso)" }
+      ],
+      "default": "hojas"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Foto de fondo propia (opcional)",
+      "info": "Reemplaza la foto elegida arriba. Usa una foto oscura: el texto es blanco."
     },
     {
       "type": "checkbox",

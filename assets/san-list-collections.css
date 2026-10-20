@@ -36,6 +36,9 @@
   isolation: isolate;
   color: #fff;
   background: var(--color-primary-dark, #31591d);
+  /* Photo backdrop: darkest behind the centred title (as on About). */
+  --photo-scrim:
+    radial-gradient(60% 75% at 50% 52%, rgba(14, 26, 10, 0.5), rgba(14, 26, 10, 0.18) 100%);
 }
 
 .sa-hero::before {
@@ -65,30 +68,7 @@
   background-size: 200px;
 }
 
-.sa-hero__watermark {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: var(--sa-side);
-  font-family: var(--font-heading, 'Noto Serif', serif);
-  font-style: italic;
-  font-weight: 700;
-  line-height: 0.78;
-  letter-spacing: -0.02em;
-  color: #fff;
-  opacity: 0.06;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-  overflow: hidden;
-  will-change: transform;
-}
 
-.sa-hero__watermark span { display: block; font-size: clamp(5rem, 16.5vw, 14rem); }
-.sa-hero__watermark span:nth-child(2) { padding-left: 0.18em; }
 
 .sa-hero__ambient { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 
@@ -196,9 +176,9 @@
   max-width: 52ch;
   font-family: var(--font-body, 'Poppins', sans-serif);
   font-size: var(--san-hero-lede);
-  font-weight: 300;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.82);
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
   opacity: 0;
   animation: san-about-fade-up 0.9s 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   text-align: center;

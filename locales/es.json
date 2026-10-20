@@ -89,32 +89,37 @@
       }
     },
     "hero": {
-      "eyebrow": "100% Natural · Hecho con amor",
       "heading": "Bienestar que |nace de la naturaleza|",
-      "description": "Sana al Natural es una marca enfocada en la salud y el bienestar a través de productos naturales.",
-      "button_1": "Comprar ahora",
-      "button_2": "Ver colección",
-      "badge": "NATURAL · ORGÁNICO · SALUDABLE · BIENESTAR ·",
+      "in_photo": "En la foto",
+      "nav_fallback": "Diapositiva {{ index }}",
       "a11y": {
-        "gallery": "Galería de imágenes",
-        "previous": "Slide anterior",
-        "next": "Slide siguiente",
-        "slides": "Slides",
+        "carousel": "Productos destacados",
+        "slides": "Diapositivas",
         "slide_count": "{{ index }} de {{ total }}",
-        "go_to": "Ir al slide {{ index }}"
+        "pause": "Pausar la presentación",
+        "play": "Reanudar la presentación"
       },
       "slides": {
-        "1": {
-          "label": "Conoce nuestros productos",
-          "caption": "Naturaleza en cada producto"
+        "oils": {
+          "nav": "Aceites",
+          "heading": "Raíces fuertes, | brillo natural.",
+          "description": "Aceite de sapuyulo que nutre tu cabello y aceite de coco con vitamina E que hidrata cabello y piel.",
+          "button": "Comprar aceites",
+          "alt": "Aceite de sapuyulo y aceite de coco con vitamina E sobre un pedestal de piedra junto al agua"
         },
-        "2": {
-          "label": "Bienestar natural",
-          "caption": "Formulado con los mejores ingredientes"
+        "honey_tea": {
+          "nav": "Miel y té",
+          "heading": "Dulce calma, | naturalmente.",
+          "description": "Miel 100% natural, miel con extracto de eucalipto y té Calma Ansiedad para los momentos de pausa de tu día.",
+          "button": "Comprar miel",
+          "alt": "Miel, miel con extracto de eucalipto y té Calma Ansiedad sobre una tabla de madera con panal y manzanilla"
         },
-        "3": {
-          "label": "100% orgánico",
-          "caption": "Sin conservantes artificiales"
+        "arnica": {
+          "nav": "Árnica",
+          "heading": "Alivio que nace | de una flor.",
+          "description": "Crema y spray Arnicol para músculos y articulaciones, y flores de árnica para tus preparaciones herbales.",
+          "button": "Comprar árnica",
+          "alt": "Crema Arnicol, spray Arnicol y una bolsa de flores de árnica sobre pedestales de piedra"
         }
       }
     },
@@ -161,7 +166,7 @@
     "contact": {
       "eyebrow": "Contacto",
       "heading": "|Hablemos|.",
-      "intro": "Dudas sobre nuestros productos, tu pedido, mayoreo o una colaboración — escríbenos y te responderemos en menos de 24 horas.",
+      "intro": "¿Quieres conocer más acerca de nuestros productos, pedidos por mayor o ser distribuidor? Déjanos tus datos y te contactaremos pronto.",
       "letterhead": "Escríbenos",
       "label_name": "Nombre",
       "placeholder_name": "Tu nombre",
@@ -396,8 +401,8 @@
     },
     "categories": {
       "eyebrow": "Explora por categoría",
-      "heading": "Encuentra lo que tu |cuerpo necesita|",
-      "description": "Cada categoría reúne lo mejor de la naturaleza, seleccionado para tu bienestar.",
+      "heading": "Bienestar natural |para tu vida diaria|",
+      "description": "Aceites, mieles, tés y hierbas seleccionados para acompañarte cada día.",
       "nav_label": "Categorías",
       "view": "Ver {{ name }}",
       "view_all": "Ver todos los productos de {{ name }}",

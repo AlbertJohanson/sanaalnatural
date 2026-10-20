@@ -12,6 +12,19 @@
     radial-gradient(60% 60% at 100% 0%, rgba(85, 130, 61, 0.4), transparent 55%),
     radial-gradient(60% 70% at 0% 100%, rgba(175, 234, 144, 0.07), transparent 55%),
     linear-gradient(170deg, #31591d 0%, #244016 60%, #1c350f 100%);
+  /* Photo backdrop (snippets/san-photo-bg.liquid): the jungle's light rays
+     fall at the top centre, above the heading; its dark right side sits
+     behind the answers. */
+  --photo-scrim:
+    linear-gradient(180deg, rgba(14, 26, 10, 0.45) 0%, rgba(14, 26, 10, 0.3) 45%, rgba(14, 26, 10, 0.55) 100%);
+}
+
+/* A narrow phone crop centres on the light rays; darken a little more. */
+@media screen and (max-width: 749px) {
+  .san-faq {
+    --photo-scrim:
+      linear-gradient(180deg, rgba(14, 26, 10, 0.58) 0%, rgba(14, 26, 10, 0.45) 45%, rgba(14, 26, 10, 0.6) 100%);
+  }
 }
 
 .san-faq__inner {

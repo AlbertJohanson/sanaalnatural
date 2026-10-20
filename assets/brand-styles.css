@@ -63,7 +63,7 @@
      a 12–15px y escalan con el ancho de pantalla. */
   --san-label: clamp(1.2rem, 0.9vw, 1.5rem);
   --san-label-lg: clamp(1.35rem, 1vw, 1.6rem);
-  --san-hero-lede: clamp(1.5rem, 1.4vw, 1.9rem);
+  --san-hero-lede: clamp(1.7rem, 1.5vw, 2.3rem); /* page-header subtitles; raised (client: too small next to the titles) */
 
   /* Pesos de fuente */
   --weight-light: 300;
@@ -885,6 +885,41 @@ select.brand-input:focus {
   font-weight: 400;
   color: rgba(28, 43, 20, 0.4);
   text-decoration: line-through;
+}
+
+
+/* ==========================================================================
+   PHOTO BACKDROP — snippets/san-photo-bg.liquid
+   The brand's leaf photography behind the deep-green sections, in place of
+   the flat green (client correction). The parent is relative + isolated,
+   so z-index -1 lands behind its content but above its own background.
+   Each section tunes legibility for its layout with:
+     --photo-scrim     the darkening layer over the photo (any background)
+     --photo-position  object-position of the photo
+   ========================================================================== */
+
+.san-photo-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background-color: #1b2a17; /* until the photo arrives */
+  pointer-events: none;
+}
+
+.san-photo-bg__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--photo-position, center);
+}
+
+.san-photo-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--photo-scrim, rgba(16, 28, 12, 0.45));
 }
 
 

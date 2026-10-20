@@ -17,8 +17,18 @@
 
 <section class="san-faq" id="san-faq-{{ section.id }}" data-faq>
 
-  {%- comment -%} Living animated backdrop {%- endcomment -%}
-  {%- render 'san-organic-bg', uid: section.id -%}
+  {%- comment -%}
+    Leaf photography behind the section (client correction, CAMBIOS WEB
+    p. 4); "Sin foto" brings back the animated organic backdrop.
+  {%- endcomment -%}
+  {%- if section.settings.background_photo == 'none' and section.settings.background_image == blank -%}
+    {%- render 'san-organic-bg', uid: section.id -%}
+  {%- else -%}
+    {%- render 'san-photo-bg',
+      name: section.settings.background_photo,
+      image: section.settings.background_image
+    -%}
+  {%- endif -%}
 
   <div class="san-faq__inner">
 
@@ -190,6 +200,36 @@
       "id": "first_open",
       "label": "Abrir la primera pregunta por defecto",
       "default": true
+    },
+    {
+      "type": "select",
+      "id": "background_photo",
+      "label": "Foto de fondo",
+      "options": [
+        {
+          "value": "selva",
+          "label": "Selva con rayos de luz"
+        },
+        {
+          "value": "hojas",
+          "label": "Pared verde con sombras de hojas"
+        },
+        {
+          "value": "niebla",
+          "label": "Montañas con niebla"
+        },
+        {
+          "value": "none",
+          "label": "Sin foto (verde con hojas animadas)"
+        }
+      ],
+      "default": "selva"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Foto de fondo propia (opcional)",
+      "info": "Reemplaza la foto elegida arriba. Usa una foto oscura: el texto es blanco."
     },
     {
       "type": "header",
